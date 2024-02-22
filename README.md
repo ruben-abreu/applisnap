@@ -1,8 +1,56 @@
-# React + Vite
+# AppliSnap
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+​
+<br>
+​
+insert image
 
-Currently, two official plugins are available:
+## Description
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+​
+
+​
+<br>
+​
+
+## Data
+
+​
+
+<br>
+​
+
+## API's
+
+​
+[API name](https://)
+
+​
+<br>
+
+## Packages
+
+​
+​
+[Package Name](https://)
+
+<br>​
+
+## Links
+
+### Git
+
+Frontend: [https://github.com/ruben-abreu/applisnap]()
+
+Backend: [https://github.com/ruben-abreu/applisnap-backend]()
+​
+
+[Deploy Link]()
+​
+
+### Contributors
+
+​
+Ana Patrícia Gomes - [`<anapatriciagomes>`](https://github.com/anapatriciagomes) - [`<Linkedin>`](https://www.linkedin.com/in/anapatriciagomes/)
+
+Ruben Abreu - [`<ruben-abreu>`](https://github.com/ruben-abreu) - [`<Linkedin>`](https://www.linkedin.com/in/ruben-abreu1/)
