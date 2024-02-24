@@ -75,11 +75,14 @@ function SignUpButton() {
     '.MuiInputLabel-shrink': {
       color: '#678B85',
     },
+    '.MuiInputLabel-shrink:before': {
+      color: '#678B85',
+    },
     '.MuiInputLabel-shrink:after': {
       color: '#678B85',
     },
-    '.MuiInput-underline:before': {
-      borderBottom: `2px solid #678B85`,
+    '.MuiInputLabel-shrink:active': {
+      color: '#678B85',
     },
     '.MuiInput-underline:after': {
       borderBottom: `2px solid #678B85`,
