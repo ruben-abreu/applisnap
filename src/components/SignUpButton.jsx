@@ -75,6 +75,9 @@ function SignUpButton() {
     '.MuiInputLabel-shrink': {
       color: '#678B85',
     },
+    '.MuiInputLabel-shrink:after': {
+      color: '#678B85',
+    },
     '.MuiInput-underline:after': {
       borderBottom: `2px solid #678B85`,
     },
@@ -147,7 +150,7 @@ function SignUpButton() {
         </DialogContent>
         <DialogActions>
           <CancelButton onClick={handleClose}>Cancel</CancelButton>
-          <div className="mr-[15px]">
+          <div className="mr-[16px]">
             <SignUpButton type="submit">Sign Up</SignUpButton>
           </div>
         </DialogActions>
