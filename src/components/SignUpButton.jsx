@@ -6,9 +6,12 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import CancelButton from './CancelButton';
 
 function SignUpButton() {
-  const SignUpButton = styled(Button)({
+  const [open, setOpen] = React.useState(false);
+
+  const SignUpButtonStyled = styled(Button)({
     boxShadow: 'none',
     textTransform: 'none',
     color: 'white',
@@ -32,34 +35,6 @@ function SignUpButton() {
     },
     '&:focus': {
       boxShadow: '0 0 0 0.2rem rgba(55, 89, 84, 0.5)',
-    },
-  });
-
-  const CancelButton = styled(Button)({
-    boxShadow: 'none',
-    textTransform: 'none',
-    color: '#666666',
-    fontSize: 16,
-    padding: '6px 12px',
-    border: '1px solid',
-    borderColor: '#666666',
-    lineHeight: 1.5,
-    fontFamily: 'Lexend',
-
-    '&:hover': {
-      color: 'white',
-      backgroundColor: '#a9ccc6',
-      borderColor: '#a9ccc6',
-      boxShadow: 'none',
-    },
-    '&:active': {
-      color: 'white',
-      boxShadow: 'none',
-      backgroundColor: '#7fb3aa',
-      borderColor: '#7fb3aa',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.2rem rgba(127, 179, 170, 0.5)',
     },
   });
 
@@ -87,8 +62,6 @@ function SignUpButton() {
     '.MuiInputBase-input': { fontFamily: 'Lexend' },
   });
 
-  const [open, setOpen] = React.useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -99,7 +72,7 @@ function SignUpButton() {
 
   return (
     <React.Fragment>
-      <SignUpButton onClick={handleClickOpen}>Sign Up</SignUpButton>
+      <SignUpButtonStyled onClick={handleClickOpen}>Sign Up</SignUpButtonStyled>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -152,9 +125,9 @@ function SignUpButton() {
           />
         </DialogContent>
         <DialogActions>
-          <CancelButton onClick={handleClose}>Cancel</CancelButton>
+          <CancelButton setOpen={setOpen} />
           <div className="mr-[16px]">
-            <SignUpButton type="submit">Sign Up</SignUpButton>
+            <SignUpButtonStyled type="submit">Sign Up</SignUpButtonStyled>
           </div>
         </DialogActions>
       </Dialog>

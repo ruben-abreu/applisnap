@@ -6,9 +6,12 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import CancelButton from './CancelButton';
 
 function LogInButton() {
-  const LogInButton = styled(Button)({
+  const [open, setOpen] = React.useState(false);
+
+  const LogInButtonStyled = styled(Button)({
     boxShadow: 'none',
     textTransform: 'none',
     color: 'black',
@@ -37,7 +40,7 @@ function LogInButton() {
     },
   });
 
-  const LogInButtonForm = styled(Button)({
+  const LogInButtonFormStyled = styled(Button)({
     boxShadow: 'none',
     textTransform: 'none',
     color: 'white',
@@ -61,34 +64,6 @@ function LogInButton() {
     },
     '&:focus': {
       boxShadow: '0 0 0 0.2rem rgba(55, 89, 84, 0.5)',
-    },
-  });
-
-  const CancelButton = styled(Button)({
-    boxShadow: 'none',
-    textTransform: 'none',
-    color: '#666666',
-    fontSize: 16,
-    padding: '6px 12px',
-    border: '1px solid',
-    borderColor: '#666666',
-    lineHeight: 1.5,
-    fontFamily: 'Lexend',
-
-    '&:hover': {
-      color: 'white',
-      backgroundColor: '#a9ccc6',
-      borderColor: '#a9ccc6',
-      boxShadow: 'none',
-    },
-    '&:active': {
-      color: 'white',
-      boxShadow: 'none',
-      backgroundColor: '#7fb3aa',
-      borderColor: '#7fb3aa',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.2rem rgba(127, 179, 170, 0.5)',
     },
   });
 
@@ -116,8 +91,6 @@ function LogInButton() {
     '.MuiInputBase-input': { fontFamily: 'Lexend' },
   });
 
-  const [open, setOpen] = React.useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -128,7 +101,7 @@ function LogInButton() {
 
   return (
     <React.Fragment>
-      <LogInButton onClick={handleClickOpen}>Log In</LogInButton>
+      <LogInButtonStyled onClick={handleClickOpen}>Log In</LogInButtonStyled>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -170,9 +143,9 @@ function LogInButton() {
           />
         </DialogContent>
         <DialogActions>
-          <CancelButton onClick={handleClose}>Cancel</CancelButton>
+          <CancelButton setOpen={setOpen} />
           <div className="mr-[16px]">
-            <LogInButtonForm type="submit">Log In</LogInButtonForm>
+            <LogInButtonFormStyled type="submit">Log In</LogInButtonFormStyled>
           </div>
         </DialogActions>
       </Dialog>
