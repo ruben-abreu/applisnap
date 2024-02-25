@@ -24,7 +24,7 @@ function Navigation() {
         <div className="mr-[10px]">
           <LogInButton />
         </div>
-        <div className="mr-[10px]">
+        <div className="mr-[20px]">
           <SignUpButton />
         </div>
         <button onClick={() => setDarkMode(!darkMode)}>
