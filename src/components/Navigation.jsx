@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import AppliSnapIcon from '../assets/AppliSnapIcon.png';
 import { ThemeContext } from '../context/theme.context';
-import LogInButton from './LoginButton';
+import LogInButton from './LogInButton';
 import SignUpButton from './SignUpButton';
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
