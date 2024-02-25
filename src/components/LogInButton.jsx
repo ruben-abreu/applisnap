@@ -11,13 +11,42 @@ function LogInButton() {
   const LogInButton = styled(Button)({
     boxShadow: 'none',
     textTransform: 'none',
-    color: 'white',
+    color: 'black',
     fontSize: 16,
     padding: '6px 12px',
     border: '1px solid',
     lineHeight: 1.5,
     backgroundColor: 'white',
     borderColor: 'white',
+    fontFamily: 'Lexend',
+
+    '&:hover': {
+      color: 'white',
+      backgroundColor: '#a9ccc6',
+      borderColor: '#a9ccc6',
+      boxShadow: 'none',
+    },
+    '&:active': {
+      color: 'white',
+      boxShadow: 'none',
+      backgroundColor: '#7fb3aa',
+      borderColor: '#7fb3aa',
+    },
+    '&:focus': {
+      boxShadow: '0 0 0 0.2rem rgba(127, 179, 170, 0.5)',
+    },
+  });
+
+  const LogInButtonForm = styled(Button)({
+    boxShadow: 'none',
+    textTransform: 'none',
+    color: 'white',
+    fontSize: 16,
+    padding: '6px 12px',
+    border: '1px solid',
+    lineHeight: 1.5,
+    backgroundColor: '#678B85',
+    borderColor: '#678B85',
     fontFamily: 'Lexend',
 
     '&:hover': {
@@ -143,7 +172,7 @@ function LogInButton() {
         <DialogActions>
           <CancelButton onClick={handleClose}>Cancel</CancelButton>
           <div className="mr-[16px]">
-            <LogInButton type="submit">Log In</LogInButton>
+            <LogInButtonForm type="submit">Log In</LogInButtonForm>
           </div>
         </DialogActions>
       </Dialog>

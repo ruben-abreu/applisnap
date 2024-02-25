@@ -15,7 +15,9 @@ function Navigation() {
         <h1 className="text-[#677f8b] text-[2rem]">AppliSnap</h1>
       </NavLink>
       <div className="flex items-center">
-        <LogInButton />
+        <div className="mr-[10px]">
+          <LogInButton />
+        </div>
         <SignUpButton />
       </div>
     </div>
