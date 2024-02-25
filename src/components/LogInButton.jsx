@@ -7,8 +7,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
-function SignUpButton() {
-  const SignUpButton = styled(Button)({
+function LogInButton() {
+  const LogInButton = styled(Button)({
     boxShadow: 'none',
     textTransform: 'none',
     color: 'white',
@@ -16,8 +16,8 @@ function SignUpButton() {
     padding: '6px 12px',
     border: '1px solid',
     lineHeight: 1.5,
-    backgroundColor: '#678B85',
-    borderColor: '#678B85',
+    backgroundColor: 'white',
+    borderColor: 'white',
     fontFamily: 'Lexend',
 
     '&:hover': {
@@ -63,12 +63,12 @@ function SignUpButton() {
     },
   });
 
-  const SignUpDialogTitle = styled(DialogTitle)({
+  const LogInDialogTitle = styled(DialogTitle)({
     fontFamily: 'Lexend',
     color: '#678B85',
   });
 
-  const SignUpTextField = styled(TextField)({
+  const LogInTextField = styled(TextField)({
     '.MuiFormLabel-root': {
       fontFamily: 'Lexend',
       color: '#678B85',
@@ -99,7 +99,7 @@ function SignUpButton() {
 
   return (
     <React.Fragment>
-      <SignUpButton onClick={handleClickOpen}>Sign Up</SignUpButton>
+      <LogInButton onClick={handleClickOpen}>Log In</LogInButton>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -115,20 +115,9 @@ function SignUpButton() {
           },
         }}
       >
-        <SignUpDialogTitle>Sign Up</SignUpDialogTitle>
+        <LogInDialogTitle>Log In</LogInDialogTitle>
         <DialogContent>
-          <SignUpTextField
-            autoFocus
-            required
-            margin="dense"
-            id="name"
-            name="name"
-            label="Name"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <SignUpTextField
+          <LogInTextField
             autoFocus
             required
             margin="dense"
@@ -139,7 +128,7 @@ function SignUpButton() {
             fullWidth
             variant="standard"
           />
-          <SignUpTextField
+          <LogInTextField
             autoFocus
             required
             margin="dense"
@@ -154,7 +143,7 @@ function SignUpButton() {
         <DialogActions>
           <CancelButton onClick={handleClose}>Cancel</CancelButton>
           <div className="mr-[16px]">
-            <SignUpButton type="submit">Sign Up</SignUpButton>
+            <LogInButton type="submit">Log In</LogInButton>
           </div>
         </DialogActions>
       </Dialog>
@@ -162,4 +151,4 @@ function SignUpButton() {
   );
 }
 
-export default SignUpButton;
+export default LogInButton;
