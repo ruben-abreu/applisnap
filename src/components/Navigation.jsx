@@ -18,7 +18,9 @@ function Navigation() {
           alt="app icon"
           className="w-[50px] h-[50px mr-[10px]"
         />
-        <h1 className="text-[#677f8b] text-[2rem]">AppliSnap</h1>
+        <h1 className={`${darkMode ? 'white' : 'text-[#677f8b]'} text-[2rem]`}>
+          AppliSnap
+        </h1>
       </NavLink>
       <div className="flex items-center">
         <div className="mr-[10px]">

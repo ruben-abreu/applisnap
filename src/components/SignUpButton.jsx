@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -7,9 +8,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import CancelButton from './CancelButton';
+import { ThemeContext } from '../context/theme.context';
 
 function SignUpButton() {
   const [open, setOpen] = React.useState(false);
+
+  const { darkMode } = useContext(ThemeContext);
 
   const SignUpButtonStyled = styled(Button)({
     boxShadow: 'none',
@@ -40,17 +44,17 @@ function SignUpButton() {
 
   const SignUpDialogTitle = styled(DialogTitle)({
     fontFamily: 'Lexend',
-    color: '#678B85',
+    color: darkMode ? 'white' : '#678B85',
   });
 
   const SignUpTextField = styled(TextField)({
     '.MuiFormLabel-root': {
       fontFamily: 'Lexend',
-      color: '#678B85',
+      color: darkMode ? 'white' : '#678B85',
     },
     '.MuiInputLabel-root': {
       fontFamily: 'Lexend',
-      color: '#678B85',
+      color: darkMode ? 'white' : '#678B85',
     },
     '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
       color: '#30b39a',

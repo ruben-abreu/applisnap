@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -7,9 +8,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import CancelButton from './CancelButton';
+import { ThemeContext } from '../context/theme.context';
 
 function LogInButton() {
   const [open, setOpen] = React.useState(false);
+
+  const { darkMode } = useContext(ThemeContext);
 
   const LogInButtonStyled = styled(Button)({
     boxShadow: 'none',
@@ -69,17 +73,17 @@ function LogInButton() {
 
   const LogInDialogTitle = styled(DialogTitle)({
     fontFamily: 'Lexend',
-    color: '#678B85',
+    color: darkMode ? 'white' : '#678B85',
   });
 
   const LogInTextField = styled(TextField)({
     '.MuiFormLabel-root': {
       fontFamily: 'Lexend',
-      color: '#678B85',
+      color: darkMode ? 'white' : '#678B85',
     },
     '.MuiInputLabel-root': {
       fontFamily: 'Lexend',
-      color: '#678B85',
+      color: darkMode ? 'white' : '#678B85',
     },
     '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
       color: '#30b39a',
