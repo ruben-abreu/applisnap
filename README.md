@@ -30,9 +30,11 @@ insert image
 
 ## Packages
 
-​
-​
-[Package Name](https://)
+[axios](https://www.axios-http.com)
+
+​[Material UI](https://mui.com/material-ui/)
+
+[Tailwind CSS](https://tailwindcss.com/)
 
 <br>​
 
