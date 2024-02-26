@@ -15,7 +15,6 @@ function CancelButton({ setOpen }) {
     border: '1px solid',
     borderColor: '#666666',
     lineHeight: 1.5,
-    fontFamily: 'Lexend',
 
     '&:hover': {
       color: 'white',

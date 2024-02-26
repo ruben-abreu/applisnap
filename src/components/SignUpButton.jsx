@@ -25,7 +25,6 @@ function SignUpButton() {
     lineHeight: 1.5,
     backgroundColor: '#678B85',
     borderColor: '#678B85',
-    fontFamily: 'Lexend',
 
     '&:hover': {
       backgroundColor: '#62a699',
@@ -43,17 +42,14 @@ function SignUpButton() {
   });
 
   const SignUpDialogTitle = styled(DialogTitle)({
-    fontFamily: 'Lexend',
     color: darkMode ? 'white' : '#678B85',
   });
 
   const SignUpTextField = styled(TextField)({
     '.MuiFormLabel-root': {
-      fontFamily: 'Lexend',
       color: darkMode ? 'white' : '#678B85',
     },
     '.MuiInputLabel-root': {
-      fontFamily: 'Lexend',
       color: darkMode ? 'white' : '#678B85',
     },
     '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {

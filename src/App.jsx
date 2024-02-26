@@ -1,10 +1,11 @@
 import { useContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Navigation from './components/Navigation';
-import HomePage from './pages/HomePage';
 import { ThemeContext } from './context/theme.context';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
+import Navigation from './components/Navigation';
+import HomePage from './pages/HomePage';
+import Board from './pages/Board';
 
 function App() {
   const { darkMode } = useContext(ThemeContext);
@@ -15,6 +16,9 @@ function App() {
         palette: {
           mode: darkMode ? 'dark' : 'light',
         },
+        typography: {
+          fontFamily: 'Lexend',
+        },
       }),
     [darkMode]
   );
@@ -24,6 +28,7 @@ function App() {
       <Navigation />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/board" element={<Board />} />
       </Routes>
     </ThemeProvider>
   );

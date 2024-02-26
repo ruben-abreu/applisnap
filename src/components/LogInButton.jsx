@@ -25,7 +25,6 @@ function LogInButton() {
     lineHeight: 1.5,
     backgroundColor: 'white',
     borderColor: 'white',
-    fontFamily: 'Lexend',
 
     '&:hover': {
       color: 'white',
@@ -54,7 +53,6 @@ function LogInButton() {
     lineHeight: 1.5,
     backgroundColor: '#678B85',
     borderColor: '#678B85',
-    fontFamily: 'Lexend',
 
     '&:hover': {
       backgroundColor: '#62a699',
@@ -72,17 +70,14 @@ function LogInButton() {
   });
 
   const LogInDialogTitle = styled(DialogTitle)({
-    fontFamily: 'Lexend',
     color: darkMode ? 'white' : '#678B85',
   });
 
   const LogInTextField = styled(TextField)({
     '.MuiFormLabel-root': {
-      fontFamily: 'Lexend',
       color: darkMode ? 'white' : '#678B85',
     },
     '.MuiInputLabel-root': {
-      fontFamily: 'Lexend',
       color: darkMode ? 'white' : '#678B85',
     },
     '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
