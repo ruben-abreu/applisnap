@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import { ThemeContext } from '../context/theme.context';
 
-function CancelButton({ setOpen }) {
+function CancelButton({ setOpen, setName, setEmail, setPassword }) {
   const { darkMode } = useContext(ThemeContext);
 
   const CancelButtonStyled = styled(Button)({
@@ -35,6 +35,9 @@ function CancelButton({ setOpen }) {
 
   const handleClose = () => {
     setOpen(false);
+    setEmail('');
+    setPassword('');
+    setName ? setName('') : '';
   };
 
   return <CancelButtonStyled onClick={handleClose}>Cancel</CancelButtonStyled>;

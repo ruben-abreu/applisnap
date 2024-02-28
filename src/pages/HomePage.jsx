@@ -6,7 +6,7 @@ function HomePage() {
   const { darkMode } = useContext(ThemeContext);
 
   return (
-    <div className="h-full min-h-[80vh] mx-[2%] flex flex-col justify-center items-center">
+    <div className='h-full min-h-[80vh] mx-[2%] flex flex-col justify-center items-center'>
       <h1
         className={`${
           darkMode ? 'white' : 'text-[#677f8b]'
@@ -14,7 +14,7 @@ function HomePage() {
       >
         AppliSnap
       </h1>
-      <h2 className="mb-[30px]">Job Application Tracker</h2>
+      <h2 className='mb-[30px]'>Job Application Tracker</h2>
       <SignUpButton />
     </div>
   );

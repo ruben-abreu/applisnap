@@ -6,6 +6,7 @@ import * as React from 'react';
 import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
 import Board from './pages/Board';
+import { APPLICATIONS } from './assets/json';
 
 function App() {
   const { darkMode } = useContext(ThemeContext);
@@ -27,8 +28,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <Navigation />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/board" element={<Board />} />
+        <Route path='/' element={<HomePage />} />
+        <Route path='/board' element={<Board applications={APPLICATIONS} />} />
       </Routes>
     </ThemeProvider>
   );
