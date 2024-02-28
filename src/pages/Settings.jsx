@@ -1,7 +1,11 @@
-import React from 'react';
+import DeleteAccountButton from '../components/DeleteAccountButton';
 
 function Settings() {
-  return <div>Settings</div>;
+  return (
+    <div>
+      <DeleteAccountButton />
+    </div>
+  );
 }
 
 export default Settings;

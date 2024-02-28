@@ -23,7 +23,8 @@ function SignUpButton() {
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -41,8 +42,12 @@ function SignUpButton() {
     event.preventDefault();
   };
 
-  const handleNameChange = event => {
-    setName(event.target.value);
+  const handleFirstNameChange = event => {
+    setFirstName(event.target.value);
+  };
+
+  const handleLastNameChange = event => {
+    setLastName(event.target.value);
   };
 
   const handleEmailChange = event => {
@@ -75,8 +80,13 @@ function SignUpButton() {
   };
 
   const handleSignUp = async () => {
-    if (name.trim() === '') {
-      alert('Name cannot be empty');
+    if (firstName.trim() === '') {
+      alert('First name cannot be empty');
+      return;
+    }
+
+    if (lastName.trim() === '') {
+      alert('Last name cannot be empty');
       return;
     }
 
@@ -97,7 +107,7 @@ function SignUpButton() {
       return;
     }
 
-    const user = { name, email, password };
+    const user = { firstName, lastName, email, password };
 
     setIsLoading(true);
 
@@ -106,7 +116,8 @@ function SignUpButton() {
 
       setIsLoading(false);
       alert('Your registration was successful, please log in.');
-      setName('');
+      setFirstName('');
+      setLastName('');
       setEmail('');
       setPassword('');
       handleClose();
@@ -190,13 +201,59 @@ function SignUpButton() {
               marginBottom: '15px',
             }}
           >
-            <InputLabel htmlFor="standard-adornment-email">Name</InputLabel>
+            <InputLabel htmlFor="standard-adornment-email">
+              First name
+            </InputLabel>
             <Input
-              id="standard-adornment-name"
-              value={name}
-              onChange={handleNameChange}
+              id="standard-adornment-firstName"
+              value={firstName}
+              onChange={handleFirstNameChange}
               type="text"
-              label="Name"
+              label="First name"
+            />
+          </FormControl>
+
+          <FormControl
+            variant="standard"
+            required
+            fullWidth
+            sx={{
+              '.MuiFormLabel-root': {
+                color: theme =>
+                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
+              },
+              '.MuiInputLabel-root': {
+                color: theme =>
+                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
+              },
+              '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
+                color: '#30b39a',
+              },
+              '.MuiInput-underline:after': {
+                borderBottom: '2px solid #678B85',
+              },
+              '&:hover': {
+                '.MuiInput-underline:after': {
+                  borderBottom: '2px solid #30b39a',
+                },
+              },
+              '.MuiInput-root': {
+                '&.Mui-focused': {
+                  borderColor: '#30b39a',
+                },
+              },
+              marginBottom: '15px',
+            }}
+          >
+            <InputLabel htmlFor="standard-adornment-email">
+              Last name
+            </InputLabel>
+            <Input
+              id="standard-adornment-lastName"
+              value={lastName}
+              onChange={handleLastNameChange}
+              type="text"
+              label="Last name"
             />
           </FormControl>
 
@@ -316,7 +373,8 @@ function SignUpButton() {
           </div>
           <CancelButton
             setOpen={setOpen}
-            setName={setName}
+            setFirstName={setFirstName}
+            setLastName={setLastName}
             setEmail={setEmail}
             setPassword={setPassword}
           />
