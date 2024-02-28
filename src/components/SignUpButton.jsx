@@ -1,19 +1,130 @@
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
+import { ThemeContext } from '../context/theme.context';
+import { signup } from '../api/auth.api';
+import { useNavigate } from 'react-router-dom';
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import CancelButton from './CancelButton';
-import { ThemeContext } from '../context/theme.context';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function SignUpButton() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const { darkMode } = useContext(ThemeContext);
+
+  const navigate = useNavigate();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
+    setName('');
+    setEmail('');
+    setPassword('');
+    setOpen(false);
+  };
+
+  const handleMouseDownPassword = event => {
+    event.preventDefault();
+  };
+
+  const handleNameChange = event => {
+    setName(event.target.value);
+  };
+
+  const handleEmailChange = event => {
+    setEmail(event.target.value.trim());
+  };
+
+  const handlePasswordChange = event => {
+    setPassword(event.target.value);
+  };
+
+  const handleClickShowPassword = event => {
+    event.preventDefault();
+    setShowPassword(show => !show);
+  };
+
+  const validateEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setIsValidEmail(emailRegex.test(email));
+  };
+
+  const isStrongPassword = password => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasDigit = /\d/.test(password);
+
+    return (
+      password.length >= minLength && hasUpperCase && hasLowerCase && hasDigit
+    );
+  };
+
+  const handleSignUp = async () => {
+    if (name.trim() === '') {
+      alert('Name cannot be empty');
+      return;
+    }
+
+    if (!isValidEmail) {
+      alert('Invalid email format');
+      return;
+    }
+
+    if (password.trim() === '') {
+      alert('Password cannot be empty');
+      return;
+    }
+
+    if (!isStrongPassword(password)) {
+      alert(
+        'Password is not strong enough. Please follow the password requirements.'
+      );
+      return;
+    }
+
+    const user = { name, email, password };
+
+    setIsLoading(true);
+
+    try {
+      await signup(user);
+
+      setIsLoading(false);
+      alert('Your registration was successful, please log in.');
+      setName('');
+      setEmail('');
+      setPassword('');
+      handleClose();
+    } catch (error) {
+      setIsLoading(false);
+      alert(error.response.data.message);
+    }
+  };
 
   const SignUpButtonStyled = styled(Button)({
     boxShadow: 'none',
@@ -45,31 +156,6 @@ function SignUpButton() {
     color: darkMode ? 'white' : '#678B85',
   });
 
-  const SignUpTextField = styled(TextField)({
-    '.MuiFormLabel-root': {
-      color: darkMode ? 'white' : '#678B85',
-    },
-    '.MuiInputLabel-root': {
-      color: darkMode ? 'white' : '#678B85',
-    },
-    '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
-      color: '#30b39a',
-    },
-
-    '.MuiInput-underline:after': {
-      borderBottom: `2px solid #678B85`,
-    },
-    '.MuiInputBase-input': { fontFamily: 'Lexend' },
-  });
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <React.Fragment>
       <SignUpButtonStyled onClick={handleClickOpen}>Sign Up</SignUpButtonStyled>
@@ -78,56 +164,176 @@ function SignUpButton() {
         onClose={handleClose}
         PaperProps={{
           component: 'form',
-          onSubmit: event => {
-            event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries(formData.entries());
-            const email = formJson.email;
-            console.log(email);
-            handleClose();
-          },
         }}
       >
         <SignUpDialogTitle>Sign Up</SignUpDialogTitle>
         <DialogContent>
-          <SignUpTextField
-            autoFocus
-            required
-            margin="dense"
-            id="name"
-            name="name"
-            label="Name"
-            type="text"
-            fullWidth
+          <FormControl
             variant="standard"
-          />
-          <SignUpTextField
-            autoFocus
             required
-            margin="dense"
-            id="email"
-            name="email"
-            label="Email Address"
-            type="email"
             fullWidth
+            sx={{
+              '.MuiFormLabel-root': {
+                color: theme =>
+                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
+              },
+              '.MuiInputLabel-root': {
+                color: theme =>
+                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
+              },
+              '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
+                color: '#30b39a',
+              },
+              '.MuiInput-underline:after': {
+                borderBottom: '2px solid #678B85',
+              },
+              '&:hover': {
+                '.MuiInput-underline:after': {
+                  borderBottom: '2px solid #30b39a',
+                },
+              },
+              '.MuiInput-root': {
+                '&.Mui-focused': {
+                  borderColor: '#30b39a',
+                },
+              },
+              marginBottom: '15px',
+            }}
+          >
+            <InputLabel htmlFor="standard-adornment-email">Name</InputLabel>
+            <Input
+              id="standard-adornment-name"
+              value={name}
+              onChange={handleNameChange}
+              type="text"
+              label="Name"
+            />
+          </FormControl>
+
+          <FormControl
             variant="standard"
-          />
-          <SignUpTextField
-            autoFocus
             required
-            margin="dense"
-            id="password"
-            name="password"
-            label="Password"
-            type="password"
             fullWidth
+            sx={{
+              '.MuiFormLabel-root': {
+                color: theme =>
+                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
+              },
+              '.MuiInputLabel-root': {
+                color: theme =>
+                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
+              },
+              '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
+                color: '#30b39a',
+              },
+              '.MuiInput-underline:after': {
+                borderBottom: '2px solid #678B85',
+              },
+              '&:hover': {
+                '.MuiInput-underline:after': {
+                  borderBottom: '2px solid #30b39a',
+                },
+              },
+              '.MuiInput-root': {
+                '&.Mui-focused': {
+                  borderColor: '#30b39a',
+                },
+              },
+              marginBottom: '15px',
+            }}
+          >
+            <InputLabel htmlFor="standard-adornment-email">
+              Email Address
+            </InputLabel>
+            <Input
+              id="standard-adornment-email"
+              value={email}
+              onChange={handleEmailChange}
+              onBlur={validateEmail}
+              error={!isValidEmail}
+              type="email"
+              label="Email Address"
+            />
+          </FormControl>
+
+          <FormControl
             variant="standard"
-          />
+            required
+            fullWidth
+            sx={{
+              '.MuiFormLabel-root': {
+                color: theme =>
+                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
+              },
+              '.MuiInputLabel-root': {
+                color: theme =>
+                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
+              },
+              '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
+                color: '#30b39a',
+              },
+              '.MuiInput-underline:after': {
+                borderBottom: '2px solid #678B85',
+              },
+              '&:hover': {
+                '.MuiInput-underline:after': {
+                  borderBottom: '2px solid #30b39a',
+                },
+              },
+              '.MuiInput-root': {
+                '&.Mui-focused': {
+                  borderColor: '#30b39a',
+                },
+              },
+            }}
+          >
+            <InputLabel htmlFor="standard-adornment-password">
+              Password
+            </InputLabel>
+            <Input
+              id="standard-adornment-password"
+              value={password}
+              onChange={handlePasswordChange}
+              type={showPassword ? 'text' : 'password'}
+              autoComplete="on"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                    sx={{
+                      marginRight: 0,
+                      marginLeft: '8px',
+                    }}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
         </DialogContent>
         <DialogActions>
-          <CancelButton setOpen={setOpen} />
+          <div className="mr-[6px]">
+            {isLoading && (
+              <CircularProgress
+                sx={{ color: darkMode ? 'white' : '#678B85' }}
+              />
+            )}
+          </div>
+          <CancelButton
+            setOpen={setOpen}
+            setName={setName}
+            setEmail={setEmail}
+            setPassword={setPassword}
+          />
           <div className="mr-[16px]">
-            <SignUpButtonStyled type="submit">Sign Up</SignUpButtonStyled>
+            <SignUpButtonStyled onClick={handleSignUp}>
+              Sign Up
+            </SignUpButtonStyled>
           </div>
         </DialogActions>
       </Dialog>

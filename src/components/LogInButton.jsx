@@ -21,7 +21,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CircularProgress from '@mui/material/CircularProgress';
 
 function LogInButton() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -249,6 +249,7 @@ function LogInButton() {
               value={password}
               onChange={handlePasswordChange}
               type={showPassword ? 'text' : 'password'}
+              autoComplete="on"
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -257,7 +258,7 @@ function LogInButton() {
                     onMouseDown={handleMouseDownPassword}
                     edge="end"
                     sx={{
-                      marginRight: -1,
+                      marginRight: 0,
                       marginLeft: '8px',
                     }}
                   >
@@ -277,7 +278,11 @@ function LogInButton() {
               />
             )}
           </div>
-          <CancelButton setOpen={setOpen} />
+          <CancelButton
+            setOpen={setOpen}
+            setEmail={setEmail}
+            setPassword={setPassword}
+          />
           <div className="mr-[16px]">
             <LogInButtonFormStyled onClick={handleLogin}>
               Log In
