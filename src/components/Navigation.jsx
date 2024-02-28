@@ -6,6 +6,7 @@ import LogInButton from './LogInButton';
 import SignUpButton from './SignUpButton';
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
+import IsAnon from './IsAnon';
 
 function Navigation() {
   const { darkMode, setDarkMode } = useContext(ThemeContext);
@@ -22,13 +23,16 @@ function Navigation() {
           AppliSnap
         </h1>
       </NavLink>
+
       <div className="flex items-center">
-        <div className="mr-[10px]">
-          <LogInButton />
-        </div>
-        <div className="mr-[20px]">
-          <SignUpButton />
-        </div>
+        <IsAnon>
+          <div className="mr-[10px]">
+            <LogInButton />
+          </div>
+          <div className="mr-[20px]">
+            <SignUpButton />
+          </div>
+        </IsAnon>
         <button onClick={() => setDarkMode(!darkMode)}>
           {darkMode === true ? (
             <DarkModeRoundedIcon />
