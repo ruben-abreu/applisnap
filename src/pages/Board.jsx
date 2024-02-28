@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Grid, Paper, Typography } from '@mui/material';
 
-const ApplicationList = ({ applications }) => {
+function Board({ applications }) {
   const [applicationList, setApplicationList] = useState(applications);
 
   useEffect(() => {
@@ -53,14 +53,14 @@ const ApplicationList = ({ applications }) => {
         onDragEnd={onDragEnd}
         sx={{ p: 1, mb: 1, cursor: 'move' }}
       >
-        <Grid container alignItems='center' spacing={1}>
+        <Grid container alignItems="center" spacing={1}>
           <Grid item>
-            <img src={application.image} alt='box' style={{ maxWidth: 35 }} />
+            <img src={application.image} alt="box" style={{ maxWidth: 35 }} />
           </Grid>
           <Grid item xs={10}>
-            <Typography variant='body2'>{application.companyName}</Typography>
-            <Typography variant='body2'>{application.role}</Typography>
-            <Typography variant='body2' sx={{ textAlign: 'right' }}>
+            <Typography variant="body2">{application.companyName}</Typography>
+            <Typography variant="body2">{application.role}</Typography>
+            <Typography variant="body2" sx={{ textAlign: 'right' }}>
               {application.date}
             </Typography>
           </Grid>
@@ -71,7 +71,7 @@ const ApplicationList = ({ applications }) => {
 
   const EmptyDropArea = () => (
     <div
-      className='empty-drop-area'
+      className="empty-drop-area"
       style={{ width: 250, height: 100, border: '2px dashed #ccc' }}
       onDragEnter={onDragEnter}
       onDragOver={onDragOver}
@@ -80,19 +80,19 @@ const ApplicationList = ({ applications }) => {
   );
 
   return (
-    <div className='m-[2%] flex justify-between items-center'>
+    <div className="m-[2%] flex justify-between items-center">
       <Grid container spacing={1}>
         <Grid item xs={2.3}>
           <div
-            className='drop-area'
+            className="drop-area"
             onDragLeave={onDragLeave}
             onDragEnter={onDragEnter}
             onDragOver={onDragOver}
             onDrop={e => onDrop(e, 'Wishlist')}
           >
-            <Grid container direction='column' spacing={1}>
+            <Grid container direction="column" spacing={1}>
               <Grid item>
-                <Typography variant='h6'>Wishlist</Typography>
+                <Typography variant="h6">Wishlist</Typography>
               </Grid>
               {applicationList.filter(
                 application => application.status === 'Wishlist'
@@ -110,15 +110,15 @@ const ApplicationList = ({ applications }) => {
 
         <Grid item xs={2.3}>
           <div
-            className='drop-area'
+            className="drop-area"
             onDragLeave={onDragLeave}
             onDragEnter={onDragEnter}
             onDragOver={onDragOver}
             onDrop={e => onDrop(e, 'Applied')}
           >
-            <Grid container direction='column' spacing={1}>
+            <Grid container direction="column" spacing={1}>
               <Grid item>
-                <Typography variant='h6'>Applied</Typography>
+                <Typography variant="h6">Applied</Typography>
               </Grid>
               {applicationList.filter(
                 application => application.status === 'Applied'
@@ -136,15 +136,15 @@ const ApplicationList = ({ applications }) => {
 
         <Grid item xs={2.3}>
           <div
-            className='drop-area'
+            className="drop-area"
             onDragLeave={onDragLeave}
             onDragEnter={onDragEnter}
             onDragOver={onDragOver}
             onDrop={e => onDrop(e, 'Interview')}
           >
-            <Grid container direction='column' spacing={1}>
+            <Grid container direction="column" spacing={1}>
               <Grid item>
-                <Typography variant='h6'>Interview</Typography>
+                <Typography variant="h6">Interview</Typography>
               </Grid>
               {applicationList.filter(
                 application => application.status === 'Interview'
@@ -162,15 +162,15 @@ const ApplicationList = ({ applications }) => {
 
         <Grid item xs={2.3}>
           <div
-            className='drop-area'
+            className="drop-area"
             onDragLeave={onDragLeave}
             onDragEnter={onDragEnter}
             onDragOver={onDragOver}
             onDrop={e => onDrop(e, 'Offer')}
           >
-            <Grid container direction='column' spacing={1}>
+            <Grid container direction="column" spacing={1}>
               <Grid item>
-                <Typography variant='h6'>Offer</Typography>
+                <Typography variant="h6">Offer</Typography>
               </Grid>
               {applicationList.filter(
                 application => application.status === 'Offer'
@@ -188,15 +188,15 @@ const ApplicationList = ({ applications }) => {
 
         <Grid item xs={2.3}>
           <div
-            className='drop-area'
+            className="drop-area"
             onDragLeave={onDragLeave}
             onDragEnter={onDragEnter}
             onDragOver={onDragOver}
             onDrop={e => onDrop(e, 'Rejected')}
           >
-            <Grid container direction='column' spacing={1}>
+            <Grid container direction="column" spacing={1}>
               <Grid item>
-                <Typography variant='h6'>Rejected</Typography>
+                <Typography variant="h6">Rejected</Typography>
               </Grid>
               {applicationList.filter(
                 application => application.status === 'Rejected'
@@ -214,6 +214,6 @@ const ApplicationList = ({ applications }) => {
       </Grid>
     </div>
   );
-};
+}
 
-export default ApplicationList;
+export default Board;
