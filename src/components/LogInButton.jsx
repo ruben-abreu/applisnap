@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { ThemeContext } from '../context/theme.context';
 import { login } from '../api/auth.api';
 import { AuthContext } from '../context/auth.context';
+import { useNavigate } from 'react-router-dom';
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -30,6 +31,8 @@ function LogInButton() {
   const { darkMode } = useContext(ThemeContext);
   const { storeToken, authenticateUser } = useContext(AuthContext);
 
+  const navigate = useNavigate();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -55,7 +58,17 @@ function LogInButton() {
     setShowPassword(show => !show);
   };
 
+  const validateEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setIsValidEmail(emailRegex.test(email));
+  };
+
   const handleLogin = async () => {
+    if (!isValidEmail) {
+      alert('Invalid email format');
+      return;
+    }
+
     if (password.trim() === '') {
       alert('Password cannot be empty');
       return;
@@ -72,6 +85,7 @@ function LogInButton() {
       storeToken(response.data.authToken);
       authenticateUser();
       handleClose();
+      navigate('/board');
     } catch (error) {
       setIsLoading(false);
       console.log('Error logging in', error);
@@ -189,6 +203,8 @@ function LogInButton() {
               id="standard-adornment-email"
               value={email}
               onChange={handleEmailChange}
+              onBlur={validateEmail}
+              error={!isValidEmail}
               type="email"
               label="Email Address"
             />
