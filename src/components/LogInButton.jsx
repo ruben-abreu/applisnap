@@ -84,6 +84,7 @@ function LogInButton() {
       setIsLoading(false);
       storeToken(response.data.authToken);
       authenticateUser();
+      setPassword('');
       handleClose();
       navigate('/board');
     } catch (error) {
