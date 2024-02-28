@@ -86,7 +86,7 @@ function LogInButton() {
       authenticateUser();
       setPassword('');
       handleClose();
-      navigate('/board');
+      navigate('/boards');
     } catch (error) {
       setIsLoading(false);
       console.log('Error logging in', error);

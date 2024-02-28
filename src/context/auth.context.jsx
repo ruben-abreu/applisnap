@@ -38,11 +38,11 @@ const AuthProviderWrapper = props => {
 
   const removeToken = () => {
     localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
   };
 
   const logoutUser = () => {
     removeToken();
-
     authenticateUser();
   };
 
