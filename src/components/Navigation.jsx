@@ -7,6 +7,8 @@ import SignUpButton from './SignUpButton';
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import IsAnon from './IsAnon';
+import IsPrivate from './IsPrivate';
+import AccountMenu from './AccountMenu';
 
 function Navigation() {
   const { darkMode, setDarkMode } = useContext(ThemeContext);
@@ -19,7 +21,11 @@ function Navigation() {
           alt="app icon"
           className="w-[50px] h-[50px mr-[10px]"
         />
-        <h1 className={`${darkMode ? 'white' : 'text-[#677f8b]'} text-[2rem]`}>
+        <h1
+          className={`${
+            darkMode ? 'text-white' : 'text-[#677f8b]'
+          } text-[2rem]`}
+        >
           AppliSnap
         </h1>
       </NavLink>
@@ -40,6 +46,8 @@ function Navigation() {
             <LightModeRoundedIcon />
           )}
         </button>
+
+        <AccountMenu />
       </div>
     </div>
   );
