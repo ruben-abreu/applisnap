@@ -1,7 +1,6 @@
 import { useState, useContext } from 'react';
 import { ThemeContext } from '../context/theme.context';
 import { signup } from '../api/auth.api';
-import { useNavigate } from 'react-router-dom';
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -30,20 +29,11 @@ function SignUpButton() {
 
   const { darkMode } = useContext(ThemeContext);
 
-  const navigate = useNavigate();
-
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleCancel = () => {
-    setName('');
-    setEmail('');
-    setPassword('');
     setOpen(false);
   };
 
