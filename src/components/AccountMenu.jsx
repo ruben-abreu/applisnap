@@ -22,7 +22,7 @@ function AccountMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const { darkMode } = useContext(ThemeContext);
-  const { logoutUser } = useContext(AuthContext);
+  const { user, logoutUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -57,6 +57,7 @@ function AccountMenu() {
             height: '30px',
             backgroundColor: darkMode ? 'white' : '#677f8b',
           }}
+          src={user.imgURL && user.imgURL}
         />
       </IconButton>
 

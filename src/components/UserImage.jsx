@@ -165,7 +165,6 @@ function UserImage() {
                 color: '#30b39a',
               },
               '.MuiInput': {
-                height: '1.5rem',
                 borderBottom: '0',
                 outline: '0',
               },
