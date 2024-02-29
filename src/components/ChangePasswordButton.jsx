@@ -69,15 +69,19 @@ function ChangePasswordButton() {
 
     if (!isStrongPassword(password)) {
       alert(
-        'Password is not strong enough. Please follow the password requirements.'
+        'Password must have at least 8 characters, must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number.'
       );
       return;
     }
 
+    const { _id } = user;
+
+    const userDetails = { password, _id };
+
     setIsLoading(true);
 
     try {
-      await changePassword(user._id, password);
+      await changePassword(userDetails);
 
       setIsLoading(false);
       alert('Your password was successfully updated.');
