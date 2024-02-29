@@ -17,6 +17,10 @@ export const changePassword = user => {
   return axios.put(`${baseURL}/users/${user._id}`, user);
 };
 
+export const upload = image => {
+  return axios.post(`${baseURL}/upload`, image);
+};
+
 export const deleteAccount = userId => {
   return axios.delete(`${baseURL}/users/${userId}`);
 };

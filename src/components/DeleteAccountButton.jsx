@@ -12,11 +12,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function DeleteAccountButton() {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { darkMode } = useContext(ThemeContext);
   const { user, removeToken } = useContext(AuthContext);
@@ -29,10 +31,20 @@ function DeleteAccountButton() {
     setOpen(false);
   };
 
-  const handleAccountDelete = () => {
-    deleteAccount(user._id);
-    removeToken();
-    navigate('/');
+  const handleAccountDelete = async () => {
+    setIsLoading(true);
+
+    try {
+      await deleteAccount(user._id);
+
+      setIsLoading(false);
+      alert('Your account was successfully deleted.');
+      removeToken();
+      navigate('/');
+    } catch (error) {
+      setIsLoading(false);
+      alert(error.response.data.message);
+    }
   };
 
   const CancelButtonStyled = styled(Button)({
@@ -89,6 +101,13 @@ function DeleteAccountButton() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
+          <div className="mr-[6px]">
+            {isLoading && (
+              <CircularProgress
+                sx={{ color: darkMode ? 'white' : '#678B85' }}
+              />
+            )}
+          </div>
           <CancelButtonStyled onClick={handleClose}>Cancel</CancelButtonStyled>
           <Button
             onClick={handleAccountDelete}
