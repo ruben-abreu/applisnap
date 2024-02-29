@@ -66,6 +66,7 @@ function DeleteAccountButton() {
       <Button
         variant="outlined"
         color="error"
+        fullWidth
         startIcon={<DeleteIcon />}
         onClick={handleClickOpen}
       >
