@@ -1,219 +1,186 @@
 import { useState, useEffect } from 'react';
 import { Grid, Paper, Typography } from '@mui/material';
 
-function Board({ applications }) {
+const ApplicationList = ({ applications }) => {
   const [applicationList, setApplicationList] = useState(applications);
 
   useEffect(() => {
     setApplicationList(applications);
   }, [applications]);
 
-  const onDragStart = (evt, applicationId) => {
-    evt.dataTransfer.setData('text/plain', applicationId);
-    evt.dataTransfer.effectAllowed = 'move';
+  const onDragStart = (e, applicationId) => {
+    e.dataTransfer.setData('text/plain', applicationId);
+    e.dataTransfer.effectAllowed = 'move';
+    e.target.classList.add('dragged');
   };
 
-  const onDragEnd = evt => {
-    evt.target.classList.remove('dragged');
+  const onDragEnd = e => {
+    e.target.classList.remove('dragged');
   };
 
-  const onDragEnter = evt => {
-    evt.preventDefault();
-    evt.target.classList.add('dragged-over');
+  const onDragEnter = e => {
+    e.preventDefault();
+    e.target.classList.add('dragged-over');
   };
 
-  const onDragLeave = evt => {
-    evt.target.classList.remove('dragged-over');
+  const onDragLeave = e => {
+    e.target.classList.remove('dragged-over');
   };
 
-  const onDragOver = evt => {
-    evt.preventDefault();
+  const onDragOver = e => {
+    e.preventDefault();
   };
 
-  const onDrop = (evt, status) => {
-    evt.preventDefault();
-    evt.target.classList.remove('dragged-over');
-    const applicationId = evt.dataTransfer.getData('text/plain');
-    const updatedApplications = applicationList.map(application => {
-      if (application.id.toString() === applicationId.toString()) {
-        return { ...application, status: status };
-      }
-      return application;
-    });
-    setApplicationList(updatedApplications);
+  const onDrop = (e, targetRole, targetStatus, dropIndex) => {
+    e.preventDefault();
+    e.target.classList.remove('dragged-over');
+    const applicationId = e.dataTransfer.getData('text/plain');
+    const draggedApplication = applicationList.find(
+      app => app.id.toString() === applicationId.toString()
+    );
+
+    if (draggedApplication.role === targetRole) {
+      const updatedApplications = applicationList.filter(
+        app => app.id.toString() !== applicationId.toString()
+      );
+      updatedApplications.splice(dropIndex, 0, {
+        ...draggedApplication,
+        status: targetStatus,
+      });
+      setApplicationList(updatedApplications);
+    }
   };
 
-  const renderApplications = applications => {
-    return applications.map((application, index) => (
-      <Paper
-        key={application.id.toString() + '-' + index}
-        elevation={3}
-        draggable
-        onDragStart={e => onDragStart(e, application.id)}
-        onDragEnd={onDragEnd}
-        sx={{ p: 1, mb: 1, cursor: 'move' }}
+  const renderApplications = (role, status) => {
+    return (
+      <Grid
+        container
+        spacing={1}
+        onDragOver={onDragOver}
+        sx={{ flexWrap: 'wrap' }}
       >
-        <Grid container alignItems="center" spacing={1}>
-          <Grid item>
-            <img src={application.image} alt="box" style={{ maxWidth: 35 }} />
-          </Grid>
-          <Grid item xs={10}>
-            <Typography variant="body2">{application.companyName}</Typography>
-            <Typography variant="body2">{application.role}</Typography>
-            <Typography variant="body2" sx={{ textAlign: 'right' }}>
-              {application.date}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Paper>
-    ));
+        {applicationList
+          .filter(
+            application =>
+              application.role === role && application.status === status
+          )
+          .map((application, index) => (
+            <Grid item key={application.id.toString() + '-' + index}>
+              <Paper
+                elevation={3}
+                draggable
+                onDragStart={e => onDragStart(e, application.id)}
+                onDragEnd={onDragEnd}
+                onDragEnter={onDragEnter}
+                onDragLeave={onDragLeave}
+                onDrop={e => onDrop(e, role, status, index)}
+                sx={{
+                  p: 1,
+                  mb: 1,
+                  cursor: 'move',
+                  minWidth: 100,
+                  maxWidth: 300,
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <Grid
+                  container
+                  alignItems='center'
+                  spacing={1}
+                  style={{ flex: '1' }}
+                >
+                  <Grid item>
+                    <img
+                      src={application.image}
+                      alt='box'
+                      style={{ maxWidth: 25 }}
+                    />
+                  </Grid>
+                  <Grid item xs style={{ flex: '1', textAlign: 'center' }}>
+                    <Typography
+                      variant='body2'
+                      style={{
+                        fontSize: `${Math.max(
+                          12,
+                          20 - application.companyName.length / 2
+                        )}px`,
+                        // Minimum font size of 12px, decreases as name gets longer
+                      }}
+                    >
+                      {application.companyName}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Paper>
+            </Grid>
+          ))}
+      </Grid>
+    );
   };
 
-  const EmptyDropArea = () => (
+  const EmptyDropArea = ({ role, status }) => (
     <div
-      className="empty-drop-area"
-      style={{ width: 250, height: 100, border: '2px dashed #ccc' }}
+      className='empty-drop-area'
+      style={{
+        minHeight: '50px',
+        marginBottom: '10px',
+      }}
       onDragEnter={onDragEnter}
       onDragOver={onDragOver}
-      onDrop={e => onDrop(e, 'Placeholder')}
+      onDrop={e => onDrop(e, role, status, 0)}
     />
   );
 
+  const uniqueRoles = [...new Set(applicationList.map(app => app.role))];
+  const statuses = ['Wishlist', 'Applied', 'Interview', 'Offer', 'Rejected'];
+
   return (
-    <div className="m-[2%] flex justify-between items-center">
-      <Grid container spacing={1}>
-        <Grid item xs={2.3}>
+    <div className='m-[2%]' style={{ overflowX: 'auto', marginTop: '60px' }}>
+      <div style={{ display: 'flex' }}>
+        {uniqueRoles.map((role, index) => (
           <div
-            className="drop-area"
-            onDragLeave={onDragLeave}
-            onDragEnter={onDragEnter}
-            onDragOver={onDragOver}
-            onDrop={e => onDrop(e, 'Wishlist')}
+            key={index}
+            style={{ minWidth: 300, maxWidth: 500, marginRight: 150 }}
           >
-            <Grid container direction="column" spacing={1}>
-              <Grid item>
-                <Typography variant="h6">Wishlist</Typography>
-              </Grid>
-              {applicationList.filter(
-                application => application.status === 'Wishlist'
-              ).length === 0 && <EmptyDropArea />}
-              <Grid item>
-                {renderApplications(
-                  applicationList.filter(
-                    application => application.status === 'Wishlist'
-                  )
-                )}
-              </Grid>
+            <Typography
+              variant='h5'
+              style={{
+                fontWeight: 'bold',
+                marginBottom: '8px',
+              }}
+            >
+              {role}
+            </Typography>
+            <Grid container direction='column'>
+              {statuses.map(status => (
+                <div key={`${role}-${status}`}>
+                  <Typography
+                    variant='subtitle1'
+                    style={{
+                      marginBottom: '8px',
+                      fontWeight: 'bold',
+                      marginTop: '18px',
+                    }}
+                  >
+                    {status}
+                  </Typography>
+                  {renderApplications(role, status)}
+                  {applicationList.filter(
+                    application =>
+                      application.role === role && application.status === status
+                  ).length === 0 && (
+                    <EmptyDropArea role={role} status={status} />
+                  )}
+                </div>
+              ))}
             </Grid>
           </div>
-        </Grid>
-
-        <Grid item xs={2.3}>
-          <div
-            className="drop-area"
-            onDragLeave={onDragLeave}
-            onDragEnter={onDragEnter}
-            onDragOver={onDragOver}
-            onDrop={e => onDrop(e, 'Applied')}
-          >
-            <Grid container direction="column" spacing={1}>
-              <Grid item>
-                <Typography variant="h6">Applied</Typography>
-              </Grid>
-              {applicationList.filter(
-                application => application.status === 'Applied'
-              ).length === 0 && <EmptyDropArea />}
-              <Grid item>
-                {renderApplications(
-                  applicationList.filter(
-                    application => application.status === 'Applied'
-                  )
-                )}
-              </Grid>
-            </Grid>
-          </div>
-        </Grid>
-
-        <Grid item xs={2.3}>
-          <div
-            className="drop-area"
-            onDragLeave={onDragLeave}
-            onDragEnter={onDragEnter}
-            onDragOver={onDragOver}
-            onDrop={e => onDrop(e, 'Interview')}
-          >
-            <Grid container direction="column" spacing={1}>
-              <Grid item>
-                <Typography variant="h6">Interview</Typography>
-              </Grid>
-              {applicationList.filter(
-                application => application.status === 'Interview'
-              ).length === 0 && <EmptyDropArea />}
-              <Grid item>
-                {renderApplications(
-                  applicationList.filter(
-                    application => application.status === 'Interview'
-                  )
-                )}
-              </Grid>
-            </Grid>
-          </div>
-        </Grid>
-
-        <Grid item xs={2.3}>
-          <div
-            className="drop-area"
-            onDragLeave={onDragLeave}
-            onDragEnter={onDragEnter}
-            onDragOver={onDragOver}
-            onDrop={e => onDrop(e, 'Offer')}
-          >
-            <Grid container direction="column" spacing={1}>
-              <Grid item>
-                <Typography variant="h6">Offer</Typography>
-              </Grid>
-              {applicationList.filter(
-                application => application.status === 'Offer'
-              ).length === 0 && <EmptyDropArea />}
-              <Grid item>
-                {renderApplications(
-                  applicationList.filter(
-                    application => application.status === 'Offer'
-                  )
-                )}
-              </Grid>
-            </Grid>
-          </div>
-        </Grid>
-
-        <Grid item xs={2.3}>
-          <div
-            className="drop-area"
-            onDragLeave={onDragLeave}
-            onDragEnter={onDragEnter}
-            onDragOver={onDragOver}
-            onDrop={e => onDrop(e, 'Rejected')}
-          >
-            <Grid container direction="column" spacing={1}>
-              <Grid item>
-                <Typography variant="h6">Rejected</Typography>
-              </Grid>
-              {applicationList.filter(
-                application => application.status === 'Rejected'
-              ).length === 0 && <EmptyDropArea />}
-              <Grid item>
-                {renderApplications(
-                  applicationList.filter(
-                    application => application.status === 'Rejected'
-                  )
-                )}
-              </Grid>
-            </Grid>
-          </div>
-        </Grid>
-      </Grid>
+        ))}
+      </div>
     </div>
   );
-}
+};
 
-export default Board;
+export default ApplicationList;
