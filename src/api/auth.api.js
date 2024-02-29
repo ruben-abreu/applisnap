@@ -13,7 +13,7 @@ export const getUserDetails = userId => {
   return axios.get(`${baseURL}/users/${userId}`);
 };
 
-export const changePassword = user => {
+export const updateUser = user => {
   return axios.put(`${baseURL}/users/${user._id}`, user);
 };
 

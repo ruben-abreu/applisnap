@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { changePassword } from '../api/auth.api';
+import { updateUser } from '../api/auth.api';
 import { ThemeContext } from '../context/theme.context';
 import { AuthContext } from '../context/auth.context';
 import * as React from 'react';
@@ -81,7 +81,7 @@ function ChangePasswordButton() {
     setIsLoading(true);
 
     try {
-      await changePassword(userDetails);
+      await updateUser(userDetails);
 
       setIsLoading(false);
       alert('Your password was successfully updated.');
