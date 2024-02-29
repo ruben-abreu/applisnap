@@ -1,10 +1,11 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { upload, updateUser } from '../api/auth.api';
 import { ThemeContext } from '../context/theme.context';
 import { AuthContext } from '../context/auth.context';
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
 import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -22,6 +23,7 @@ function UserImage() {
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState();
   const [uploadedImageURL, setUploadedImageURL] = useState('');
+  const [isHovered, setIsHovered] = useState(false);
 
   const { darkMode } = useContext(ThemeContext);
   const { user, authenticateUser } = useContext(AuthContext);
@@ -111,17 +113,31 @@ function UserImage() {
     },
   });
 
+  const StyledAvatar = styled(Avatar)(() => ({
+    width: '50px',
+    height: '50px',
+    backgroundColor: isHovered ? 'transparent' : darkMode ? 'white' : '#677f8b',
+  }));
+
   return user ? (
     <React.Fragment>
       <button onClick={handleClickOpen}>
-        <Avatar
-          sx={{
-            width: '50px',
-            height: '50px',
-            backgroundColor: darkMode ? 'white' : '#677f8b',
-          }}
-          src={user.imgURL && user.imgURL}
-        />
+        <IconButton
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <StyledAvatar src={user.imgURL && user.imgURL} />
+          {isHovered && (
+            <CloudUploadRoundedIcon
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+              }}
+            />
+          )}
+        </IconButton>
       </button>
       <Dialog
         open={open}

@@ -23,10 +23,10 @@ function Settings() {
         <div className="mb-[30px] flex items-center">
           <EmailRoundedIcon
             sx={{
-              width: '30px',
-              height: '30px',
-              marginLeft: '10px',
-              marginRight: '10px',
+              width: '36px',
+              height: '36px',
+              marginLeft: '15px',
+              marginRight: '15px',
               color: darkMode ? 'white' : '#677f8b',
             }}
           />
