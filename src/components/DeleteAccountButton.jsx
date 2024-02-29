@@ -19,7 +19,7 @@ function DeleteAccountButton() {
   const [open, setOpen] = useState(false);
 
   const { darkMode } = useContext(ThemeContext);
-  const { user } = useContext(AuthContext);
+  const { user, removeToken } = useContext(AuthContext);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -31,6 +31,7 @@ function DeleteAccountButton() {
 
   const handleAccountDelete = () => {
     deleteAccount(user._id);
+    removeToken();
     navigate('/');
   };
 

@@ -41,8 +41,8 @@ function CancelButton({
 
   const handleClose = () => {
     setOpen(false);
-    setEmail('');
-    setPassword('');
+    setEmail ? setEmail('') : '';
+    setPassword ? setPassword('') : '';
     setFirstName ? setFirstName('') : '';
     setLastName ? setLastName('') : '';
   };

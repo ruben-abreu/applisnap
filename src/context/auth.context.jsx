@@ -55,6 +55,7 @@ const AuthProviderWrapper = props => {
         loggedIn,
         user,
         storeToken,
+        removeToken,
         authenticateUser,
         logoutUser,
       }}
