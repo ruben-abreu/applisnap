@@ -36,7 +36,7 @@ function Settings() {
           <p className="ml-[15px]">{user.email}</p>
         </div>
         <div className="w-[100%] flex flex-col justify-center items-center">
-          <div className="mb-[15px]">
+          <div className="mb-[15px] w-[100%]">
             <ChangePasswordButton />
           </div>
 

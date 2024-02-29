@@ -106,6 +106,7 @@ function ChangePasswordButton() {
   };
 
   const ChangePasswordButtonStyled = styled(Button)({
+    width: '100%',
     boxShadow: 'none',
     textTransform: 'none',
     color: '#ebb542',
