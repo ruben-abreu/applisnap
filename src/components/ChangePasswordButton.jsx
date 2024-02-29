@@ -74,25 +74,10 @@ function ChangePasswordButton() {
       return;
     }
 
-    const { firstName, lastName, email, _id, boards, lists, jobs, roles } =
-      user;
-
-    const updatedUser = {
-      firstName,
-      lastName,
-      email,
-      password,
-      _id,
-      boards,
-      lists,
-      jobs,
-      roles,
-    };
-
     setIsLoading(true);
 
     try {
-      await changePassword(updatedUser);
+      await changePassword(user._id, password);
 
       setIsLoading(false);
       alert('Your password was successfully updated.');
@@ -134,7 +119,7 @@ function ChangePasswordButton() {
     color: darkMode ? 'white' : '#678B85',
   });
 
-  return (
+  return user ? (
     <React.Fragment>
       <ChangePasswordButtonStyled
         onClick={handleClickOpen}
@@ -231,6 +216,8 @@ function ChangePasswordButton() {
         </DialogActions>
       </Dialog>
     </React.Fragment>
+  ) : (
+    <CircularProgress />
   );
 }
 

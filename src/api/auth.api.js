@@ -13,8 +13,8 @@ export const getUserDetails = userId => {
   return axios.get(`${baseURL}/users/${userId}`);
 };
 
-export const changePassword = user => {
-  return axios.put(`${baseURL}/users/${user._id}`, user);
+export const changePassword = (userId, password) => {
+  return axios.put(`${baseURL}/users/${userId}`, password);
 };
 
 export const deleteAccount = userId => {

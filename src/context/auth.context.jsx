@@ -21,6 +21,7 @@ const AuthProviderWrapper = props => {
         const user = response.data;
 
         setUser(user);
+
         setLoggedIn(true);
       } catch (error) {
         console.log('Error authenticating user', error);
