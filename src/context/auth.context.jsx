@@ -18,9 +18,8 @@ const AuthProviderWrapper = props => {
     if (storedToken) {
       try {
         const response = await verify(storedToken);
-        const user = response.data;
 
-        setUser(user);
+        setUser(response.data);
 
         setLoggedIn(true);
       } catch (error) {

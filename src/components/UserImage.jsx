@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { upload, updateUser } from '../api/auth.api';
 import { ThemeContext } from '../context/theme.context';
 import { AuthContext } from '../context/auth.context';
@@ -22,11 +22,18 @@ function UserImage() {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState();
-  const [uploadedImageURL, setUploadedImageURL] = useState('');
   const [isHovered, setIsHovered] = useState(false);
+  const [updatedUser, setUpdatedUser] = useState(null);
 
   const { darkMode } = useContext(ThemeContext);
   const { user, authenticateUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (updatedUser) {
+      authenticateUser();
+      setUpdatedUser(null);
+    }
+  }, [updatedUser, authenticateUser]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -45,7 +52,7 @@ function UserImage() {
       const userDetails = { imgURL: imgURL, _id: user._id };
 
       await updateUser(userDetails);
-      await authenticateUser();
+      setUpdatedUser({});
 
       setIsLoading(false);
       alert('Your image was successfully uploaded.');
@@ -69,7 +76,6 @@ function UserImage() {
       const response = await upload(uploadData);
       console.log(response.data);
 
-      setUploadedImageURL(response.data.imgURL);
       return response.data.imgURL;
     } catch (error) {
       setIsLoading(false);
@@ -116,29 +122,32 @@ function UserImage() {
   const StyledAvatar = styled(Avatar)(() => ({
     width: '50px',
     height: '50px',
-    backgroundColor: isHovered ? 'transparent' : darkMode ? 'white' : '#677f8b',
+    backgroundColor:
+      isHovered || user.imgURL ? 'transparent' : darkMode ? 'white' : '#677f8b',
   }));
 
   return user ? (
     <React.Fragment>
-      <button onClick={handleClickOpen}>
-        <IconButton
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <StyledAvatar src={user.imgURL && user.imgURL} />
-          {isHovered && (
-            <CloudUploadRoundedIcon
-              sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-              }}
-            />
-          )}
-        </IconButton>
-      </button>
+      <IconButton
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={handleClickOpen}
+      >
+        <StyledAvatar src={user.imgURL && user.imgURL}>
+          {!user.imgURL && `${user.firstName[0]}${user.lastName[0]}`}
+        </StyledAvatar>
+        {isHovered && (
+          <CloudUploadRoundedIcon
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+          />
+        )}
+      </IconButton>
+
       <Dialog
         open={open}
         onClose={handleClose}

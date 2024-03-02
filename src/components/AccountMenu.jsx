@@ -53,12 +53,19 @@ function AccountMenu() {
       >
         <Avatar
           sx={{
+            fontSize: '14px',
             width: '30px',
             height: '30px',
-            backgroundColor: darkMode ? 'white' : '#677f8b',
+            backgroundColor: user.imgURL
+              ? 'transparent'
+              : darkMode
+              ? 'white'
+              : '#677f8b',
           }}
           src={user.imgURL && user.imgURL}
-        />
+        >
+          {!user.imgURL && `${user.firstName[0]}${user.lastName[0]}`}
+        </Avatar>
       </IconButton>
 
       <Menu
