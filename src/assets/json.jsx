@@ -1,11 +1,15 @@
+import { addRole, deleteRole } from '../api/role.api';
+import { getRole } from '../api/role.api';
+
 export const APPLICATIONS = [
   {
     id: 1,
-    status: 'Wishlist',
+    status: 'Interview',
     image: 'https://logo.clearbit.com/apple.com',
     role: 'Full-Stack Developer',
+    /*   role: getRole(['65e3086bae4519c854997e06']), */
     companyName: 'Apple, Inc.',
-    date: '2024/02/27',
+    date: '2024-02-27',
   },
   {
     id: 2,
@@ -13,15 +17,15 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/nintendo.com',
     role: 'Full-Stack Developer',
     companyName: 'Nintendo, Inc.',
-    date: '2024/01/17',
+    date: '2024-01-17',
   },
   {
     id: 3,
     status: 'Interview',
     image: 'https://logo.clearbit.com/nos.pt',
-    role: 'Full-Stack Developer',
+    role: 'Product Manager',
     companyName: 'NOS',
-    date: '2024/02/22',
+    date: '2024-02-22',
   },
   {
     id: 4,
@@ -29,7 +33,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/tesla.com',
     role: 'Product Manager',
     companyName: 'Tesla, Lda.',
-    date: '2024/02/24',
+    date: '2024-02-24',
   },
   {
     id: 5,
@@ -37,7 +41,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/microsoft.com',
     role: 'Full-Stack Developer',
     companyName: 'Microsoft, Inc.',
-    date: '2024/01/13',
+    date: '2024-01-13',
   },
   {
     id: 6,
@@ -45,7 +49,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/google.com',
     role: 'Full-Stack Developer',
     companyName: 'Google, Inc.',
-    date: '2024/02/12',
+    date: '2024-02-12',
   },
   {
     id: 7,
@@ -53,7 +57,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/ironhack.com',
     role: 'Full-Stack Developer',
     companyName: 'Ironhack',
-    date: '2024/02/10',
+    date: '2024-02-10',
   },
   {
     id: 8,
@@ -61,7 +65,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/amazon.com',
     role: 'Software Engineer',
     companyName: 'Amazon, Inc.',
-    date: '2024/03/05',
+    date: '2024-03-05',
   },
 
   {
@@ -70,7 +74,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/airbnb.com',
     role: 'Full-Stack Developer',
     companyName: 'Airbnb',
-    date: '2024/02/20',
+    date: '2024-02-20',
   },
   {
     id: 11,
@@ -78,7 +82,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/ibm.com',
     role: 'Full-Stack Developer',
     companyName: 'IBM, Inc.',
-    date: '2024/03/01',
+    date: '2024-03-01',
   },
   {
     id: 12,
@@ -86,7 +90,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/intel.com',
     role: 'Full-Stack Developer',
     companyName: 'Intel Corporation',
-    date: '2024/02/29',
+    date: '2024-02-29',
   },
   {
     id: 13,
@@ -94,7 +98,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/adobe.com',
     role: 'Full-Stack Developer',
     companyName: 'Adobe Inc.',
-    date: '2024/02/28',
+    date: '2024-02-28',
   },
   {
     id: 14,
@@ -102,7 +106,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/uber.com',
     role: 'Product Manager',
     companyName: 'Uber Technologies, Inc.',
-    date: '2024/03/02',
+    date: '2024-03-02',
   },
   {
     id: 15,
@@ -110,7 +114,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/samsung.com',
     role: 'Full-Stack Developer',
     companyName: 'Samsung Electronics',
-    date: '2024/02/25',
+    date: '2024-02-25',
   },
   {
     id: 16,
@@ -118,7 +122,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/facebook.com',
     role: 'Full-Stack Developer',
     companyName: 'Meta Platforms, Inc.',
-    date: '2024/02/23',
+    date: '2024-02-23',
   },
   {
     id: 17,
@@ -126,7 +130,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/zoom.us',
     role: 'Software Engineer',
     companyName: 'Zoom Video Communications',
-    date: '2024/02/21',
+    date: '2024-02-21',
   },
   {
     id: 18,
@@ -134,7 +138,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/twitter.com',
     role: 'Full-Stack Developer',
     companyName: 'Twitter, Inc.',
-    date: '2024/03/03',
+    date: '2024-03-03',
   },
   {
     id: 19,
@@ -142,7 +146,7 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/coinbase.com',
     role: 'Full-Stack Developer',
     companyName: 'Coinbase, Inc.',
-    date: '2024/02/18',
+    date: '2024-02-18',
   },
   {
     id: 20,
@@ -150,6 +154,6 @@ export const APPLICATIONS = [
     image: 'https://logo.clearbit.com/linkedin.com',
     role: 'Software Engineer',
     companyName: 'LinkedIn Corporation',
-    date: '2024/02/26',
+    date: '2024-02-26',
   },
 ];

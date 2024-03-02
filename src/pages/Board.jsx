@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Grid, Paper, Typography } from '@mui/material';
+import EditApplication from '../components/EditApplication';
 
 const ApplicationList = ({ applications }) => {
   const [applicationList, setApplicationList] = useState(applications);
+  const [selectedApplication, setSelectedApplication] = useState(null);
 
   useEffect(() => {
     setApplicationList(applications);
@@ -29,6 +31,11 @@ const ApplicationList = ({ applications }) => {
 
   const onDragOver = e => {
     e.preventDefault();
+  };
+
+  const handleEdit = applicationId => {
+    const selectedApp = applicationList.find(app => app.id === applicationId);
+    setSelectedApplication(selectedApp);
   };
 
   const onDrop = (e, targetRole, targetStatus, dropIndex) => {
@@ -74,10 +81,11 @@ const ApplicationList = ({ applications }) => {
                 onDragEnter={onDragEnter}
                 onDragLeave={onDragLeave}
                 onDrop={e => onDrop(e, role, status, index)}
+                onClick={() => handleEdit(application.id)} // Updated onClick handler
                 sx={{
                   p: 1,
                   mb: 1,
-                  cursor: 'move',
+                  cursor: 'pointer',
                   minWidth: 100,
                   maxWidth: 300,
                   width: '100%',
@@ -106,7 +114,6 @@ const ApplicationList = ({ applications }) => {
                           12,
                           20 - application.companyName.length / 2
                         )}px`,
-                        // Minimum font size of 12px, decreases as name gets longer
                       }}
                     >
                       {application.companyName}
@@ -135,6 +142,10 @@ const ApplicationList = ({ applications }) => {
 
   const uniqueRoles = [...new Set(applicationList.map(app => app.role))];
   const statuses = ['Wishlist', 'Applied', 'Interview', 'Offer', 'Rejected'];
+
+  const handleEditClose = () => {
+    setSelectedApplication(null);
+  };
 
   return (
     <div className='m-[2%]' style={{ overflowX: 'auto', marginTop: '60px' }}>
@@ -179,6 +190,13 @@ const ApplicationList = ({ applications }) => {
           </div>
         ))}
       </div>
+      {selectedApplication && (
+        <EditApplication
+          open={Boolean(selectedApplication)}
+          onClose={handleEditClose}
+          application={selectedApplication}
+        />
+      )}
     </div>
   );
 };
