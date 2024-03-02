@@ -21,6 +21,10 @@ export const upload = image => {
   return axios.post(`${baseURL}/upload`, image);
 };
 
+export const deleteImage = imgPublicId => {
+  return axios.delete(`${baseURL}/deleteImage/${imgPublicId}`, imgPublicId);
+};
+
 export const deleteAccount = userId => {
   return axios.delete(`${baseURL}/users/${userId}`);
 };

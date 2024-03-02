@@ -21,7 +21,8 @@ function DeleteAccountButton() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { darkMode } = useContext(ThemeContext);
-  const { user, removeToken, authenticateUser } = useContext(AuthContext);
+  const { user, deleteImage, removeToken, authenticateUser } =
+    useContext(AuthContext);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -36,12 +37,13 @@ function DeleteAccountButton() {
 
     try {
       await deleteAccount(user._id);
-
+      removeToken();
       setIsLoading(false);
       alert('Your account was successfully deleted.');
-      removeToken();
       authenticateUser();
       navigate('/');
+
+      await deleteImage(user.imgPublicId);
     } catch (error) {
       setIsLoading(false);
       alert(error.response.data.message);

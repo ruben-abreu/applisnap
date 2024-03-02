@@ -33,7 +33,7 @@ function UserImage() {
       authenticateUser();
       setUpdatedUser(null);
     }
-  }, [updatedUser, authenticateUser]);
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -47,11 +47,18 @@ function UserImage() {
     setImage(target.files[0]);
   };
 
-  const updateUserDetails = async imgURL => {
+  const updateUserDetails = async (imgURL, imgPublicId) => {
     try {
-      const userDetails = { imgURL: imgURL, _id: user._id };
+      const userDetails = {
+        imgURL: imgURL,
+        imgPublicId: imgPublicId,
+        _id: user._id,
+      };
 
       await updateUser(userDetails);
+
+      authenticateUser();
+
       setUpdatedUser({});
 
       setIsLoading(false);
@@ -76,7 +83,7 @@ function UserImage() {
       const response = await upload(uploadData);
       console.log(response.data);
 
-      return response.data.imgURL;
+      return response.data;
     } catch (error) {
       setIsLoading(false);
       alert(error.response.data.message);
@@ -86,7 +93,7 @@ function UserImage() {
   const handleUploadImage = async e => {
     const response = await uploadImage(e);
 
-    updateUserDetails(response);
+    updateUserDetails(response.imgURL, response.imgPublicId);
   };
 
   const UploadImageDialogTitle = styled(DialogTitle)({
