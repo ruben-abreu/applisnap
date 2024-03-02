@@ -14,11 +14,13 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CancelButton from '../components/CancelButton';
+import { IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function EditApplication({ open, onClose, application }) {
   const [companyName, setCompanyName] = useState(application.companyName);
   const [roleName, setRoleName] = useState(application.role);
-  const [logoURL, setLogoURL] = useState(application.logoURL);
+  const [domain, setDomain] = useState(application.domain);
   const [jobURL, setJobURL] = useState(application.jobURL);
   const [jobDescription, setJobDescription] = useState(
     application.jobDescription
@@ -88,7 +90,7 @@ function EditApplication({ open, onClose, application }) {
     console.log('Data to be saved:', {
       companyName,
       roleName,
-      logoURL,
+      domain,
       jobURL,
       jobDescription,
       workModel,
@@ -100,6 +102,12 @@ function EditApplication({ open, onClose, application }) {
       board,
       list,
     });
+    onClose();
+  };
+
+  const handleDelete = () => {
+    // Perform deletion logic here
+    console.log('Deleting application:', application);
     onClose();
   };
 
@@ -116,7 +124,7 @@ function EditApplication({ open, onClose, application }) {
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
-          <InputLabel htmlFor='roleName'>Role Name</InputLabel>
+          <InputLabel htmlFor='roleName'>Role</InputLabel>
           <Input
             id='roleName'
             value={roleName}
@@ -124,11 +132,11 @@ function EditApplication({ open, onClose, application }) {
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
-          <InputLabel htmlFor='logoURL'>Logo URL</InputLabel>
+          <InputLabel htmlFor='domain'>Domain</InputLabel>
           <Input
-            id='logoURL'
-            value={logoURL}
-            onChange={e => setLogoURL(e.target.value)}
+            id='domain'
+            value={domain}
+            onChange={e => setDomain(e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
@@ -146,7 +154,7 @@ function EditApplication({ open, onClose, application }) {
             value={jobDescription}
             onChange={e => setJobDescription(e.target.value)}
             multiline
-            rows={4}
+            rows={2}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
@@ -166,24 +174,6 @@ function EditApplication({ open, onClose, application }) {
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
-          <InputLabel htmlFor='notes'>Notes</InputLabel>
-          <Input
-            id='notes'
-            value={notes}
-            onChange={e => setNotes(e.target.value)}
-            multiline
-            rows={4}
-          />
-        </FormControl>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
-          <InputLabel htmlFor='customLabel'>Custom Label</InputLabel>
-          <Input
-            id='customLabel'
-            value={customLabel}
-            onChange={e => setCustomLabel(e.target.value)}
-          />
-        </FormControl>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
           <TextField
             id='date'
             label='Date'
@@ -193,6 +183,24 @@ function EditApplication({ open, onClose, application }) {
             InputLabelProps={{
               shrink: true,
             }}
+          />
+        </FormControl>
+        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
+          <InputLabel htmlFor='notes'>Notes</InputLabel>
+          <Input
+            id='notes'
+            value={notes}
+            onChange={e => setNotes(e.target.value)}
+            multiline
+            rows={2}
+          />
+        </FormControl>
+        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
+          <InputLabel htmlFor='customLabel'>Custom Label</InputLabel>
+          <Input
+            id='customLabel'
+            value={customLabel}
+            onChange={e => setCustomLabel(e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
@@ -228,7 +236,7 @@ function EditApplication({ open, onClose, application }) {
           setOpen={onClose}
           setCompanyName={setCompanyName}
           setRoleName={setRoleName}
-          setLogoURL={setLogoURL}
+          setDomain={setDomain}
           setJobURL={setJobURL}
           setJobDescription={setJobDescription}
           setWorkModel={setWorkModel}
@@ -241,6 +249,9 @@ function EditApplication({ open, onClose, application }) {
           setList={setList}
         />
         <EditButtonStyled onClick={handleSave}>Save</EditButtonStyled>
+        <IconButton aria-label='delete' onClick={handleDelete}>
+          <DeleteIcon />
+        </IconButton>
       </DialogActions>
     </Dialog>
   );

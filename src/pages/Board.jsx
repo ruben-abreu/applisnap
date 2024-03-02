@@ -101,7 +101,7 @@ const ApplicationList = ({ applications }) => {
                 >
                   <Grid item>
                     <img
-                      src={application.image}
+                      src={application.logoURL}
                       alt='box'
                       style={{ maxWidth: 25 }}
                     />
