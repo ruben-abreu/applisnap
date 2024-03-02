@@ -58,6 +58,7 @@ const AuthProviderWrapper = props => {
         removeToken,
         authenticateUser,
         logoutUser,
+        setUser,
       }}
     >
       {props.children}

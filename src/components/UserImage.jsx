@@ -1,5 +1,5 @@
-import { useState, useContext, useEffect } from 'react';
-import { upload, updateUser } from '../api/auth.api';
+import { useState, useContext } from 'react';
+import { upload, updateUser, deleteImage } from '../api/auth.api';
 import { ThemeContext } from '../context/theme.context';
 import { AuthContext } from '../context/auth.context';
 import * as React from 'react';
@@ -23,17 +23,9 @@ function UserImage() {
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState();
   const [isHovered, setIsHovered] = useState(false);
-  const [updatedUser, setUpdatedUser] = useState(null);
 
   const { darkMode } = useContext(ThemeContext);
-  const { user, authenticateUser } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (updatedUser) {
-      authenticateUser();
-      setUpdatedUser(null);
-    }
-  }, []);
+  const { user, setUser } = useContext(AuthContext);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,9 +49,11 @@ function UserImage() {
 
       await updateUser(userDetails);
 
-      authenticateUser();
+      if (user.imgPublicId) {
+        await deleteImage(user.imgPublicId);
+      }
 
-      setUpdatedUser({});
+      setUser({ ...user, imgURL, imgPublicId });
 
       setIsLoading(false);
       alert('Your image was successfully uploaded.');
@@ -89,7 +83,6 @@ function UserImage() {
       alert(error.response.data.message);
     }
   };
-
   const handleUploadImage = async e => {
     const response = await uploadImage(e);
 
@@ -165,6 +158,7 @@ function UserImage() {
         <UploadImageDialogTitle>Upload Image</UploadImageDialogTitle>
         <DialogContent>
           <FormControl
+            type="submit"
             variant="standard"
             required
             fullWidth

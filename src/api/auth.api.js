@@ -22,7 +22,7 @@ export const upload = image => {
 };
 
 export const deleteImage = imgPublicId => {
-  return axios.delete(`${baseURL}/deleteImage/${imgPublicId}`, imgPublicId);
+  return axios.delete(`${baseURL}/deleteImage`, imgPublicId);
 };
 
 export const deleteAccount = userId => {
