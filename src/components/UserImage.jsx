@@ -39,6 +39,33 @@ function UserImage() {
     setImage(target.files[0]);
   };
 
+  const uploadImage = async e => {
+    e.preventDefault();
+
+    try {
+      const uploadData = new FormData();
+      uploadData.append('file', image);
+
+      setIsLoading(true);
+
+      const response = await upload(uploadData);
+
+      setImage();
+      return response.data;
+    } catch (error) {
+      setIsLoading(false);
+      alert(error.response.data.message);
+    }
+  };
+
+  const deletePreviousImage = async () => {
+    try {
+      await deleteImage(user.imgPublicId);
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
+
   const updateUserDetails = async (imgURL, imgPublicId) => {
     try {
       const userDetails = {
@@ -48,10 +75,6 @@ function UserImage() {
       };
 
       await updateUser(userDetails);
-
-      if (user.imgPublicId) {
-        await deleteImage(user.imgPublicId);
-      }
 
       setUser({ ...user, imgURL, imgPublicId });
 
@@ -65,26 +88,10 @@ function UserImage() {
     }
   };
 
-  const uploadImage = async e => {
-    e.preventDefault();
-
-    try {
-      const uploadData = new FormData();
-      uploadData.append('file', image);
-
-      setIsLoading(true);
-
-      const response = await upload(uploadData);
-      console.log(response.data);
-
-      return response.data;
-    } catch (error) {
-      setIsLoading(false);
-      alert(error.response.data.message);
-    }
-  };
   const handleUploadImage = async e => {
     const response = await uploadImage(e);
+
+    deletePreviousImage();
 
     updateUserDetails(response.imgURL, response.imgPublicId);
   };
