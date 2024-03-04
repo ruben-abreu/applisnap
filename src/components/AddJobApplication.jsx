@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../context/auth.context';
 import {
   Button,
   Dialog,
@@ -14,26 +16,24 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CancelButton from '../components/CancelButton';
-import { IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddRole from './AddRole';
+import { addJob } from '../api/jobs.api';
 
-function EditApplication({ open, onClose, application }) {
-  const [companyName, setCompanyName] = useState(application.companyName);
-  const [roleName, setRoleName] = useState(application.role);
-  const [domain, setDomain] = useState(application.domain);
-  const [jobURL, setJobURL] = useState(application.jobURL);
-  const [jobDescription, setJobDescription] = useState(
-    application.jobDescription
-  );
-  const [workModel, setWorkModel] = useState(application.workModel);
-  const [workLocation, setWorkLocation] = useState(application.workLocation);
-  const [notes, setNotes] = useState(application.notes);
-  const [customLabel, setCustomLabel] = useState(application.customLabel);
-  const [date, setDate] = useState(application.date);
-  const [starred, setStarred] = useState(application.starred);
-  const [board, setBoard] = useState(application.board);
-  const [list, setList] = useState(application.list);
+function AddJobApplication({ open, onClose }) {
+  const [companyName, setCompanyName] = useState('');
+  const [roleName, setRoleName] = useState('');
+  const [domain, setDomain] = useState('');
+  const [jobURL, setJobURL] = useState('');
+  const [jobDescription, setJobDescription] = useState('');
+  const [workModel, setWorkModel] = useState('');
+  const [workLocation, setWorkLocation] = useState('');
+  const [notes, setNotes] = useState('');
+  const [customLabel, setCustomLabel] = useState('');
+  const [date, setDate] = useState('');
+  const [starred, setStarred] = useState(false);
+  const [board, setBoard] = useState('');
+  const [list, setList] = useState('');
+
+  const { user } = useContext(AuthContext);
 
   const greenStyle = {
     '.MuiFormLabel-root': {
@@ -61,7 +61,7 @@ function EditApplication({ open, onClose, application }) {
     marginBottom: '15px',
   };
 
-  const EditButtonStyled = styled(Button)({
+  const AddButtonStyled = styled(Button)({
     boxShadow: 'none',
     textTransform: 'none',
     color: 'white',
@@ -88,7 +88,7 @@ function EditApplication({ open, onClose, application }) {
   });
 
   const handleSave = () => {
-    console.log('Data to be saved:', {
+    const jobData = {
       companyName,
       roleName,
       domain,
@@ -102,33 +102,35 @@ function EditApplication({ open, onClose, application }) {
       starred,
       board,
       list,
-    });
-    onClose();
-  };
+      userId: user._id,
+    };
 
-  const handleDelete = () => {
-    // Perform deletion logic here
-    console.log('Deleting application:', application);
+    console.log('Data to be saved:', jobData);
     onClose();
+    addJob(jobData);
   };
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Edit Job</DialogTitle>
+      <DialogTitle>Add Job Application</DialogTitle>
       <DialogContent>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
+        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }} required>
           <InputLabel htmlFor='companyName'>Company Name</InputLabel>
           <Input
             id='companyName'
             value={companyName}
             onChange={e => setCompanyName(e.target.value)}
+            required
           />
         </FormControl>
-        <AddRole
-          roleName={roleName}
-          setRoleName={setRoleName}
-          greenStyle={greenStyle}
-        />
+        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
+          <InputLabel htmlFor='companyName'>Role</InputLabel>
+          <Input
+            id='role'
+            value={roleName}
+            onChange={e => setRoleName(e.target.value)}
+          />
+        </FormControl>
         <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
           <InputLabel htmlFor='domain'>Domain</InputLabel>
           <Input
@@ -246,13 +248,10 @@ function EditApplication({ open, onClose, application }) {
           setBoard={setBoard}
           setList={setList}
         />
-        <EditButtonStyled onClick={handleSave}>Save</EditButtonStyled>
-        <IconButton aria-label='delete' onClick={handleDelete}>
-          <DeleteIcon />
-        </IconButton>
+        <AddButtonStyled onClick={handleSave}>Save</AddButtonStyled>
       </DialogActions>
     </Dialog>
   );
 }
 
-export default EditApplication;
+export default AddJobApplication;

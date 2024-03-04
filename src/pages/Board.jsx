@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Grid, Paper, Typography } from '@mui/material';
 import EditApplication from '../components/EditApplication';
+import AddJobButton from '../components/AddJobButton';
 
 const ApplicationList = ({ applications }) => {
   const [applicationList, setApplicationList] = useState(applications);
@@ -147,6 +148,29 @@ const ApplicationList = ({ applications }) => {
     setSelectedApplication(null);
   };
 
+  const renderStatusesWithAddButton = role =>
+    statuses.map(status => (
+      <div key={`${role}-${status}`}>
+        <Typography
+          variant='subtitle1'
+          style={{
+            marginBottom: '8px',
+            fontWeight: 'bold',
+            marginTop: '18px',
+            display: 'flex',
+          }}
+        >
+          {status}
+          <AddJobButton />
+        </Typography>
+        {renderApplications(role, status)}
+        {applicationList.filter(
+          application =>
+            application.role === role && application.status === status
+        ).length === 0 && <EmptyDropArea role={role} status={status} />}
+      </div>
+    ));
+
   return (
     <div className='m-[2%]' style={{ overflowX: 'auto', marginTop: '60px' }}>
       <div style={{ display: 'flex' }}>
@@ -165,27 +189,7 @@ const ApplicationList = ({ applications }) => {
               {role}
             </Typography>
             <Grid container direction='column'>
-              {statuses.map(status => (
-                <div key={`${role}-${status}`}>
-                  <Typography
-                    variant='subtitle1'
-                    style={{
-                      marginBottom: '8px',
-                      fontWeight: 'bold',
-                      marginTop: '18px',
-                    }}
-                  >
-                    {status}
-                  </Typography>
-                  {renderApplications(role, status)}
-                  {applicationList.filter(
-                    application =>
-                      application.role === role && application.status === status
-                  ).length === 0 && (
-                    <EmptyDropArea role={role} status={status} />
-                  )}
-                </div>
-              ))}
+              {renderStatusesWithAddButton(role)}
             </Grid>
           </div>
         ))}

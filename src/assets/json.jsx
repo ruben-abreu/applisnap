@@ -1,16 +1,53 @@
-import { addRole, deleteRole } from '../api/role.api';
-import { getRole } from '../api/role.api';
+import { addRole, deleteRole, getRole } from '../api/role.api';
 
-export const APPLICATIONS = [
+let APPLICATIONS = [
   {
     id: 1,
-    status: 'Interview',
+    status: 'Wishlist',
     logoURL: 'https://logo.clearbit.com/apple.com',
-    role: 'Full-Stack Developer',
-    /*   role: getRole(['65e3086bae4519c854997e06']), */
     companyName: 'Apple, Inc.',
     date: '2024-02-27',
+    role: null,
   },
+  {
+    id: 2,
+    status: 'Wishlist',
+    logoURL: 'https://logo.clearbit.com/nintendo.com',
+    companyName: 'Nintendo',
+    date: '2024-02-27',
+    role: null,
+  },
+];
+
+const updateApplicationsWithRole = async () => {
+  try {
+    const roleId = '65e35851b41908fa8e882722';
+    const roles = await getRole(roleId);
+
+    if (roles.length > 0) {
+      console.log('Roles:', roles);
+      APPLICATIONS.forEach((app, index) => {
+        try {
+          APPLICATIONS[index].role = roles[index].roleName;
+        } catch (error) {
+          console.error('Error updating role for application:', index, error);
+        }
+      });
+    } else {
+      console.log('No roles found.');
+      APPLICATIONS.forEach((app, index) => {
+        APPLICATIONS[index].role = null;
+      });
+    }
+  } catch (error) {
+    console.error('Error fetching role:', error);
+  }
+};
+
+updateApplicationsWithRole();
+
+export { APPLICATIONS };
+/* 
   {
     id: 2,
     status: 'Applied',
@@ -157,3 +194,4 @@ export const APPLICATIONS = [
     date: '2024-02-26',
   },
 ];
+ */
