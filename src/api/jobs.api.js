@@ -17,24 +17,28 @@ const setAuthorizationHeaders = () => {
 
 setAuthorizationHeaders();
 
-export const getAllRoles = () => {
-  return axios.get(`${baseURL}/roles`);
+export const getAllJobs = () => {
+  return axios.get(`${baseURL}/jobs`);
 };
 
-export const getRole = async roleId => {
+export const getJob = async jobId => {
   try {
-    const response = await axios.get(`${baseURL}/roles/${roleId}`);
+    const response = await axios.get(`${baseURL}/jobs/${jobId}`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching role:', error);
+    console.error('Error fetching job:', error);
     throw error;
   }
 };
 
-export const addRole = role => {
-  return axios.post(`${baseURL}/roles`, role);
+export const addJob = job => {
+  return axios.post(`${baseURL}/jobs`, job);
 };
 
-export const deleteRole = roleId => {
-  return axios.delete(`${baseURL}/roles/${roleId}`);
+export const editJob = job => {
+  return axios.put(`${baseURL}/jobs`, job);
+};
+
+export const deleteJob = roleId => {
+  return axios.delete(`${baseURL}/jobs/${roleId}`);
 };
