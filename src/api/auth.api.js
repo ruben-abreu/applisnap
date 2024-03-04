@@ -9,6 +9,14 @@ export const login = user => {
   return axios.post(`${baseURL}/login`, user);
 };
 
+export const forgotPassword = email => {
+  return axios.put(`${baseURL}/forgot-password`, { email });
+};
+
+export const resetPassword = (token, password) => {
+  return axios.put(`${baseURL}/reset-password`, { token, password });
+};
+
 export const getUserDetails = userId => {
   return axios.get(`${baseURL}/users/${userId}`);
 };

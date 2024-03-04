@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { ThemeContext } from '../context/theme.context';
-import { login } from '../api/auth.api';
+import { login, forgotPassword } from '../api/auth.api';
 import { AuthContext } from '../context/auth.context';
 import { useNavigate } from 'react-router-dom';
 import * as React from 'react';
@@ -27,6 +27,7 @@ function LogInButton() {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [forgotPasswordClicked, setForgotPasswordClicked] = useState(false);
 
   const { darkMode } = useContext(ThemeContext);
   const { storeToken, authenticateUser } = useContext(AuthContext);
@@ -39,6 +40,7 @@ function LogInButton() {
 
   const handleClose = () => {
     setOpen(false);
+    setForgotPasswordClicked(false);
   };
 
   const handleMouseDownPassword = event => {
@@ -90,6 +92,22 @@ function LogInButton() {
     } catch (error) {
       setIsLoading(false);
       console.log('Error logging in', error);
+      alert(error.response.data.message);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    setIsLoading(true);
+    try {
+      await forgotPassword(email);
+      setIsLoading(false);
+      setForgotPasswordClicked(false);
+      handleClose();
+      alert(
+        'Please check your email inbox and spam, you will receive a reset link in the next few minutes'
+      );
+    } catch (error) {
+      console.log('Error on password reset', error);
       alert(error.response.data.message);
     }
   };
@@ -158,6 +176,7 @@ function LogInButton() {
       <Dialog
         open={open}
         onClose={handleClose}
+        fullWidth
         PaperProps={{
           component: 'form',
         }}
@@ -211,83 +230,107 @@ function LogInButton() {
             />
           </FormControl>
 
-          <FormControl
-            variant="standard"
-            required
-            fullWidth
-            sx={{
-              '.MuiFormLabel-root': {
-                color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
-              },
-              '.MuiInputLabel-root': {
-                color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
-              },
-              '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
-                color: '#30b39a',
-              },
-              '.MuiInput-underline:after': {
-                borderBottom: '2px solid #678B85',
-              },
-              '&:hover': {
+          {!forgotPasswordClicked && (
+            <FormControl
+              variant="standard"
+              required
+              fullWidth
+              sx={{
+                '.MuiFormLabel-root': {
+                  color: theme =>
+                    theme.palette.mode === 'dark' ? 'white' : '#678B85',
+                },
+                '.MuiInputLabel-root': {
+                  color: theme =>
+                    theme.palette.mode === 'dark' ? 'white' : '#678B85',
+                },
+                '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
+                  color: '#30b39a',
+                },
                 '.MuiInput-underline:after': {
-                  borderBottom: '2px solid #30b39a',
+                  borderBottom: '2px solid #678B85',
                 },
-              },
-              '.MuiInput-root': {
-                '&.Mui-focused': {
-                  borderColor: '#30b39a',
+                '&:hover': {
+                  '.MuiInput-underline:after': {
+                    borderBottom: '2px solid #30b39a',
+                  },
                 },
-              },
-            }}
-          >
-            <InputLabel htmlFor="standard-adornment-password">
-              Password
-            </InputLabel>
-            <Input
-              id="standard-adornment-password"
-              value={password}
-              onChange={handlePasswordChange}
-              type={showPassword ? 'text' : 'password'}
-              autoComplete="on"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                    sx={{
-                      marginRight: 0,
-                      marginLeft: '8px',
-                    }}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
+                '.MuiInput-root': {
+                  '&.Mui-focused': {
+                    borderColor: '#30b39a',
+                  },
+                },
+              }}
+            >
+              <InputLabel htmlFor="standard-adornment-password">
+                Password
+              </InputLabel>
+              <Input
+                id="standard-adornment-password"
+                value={password}
+                onChange={handlePasswordChange}
+                type={showPassword ? 'text' : 'password'}
+                autoComplete="on"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                      sx={{
+                        marginRight: 0,
+                        marginLeft: '8px',
+                      }}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
+          )}
         </DialogContent>
         <DialogActions>
-          <div className="mr-[6px]">
-            {isLoading && (
-              <CircularProgress
-                sx={{ color: darkMode ? 'white' : '#678B85' }}
-              />
-            )}
-          </div>
-          <CancelButton
-            setOpen={setOpen}
-            setEmail={setEmail}
-            setPassword={setPassword}
-          />
-          <div className="mr-[16px]">
-            <LogInButtonFormStyled onClick={handleLogin}>
-              Log In
-            </LogInButtonFormStyled>
+          <div className="flex flex-col">
+            <div className="flex">
+              <div className="mr-[6px]">
+                {isLoading && (
+                  <CircularProgress
+                    sx={{ color: darkMode ? 'white' : '#678B85' }}
+                  />
+                )}
+              </div>
+              <div className="mr-[6px]">
+                <CancelButton
+                  setOpen={setOpen}
+                  setEmail={setEmail}
+                  setPassword={setPassword}
+                  setForgotPasswordClicked={setForgotPasswordClicked}
+                />
+              </div>
+              <div className="mr-[16px]">
+                <LogInButtonFormStyled
+                  onClick={
+                    !forgotPasswordClicked ? handleLogin : handleForgotPassword
+                  }
+                >
+                  {!forgotPasswordClicked ? 'Log In' : 'Reset Password'}
+                </LogInButtonFormStyled>
+              </div>
+            </div>
+            <div
+              className={`text-right text-[14px] ${
+                darkMode ? 'text-white' : 'text-[#678B85]'
+              } mr-[16px] mt-[15px]`}
+            >
+              {!forgotPasswordClicked && (
+                <button onClick={() => setForgotPasswordClicked(true)}>
+                  Forgot password?
+                </button>
+              )}
+            </div>
           </div>
         </DialogActions>
       </Dialog>

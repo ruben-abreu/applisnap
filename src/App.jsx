@@ -13,6 +13,7 @@ import Offers from './pages/Offers';
 import Rejected from './pages/Rejected';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
+import ResetPassword from './pages/ResetPassword';
 import { APPLICATIONS } from './assets/json';
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
         <Route path="/rejected" element={<Rejected />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
       </Routes>
     </ThemeProvider>
   );

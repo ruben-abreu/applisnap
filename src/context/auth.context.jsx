@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import { verify } from '../api/auth.api';
+import { verify, getUserDetails } from '../api/auth.api';
 
 const AuthContext = createContext();
 
@@ -19,12 +19,17 @@ const AuthProviderWrapper = props => {
       try {
         const response = await verify(storedToken);
 
-        setUser(response.data);
+        const userDetails = await getUserDetails(response.data._id);
+
+        setUser(userDetails.data);
+
+        console.log('user', userDetails.data);
 
         setLoggedIn(true);
       } catch (error) {
         console.log('Error authenticating user', error);
         setUser(null);
+        removeToken();
         setLoggedIn(false);
       }
     } else {
