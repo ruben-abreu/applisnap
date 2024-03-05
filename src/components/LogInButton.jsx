@@ -295,7 +295,7 @@ function LogInButton() {
         <DialogActions>
           <div className="flex flex-col">
             <div className="flex">
-              <div className="mr-[6px]">
+              <div className="mr-[10px]">
                 {isLoading && (
                   <CircularProgress
                     sx={{ color: darkMode ? 'white' : '#678B85' }}

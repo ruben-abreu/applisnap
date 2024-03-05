@@ -1,11 +1,10 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
 import { resetPassword } from '../api/auth.api';
 import { ThemeContext } from '../context/theme.context';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import ChangeCircleRoundedIcon from '@mui/icons-material/ChangeCircleRounded';
-
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
@@ -23,6 +22,8 @@ function ResetPassword() {
   const [password, setPassword] = useState('');
 
   const { darkMode } = useContext(ThemeContext);
+
+  const navigate = useNavigate();
 
   const handleMouseDownPassword = event => {
     event.preventDefault();
@@ -61,17 +62,17 @@ function ResetPassword() {
       return;
     }
 
-    const userDetails = { token, password };
-
     setIsLoading(true);
 
     try {
-      await resetPassword(userDetails);
+      await resetPassword(token, password);
 
       setIsLoading(false);
-      alert('Your password was successfully updated.');
+      alert('Your password was successfully updated. Please log in.');
 
       setPassword('');
+
+      navigate('/');
     } catch (error) {
       setIsLoading(false);
       alert(error.response.data.message);
@@ -104,7 +105,7 @@ function ResetPassword() {
   });
 
   return (
-    <div className="h-full min-h-[60vh] flex justify-center">
+    <div className="h-full min-h-[60vh] flex justify-center items-center">
       <form className="max-w-[500px] mx-[2%]">
         <FormControl
           variant="standard"
