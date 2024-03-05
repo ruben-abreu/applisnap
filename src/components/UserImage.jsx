@@ -91,7 +91,9 @@ function UserImage() {
   const handleUploadImage = async e => {
     const response = await uploadImage(e);
 
-    deletePreviousImage();
+    if (user.imgURL) {
+      deletePreviousImage();
+    }
 
     updateUserDetails(response.imgURL, response.imgPublicId);
   };

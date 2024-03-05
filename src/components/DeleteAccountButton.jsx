@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { deleteAccount } from '../api/auth.api';
+import { deleteAccount, deleteImage } from '../api/auth.api';
 import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../context/theme.context';
 import { AuthContext } from '../context/auth.context';
@@ -21,8 +21,7 @@ function DeleteAccountButton() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { darkMode } = useContext(ThemeContext);
-  const { user, deleteImage, removeToken, authenticateUser } =
-    useContext(AuthContext);
+  const { user, removeToken, authenticateUser } = useContext(AuthContext);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,22 +31,37 @@ function DeleteAccountButton() {
     setOpen(false);
   };
 
-  const handleAccountDelete = async () => {
-    setIsLoading(true);
+  const deleteUserImage = async () => {
+    try {
+      await deleteImage(user.imgPublicId);
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
 
+  const deleteUser = async () => {
     try {
       await deleteAccount(user._id);
       removeToken();
       setIsLoading(false);
+
       alert('Your account was successfully deleted.');
       authenticateUser();
       navigate('/');
-
-      await deleteImage(user.imgPublicId);
     } catch (error) {
       setIsLoading(false);
       alert(error.response.data.message);
     }
+  };
+
+  const handleAccountDelete = async () => {
+    setIsLoading(true);
+
+    if (user.imgPublicId) {
+      deleteUserImage();
+    }
+
+    deleteUser();
   };
 
   const CancelButtonStyled = styled(Button)({
