@@ -2,14 +2,32 @@ import { useState, useEffect } from 'react';
 import { Grid, Paper, Typography } from '@mui/material';
 import EditApplication from '../components/EditApplication';
 import AddJobButton from '../components/AddJobButton';
+import { getAllJobs } from '../api/jobs.api';
 
 const ApplicationList = ({ applications }) => {
   const [applicationList, setApplicationList] = useState(applications);
   const [selectedApplication, setSelectedApplication] = useState(null);
 
   useEffect(() => {
-    setApplicationList(applications);
-  }, [applications]);
+    fetchAllJobs();
+  }, []);
+
+  const fetchAllJobs = async () => {
+    try {
+      const response = await getAllJobs();
+      setApplicationList(response.data);
+    } catch (error) {
+      console.error('Error fetching jobs:', error);
+    }
+  };
+
+  useEffect(() => {
+    console.log('Application List:', applicationList);
+  }, [applicationList]);
+
+  useEffect(() => {
+    console.log('Selected Application:', selectedApplication);
+  }, [selectedApplication]);
 
   const onDragStart = (e, applicationId) => {
     e.dataTransfer.setData('text/plain', applicationId);
@@ -68,12 +86,15 @@ const ApplicationList = ({ applications }) => {
         sx={{ flexWrap: 'wrap' }}
       >
         {applicationList
-          .filter(
-            application =>
-              application.role === role && application.status === status
-          )
+          .filter(application => {
+            if (status !== undefined) {
+              return application.role === role && application.status === status;
+            } else {
+              return application.role === role;
+            }
+          })
           .map((application, index) => (
-            <Grid item key={application.id.toString() + '-' + index}>
+            <Grid item key={application.id + '-' + index}>
               <Paper
                 elevation={3}
                 draggable
@@ -82,7 +103,7 @@ const ApplicationList = ({ applications }) => {
                 onDragEnter={onDragEnter}
                 onDragLeave={onDragLeave}
                 onDrop={e => onDrop(e, role, status, index)}
-                onClick={() => handleEdit(application.id)} // Updated onClick handler
+                onClick={() => handleEdit(application.id)}
                 sx={{
                   p: 1,
                   mb: 1,
@@ -102,7 +123,7 @@ const ApplicationList = ({ applications }) => {
                 >
                   <Grid item>
                     <img
-                      src={application.logoURL}
+                      src={application.logoURL || ''}
                       alt='box'
                       style={{ maxWidth: 25 }}
                     />
@@ -113,11 +134,14 @@ const ApplicationList = ({ applications }) => {
                       style={{
                         fontSize: `${Math.max(
                           12,
-                          20 - application.companyName.length / 2
+                          20 -
+                            (application.companyName
+                              ? application.companyName.length / 2
+                              : 0)
                         )}px`,
                       }}
                     >
-                      {application.companyName}
+                      {application.companyName || ''}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -201,6 +225,8 @@ const ApplicationList = ({ applications }) => {
           application={selectedApplication}
         />
       )}
+      {/* temporary to see apps  */}
+      {renderApplications(undefined, undefined)}
     </div>
   );
 };
