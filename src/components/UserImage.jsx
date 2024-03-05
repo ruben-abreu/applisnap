@@ -42,19 +42,23 @@ function UserImage() {
   const uploadImage = async e => {
     e.preventDefault();
 
-    try {
-      const uploadData = new FormData();
-      uploadData.append('file', image);
+    if (image) {
+      try {
+        const uploadData = new FormData();
+        uploadData.append('file', image);
 
-      setIsLoading(true);
+        setIsLoading(true);
 
-      const response = await upload(uploadData);
+        const response = await upload(uploadData);
 
-      setImage();
-      return response.data;
-    } catch (error) {
-      setIsLoading(false);
-      alert(error.response.data.message);
+        setImage();
+        return response.data;
+      } catch (error) {
+        setIsLoading(false);
+        alert(error.response.data.message);
+      }
+    } else {
+      return alert('Please select an image file');
     }
   };
 
