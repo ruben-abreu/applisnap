@@ -3,6 +3,7 @@ import { Grid, Paper, Typography } from '@mui/material';
 import EditApplication from '../components/EditApplication';
 import AddJobButton from '../components/AddJobButton';
 import { getAllJobs } from '../api/jobs.api';
+import AddBoardButton from '../components/AddBoardButton';
 
 const ApplicationList = ({ applications }) => {
   const [applicationList, setApplicationList] = useState(applications);
@@ -116,7 +117,7 @@ const ApplicationList = ({ applications }) => {
               >
                 <Grid
                   container
-                  alignItems='center'
+                  alignItems="center"
                   spacing={1}
                   style={{ flex: '1' }}
                 >
@@ -125,13 +126,13 @@ const ApplicationList = ({ applications }) => {
                       src={
                         `https://logo.clearbit.com/${application.domain}` || ''
                       }
-                      alt='box'
+                      alt="box"
                       style={{ maxWidth: 25 }}
                     />
                   </Grid>
                   <Grid item xs style={{ flex: '1', textAlign: 'center' }}>
                     <Typography
-                      variant='body2'
+                      variant="body2"
                       style={{
                         fontSize: `${Math.max(
                           12,
@@ -155,7 +156,7 @@ const ApplicationList = ({ applications }) => {
 
   const EmptyDropArea = ({ role, status }) => (
     <div
-      className='empty-drop-area'
+      className="empty-drop-area"
       style={{
         minHeight: '50px',
         marginBottom: '10px',
@@ -177,7 +178,7 @@ const ApplicationList = ({ applications }) => {
     statuses.map(status => (
       <div key={`${role}-${status}`}>
         <Typography
-          variant='subtitle1'
+          variant="subtitle1"
           style={{
             marginBottom: '8px',
             fontWeight: 'bold',
@@ -197,7 +198,10 @@ const ApplicationList = ({ applications }) => {
     ));
 
   return (
-    <div className='m-[2%]' style={{ overflowX: 'auto', marginTop: '60px' }}>
+    <div className="m-[2%]" style={{ overflowX: 'auto', marginTop: '60px' }}>
+      <div>
+        <AddBoardButton />
+      </div>
       <div style={{ display: 'flex' }}>
         {uniqueRoles.map((role, index) => (
           <div
@@ -205,7 +209,7 @@ const ApplicationList = ({ applications }) => {
             style={{ minWidth: 300, maxWidth: 500, marginRight: 150 }}
           >
             <Typography
-              variant='h5'
+              variant="h5"
               style={{
                 fontWeight: 'bold',
                 marginBottom: '8px',
@@ -213,7 +217,7 @@ const ApplicationList = ({ applications }) => {
             >
               {role}
             </Typography>
-            <Grid container direction='column'>
+            <Grid container direction="column">
               {renderStatusesWithAddButton(role)}
             </Grid>
           </div>

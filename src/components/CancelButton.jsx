@@ -10,6 +10,7 @@ function CancelButton({
   setEmail,
   setPassword,
   setForgotPasswordClicked,
+  setBoardName,
 }) {
   const { darkMode } = useContext(ThemeContext);
 
@@ -47,6 +48,7 @@ function CancelButton({
     setFirstName ? setFirstName('') : '';
     setLastName ? setLastName('') : '';
     setForgotPasswordClicked ? setForgotPasswordClicked(false) : '';
+    setBoardName ? setBoardName('') : '';
   };
 
   return <CancelButtonStyled onClick={handleClose}>Cancel</CancelButtonStyled>;

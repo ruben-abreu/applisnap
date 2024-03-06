@@ -37,7 +37,10 @@ function App() {
       <Navigation />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/boards" element={<Board applications={APPLICATIONS} />} />
+        <Route
+          path="/boards/:boardId"
+          element={<Board applications={APPLICATIONS} />}
+        />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/applications" element={<Applications />} />
         <Route path="/interviews" element={<Interviews />} />

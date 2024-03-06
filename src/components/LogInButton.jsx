@@ -88,7 +88,9 @@ function LogInButton() {
       authenticateUser();
       setPassword('');
       handleClose();
-      navigate('/boards');
+      navigate(
+        `/boards/${response.data.boards[response.data.boards.length - 1]}`
+      );
     } catch (error) {
       setIsLoading(false);
       console.log('Error logging in', error);
