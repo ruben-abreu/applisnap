@@ -35,8 +35,8 @@ export const addJob = job => {
   return axios.post(`${baseURL}/jobs`, job);
 };
 
-export const editJob = job => {
-  return axios.put(`${baseURL}/jobs`, job);
+export const editJob = (jobId, job) => {
+  return axios.put(`${baseURL}/jobs/${jobId}`, job);
 };
 
 export const deleteJob = jobId => {

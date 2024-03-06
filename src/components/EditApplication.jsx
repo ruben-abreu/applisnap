@@ -125,7 +125,7 @@ function EditApplication({ open, onClose, application }) {
 
     console.log('Data to be saved:', jobData);
     onClose();
-    editJob(jobData);
+    editJob(application._id, jobData);
   };
 
   const handleDelete = () => {
