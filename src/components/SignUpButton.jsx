@@ -1,6 +1,8 @@
 import { useState, useContext } from 'react';
 import { ThemeContext } from '../context/theme.context';
 import { signup } from '../api/auth.api';
+import { addBoard } from '../api/boards.api';
+import { addList } from '../api/lists.api';
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -79,6 +81,15 @@ function SignUpButton() {
     );
   };
 
+  function getMonthName(monthNumber) {
+    const date = new Date();
+    date.setMonth(monthNumber - 1);
+
+    return date.toLocaleString('en-US', {
+      month: 'long',
+    });
+  }
+
   const handleSignUp = async () => {
     if (firstName.trim() === '') {
       alert('First name cannot be empty');
@@ -112,7 +123,52 @@ function SignUpButton() {
     setIsLoading(true);
 
     try {
-      await signup(user);
+      const userResponse = await signup(user);
+
+      const firstBoard = {
+        boardName: `${getMonthName(
+          new Date().toJSON().slice(5, 7)
+        )} ${new Date().toJSON().slice(0, 4)}`,
+        userId: userResponse.data._id,
+      };
+
+      const boardResponse = await addBoard(firstBoard);
+
+      const firstWishlist = {
+        listName: 'Wishlist',
+        userId: userResponse.data._id,
+        boardId: boardResponse.data._id,
+      };
+
+      const firstAppliedList = {
+        listName: 'Applied',
+        userId: userResponse.data._id,
+        boardId: boardResponse.data._id,
+      };
+
+      const firstInterviewsList = {
+        listName: 'Interviews',
+        userId: userResponse.data._id,
+        boardId: boardResponse.data._id,
+      };
+
+      const firstOffersList = {
+        listName: 'Offers',
+        userId: userResponse.data._id,
+        boardId: boardResponse.data._id,
+      };
+
+      const firstRejectedList = {
+        listName: 'Rejected',
+        userId: userResponse.data._id,
+        boardId: boardResponse.data._id,
+      };
+
+      await addList(firstWishlist);
+      await addList(firstAppliedList);
+      await addList(firstInterviewsList);
+      await addList(firstOffersList);
+      await addList(firstRejectedList);
 
       setIsLoading(false);
       alert('Your registration was successful, please log in.');
