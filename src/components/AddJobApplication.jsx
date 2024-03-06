@@ -13,6 +13,8 @@ import {
   Switch,
   TextField,
   FormControlLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CancelButton from '../components/CancelButton';
@@ -171,11 +173,15 @@ function AddJobApplication({ open, onClose }) {
         </FormControl>
         <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
           <InputLabel htmlFor='workModel'>Work Model</InputLabel>
-          <Input
+          <Select
             id='workModel'
             value={workModel}
             onChange={e => setWorkModel(e.target.value)}
-          />
+          >
+            <MenuItem value={'On-Site'}>On-Site</MenuItem>
+            <MenuItem value={'Remote'}>Remote</MenuItem>
+            <MenuItem value={'Hybrid'}>Hybrid</MenuItem>
+          </Select>
         </FormControl>
         <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
           <InputLabel htmlFor='workLocation'>Work Location</InputLabel>
@@ -225,11 +231,17 @@ function AddJobApplication({ open, onClose }) {
         </FormControl>
         <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
           <InputLabel htmlFor='list'>List</InputLabel>
-          <Input
+          <Select
             id='list'
             value={list}
             onChange={e => setList(e.target.value)}
-          />
+          >
+            <MenuItem value={'Wishlist'}>Wishlist</MenuItem>
+            <MenuItem value={'Applied'}>Applied</MenuItem>
+            <MenuItem value={'Interview'}>Interview</MenuItem>
+            <MenuItem value={'Offers'}>Offers</MenuItem>
+            <MenuItem value={'Rejected'}>Rejected</MenuItem>
+          </Select>
         </FormControl>
         <FormControlLabel
           control={

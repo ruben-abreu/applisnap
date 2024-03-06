@@ -52,9 +52,8 @@ const ApplicationList = ({ applications }) => {
     e.preventDefault();
   };
 
-  const handleEdit = applicationId => {
-    const selectedApp = applicationList.find(app => app.id === applicationId);
-    setSelectedApplication(selectedApp);
+  const handleEdit = application => {
+    setSelectedApplication(application);
   };
 
   const onDrop = (e, targetRole, targetStatus, dropIndex) => {
@@ -103,7 +102,7 @@ const ApplicationList = ({ applications }) => {
                 onDragEnter={onDragEnter}
                 onDragLeave={onDragLeave}
                 onDrop={e => onDrop(e, role, status, index)}
-                onClick={() => handleEdit(application.id)}
+                onClick={() => handleEdit(application)}
                 sx={{
                   p: 1,
                   mb: 1,

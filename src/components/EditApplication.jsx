@@ -11,12 +11,17 @@ import {
   Switch,
   TextField,
   FormControlLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
+import { useContext } from 'react';
+import { AuthContext } from '../context/auth.context';
 import { styled } from '@mui/material/styles';
 import CancelButton from '../components/CancelButton';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddRole from './AddRole';
+import { editJob } from '../api/jobs.api';
 
 function EditApplication({ open, onClose, application }) {
   const [companyName, setCompanyName] = useState(application.companyName);
@@ -34,6 +39,8 @@ function EditApplication({ open, onClose, application }) {
   const [starred, setStarred] = useState(application.starred);
   const [board, setBoard] = useState(application.board);
   const [list, setList] = useState(application.list);
+
+  const { user } = useContext(AuthContext);
 
   const greenStyle = {
     '.MuiFormLabel-root': {
@@ -88,10 +95,21 @@ function EditApplication({ open, onClose, application }) {
   });
 
   const handleSave = () => {
-    console.log('Data to be saved:', {
+    let formattedDomain = domain.trim().toLowerCase();
+    if (formattedDomain.startsWith('http://')) {
+      formattedDomain = formattedDomain.slice(7);
+    } else if (formattedDomain.startsWith('https://')) {
+      formattedDomain = formattedDomain.slice(8);
+    }
+    if (formattedDomain.startsWith('www.')) {
+      formattedDomain = formattedDomain.slice(4);
+    }
+    formattedDomain = formattedDomain.split('/')[0];
+
+    const jobData = {
       companyName,
       roleName,
-      domain,
+      domain: formattedDomain,
       jobURL,
       jobDescription,
       workModel,
@@ -102,8 +120,12 @@ function EditApplication({ open, onClose, application }) {
       starred,
       board,
       list,
-    });
+      userId: user._id,
+    };
+
+    console.log('Data to be saved:', jobData);
     onClose();
+    editJob(jobData);
   };
 
   const handleDelete = () => {
@@ -157,11 +179,15 @@ function EditApplication({ open, onClose, application }) {
         </FormControl>
         <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
           <InputLabel htmlFor='workModel'>Work Model</InputLabel>
-          <Input
+          <Select
             id='workModel'
             value={workModel}
             onChange={e => setWorkModel(e.target.value)}
-          />
+          >
+            <MenuItem value={'On-Site'}>On-Site</MenuItem>
+            <MenuItem value={'Remote'}>Remote</MenuItem>
+            <MenuItem value={'Hybrid'}>Hybrid</MenuItem>
+          </Select>
         </FormControl>
         <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
           <InputLabel htmlFor='workLocation'>Work Location</InputLabel>
@@ -211,11 +237,17 @@ function EditApplication({ open, onClose, application }) {
         </FormControl>
         <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
           <InputLabel htmlFor='list'>List</InputLabel>
-          <Input
+          <Select
             id='list'
             value={list}
             onChange={e => setList(e.target.value)}
-          />
+          >
+            <MenuItem value={'Wishlist'}>Wishlist</MenuItem>
+            <MenuItem value={'Applied'}>Applied</MenuItem>
+            <MenuItem value={'Interview'}>Interview</MenuItem>
+            <MenuItem value={'Offers'}>Offers</MenuItem>
+            <MenuItem value={'Rejected'}>Rejected</MenuItem>
+          </Select>
         </FormControl>
         <FormControlLabel
           control={
