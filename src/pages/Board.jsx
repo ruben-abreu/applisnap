@@ -123,7 +123,9 @@ const ApplicationList = ({ applications }) => {
                 >
                   <Grid item>
                     <img
-                      src={application.logoURL || ''}
+                      src={
+                        `https://logo.clearbit.com/${application.domain}` || ''
+                      }
                       alt='box'
                       style={{ maxWidth: 25 }}
                     />

@@ -88,10 +88,21 @@ function AddJobApplication({ open, onClose }) {
   });
 
   const handleSave = () => {
+    let formattedDomain = domain.trim().toLowerCase();
+    if (formattedDomain.startsWith('http://')) {
+      formattedDomain = formattedDomain.slice(7);
+    } else if (formattedDomain.startsWith('https://')) {
+      formattedDomain = formattedDomain.slice(8);
+    }
+    if (formattedDomain.startsWith('www.')) {
+      formattedDomain = formattedDomain.slice(4);
+    }
+    formattedDomain = formattedDomain.split('/')[0];
+
     const jobData = {
       companyName,
       roleName,
-      domain,
+      domain: formattedDomain,
       jobURL,
       jobDescription,
       workModel,
@@ -136,6 +147,7 @@ function AddJobApplication({ open, onClose }) {
           <Input
             id='domain'
             value={domain}
+            placeholder=''
             onChange={e => setDomain(e.target.value)}
           />
         </FormControl>
