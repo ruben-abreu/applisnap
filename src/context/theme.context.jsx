@@ -22,8 +22,150 @@ const ThemeProviderWrapper = props => {
     };
   }, [darkMode]);
 
+  const formGreenStyle = {
+    '.MuiFormLabel-root': {
+      color: theme => (theme.palette.mode === 'dark' ? 'white' : '#678B85'),
+    },
+    '.MuiInputLabel-root': {
+      color: theme => (theme.palette.mode === 'dark' ? 'white' : '#678B85'),
+    },
+    '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
+      color: '#30b39a',
+    },
+    '.MuiInput-underline:after': {
+      borderBottom: '2px solid #678B85',
+    },
+    '&:hover': {
+      '.MuiInput-underline:after': {
+        borderBottom: '2px solid #30b39a',
+      },
+    },
+    '.MuiInput-root': {
+      '&.Mui-focused': {
+        borderColor: '#30b39a',
+      },
+    },
+    marginBottom: '15px',
+  };
+
+  const buttonGreenStyle = {
+    boxShadow: 'none',
+    textTransform: 'none',
+    color: 'white',
+    fontSize: 16,
+    padding: '6px 12px',
+    border: '1px solid',
+    lineHeight: 1.5,
+    backgroundColor: '#678B85',
+    borderColor: '#678B85',
+
+    '&:hover': {
+      backgroundColor: '#62a699',
+      borderColor: '#62a699',
+      boxShadow: 'none',
+    },
+    '&:active': {
+      boxShadow: 'none',
+      backgroundColor: '#30b39a',
+      borderColor: '#30b39a',
+    },
+    '&:focus': {
+      boxShadow: '0 0 0 0.2rem rgba(55, 89, 84, 0.5)',
+    },
+  };
+
+  const lightButtonNoBorder = {
+    boxShadow: 'none',
+    textTransform: 'none',
+    color: 'black',
+    fontSize: 16,
+    padding: '6px 12px',
+    border: '1px solid',
+    lineHeight: 1.5,
+    backgroundColor: 'white',
+    borderColor: 'white',
+
+    '&:hover': {
+      color: 'white',
+      backgroundColor: '#a9ccc6',
+      borderColor: '#a9ccc6',
+      boxShadow: 'none',
+    },
+    '&:active': {
+      color: 'white',
+      boxShadow: 'none',
+      backgroundColor: '#7fb3aa',
+      borderColor: '#7fb3aa',
+    },
+    '&:focus': {
+      boxShadow: '0 0 0 0.2rem rgba(127, 179, 170, 0.5)',
+    },
+  };
+
+  const lightButtonStyle = {
+    boxShadow: 'none',
+    textTransform: 'none',
+    color: darkMode ? 'white' : '#666666',
+    fontSize: 16,
+    padding: '6px 12px',
+    border: '1px solid',
+    borderColor: '#666666',
+    lineHeight: 1.5,
+
+    '&:hover': {
+      color: 'white',
+      backgroundColor: '#a9ccc6',
+      borderColor: '#a9ccc6',
+      boxShadow: 'none',
+    },
+    '&:active': {
+      color: 'white',
+      boxShadow: 'none',
+      backgroundColor: '#7fb3aa',
+      borderColor: '#7fb3aa',
+    },
+    '&:focus': {
+      boxShadow: '0 0 0 0.2rem rgba(127, 179, 170, 0.5)',
+    },
+  };
+
+  const yellowButtonStyle = {
+    width: '100%',
+    boxShadow: 'none',
+    textTransform: 'none',
+    color: '#ebb542',
+    fontSize: 16,
+    padding: '6px 12px',
+    border: '1px solid',
+    borderColor: '#ebb542',
+    lineHeight: 1.5,
+
+    '&:hover': {
+      backgroundColor: '#faf1de',
+      boxShadow: 'none',
+    },
+    '&:active': {
+      boxShadow: 'none',
+      backgroundColor: '#f2e0b8',
+      borderColor: '#f2e0b8',
+    },
+    '&:focus': {
+      boxShadow: '0 0 0 0.2rem rgba(235, 181, 66, 0.5)',
+    },
+  };
+
   return (
-    <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
+    <ThemeContext.Provider
+      value={{
+        darkMode,
+        setDarkMode,
+        formGreenStyle,
+        buttonGreenStyle,
+        lightButtonNoBorder,
+        lightButtonStyle,
+        yellowButtonStyle,
+      }}
+    >
       {props.children}
     </ThemeContext.Provider>
   );

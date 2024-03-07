@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
+import { ThemeContext } from '../context/theme.context';
 import {
   Button,
   Dialog,
@@ -16,7 +17,6 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import CancelButton from '../components/CancelButton';
 import { addJob } from '../api/jobs.api';
 
@@ -36,58 +36,7 @@ function AddJobApplication({ open, onClose }) {
   const [list, setList] = useState('');
 
   const { user } = useContext(AuthContext);
-
-  const greenStyle = {
-    '.MuiFormLabel-root': {
-      color: theme => (theme.palette.mode === 'dark' ? 'white' : '#678B85'),
-    },
-    '.MuiInputLabel-root': {
-      color: theme => (theme.palette.mode === 'dark' ? 'white' : '#678B85'),
-    },
-    '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
-      color: '#30b39a',
-    },
-    '.MuiInput-underline:after': {
-      borderBottom: '2px solid #678B85',
-    },
-    '&:hover': {
-      '.MuiInput-underline:after': {
-        borderBottom: '2px solid #30b39a',
-      },
-    },
-    '.MuiInput-root': {
-      '&.Mui-focused': {
-        borderColor: '#30b39a',
-      },
-    },
-    marginBottom: '15px',
-  };
-
-  const AddButtonStyled = styled(Button)({
-    boxShadow: 'none',
-    textTransform: 'none',
-    color: 'white',
-    fontSize: 16,
-    padding: '6px 12px',
-    border: '1px solid',
-    lineHeight: 1.5,
-    backgroundColor: '#678B85',
-    borderColor: '#678B85',
-
-    '&:hover': {
-      backgroundColor: '#62a699',
-      borderColor: '#62a699',
-      boxShadow: 'none',
-    },
-    '&:active': {
-      boxShadow: 'none',
-      backgroundColor: '#30b39a',
-      borderColor: '#30b39a',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.2rem rgba(55, 89, 84, 0.5)',
-    },
-  });
+  const { formGreenStyle, buttonGreenStyle } = useContext(ThemeContext);
 
   const handleSave = () => {
     let formattedDomain = domain.trim().toLowerCase();
@@ -127,54 +76,54 @@ function AddJobApplication({ open, onClose }) {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Add Job Application</DialogTitle>
       <DialogContent>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }} required>
-          <InputLabel htmlFor='companyName'>Company Name</InputLabel>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
+          <InputLabel htmlFor="companyName">Company Name</InputLabel>
           <Input
-            id='companyName'
+            id="companyName"
             value={companyName}
             onChange={e => setCompanyName(e.target.value)}
             required
           />
         </FormControl>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
-          <InputLabel htmlFor='companyName'>Role</InputLabel>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="companyName">Role</InputLabel>
           <Input
-            id='role'
+            id="role"
             value={roleName}
             onChange={e => setRoleName(e.target.value)}
           />
         </FormControl>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
-          <InputLabel htmlFor='domain'>Domain</InputLabel>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="domain">Domain</InputLabel>
           <Input
-            id='domain'
+            id="domain"
             value={domain}
-            placeholder=''
+            placeholder=""
             onChange={e => setDomain(e.target.value)}
           />
         </FormControl>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
-          <InputLabel htmlFor='jobURL'>Job URL</InputLabel>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="jobURL">Job URL</InputLabel>
           <Input
-            id='jobURL'
+            id="jobURL"
             value={jobURL}
             onChange={e => setJobURL(e.target.value)}
           />
         </FormControl>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
-          <InputLabel htmlFor='jobDescription'>Job Description</InputLabel>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="jobDescription">Job Description</InputLabel>
           <Input
-            id='jobDescription'
+            id="jobDescription"
             value={jobDescription}
             onChange={e => setJobDescription(e.target.value)}
             multiline
             rows={2}
           />
         </FormControl>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
-          <InputLabel htmlFor='workModel'>Work Model</InputLabel>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="workModel">Work Model</InputLabel>
           <Select
-            id='workModel'
+            id="workModel"
             value={workModel}
             onChange={e => setWorkModel(e.target.value)}
           >
@@ -183,19 +132,19 @@ function AddJobApplication({ open, onClose }) {
             <MenuItem value={'Hybrid'}>Hybrid</MenuItem>
           </Select>
         </FormControl>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
-          <InputLabel htmlFor='workLocation'>Work Location</InputLabel>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="workLocation">Work Location</InputLabel>
           <Input
-            id='workLocation'
+            id="workLocation"
             value={workLocation}
             onChange={e => setWorkLocation(e.target.value)}
           />
         </FormControl>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <TextField
-            id='date'
-            label='Date'
-            type='date'
+            id="date"
+            label="Date"
+            type="date"
             value={date}
             onChange={e => setDate(e.target.value)}
             InputLabelProps={{
@@ -203,36 +152,36 @@ function AddJobApplication({ open, onClose }) {
             }}
           />
         </FormControl>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
-          <InputLabel htmlFor='notes'>Notes</InputLabel>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="notes">Notes</InputLabel>
           <Input
-            id='notes'
+            id="notes"
             value={notes}
             onChange={e => setNotes(e.target.value)}
             multiline
             rows={2}
           />
         </FormControl>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
-          <InputLabel htmlFor='customLabel'>Custom Label</InputLabel>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="customLabel">Custom Label</InputLabel>
           <Input
-            id='customLabel'
+            id="customLabel"
             value={customLabel}
             onChange={e => setCustomLabel(e.target.value)}
           />
         </FormControl>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
-          <InputLabel htmlFor='board'>Board</InputLabel>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="board">Board</InputLabel>
           <Input
-            id='board'
+            id="board"
             value={board}
             onChange={e => setBoard(e.target.value)}
           />
         </FormControl>
-        <FormControl fullWidth sx={{ ...greenStyle, my: 1 }}>
-          <InputLabel htmlFor='list'>List</InputLabel>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="list">List</InputLabel>
           <Select
-            id='list'
+            id="list"
             value={list}
             onChange={e => setList(e.target.value)}
           >
@@ -248,11 +197,11 @@ function AddJobApplication({ open, onClose }) {
             <Switch
               checked={starred}
               onChange={e => setStarred(e.target.checked)}
-              name='starred'
-              color='primary'
+              name="starred"
+              color="primary"
             />
           }
-          label='Starred'
+          label="Starred"
         />
       </DialogContent>
       <DialogActions>
@@ -272,7 +221,9 @@ function AddJobApplication({ open, onClose }) {
           setBoard={setBoard}
           setList={setList}
         />
-        <AddButtonStyled onClick={handleSave}>Save</AddButtonStyled>
+        <Button onClick={handleSave} sx={{ ...buttonGreenStyle }}>
+          Save
+        </Button>
       </DialogActions>
     </Dialog>
   );

@@ -1,7 +1,11 @@
+import { useContext } from 'react';
 import { FormControl, InputLabel, Input } from '@mui/material';
 import { addRole } from '../api/role.api';
+import { ThemeContext } from '../context/theme.context';
 
-function AddRole({ roleName, setRoleName, greenStyle }) {
+function AddRole({ roleName, setRoleName }) {
+  const { formGreenStyle } = useContext(ThemeContext);
+
   const handleSubmit = async e => {
     try {
       e.preventDefault();
@@ -17,11 +21,11 @@ function AddRole({ roleName, setRoleName, greenStyle }) {
       <FormControl
         onSubmit={handleSubmit}
         fullWidth
-        sx={{ ...greenStyle, my: 1 }}
+        sx={{ ...formGreenStyle, my: 1 }}
       >
-        <InputLabel htmlFor='roleName'>Role</InputLabel>
+        <InputLabel htmlFor="roleName">Role</InputLabel>
         <Input
-          id='roleName'
+          id="roleName"
           value={roleName}
           onChange={e => setRoleName(e.target.value)}
         />

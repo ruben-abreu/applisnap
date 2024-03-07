@@ -2,7 +2,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
 import { resetPassword } from '../api/auth.api';
 import { ThemeContext } from '../context/theme.context';
-import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import ChangeCircleRoundedIcon from '@mui/icons-material/ChangeCircleRounded';
 import FormControl from '@mui/material/FormControl';
@@ -21,7 +20,8 @@ function ResetPassword() {
   const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState('');
 
-  const { darkMode } = useContext(ThemeContext);
+  const { darkMode, yellowButtonStyle, formGreenStyle } =
+    useContext(ThemeContext);
 
   const navigate = useNavigate();
 
@@ -79,31 +79,6 @@ function ResetPassword() {
     }
   };
 
-  const ChangePasswordButtonStyled = styled(Button)({
-    width: '100%',
-    boxShadow: 'none',
-    textTransform: 'none',
-    color: '#ebb542',
-    fontSize: 16,
-    padding: '6px 12px',
-    border: '1px solid',
-    borderColor: '#ebb542',
-    lineHeight: 1.5,
-
-    '&:hover': {
-      backgroundColor: '#faf1de',
-      boxShadow: 'none',
-    },
-    '&:active': {
-      boxShadow: 'none',
-      backgroundColor: '#f2e0b8',
-      borderColor: '#f2e0b8',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.2rem rgba(235, 181, 66, 0.5)',
-    },
-  });
-
   return (
     <div className="h-full min-h-[60vh] flex justify-center items-center">
       <form className="max-w-[500px] mx-[2%]">
@@ -111,32 +86,7 @@ function ResetPassword() {
           variant="standard"
           required
           fullWidth
-          sx={{
-            '.MuiFormLabel-root': {
-              color: theme =>
-                theme.palette.mode === 'dark' ? 'white' : '#678B85',
-            },
-            '.MuiInputLabel-root': {
-              color: theme =>
-                theme.palette.mode === 'dark' ? 'white' : '#678B85',
-            },
-            '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
-              color: '#30b39a',
-            },
-            '.MuiInput-underline:after': {
-              borderBottom: '2px solid #678B85',
-            },
-            '&:hover': {
-              '.MuiInput-underline:after': {
-                borderBottom: '2px solid #30b39a',
-              },
-            },
-            '.MuiInput-root': {
-              '&.Mui-focused': {
-                borderColor: '#30b39a',
-              },
-            },
-          }}
+          sx={{ ...formGreenStyle }}
         >
           <InputLabel htmlFor="standard-adornment-password">
             Password
@@ -167,12 +117,13 @@ function ResetPassword() {
           />
         </FormControl>
         <div className="mt-[20px]">
-          <ChangePasswordButtonStyled
+          <Button
             onClick={handleChangePassword}
             startIcon={<ChangeCircleRoundedIcon />}
+            sx={{ ...yellowButtonStyle }}
           >
             Change Password
-          </ChangePasswordButtonStyled>
+          </Button>
         </div>
         <div className="mr-[6px]">
           {isLoading && (

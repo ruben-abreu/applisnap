@@ -26,7 +26,8 @@ function ChangePasswordButton() {
   const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState('');
 
-  const { darkMode } = useContext(ThemeContext);
+  const { darkMode, yellowButtonStyle, formGreenStyle } =
+    useContext(ThemeContext);
   const { user } = useContext(AuthContext);
 
   const handleClickOpen = () => {
@@ -94,43 +95,19 @@ function ChangePasswordButton() {
     }
   };
 
-  const ChangePasswordButtonStyled = styled(Button)({
-    width: '100%',
-    boxShadow: 'none',
-    textTransform: 'none',
-    color: '#ebb542',
-    fontSize: 16,
-    padding: '6px 12px',
-    border: '1px solid',
-    borderColor: '#ebb542',
-    lineHeight: 1.5,
-
-    '&:hover': {
-      backgroundColor: '#faf1de',
-      boxShadow: 'none',
-    },
-    '&:active': {
-      boxShadow: 'none',
-      backgroundColor: '#f2e0b8',
-      borderColor: '#f2e0b8',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.2rem rgba(235, 181, 66, 0.5)',
-    },
-  });
-
   const ChangePasswordDialogTitle = styled(DialogTitle)({
     color: darkMode ? 'white' : '#678B85',
   });
 
   return user ? (
     <React.Fragment>
-      <ChangePasswordButtonStyled
+      <Button
         onClick={handleClickOpen}
         startIcon={<ChangeCircleRoundedIcon />}
+        sx={{ ...yellowButtonStyle }}
       >
         Change Password
-      </ChangePasswordButtonStyled>
+      </Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -144,32 +121,7 @@ function ChangePasswordButton() {
             variant="standard"
             required
             fullWidth
-            sx={{
-              '.MuiFormLabel-root': {
-                color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
-              },
-              '.MuiInputLabel-root': {
-                color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
-              },
-              '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
-                color: '#30b39a',
-              },
-              '.MuiInput-underline:after': {
-                borderBottom: '2px solid #678B85',
-              },
-              '&:hover': {
-                '.MuiInput-underline:after': {
-                  borderBottom: '2px solid #30b39a',
-                },
-              },
-              '.MuiInput-root': {
-                '&.Mui-focused': {
-                  borderColor: '#30b39a',
-                },
-              },
-            }}
+            sx={{ ...formGreenStyle }}
           >
             <InputLabel htmlFor="standard-adornment-password">
               Password
@@ -210,12 +162,13 @@ function ChangePasswordButton() {
           </div>
           <CancelButton setOpen={setOpen} setPassword={setPassword} />
           <div className="mr-[16px]">
-            <ChangePasswordButtonStyled
+            <Button
               onClick={handleChangePassword}
               startIcon={<ChangeCircleRoundedIcon />}
+              sx={{ ...yellowButtonStyle }}
             >
               Change Password
-            </ChangePasswordButtonStyled>
+            </Button>
           </div>
         </DialogActions>
       </Dialog>

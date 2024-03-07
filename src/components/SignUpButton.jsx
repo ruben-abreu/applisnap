@@ -30,7 +30,8 @@ function SignUpButton() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { darkMode } = useContext(ThemeContext);
+  const { darkMode, buttonGreenStyle, formGreenStyle } =
+    useContext(ThemeContext);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -183,39 +184,15 @@ function SignUpButton() {
     }
   };
 
-  const SignUpButtonStyled = styled(Button)({
-    boxShadow: 'none',
-    textTransform: 'none',
-    color: 'white',
-    fontSize: 16,
-    padding: '6px 12px',
-    border: '1px solid',
-    lineHeight: 1.5,
-    backgroundColor: '#678B85',
-    borderColor: '#678B85',
-
-    '&:hover': {
-      backgroundColor: '#62a699',
-      borderColor: '#62a699',
-      boxShadow: 'none',
-    },
-    '&:active': {
-      boxShadow: 'none',
-      backgroundColor: '#30b39a',
-      borderColor: '#30b39a',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.2rem rgba(55, 89, 84, 0.5)',
-    },
-  });
-
   const SignUpDialogTitle = styled(DialogTitle)({
     color: darkMode ? 'white' : '#678B85',
   });
 
   return (
     <React.Fragment>
-      <SignUpButtonStyled onClick={handleClickOpen}>Sign Up</SignUpButtonStyled>
+      <Button onClick={handleClickOpen} sx={{ ...buttonGreenStyle }}>
+        Sign Up
+      </Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -229,33 +206,7 @@ function SignUpButton() {
             variant="standard"
             required
             fullWidth
-            sx={{
-              '.MuiFormLabel-root': {
-                color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
-              },
-              '.MuiInputLabel-root': {
-                color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
-              },
-              '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
-                color: '#30b39a',
-              },
-              '.MuiInput-underline:after': {
-                borderBottom: '2px solid #678B85',
-              },
-              '&:hover': {
-                '.MuiInput-underline:after': {
-                  borderBottom: '2px solid #30b39a',
-                },
-              },
-              '.MuiInput-root': {
-                '&.Mui-focused': {
-                  borderColor: '#30b39a',
-                },
-              },
-              marginBottom: '15px',
-            }}
+            sx={{ ...formGreenStyle }}
           >
             <InputLabel htmlFor="standard-adornment-email">
               First name
@@ -273,33 +224,7 @@ function SignUpButton() {
             variant="standard"
             required
             fullWidth
-            sx={{
-              '.MuiFormLabel-root': {
-                color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
-              },
-              '.MuiInputLabel-root': {
-                color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
-              },
-              '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
-                color: '#30b39a',
-              },
-              '.MuiInput-underline:after': {
-                borderBottom: '2px solid #678B85',
-              },
-              '&:hover': {
-                '.MuiInput-underline:after': {
-                  borderBottom: '2px solid #30b39a',
-                },
-              },
-              '.MuiInput-root': {
-                '&.Mui-focused': {
-                  borderColor: '#30b39a',
-                },
-              },
-              marginBottom: '15px',
-            }}
+            sx={{ ...formGreenStyle }}
           >
             <InputLabel htmlFor="standard-adornment-email">
               Last name
@@ -317,33 +242,7 @@ function SignUpButton() {
             variant="standard"
             required
             fullWidth
-            sx={{
-              '.MuiFormLabel-root': {
-                color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
-              },
-              '.MuiInputLabel-root': {
-                color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
-              },
-              '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
-                color: '#30b39a',
-              },
-              '.MuiInput-underline:after': {
-                borderBottom: '2px solid #678B85',
-              },
-              '&:hover': {
-                '.MuiInput-underline:after': {
-                  borderBottom: '2px solid #30b39a',
-                },
-              },
-              '.MuiInput-root': {
-                '&.Mui-focused': {
-                  borderColor: '#30b39a',
-                },
-              },
-              marginBottom: '15px',
-            }}
+            sx={{ ...formGreenStyle }}
           >
             <InputLabel htmlFor="standard-adornment-email">
               Email Address
@@ -363,32 +262,7 @@ function SignUpButton() {
             variant="standard"
             required
             fullWidth
-            sx={{
-              '.MuiFormLabel-root': {
-                color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
-              },
-              '.MuiInputLabel-root': {
-                color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
-              },
-              '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
-                color: '#30b39a',
-              },
-              '.MuiInput-underline:after': {
-                borderBottom: '2px solid #678B85',
-              },
-              '&:hover': {
-                '.MuiInput-underline:after': {
-                  borderBottom: '2px solid #30b39a',
-                },
-              },
-              '.MuiInput-root': {
-                '&.Mui-focused': {
-                  borderColor: '#30b39a',
-                },
-              },
-            }}
+            sx={{ ...formGreenStyle }}
           >
             <InputLabel htmlFor="standard-adornment-password">
               Password
@@ -435,9 +309,9 @@ function SignUpButton() {
             setPassword={setPassword}
           />
           <div className="mr-[16px]">
-            <SignUpButtonStyled onClick={handleSignUp}>
+            <Button onClick={handleSignUp} sx={{ ...buttonGreenStyle }}>
               Sign Up
-            </SignUpButtonStyled>
+            </Button>
           </div>
         </DialogActions>
       </Dialog>
