@@ -21,7 +21,8 @@ function AddBoardButton() {
   const [isLoading, setIsLoading] = useState(false);
   const [boardName, setBoardName] = useState('');
 
-  const { darkMode } = useContext(ThemeContext);
+  const { darkMode, formGreenStyle, buttonGreenStyle } =
+    useContext(ThemeContext);
   const { user, authenticateUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -58,67 +59,15 @@ function AddBoardButton() {
     }
   };
 
-  const AddBoardButtonStyled = styled(Button)({
-    boxShadow: 'none',
-    textTransform: 'none',
-    color: 'white',
-    fontSize: 16,
-    padding: '6px 12px',
-    border: '1px solid',
-    lineHeight: 1.5,
-    backgroundColor: '#678B85',
-    borderColor: '#678B85',
-
-    '&:hover': {
-      backgroundColor: '#62a699',
-      borderColor: '#62a699',
-      boxShadow: 'none',
-    },
-    '&:active': {
-      boxShadow: 'none',
-      backgroundColor: '#30b39a',
-      borderColor: '#30b39a',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.2rem rgba(55, 89, 84, 0.5)',
-    },
-  });
-
-  const LogInButtonFormStyled = styled(Button)({
-    boxShadow: 'none',
-    textTransform: 'none',
-    color: 'white',
-    fontSize: 16,
-    padding: '6px 12px',
-    border: '1px solid',
-    lineHeight: 1.5,
-    backgroundColor: '#678B85',
-    borderColor: '#678B85',
-
-    '&:hover': {
-      backgroundColor: '#62a699',
-      borderColor: '#62a699',
-      boxShadow: 'none',
-    },
-    '&:active': {
-      boxShadow: 'none',
-      backgroundColor: '#30b39a',
-      borderColor: '#30b39a',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.2rem rgba(55, 89, 84, 0.5)',
-    },
-  });
-
   const LogInDialogTitle = styled(DialogTitle)({
     color: darkMode ? 'white' : '#678B85',
   });
 
   return (
     <React.Fragment>
-      <AddBoardButtonStyled onClick={handleClickOpen}>
+      <Button onClick={handleClickOpen} sx={{ ...buttonGreenStyle }}>
         Create New Board
-      </AddBoardButtonStyled>
+      </Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -134,33 +83,7 @@ function AddBoardButton() {
             variant="standard"
             required
             fullWidth
-            sx={{
-              '.MuiFormLabel-root': {
-                color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
-              },
-              '.MuiInputLabel-root': {
-                color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
-              },
-              '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
-                color: '#30b39a',
-              },
-              '.MuiInput-underline:after': {
-                borderBottom: '2px solid #678B85',
-              },
-              '&:hover': {
-                '.MuiInput-underline:after': {
-                  borderBottom: '2px solid #30b39a',
-                },
-              },
-              '.MuiInput-root': {
-                '&.Mui-focused': {
-                  borderColor: '#30b39a',
-                },
-              },
-              marginBottom: '15px',
-            }}
+            sx={{ ...formGreenStyle }}
           >
             <InputLabel htmlFor="boardName">Board Name</InputLabel>
             <Input
@@ -186,9 +109,9 @@ function AddBoardButton() {
                 <CancelButton setOpen={setOpen} setBoardName={setBoardName} />
               </div>
               <div className="mr-[16px]">
-                <LogInButtonFormStyled onClick={handleAddBoard}>
+                <Button onClick={handleAddBoard} sx={{ ...buttonGreenStyle }}>
                   Create Board
-                </LogInButtonFormStyled>
+                </Button>
               </div>
             </div>
             <div
