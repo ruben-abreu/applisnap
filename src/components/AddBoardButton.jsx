@@ -3,6 +3,7 @@ import { ThemeContext } from '../context/theme.context';
 import { AuthContext } from '../context/auth.context';
 import { useNavigate } from 'react-router-dom';
 import { addBoard } from '../api/boards.api';
+import { addList } from '../api/lists.api';
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -47,11 +48,48 @@ function AddBoardButton() {
     try {
       const boardResponse = await addBoard(newBoard);
 
+      const firstWishlist = {
+        listName: 'Wishlist',
+        userId: user._id,
+        boardId: boardResponse.data._id,
+      };
+
+      const firstAppliedList = {
+        listName: 'Applied',
+        userId: user._id,
+        boardId: boardResponse.data._id,
+      };
+
+      const firstInterviewsList = {
+        listName: 'Interviews',
+        userId: user._id,
+        boardId: boardResponse.data._id,
+      };
+
+      const firstOffersList = {
+        listName: 'Offers',
+        userId: user._id,
+        boardId: boardResponse.data._id,
+      };
+
+      const firstRejectedList = {
+        listName: 'Rejected',
+        userId: user._id,
+        boardId: boardResponse.data._id,
+      };
+
+      await addList(firstWishlist);
+      await addList(firstAppliedList);
+      await addList(firstInterviewsList);
+      await addList(firstOffersList);
+      await addList(firstRejectedList);
+
       setIsLoading(false);
       authenticateUser();
       setBoardName('');
+      alert('Your new board was successfully created.');
       handleClose();
-      navigate(`/boards/${boardResponse._id}`);
+      navigate(`/boards/${boardResponse.data._id}`);
     } catch (error) {
       setIsLoading(false);
       console.log('Error creating a new board', error);
