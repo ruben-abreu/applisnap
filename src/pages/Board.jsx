@@ -1,15 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { getAllJobs } from '../api/jobs.api';
+import { getBoard } from '../api/boards.api';
+import { ThemeContext } from '../context/theme.context';
 import { Grid, Paper, Typography } from '@mui/material';
 import EditApplication from '../components/EditApplication';
 import AddJobButton from '../components/AddJobButton';
-import { getAllJobs } from '../api/jobs.api';
 import AddBoardButton from '../components/AddBoardButton';
 
 const ApplicationList = ({ applications }) => {
   const [applicationList, setApplicationList] = useState(applications);
   const [selectedApplication, setSelectedApplication] = useState(null);
+  const [boardName, setBoardName] = useState('');
+
+  const { boardId } = useParams();
+
+  const { darkMode } = useContext(ThemeContext);
 
   useEffect(() => {
+    fetchBoard();
     fetchAllJobs();
   }, []);
 
@@ -19,6 +28,16 @@ const ApplicationList = ({ applications }) => {
       setApplicationList(response.data);
     } catch (error) {
       console.error('Error fetching jobs:', error);
+    }
+  };
+
+  const fetchBoard = async () => {
+    try {
+      const currentBoard = await getBoard(boardId);
+
+      setBoardName(currentBoard.boardName);
+    } catch (error) {
+      alert(error.response.data.message);
     }
   };
 
@@ -85,71 +104,75 @@ const ApplicationList = ({ applications }) => {
         onDragOver={onDragOver}
         sx={{ flexWrap: 'wrap' }}
       >
-        {applicationList
-          .filter(application => {
-            if (status !== undefined) {
-              return application.role === role && application.status === status;
-            } else {
-              return application.role === role;
-            }
-          })
-          .map((application, index) => (
-            <Grid item key={application.id + '-' + index}>
-              <Paper
-                elevation={3}
-                draggable
-                onDragStart={e => onDragStart(e, application.id)}
-                onDragEnd={onDragEnd}
-                onDragEnter={onDragEnter}
-                onDragLeave={onDragLeave}
-                onDrop={e => onDrop(e, role, status, index)}
-                onClick={() => handleEdit(application)}
-                sx={{
-                  p: 1,
-                  mb: 1,
-                  cursor: 'pointer',
-                  minWidth: 100,
-                  maxWidth: 300,
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                <Grid
-                  container
-                  alignItems="center"
-                  spacing={1}
-                  style={{ flex: '1' }}
+        {applicationList &&
+          applicationList
+            .filter(application => {
+              if (status !== undefined) {
+                return (
+                  application.role === role && application.status === status
+                );
+              } else {
+                return application.role === role;
+              }
+            })
+            .map((application, index) => (
+              <Grid item key={application.id + '-' + index}>
+                <Paper
+                  elevation={3}
+                  draggable
+                  onDragStart={e => onDragStart(e, application.id)}
+                  onDragEnd={onDragEnd}
+                  onDragEnter={onDragEnter}
+                  onDragLeave={onDragLeave}
+                  onDrop={e => onDrop(e, role, status, index)}
+                  onClick={() => handleEdit(application)}
+                  sx={{
+                    p: 1,
+                    mb: 1,
+                    cursor: 'pointer',
+                    minWidth: 100,
+                    maxWidth: 300,
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
                 >
-                  <Grid item>
-                    <img
-                      src={
-                        `https://logo.clearbit.com/${application.domain}` || ''
-                      }
-                      alt="box"
-                      style={{ maxWidth: 25 }}
-                    />
+                  <Grid
+                    container
+                    alignItems="center"
+                    spacing={1}
+                    style={{ flex: '1' }}
+                  >
+                    <Grid item>
+                      <img
+                        src={
+                          `https://logo.clearbit.com/${application.domain}` ||
+                          ''
+                        }
+                        alt="box"
+                        style={{ maxWidth: 25 }}
+                      />
+                    </Grid>
+                    <Grid item xs style={{ flex: '1', textAlign: 'center' }}>
+                      <Typography
+                        variant="body2"
+                        style={{
+                          fontSize: `${Math.max(
+                            12,
+                            20 -
+                              (application.companyName
+                                ? application.companyName.length / 2
+                                : 0)
+                          )}px`,
+                        }}
+                      >
+                        {application.companyName || ''}
+                      </Typography>
+                    </Grid>
                   </Grid>
-                  <Grid item xs style={{ flex: '1', textAlign: 'center' }}>
-                    <Typography
-                      variant="body2"
-                      style={{
-                        fontSize: `${Math.max(
-                          12,
-                          20 -
-                            (application.companyName
-                              ? application.companyName.length / 2
-                              : 0)
-                        )}px`,
-                      }}
-                    >
-                      {application.companyName || ''}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Paper>
-            </Grid>
-          ))}
+                </Paper>
+              </Grid>
+            ))}
       </Grid>
     );
   };
@@ -175,6 +198,7 @@ const ApplicationList = ({ applications }) => {
   };
 
   const renderStatusesWithAddButton = role =>
+    statuses &&
     statuses.map(status => (
       <div key={`${role}-${status}`}>
         <Typography
@@ -198,40 +222,50 @@ const ApplicationList = ({ applications }) => {
     ));
 
   return (
-    <div className="m-[2%]" style={{ overflowX: 'auto', marginTop: '60px' }}>
-      <div>
+    <div className="m-[2%] mt-[30px]">
+      <div className="flex justify-between items-center">
+        <h2
+          className={`text-[1.4em] ${
+            darkMode ? 'text-white' : 'text-[#678B85]'
+          }`}
+        >
+          {boardName && boardName}
+        </h2>
         <AddBoardButton />
       </div>
-      <div style={{ display: 'flex' }}>
-        {uniqueRoles.map((role, index) => (
-          <div
-            key={index}
-            style={{ minWidth: 300, maxWidth: 500, marginRight: 150 }}
-          >
-            <Typography
-              variant="h5"
-              style={{
-                fontWeight: 'bold',
-                marginBottom: '8px',
-              }}
-            >
-              {role}
-            </Typography>
-            <Grid container direction="column">
-              {renderStatusesWithAddButton(role)}
-            </Grid>
-          </div>
-        ))}
+      <div style={{ overflowX: 'auto', marginTop: '60px' }}>
+        <div style={{ display: 'flex' }}>
+          {uniqueRoles &&
+            uniqueRoles.map((role, index) => (
+              <div
+                key={index}
+                style={{ minWidth: 300, maxWidth: 500, marginRight: 150 }}
+              >
+                <Typography
+                  variant="h5"
+                  style={{
+                    fontWeight: 'bold',
+                    marginBottom: '8px',
+                  }}
+                >
+                  {role}
+                </Typography>
+                <Grid container direction="column">
+                  {renderStatusesWithAddButton(role)}
+                </Grid>
+              </div>
+            ))}
+        </div>
+        {selectedApplication && (
+          <EditApplication
+            open={Boolean(selectedApplication)}
+            onClose={handleEditClose}
+            application={selectedApplication}
+          />
+        )}
+        {/* temporary to see apps  */}
+        {renderApplications(undefined, undefined)}
       </div>
-      {selectedApplication && (
-        <EditApplication
-          open={Boolean(selectedApplication)}
-          onClose={handleEditClose}
-          application={selectedApplication}
-        />
-      )}
-      {/* temporary to see apps  */}
-      {renderApplications(undefined, undefined)}
     </div>
   );
 };
