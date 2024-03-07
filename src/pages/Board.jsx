@@ -226,7 +226,7 @@ const ApplicationList = ({ applications }) => {
       <div className="flex justify-between items-center">
         <h2
           className={`text-[1.4em] ${
-            darkMode ? 'text-white' : 'text-[#678B85]'
+            darkMode ? 'text-white' : 'text-[#677f8b]'
           }`}
         >
           {boardName && boardName}

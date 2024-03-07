@@ -96,7 +96,7 @@ function ChangePasswordButton() {
   };
 
   const ChangePasswordDialogTitle = styled(DialogTitle)({
-    color: darkMode ? 'white' : '#678B85',
+    color: darkMode ? 'white' : '#677f8b',
   });
 
   return user ? (
@@ -156,7 +156,7 @@ function ChangePasswordButton() {
           <div className="mr-[6px]">
             {isLoading && (
               <CircularProgress
-                sx={{ color: darkMode ? 'white' : '#678B85' }}
+                sx={{ color: darkMode ? 'white' : '#677f8b' }}
               />
             )}
           </div>

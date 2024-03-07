@@ -24,16 +24,16 @@ const ThemeProviderWrapper = props => {
 
   const formGreenStyle = {
     '.MuiFormLabel-root': {
-      color: theme => (theme.palette.mode === 'dark' ? 'white' : '#678B85'),
+      color: theme => (theme.palette.mode === 'dark' ? 'white' : '#677f8b'),
     },
     '.MuiInputLabel-root': {
-      color: theme => (theme.palette.mode === 'dark' ? 'white' : '#678B85'),
+      color: theme => (theme.palette.mode === 'dark' ? 'white' : '#677f8b'),
     },
     '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
       color: '#30b39a',
     },
     '.MuiInput-underline:after': {
-      borderBottom: '2px solid #678B85',
+      borderBottom: '2px solid #677f8b',
     },
     '&:hover': {
       '.MuiInput-underline:after': {
@@ -56,8 +56,8 @@ const ThemeProviderWrapper = props => {
     padding: '6px 12px',
     border: '1px solid',
     lineHeight: 1.5,
-    backgroundColor: '#678B85',
-    borderColor: '#678B85',
+    backgroundColor: '#677f8b',
+    borderColor: '#677f8b',
 
     '&:hover': {
       backgroundColor: '#62a699',

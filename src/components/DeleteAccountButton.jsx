@@ -20,7 +20,7 @@ function DeleteAccountButton() {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { darkMode, redButton } = useContext(ThemeContext);
+  const { darkMode } = useContext(ThemeContext);
   const { user, removeToken, authenticateUser } = useContext(AuthContext);
 
   const handleClickOpen = () => {
@@ -94,7 +94,7 @@ function DeleteAccountButton() {
           <div className="mr-[6px]">
             {isLoading && (
               <CircularProgress
-                sx={{ color: darkMode ? 'white' : '#678B85' }}
+                sx={{ color: darkMode ? 'white' : '#677f8b' }}
               />
             )}
           </div>
