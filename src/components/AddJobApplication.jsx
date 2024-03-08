@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
 import { ThemeContext } from '../context/theme.context';
-import { useParams } from 'react-router-dom';
 import {
   Button,
   Dialog,
@@ -20,11 +19,10 @@ import {
 import CancelButton from '../components/CancelButton';
 import { addJob } from '../api/jobs.api';
 import { addRole } from '../api/role.api';
-import { getAllLists } from '../api/lists.api';
 
-function AddJobApplication({ open, onClose }) {
+function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
   const [companyName, setCompanyName] = useState('');
-  const [roleName, setRoleName] = useState('');
+  const [roleName, setRoleName] = useState(role);
   const [domain, setDomain] = useState('');
   const [jobURL, setJobURL] = useState('');
   const [jobDescription, setJobDescription] = useState('');
@@ -34,30 +32,18 @@ function AddJobApplication({ open, onClose }) {
   const [customLabel, setCustomLabel] = useState('');
   const [date, setDate] = useState('');
   const [starred, setStarred] = useState(false);
-  const [board, setBoard] = useState('');
-  const [list, setList] = useState('');
-  const [lists, setLists] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [boardName, setBoardName] = useState(board.boardName);
+  const [listName, setListName] = useState(list.listName);
+  const [lists, setLists] = useState(board.lists);
 
   const { user } = useContext(AuthContext);
   const { formGreenStyle, buttonGreenStyle } = useContext(ThemeContext);
 
   useEffect(() => {
-    const fetchLists = async () => {
-      try {
-        if (user && user._id) {
-          const response = await getAllLists(user._id);
-          setLists(response.data);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error('Error fetching lists:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchLists();
-  }, [user]);
+    setBoardName(board.boardName);
+    setListName(list.listName);
+    setLists(board.lists);
+  }, [board, list]);
 
   const handleSave = async () => {
     try {
@@ -85,12 +71,12 @@ function AddJobApplication({ open, onClose }) {
         date,
         starred,
         boardId: boardId,
-        listId: list,
+        listId: list._id,
         userId: user._id,
       };
 
       console.log('Data to be saved:', jobData);
-      onClose();
+      handleClose();
       const addedJob = await addJob(jobData);
 
       const { roleName, userId, boardId } = jobData;
@@ -109,7 +95,7 @@ function AddJobApplication({ open, onClose }) {
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} handleClose={handleClose}>
       <DialogTitle>Add Job Application</DialogTitle>
       <DialogContent>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
@@ -210,24 +196,23 @@ function AddJobApplication({ open, onClose }) {
           <InputLabel htmlFor="board">Board</InputLabel>
           <Input
             id="board"
-            value={board}
-            onChange={e => setBoard(e.target.value)}
+            value={boardName}
+            onChange={e => setBoardName(e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <InputLabel htmlFor="list">List</InputLabel>
           <Select
             id="list"
-            value={list}
-            onChange={e => setList(e.target.value)}
+            value={listName}
+            onChange={e => setListName(e.target.value)}
+            defaultValue={listName}
           >
-            {lists
-              .filter(listItem => listItem.userId === user._id)
-              .map(filteredItem => (
-                <MenuItem key={filteredItem._id} value={filteredItem._id}>
-                  {filteredItem.listName}
-                </MenuItem>
-              ))}
+            {lists.map(list => (
+              <option key={list._id} value={list.listName}>
+                {list.listName}
+              </option>
+            ))}
           </Select>
         </FormControl>
         <FormControlLabel
@@ -244,7 +229,7 @@ function AddJobApplication({ open, onClose }) {
       </DialogContent>
       <DialogActions>
         <CancelButton
-          setOpen={onClose}
+          setOpen={setOpen}
           setCompanyName={setCompanyName}
           setRoleName={setRoleName}
           setDomain={setDomain}
@@ -256,8 +241,8 @@ function AddJobApplication({ open, onClose }) {
           setCustomLabel={setCustomLabel}
           setDate={setDate}
           setStarred={setStarred}
-          setBoard={setBoard}
-          setList={setList}
+          setBoardName={setBoardName}
+          setListName={setListName}
         />
         <Button onClick={handleSave} sx={{ ...buttonGreenStyle }}>
           Save

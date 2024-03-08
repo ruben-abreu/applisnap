@@ -10,6 +10,18 @@ function CancelButton({
   setPassword,
   setForgotPasswordClicked,
   setBoardName,
+  setCompanyName,
+  setRoleName,
+  setDomain,
+  setJobURL,
+  setJobDescription,
+  setWorkModel,
+  setWorkLocation,
+  setNotes,
+  setCustomLabel,
+  setDate,
+  setStarred,
+  setListName,
 }) {
   const { lightButtonStyle } = useContext(ThemeContext);
 
@@ -21,6 +33,18 @@ function CancelButton({
     setLastName ? setLastName('') : '';
     setForgotPasswordClicked ? setForgotPasswordClicked(false) : '';
     setBoardName ? setBoardName('') : '';
+    setCompanyName ? setCompanyName() : '';
+    setRoleName ? setRoleName() : '';
+    setDomain ? setDomain() : '';
+    setJobURL ? setJobURL() : '';
+    setJobDescription ? setJobDescription() : '';
+    setWorkModel ? setWorkModel() : '';
+    setWorkLocation ? setWorkLocation() : '';
+    setNotes ? setNotes() : '';
+    setCustomLabel ? setCustomLabel() : '';
+    setDate ? setDate() : '';
+    setStarred ? setStarred(false) : '';
+    setListName ? setListName() : '';
   };
 
   return (

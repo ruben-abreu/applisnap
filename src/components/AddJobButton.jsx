@@ -4,17 +4,17 @@ import AddJobApplication from './AddJobApplication';
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-function AddJobButton() {
-  const [openDialog, setOpenDialog] = useState(false);
+function AddJobButton({ board, list, role }) {
+  const [open, setOpen] = useState(false);
 
   const { greenIconButtonStyle } = useContext(ThemeContext);
 
   const handleOpenDialog = () => {
-    setOpenDialog(true);
+    setOpen(true);
   };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -25,9 +25,13 @@ function AddJobButton() {
         sx={{ ...greenIconButtonStyle }}
       ></Button>
       <AddJobApplication
-        open={openDialog}
-        onClose={handleCloseDialog}
+        open={open}
+        setOpen={setOpen}
+        handleClose={handleClose}
         application={{}}
+        list={list}
+        role={role}
+        board={board}
       />
     </div>
   );

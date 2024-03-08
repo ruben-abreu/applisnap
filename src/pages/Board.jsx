@@ -13,6 +13,7 @@ import { AuthContext } from '../context/auth.context';
 function Board() {
   const [applicationList, setApplicationList] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
+  const [board, setBoard] = useState('');
   const [boardName, setBoardName] = useState('');
   const [lists, setLists] = useState([]);
   const { boardId } = useParams();
@@ -36,6 +37,7 @@ function Board() {
   const fetchBoard = async () => {
     try {
       const currentBoard = await getBoard(boardId);
+      setBoard(currentBoard);
       console.log('currentBoard', currentBoard);
       setBoardName(currentBoard.boardName);
       console.log('boardName:', currentBoard.boardName);
@@ -221,7 +223,7 @@ function Board() {
         >
           {list.listName}
 
-          <AddJobButton />
+          <AddJobButton board={board} list={list} role={role} />
         </Typography>
         {renderApplications(role, list)}
         {applicationList &&
