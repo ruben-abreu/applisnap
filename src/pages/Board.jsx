@@ -86,17 +86,18 @@ function Board() {
       app => app._id.toString() === applicationId.toString()
     );
 
+    console.log('draggedApplication:', draggedApplication);
     console.log('Target List:', targetList);
     console.log('Target List ID:', targetList._id);
 
     if (
-      draggedApplication.role === targetRole &&
-      draggedApplication.list !== targetList.listName
+      draggedApplication.roleName === targetRole &&
+      draggedApplication.listId !== targetList._id
     ) {
       const updatedApplications = applicationList.filter(
         app => app._id.toString() !== applicationId.toString()
       );
-      draggedApplication.list = targetList.listName;
+      draggedApplication.listId = targetList._id;
       updatedApplications.splice(dropIndex, 0, draggedApplication);
 
       setApplicationList(updatedApplications);
