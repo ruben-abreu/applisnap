@@ -17,8 +17,12 @@ const setAuthorizationHeaders = () => {
 
 setAuthorizationHeaders();
 
-export const getAllLists = () => {
-  return axios.get(`${baseURL}/lists`);
+export const getAllLists = userId => {
+  return axios.get(`${baseURL}/lists`, {
+    headers: {
+      userId: userId,
+    },
+  });
 };
 
 export const getList = async listId => {
@@ -31,6 +35,20 @@ export const getList = async listId => {
   }
 };
 
+export const updateApplicationListInBackend = async (
+  applicationId,
+  newListId
+) => {
+  try {
+    const response = await axios.put(`${baseURL}/jobs/${applicationId}`, {
+      listId: newListId,
+    });
+    console.log('Application list updated in backend:', response.data);
+  } catch (error) {
+    console.error('Error updating application list:', error);
+    throw error;
+  }
+};
 export const addList = list => {
   return axios.post(`${baseURL}/lists`, list);
 };

@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
 import { ThemeContext } from '../context/theme.context';
 import {
@@ -19,6 +18,7 @@ import {
 } from '@mui/material';
 import CancelButton from '../components/CancelButton';
 import { addJob } from '../api/jobs.api';
+import { getAllLists } from '../api/lists.api';
 
 function AddJobApplication({ open, onClose }) {
   const [companyName, setCompanyName] = useState('');
@@ -34,42 +34,74 @@ function AddJobApplication({ open, onClose }) {
   const [starred, setStarred] = useState(false);
   const [board, setBoard] = useState('');
   const [list, setList] = useState('');
+  const [lists, setLists] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const { user } = useContext(AuthContext);
   const { formGreenStyle, buttonGreenStyle } = useContext(ThemeContext);
 
-  const handleSave = () => {
-    let formattedDomain = domain.trim().toLowerCase();
-    if (formattedDomain.startsWith('http://')) {
-      formattedDomain = formattedDomain.slice(7);
-    } else if (formattedDomain.startsWith('https://')) {
-      formattedDomain = formattedDomain.slice(8);
-    }
-    if (formattedDomain.startsWith('www.')) {
-      formattedDomain = formattedDomain.slice(4);
-    }
-    formattedDomain = formattedDomain.split('/')[0];
-
-    const jobData = {
-      companyName,
-      roleName,
-      domain: formattedDomain,
-      jobURL,
-      jobDescription,
-      workModel,
-      workLocation,
-      notes,
-      customLabel,
-      date,
-      starred,
-      board,
-      list,
-      userId: user._id,
+  useEffect(() => {
+    const fetchLists = async () => {
+      try {
+        if (user && user._id) {
+          const response = await getAllLists(user._id);
+          setLists(response.data);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error fetching lists:', error);
+        setLoading(false);
+      }
     };
 
-    console.log('Data to be saved:', jobData);
-    onClose();
-    addJob(jobData);
+    fetchLists();
+  }, [user]);
+
+  if (!user || !user._id) {
+    return <p>Loading user...</p>;
+  }
+
+  if (loading) {
+    return <p>Loading lists...</p>;
+  }
+
+  const handleSave = async () => {
+    try {
+      let formattedDomain = domain.trim().toLowerCase();
+      if (formattedDomain.startsWith('http://')) {
+        formattedDomain = formattedDomain.slice(7);
+      } else if (formattedDomain.startsWith('https://')) {
+        formattedDomain = formattedDomain.slice(8);
+      }
+      if (formattedDomain.startsWith('www.')) {
+        formattedDomain = formattedDomain.slice(4);
+      }
+      formattedDomain = formattedDomain.split('/')[0];
+
+      const jobData = {
+        companyName,
+        roleName,
+        domain: formattedDomain,
+        jobURL,
+        jobDescription,
+        workModel,
+        workLocation,
+        notes,
+        customLabel,
+        date,
+        starred,
+        board,
+        listId: list,
+        userId: user._id,
+      };
+
+      console.log('Data to be saved:', jobData);
+      onClose();
+      const addedJob = await addJob(jobData);
+      console.log('Added Job:', addedJob);
+    } catch (error) {
+      console.error('Error adding job:', error);
+    }
   };
 
   return (
@@ -77,43 +109,43 @@ function AddJobApplication({ open, onClose }) {
       <DialogTitle>Add Job Application</DialogTitle>
       <DialogContent>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
-          <InputLabel htmlFor="companyName">Company Name</InputLabel>
+          <InputLabel htmlFor='companyName'>Company Name</InputLabel>
           <Input
-            id="companyName"
+            id='companyName'
             value={companyName}
             onChange={e => setCompanyName(e.target.value)}
             required
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="companyName">Role</InputLabel>
+          <InputLabel htmlFor='companyName'>Role</InputLabel>
           <Input
-            id="role"
+            id='role'
             value={roleName}
             onChange={e => setRoleName(e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="domain">Domain</InputLabel>
+          <InputLabel htmlFor='domain'>Domain</InputLabel>
           <Input
-            id="domain"
+            id='domain'
             value={domain}
-            placeholder=""
+            placeholder=''
             onChange={e => setDomain(e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="jobURL">Job URL</InputLabel>
+          <InputLabel htmlFor='jobURL'>Job URL</InputLabel>
           <Input
-            id="jobURL"
+            id='jobURL'
             value={jobURL}
             onChange={e => setJobURL(e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="jobDescription">Job Description</InputLabel>
+          <InputLabel htmlFor='jobDescription'>Job Description</InputLabel>
           <Input
-            id="jobDescription"
+            id='jobDescription'
             value={jobDescription}
             onChange={e => setJobDescription(e.target.value)}
             multiline
@@ -121,9 +153,9 @@ function AddJobApplication({ open, onClose }) {
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="workModel">Work Model</InputLabel>
+          <InputLabel htmlFor='workModel'>Work Model</InputLabel>
           <Select
-            id="workModel"
+            id='workModel'
             value={workModel}
             onChange={e => setWorkModel(e.target.value)}
           >
@@ -133,18 +165,18 @@ function AddJobApplication({ open, onClose }) {
           </Select>
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="workLocation">Work Location</InputLabel>
+          <InputLabel htmlFor='workLocation'>Work Location</InputLabel>
           <Input
-            id="workLocation"
+            id='workLocation'
             value={workLocation}
             onChange={e => setWorkLocation(e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <TextField
-            id="date"
-            label="Date"
-            type="date"
+            id='date'
+            label='Date'
+            type='date'
             value={date}
             onChange={e => setDate(e.target.value)}
             InputLabelProps={{
@@ -153,9 +185,9 @@ function AddJobApplication({ open, onClose }) {
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="notes">Notes</InputLabel>
+          <InputLabel htmlFor='notes'>Notes</InputLabel>
           <Input
-            id="notes"
+            id='notes'
             value={notes}
             onChange={e => setNotes(e.target.value)}
             multiline
@@ -163,33 +195,35 @@ function AddJobApplication({ open, onClose }) {
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="customLabel">Custom Label</InputLabel>
+          <InputLabel htmlFor='customLabel'>Custom Label</InputLabel>
           <Input
-            id="customLabel"
+            id='customLabel'
             value={customLabel}
             onChange={e => setCustomLabel(e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="board">Board</InputLabel>
+          <InputLabel htmlFor='board'>Board</InputLabel>
           <Input
-            id="board"
+            id='board'
             value={board}
             onChange={e => setBoard(e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="list">List</InputLabel>
+          <InputLabel htmlFor='list'>List</InputLabel>
           <Select
-            id="list"
+            id='list'
             value={list}
             onChange={e => setList(e.target.value)}
           >
-            <MenuItem value={'Wishlist'}>Wishlist</MenuItem>
-            <MenuItem value={'Applied'}>Applied</MenuItem>
-            <MenuItem value={'Interview'}>Interview</MenuItem>
-            <MenuItem value={'Offers'}>Offers</MenuItem>
-            <MenuItem value={'Rejected'}>Rejected</MenuItem>
+            {lists
+              .filter(listItem => listItem.userId === user._id)
+              .map(filteredItem => (
+                <MenuItem key={filteredItem._id} value={filteredItem._id}>
+                  {filteredItem.listName}
+                </MenuItem>
+              ))}
           </Select>
         </FormControl>
         <FormControlLabel
@@ -197,11 +231,11 @@ function AddJobApplication({ open, onClose }) {
             <Switch
               checked={starred}
               onChange={e => setStarred(e.target.checked)}
-              name="starred"
-              color="primary"
+              name='starred'
+              color='primary'
             />
           }
-          label="Starred"
+          label='Starred'
         />
       </DialogContent>
       <DialogActions>

@@ -7,20 +7,35 @@ import { Grid, Paper, Typography } from '@mui/material';
 import EditApplication from '../components/EditApplication';
 import AddJobButton from '../components/AddJobButton';
 import AddBoardButton from '../components/AddBoardButton';
+import { getAllLists, updateApplicationListInBackend } from '../api/lists.api';
+
+import { AuthContext } from '../context/auth.context';
 
 const ApplicationList = ({ applications }) => {
   const [applicationList, setApplicationList] = useState(applications);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [boardName, setBoardName] = useState('');
+  const [lists, setLists] = useState([]);
 
   const { boardId } = useParams();
-
+  const { user } = useContext(AuthContext);
   const { darkMode } = useContext(ThemeContext);
 
   useEffect(() => {
-    fetchBoard();
-    fetchAllJobs();
-  }, []);
+    const fetchAllData = async () => {
+      try {
+        if (user && user._id) {
+          await fetchBoard();
+          await fetchAllJobs();
+          await fetchLists();
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchAllData();
+  }, [user]);
 
   const fetchAllJobs = async () => {
     try {
@@ -34,10 +49,22 @@ const ApplicationList = ({ applications }) => {
   const fetchBoard = async () => {
     try {
       const currentBoard = await getBoard(boardId);
-
       setBoardName(currentBoard.boardName);
     } catch (error) {
       alert(error.response.data.message);
+    }
+  };
+
+  const fetchLists = async () => {
+    try {
+      const response = await getAllLists(user._id);
+      const filteredLists = response.data.filter(
+        list => list.userId === user._id
+      );
+      console.log('Filtered Lists:', filteredLists);
+      setLists(filteredLists);
+    } catch (error) {
+      console.error('Error fetching lists:', error);
     }
   };
 
@@ -76,27 +103,35 @@ const ApplicationList = ({ applications }) => {
     setSelectedApplication(application);
   };
 
-  const onDrop = (e, targetRole, targetStatus, dropIndex) => {
+  const onDrop = (e, targetRole, targetList, dropIndex) => {
     e.preventDefault();
     e.target.classList.remove('dragged-over');
     const applicationId = e.dataTransfer.getData('text/plain');
+
     const draggedApplication = applicationList.find(
-      app => app.id.toString() === applicationId.toString()
+      app => app._id.toString() === applicationId.toString()
     );
 
-    if (draggedApplication.role === targetRole) {
+    console.log('Target List:', targetList);
+    console.log('Target List ID:', targetList._id);
+
+    if (
+      draggedApplication.role === targetRole &&
+      draggedApplication.list !== targetList.listName
+    ) {
       const updatedApplications = applicationList.filter(
-        app => app.id.toString() !== applicationId.toString()
+        app => app._id.toString() !== applicationId.toString()
       );
-      updatedApplications.splice(dropIndex, 0, {
-        ...draggedApplication,
-        status: targetStatus,
-      });
+      draggedApplication.list = targetList.listName;
+      updatedApplications.splice(dropIndex, 0, draggedApplication);
+
       setApplicationList(updatedApplications);
+
+      updateApplicationListInBackend(applicationId, targetList._id);
     }
   };
 
-  const renderApplications = (role, status) => {
+  const renderApplications = (role, list) => {
     return (
       <Grid
         container
@@ -107,24 +142,22 @@ const ApplicationList = ({ applications }) => {
         {applicationList &&
           applicationList
             .filter(application => {
-              if (status !== undefined) {
-                return (
-                  application.role === role && application.status === status
-                );
+              if (list !== undefined) {
+                return application.role === role && application.list === list;
               } else {
                 return application.role === role;
               }
             })
             .map((application, index) => (
-              <Grid item key={application.id + '-' + index}>
+              <Grid item key={application._id + '-' + index}>
                 <Paper
                   elevation={3}
                   draggable
-                  onDragStart={e => onDragStart(e, application.id)}
+                  onDragStart={e => onDragStart(e, application._id)}
                   onDragEnd={onDragEnd}
                   onDragEnter={onDragEnter}
                   onDragLeave={onDragLeave}
-                  onDrop={e => onDrop(e, role, status, index)}
+                  onDrop={e => onDrop(e, role, list, index)}
                   onClick={() => handleEdit(application)}
                   sx={{
                     p: 1,
@@ -139,7 +172,7 @@ const ApplicationList = ({ applications }) => {
                 >
                   <Grid
                     container
-                    alignItems="center"
+                    alignItems='center'
                     spacing={1}
                     style={{ flex: '1' }}
                   >
@@ -149,13 +182,13 @@ const ApplicationList = ({ applications }) => {
                           `https://logo.clearbit.com/${application.domain}` ||
                           ''
                         }
-                        alt="box"
+                        alt='box'
                         style={{ maxWidth: 25 }}
                       />
                     </Grid>
                     <Grid item xs style={{ flex: '1', textAlign: 'center' }}>
                       <Typography
-                        variant="body2"
+                        variant='body2'
                         style={{
                           fontSize: `${Math.max(
                             12,
@@ -177,32 +210,30 @@ const ApplicationList = ({ applications }) => {
     );
   };
 
-  const EmptyDropArea = ({ role, status }) => (
+  const EmptyDropArea = ({ role, list }) => (
     <div
-      className="empty-drop-area"
+      className='empty-drop-area'
       style={{
         minHeight: '50px',
         marginBottom: '10px',
       }}
       onDragEnter={onDragEnter}
       onDragOver={onDragOver}
-      onDrop={e => onDrop(e, role, status, 0)}
+      onDrop={e => onDrop(e, role, list, 0)}
     />
   );
 
   const uniqueRoles = [...new Set(applicationList.map(app => app.role))];
-  const statuses = ['Wishlist', 'Applied', 'Interview', 'Offer', 'Rejected'];
 
   const handleEditClose = () => {
     setSelectedApplication(null);
   };
 
-  const renderStatusesWithAddButton = role =>
-    statuses &&
-    statuses.map(status => (
-      <div key={`${role}-${status}`}>
+  const renderListsForRole = role => {
+    return lists.map(list => (
+      <div key={`${role}-${list.listName}`}>
         <Typography
-          variant="subtitle1"
+          variant='subtitle1'
           style={{
             marginBottom: '8px',
             fontWeight: 'bold',
@@ -210,20 +241,21 @@ const ApplicationList = ({ applications }) => {
             display: 'flex',
           }}
         >
-          {status}
+          {list.listName}
           <AddJobButton />
         </Typography>
-        {renderApplications(role, status)}
+        {renderApplications(role, list)}
         {applicationList.filter(
           application =>
-            application.role === role && application.status === status
-        ).length === 0 && <EmptyDropArea role={role} status={status} />}
+            application.role === role && application.list === list.listName
+        ).length === 0 && <EmptyDropArea role={role} list={list} />}{' '}
       </div>
     ));
+  };
 
   return (
-    <div className="m-[2%] mt-[30px]">
-      <div className="flex justify-between items-center">
+    <div className='m-[2%] mt-[30px]'>
+      <div className='flex justify-between items-center'>
         <h2
           className={`text-[1.4em] ${
             darkMode ? 'text-white' : 'text-[#677f8b]'
@@ -242,7 +274,7 @@ const ApplicationList = ({ applications }) => {
                 style={{ minWidth: 300, maxWidth: 500, marginRight: 150 }}
               >
                 <Typography
-                  variant="h5"
+                  variant='h5'
                   style={{
                     fontWeight: 'bold',
                     marginBottom: '8px',
@@ -250,8 +282,8 @@ const ApplicationList = ({ applications }) => {
                 >
                   {role}
                 </Typography>
-                <Grid container direction="column">
-                  {renderStatusesWithAddButton(role)}
+                <Grid container direction='column'>
+                  {renderListsForRole(role)}
                 </Grid>
               </div>
             ))}
