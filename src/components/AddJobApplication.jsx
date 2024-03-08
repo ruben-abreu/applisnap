@@ -99,54 +99,89 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
       <DialogTitle>Add Job Application</DialogTitle>
       <DialogContent>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
-          <InputLabel htmlFor="companyName">Company Name</InputLabel>
+          <InputLabel htmlFor="companyName" label="Company Name">
+            Company Name
+          </InputLabel>
           <Input
             id="companyName"
             value={companyName}
+            type="text"
+            label="Company Name"
             onChange={e => setCompanyName(e.target.value)}
             required
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="companyName">Role</InputLabel>
+          <InputLabel htmlFor="companyName" label="Role">
+            Role
+          </InputLabel>
           <Input
             id="role"
             value={roleName}
+            type="text"
+            label="Role"
             onChange={e => setRoleName(e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="domain">Domain</InputLabel>
+          <InputLabel htmlFor="domain" label="Domain">
+            Domain
+          </InputLabel>
           <Input
             id="domain"
+            type="text"
+            label="Domain"
             value={domain}
             placeholder=""
             onChange={e => setDomain(e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="jobURL">Job URL</InputLabel>
+          <InputLabel htmlFor="jobURL" label="Job URL">
+            Job URL
+          </InputLabel>
           <Input
             id="jobURL"
             value={jobURL}
+            type="text"
+            label="Job URL"
             onChange={e => setJobURL(e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="jobDescription">Job Description</InputLabel>
+          <InputLabel htmlFor="jobDescription" label="Job Description">
+            Job Description
+          </InputLabel>
           <Input
             id="jobDescription"
             value={jobDescription}
+            type="text"
+            label="Job Description"
             onChange={e => setJobDescription(e.target.value)}
             multiline
-            rows={2}
+            rows={6}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="workModel">Work Model</InputLabel>
+          <InputLabel htmlFor="workLocation" label="Work Location">
+            Work Location
+          </InputLabel>
+          <Input
+            id="workLocation"
+            value={workLocation}
+            type="text"
+            label="Work Location"
+            onChange={e => setWorkLocation(e.target.value)}
+          />
+        </FormControl>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="workModel" label="Work Model">
+            Work Model
+          </InputLabel>
           <Select
             id="workModel"
             label="Work Model"
+            type="text"
             value={workModel}
             onChange={e => setWorkModel(e.target.value)}
           >
@@ -154,14 +189,6 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
             <MenuItem value={'Remote'}>Remote</MenuItem>
             <MenuItem value={'Hybrid'}>Hybrid</MenuItem>
           </Select>
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="workLocation">Work Location</InputLabel>
-          <Input
-            id="workLocation"
-            value={workLocation}
-            onChange={e => setWorkLocation(e.target.value)}
-          />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <TextField
@@ -175,21 +202,15 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
             }}
           />
         </FormControl>
+
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="notes">Notes</InputLabel>
-          <Input
-            id="notes"
-            value={notes}
-            onChange={e => setNotes(e.target.value)}
-            multiline
-            rows={2}
-          />
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="list">List</InputLabel>
+          <InputLabel htmlFor="list" label="List">
+            List
+          </InputLabel>
           <Select
             id="list"
             label="List"
+            type="text"
             value={listName}
             onChange={e => setListName(e.target.value)}
             defaultValue={listName}
@@ -200,6 +221,20 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
               </MenuItem>
             ))}
           </Select>
+        </FormControl>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="notes" label="Notes">
+            Notes
+          </InputLabel>
+          <Input
+            id="notes"
+            value={notes}
+            type="text"
+            label="Notes"
+            onChange={e => setNotes(e.target.value)}
+            multiline
+            rows={2}
+          />
         </FormControl>
         <FormControlLabel
           control={
