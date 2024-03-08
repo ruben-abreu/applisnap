@@ -39,12 +39,67 @@ const ThemeProviderWrapper = props => {
       '.MuiInput-underline:after': {
         borderBottom: '2px solid #30b39a',
       },
+      '.MuiOutlinedInput-notchedOutline': {
+        borderColor: '#30b39a !important',
+      },
+      '.MuiSvgIcon-root ': {
+        fill: '#30b39a !important',
+      },
+    },
+    '&:focus': {
+      '.MuiOutlinedInput-notchedOutline': {
+        borderColor: '#30b39a !important',
+      },
+      '.MuiSvgIcon-root ': {
+        fill: '#30b39a !important',
+      },
+    },
+    '&:focus-visible': {
+      '.MuiOutlinedInput-notchedOutline': {
+        borderColor: '#30b39a !important',
+      },
+      '.MuiSvgIcon-root ': {
+        fill: '#30b39a !important',
+      },
+    },
+    '&:focus-within': {
+      '.MuiOutlinedInput-notchedOutline': {
+        borderColor: '#30b39a !important',
+      },
+      '.MuiSvgIcon-root ': {
+        fill: '#30b39a !important',
+      },
+    },
+    '&:active': {
+      '.MuiOutlinedInput-notchedOutline': {
+        borderColor: '#30b39a !important',
+      },
+      '.MuiSvgIcon-root ': {
+        fill: '#30b39a !important',
+      },
+    },
+    '&:target': {
+      '.MuiOutlinedInput-notchedOutline': {
+        borderColor: '#30b39a !important',
+      },
+      '.MuiSvgIcon-root ': {
+        fill: '#30b39a !important',
+      },
+    },
+    '&:visited': {
+      '.MuiOutlinedInput-notchedOutline': {
+        borderColor: '#30b39a !important',
+      },
+      '.MuiSvgIcon-root ': {
+        fill: '#30b39a !important',
+      },
     },
     '.MuiInput-root': {
       '&.Mui-focused': {
         borderColor: '#30b39a',
       },
     },
+
     marginBottom: '15px',
   };
 

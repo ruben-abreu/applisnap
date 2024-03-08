@@ -32,7 +32,6 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
   const [customLabel, setCustomLabel] = useState('');
   const [date, setDate] = useState('');
   const [starred, setStarred] = useState(false);
-  const [boardName, setBoardName] = useState(board.boardName);
   const [listName, setListName] = useState(list.listName);
   const [lists, setLists] = useState(board.lists);
 
@@ -40,7 +39,6 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
   const { formGreenStyle, buttonGreenStyle } = useContext(ThemeContext);
 
   useEffect(() => {
-    setBoardName(board.boardName);
     setListName(list.listName);
     setLists(board.lists);
   }, [board, list]);
@@ -57,6 +55,8 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
         formattedDomain = formattedDomain.slice(4);
       }
       formattedDomain = formattedDomain.split('/')[0];
+
+      const list = lists.filter(list => list.listName === listName);
 
       const jobData = {
         companyName,
@@ -95,7 +95,7 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
   };
 
   return (
-    <Dialog open={open} handleClose={handleClose}>
+    <Dialog open={open}>
       <DialogTitle>Add Job Application</DialogTitle>
       <DialogContent>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
@@ -146,6 +146,7 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
           <InputLabel htmlFor="workModel">Work Model</InputLabel>
           <Select
             id="workModel"
+            label="Work Model"
             value={workModel}
             onChange={e => setWorkModel(e.target.value)}
           >
@@ -185,33 +186,18 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="customLabel">Custom Label</InputLabel>
-          <Input
-            id="customLabel"
-            value={customLabel}
-            onChange={e => setCustomLabel(e.target.value)}
-          />
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="board">Board</InputLabel>
-          <Input
-            id="board"
-            value={boardName}
-            onChange={e => setBoardName(e.target.value)}
-          />
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <InputLabel htmlFor="list">List</InputLabel>
           <Select
             id="list"
+            label="List"
             value={listName}
             onChange={e => setListName(e.target.value)}
             defaultValue={listName}
           >
             {lists.map(list => (
-              <option key={list._id} value={list.listName}>
+              <MenuItem key={list._id} value={list.listName}>
                 {list.listName}
-              </option>
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -241,7 +227,6 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
           setCustomLabel={setCustomLabel}
           setDate={setDate}
           setStarred={setStarred}
-          setBoardName={setBoardName}
           setListName={setListName}
         />
         <Button onClick={handleSave} sx={{ ...buttonGreenStyle }}>
