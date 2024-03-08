@@ -24,10 +24,10 @@ const ThemeProviderWrapper = props => {
 
   const formGreenStyle = {
     '.MuiFormLabel-root': {
-      color: theme => (theme.palette.mode === 'dark' ? 'white' : '#678B85'),
+      color: darkMode ? 'white' : '#678B85',
     },
     '.MuiInputLabel-root': {
-      color: theme => (theme.palette.mode === 'dark' ? 'white' : '#678B85'),
+      color: darkMode ? 'white' : '#678B85',
     },
     '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
       color: '#30b39a',
@@ -74,6 +74,31 @@ const ThemeProviderWrapper = props => {
     },
   };
 
+  const greenIconButtonStyle = {
+    boxShadow: 'none',
+    textTransform: 'none',
+    color: darkMode ? 'white' : '#678B85',
+    fontSize: 16,
+    padding: '0',
+    marginLeft: '10px',
+    width: '20px',
+    '&:hover': {
+      color: darkMode ? 'white' : '#62a699',
+      backgroundColor: 'transparent',
+      boxShadow: 'none',
+    },
+    '&:active': {
+      color: darkMode ? 'white' : '#30b39a',
+      backgroundColor: 'transparent',
+      boxShadow: 'none',
+    },
+    '&:focus': {
+      color: darkMode ? 'white' : '#30b39a',
+      backgroundColor: 'transparent',
+      boxShadow: 'none',
+    },
+  };
+
   const lightButtonNoBorder = {
     boxShadow: 'none',
     textTransform: 'none',
@@ -99,6 +124,9 @@ const ThemeProviderWrapper = props => {
     },
     '&:focus': {
       boxShadow: '0 0 0 0.2rem rgba(127, 179, 170, 0.5)',
+    },
+    '.css-1jhpmkz-MuiButtonBase-root-MuiButton-root:hover': {
+      backgroundColor: 'none',
     },
   };
 
@@ -164,6 +192,7 @@ const ThemeProviderWrapper = props => {
         lightButtonNoBorder,
         lightButtonStyle,
         yellowButtonStyle,
+        greenIconButtonStyle,
       }}
     >
       {props.children}

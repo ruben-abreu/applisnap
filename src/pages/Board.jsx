@@ -1,80 +1,52 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { getAllJobs } from '../api/jobs.api';
 import { getBoard } from '../api/boards.api';
 import { ThemeContext } from '../context/theme.context';
 import { Grid, Paper, Typography } from '@mui/material';
 import EditApplication from '../components/EditApplication';
 import AddJobButton from '../components/AddJobButton';
 import AddBoardButton from '../components/AddBoardButton';
-import { getAllLists, updateApplicationListInBackend } from '../api/lists.api';
+import { updateApplicationListInBackend } from '../api/lists.api';
 
 import { AuthContext } from '../context/auth.context';
 
-const ApplicationList = ({ applications }) => {
-  const [applicationList, setApplicationList] = useState(applications);
+function Board() {
+  const [applicationList, setApplicationList] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [boardName, setBoardName] = useState('');
   const [lists, setLists] = useState([]);
-
   const { boardId } = useParams();
   const { user } = useContext(AuthContext);
   const { darkMode } = useContext(ThemeContext);
 
   useEffect(() => {
-    const fetchAllData = async () => {
-      try {
-        if (user && user._id) {
-          await fetchBoard();
-          await fetchAllJobs();
-          await fetchLists();
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
     fetchAllData();
   }, [user]);
 
-  const fetchAllJobs = async () => {
+  const fetchAllData = async () => {
     try {
-      const response = await getAllJobs();
-      setApplicationList(response.data);
+      if (user && user._id) {
+        await fetchBoard();
+      }
     } catch (error) {
-      console.error('Error fetching jobs:', error);
+      console.error('Error fetching data:', error);
     }
   };
 
   const fetchBoard = async () => {
     try {
       const currentBoard = await getBoard(boardId);
+      console.log('currentBoard', currentBoard);
       setBoardName(currentBoard.boardName);
+      console.log('boardName:', currentBoard.boardName);
+      setApplicationList(currentBoard.jobs);
+      console.log('applicationList:', currentBoard.jobs);
+      setLists(currentBoard.lists);
+      console.log('lists:', currentBoard.lists);
     } catch (error) {
       alert(error.response.data.message);
     }
   };
-
-  const fetchLists = async () => {
-    try {
-      const response = await getAllLists(user._id);
-      const filteredLists = response.data.filter(
-        list => list.userId === user._id
-      );
-      console.log('Filtered Lists:', filteredLists);
-      setLists(filteredLists);
-    } catch (error) {
-      console.error('Error fetching lists:', error);
-    }
-  };
-
-  useEffect(() => {
-    console.log('Application List:', applicationList);
-  }, [applicationList]);
-
-  useEffect(() => {
-    console.log('Selected Application:', selectedApplication);
-  }, [selectedApplication]);
 
   const onDragStart = (e, applicationId) => {
     e.dataTransfer.setData('text/plain', applicationId);
@@ -172,7 +144,7 @@ const ApplicationList = ({ applications }) => {
                 >
                   <Grid
                     container
-                    alignItems='center'
+                    alignItems="center"
                     spacing={1}
                     style={{ flex: '1' }}
                   >
@@ -182,13 +154,13 @@ const ApplicationList = ({ applications }) => {
                           `https://logo.clearbit.com/${application.domain}` ||
                           ''
                         }
-                        alt='box'
+                        alt="box"
                         style={{ maxWidth: 25 }}
                       />
                     </Grid>
                     <Grid item xs style={{ flex: '1', textAlign: 'center' }}>
                       <Typography
-                        variant='body2'
+                        variant="body2"
                         style={{
                           fontSize: `${Math.max(
                             12,
@@ -212,7 +184,7 @@ const ApplicationList = ({ applications }) => {
 
   const EmptyDropArea = ({ role, list }) => (
     <div
-      className='empty-drop-area'
+      className="empty-drop-area"
       style={{
         minHeight: '50px',
         marginBottom: '10px',
@@ -223,7 +195,7 @@ const ApplicationList = ({ applications }) => {
     />
   );
 
-  const uniqueRoles = [...new Set(applicationList.map(app => app.role))];
+  const uniqueRoles = [...new Set(applicationList.map(app => app.roleName))];
 
   const handleEditClose = () => {
     setSelectedApplication(null);
@@ -233,29 +205,32 @@ const ApplicationList = ({ applications }) => {
     return lists.map(list => (
       <div key={`${role}-${list.listName}`}>
         <Typography
-          variant='subtitle1'
+          variant="subtitle1"
           style={{
             marginBottom: '8px',
             fontWeight: 'bold',
             marginTop: '18px',
             display: 'flex',
+            alignItems: 'center',
           }}
         >
           {list.listName}
+
           <AddJobButton />
         </Typography>
         {renderApplications(role, list)}
-        {applicationList.filter(
-          application =>
-            application.role === role && application.list === list.listName
-        ).length === 0 && <EmptyDropArea role={role} list={list} />}{' '}
+        {applicationList &&
+          applicationList.filter(
+            application =>
+              application.role === role && application.list === list.listName
+          ).length === 0 && <EmptyDropArea role={role} list={list} />}{' '}
       </div>
     ));
   };
 
   return (
-    <div className='m-[2%] mt-[30px]'>
-      <div className='flex justify-between items-center'>
+    <div className="m-[2%] mt-[30px]">
+      <div className="flex justify-between items-center">
         <h2
           className={`text-[1.4em] ${
             darkMode ? 'text-white' : 'text-[#678B85]'
@@ -274,7 +249,7 @@ const ApplicationList = ({ applications }) => {
                 style={{ minWidth: 300, maxWidth: 500, marginRight: 150 }}
               >
                 <Typography
-                  variant='h5'
+                  variant="h5"
                   style={{
                     fontWeight: 'bold',
                     marginBottom: '8px',
@@ -282,7 +257,7 @@ const ApplicationList = ({ applications }) => {
                 >
                   {role}
                 </Typography>
-                <Grid container direction='column'>
+                <Grid container direction="column">
                   {renderListsForRole(role)}
                 </Grid>
               </div>
@@ -300,6 +275,6 @@ const ApplicationList = ({ applications }) => {
       </div>
     </div>
   );
-};
+}
 
-export default ApplicationList;
+export default Board;

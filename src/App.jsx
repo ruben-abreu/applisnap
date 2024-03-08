@@ -14,7 +14,6 @@ import Rejected from './pages/Rejected';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import ResetPassword from './pages/ResetPassword';
-import { APPLICATIONS } from './assets/json';
 
 function App() {
   const { darkMode } = useContext(ThemeContext);
@@ -37,10 +36,7 @@ function App() {
       <Navigation />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route
-          path="/boards/:boardId"
-          element={<Board applications={APPLICATIONS} />}
-        />
+        <Route path="/boards/:boardId" element={<Board />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/applications" element={<Applications />} />
         <Route path="/interviews" element={<Interviews />} />

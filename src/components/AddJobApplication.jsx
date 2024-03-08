@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
 import { ThemeContext } from '../context/theme.context';
+import { useParams } from 'react-router-dom';
 import {
   Button,
   Dialog,
@@ -91,7 +92,7 @@ function AddJobApplication({ open, onClose }) {
         customLabel,
         date,
         starred,
-        boardId: board,
+        boardId: boardId,
         listId: list,
         userId: user._id,
       };
