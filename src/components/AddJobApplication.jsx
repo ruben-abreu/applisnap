@@ -59,14 +59,6 @@ function AddJobApplication({ open, onClose }) {
     fetchLists();
   }, [user]);
 
-  if (!user || !user._id) {
-    return <p>Loading user...</p>;
-  }
-
-  if (loading) {
-    return <p>Loading lists...</p>;
-  }
-
   const handleSave = async () => {
     try {
       let formattedDomain = domain.trim().toLowerCase();

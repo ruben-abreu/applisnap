@@ -115,9 +115,12 @@ function Board() {
           applicationList
             .filter(application => {
               if (list !== undefined) {
-                return application.role === role && application.list === list;
+                return (
+                  application.roleName === role &&
+                  application.listId === list._id
+                );
               } else {
-                return application.role === role;
+                return application.roleName === role;
               }
             })
             .map((application, index) => (
@@ -197,6 +200,8 @@ function Board() {
 
   const uniqueRoles = [...new Set(applicationList.map(app => app.roleName))];
 
+  console.log('uniqueRoles:', uniqueRoles);
+
   const handleEditClose = () => {
     setSelectedApplication(null);
   };
@@ -222,7 +227,7 @@ function Board() {
         {applicationList &&
           applicationList.filter(
             application =>
-              application.role === role && application.list === list.listName
+              application.roleName === role && application.listId === list._id
           ).length === 0 && <EmptyDropArea role={role} list={list} />}{' '}
       </div>
     ));
@@ -270,8 +275,6 @@ function Board() {
             application={selectedApplication}
           />
         )}
-        {/* temporary to see apps  */}
-        {renderApplications(undefined, undefined)}
       </div>
     </div>
   );
