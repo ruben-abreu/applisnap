@@ -135,7 +135,6 @@ const ThemeProviderWrapper = props => {
     color: darkMode ? 'white' : '#678B85',
     fontSize: 16,
     padding: '0',
-    marginLeft: '10px',
     width: '20px',
     '&:hover': {
       color: darkMode ? 'white' : '#62a699',

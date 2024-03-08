@@ -23,9 +23,13 @@ function AddRole({ roleName, setRoleName }) {
         fullWidth
         sx={{ ...formGreenStyle, my: 1 }}
       >
-        <InputLabel htmlFor="roleName">Role</InputLabel>
+        <InputLabel htmlFor="roleName" label="Role">
+          Role
+        </InputLabel>
         <Input
           id="roleName"
+          type="text"
+          label="Role"
           value={roleName}
           onChange={e => setRoleName(e.target.value)}
         />

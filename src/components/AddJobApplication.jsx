@@ -124,13 +124,13 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="domain" label="Domain">
-            Domain
+          <InputLabel htmlFor="domain" label="Company Website">
+            Company Website
           </InputLabel>
           <Input
             id="domain"
             type="text"
-            label="Domain"
+            label="Company Website"
             value={domain}
             placeholder=""
             onChange={e => setDomain(e.target.value)}

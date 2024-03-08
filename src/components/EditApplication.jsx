@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -21,11 +21,12 @@ import CancelButton from '../components/CancelButton';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddRole from './AddRole';
-import { editJob } from '../api/jobs.api';
+import { editJob, deleteJob } from '../api/jobs.api';
+import { getList } from '../api/lists.api';
 
-function EditApplication({ open, onClose, application }) {
+function EditApplication({ open, onClose, application, board }) {
   const [companyName, setCompanyName] = useState(application.companyName);
-  const [roleName, setRoleName] = useState(application.role);
+  const [roleName, setRoleName] = useState(application.roleName);
   const [domain, setDomain] = useState(application.domain);
   const [jobURL, setJobURL] = useState(application.jobURL);
   const [jobDescription, setJobDescription] = useState(
@@ -37,11 +38,27 @@ function EditApplication({ open, onClose, application }) {
   const [customLabel, setCustomLabel] = useState(application.customLabel);
   const [date, setDate] = useState(application.date);
   const [starred, setStarred] = useState(application.starred);
-  const [board, setBoard] = useState(application.board);
-  const [list, setList] = useState(application.list);
+  const [list, setList] = useState(application.listId);
+  const [listName, setListName] = useState('');
+  const [lists, setLists] = useState(board.lists);
 
   const { user } = useContext(AuthContext);
   const { formGreenStyle, buttonGreenStyle } = useContext(ThemeContext);
+
+  console.log('application:', application);
+
+  useEffect(() => {
+    getListName();
+  }, []);
+
+  const getListName = async () => {
+    try {
+      const list = await getList(application.listId);
+      setListName(list.listName);
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
 
   const handleSave = () => {
     let formattedDomain = domain.trim().toLowerCase();
@@ -77,10 +94,13 @@ function EditApplication({ open, onClose, application }) {
     editJob(application._id, jobData);
   };
 
-  const handleDelete = () => {
-    // Perform deletion logic here
-    console.log('Deleting application:', application);
-    onClose();
+  const handleDelete = async () => {
+    try {
+      await deleteJob(application._id);
+      onClose();
+    } catch (error) {
+      alert(error.response.data.message);
+    }
   };
 
   return (
@@ -88,44 +108,76 @@ function EditApplication({ open, onClose, application }) {
       <DialogTitle>Edit Job</DialogTitle>
       <DialogContent>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="companyName">Company Name</InputLabel>
+          <InputLabel htmlFor="companyName" label="Company Name">
+            Company Name
+          </InputLabel>
           <Input
             id="companyName"
             value={companyName}
+            type="text"
+            label="Company Name"
             onChange={e => setCompanyName(e.target.value)}
           />
         </FormControl>
         <AddRole roleName={roleName} setRoleName={setRoleName} />
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="domain">Domain</InputLabel>
+          <InputLabel htmlFor="domain" label="Company Website">
+            Company Website
+          </InputLabel>
           <Input
             id="domain"
+            type="text"
+            label="Company Website"
             value={domain}
             onChange={e => setDomain(e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="jobURL">Job URL</InputLabel>
+          <InputLabel htmlFor="jobURL" label="Job URL">
+            Job URL
+          </InputLabel>
           <Input
             id="jobURL"
+            type="text"
+            label="Job URL"
             value={jobURL}
             onChange={e => setJobURL(e.target.value)}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="jobDescription">Job Description</InputLabel>
+          <InputLabel htmlFor="jobDescription" label="Job Description">
+            Job Description
+          </InputLabel>
           <Input
             id="jobDescription"
             value={jobDescription}
+            type="text"
+            label="Job Description"
             onChange={e => setJobDescription(e.target.value)}
             multiline
-            rows={2}
+            rows={6}
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="workModel">Work Model</InputLabel>
+          <InputLabel htmlFor="workLocation" label="Work Location">
+            Work Location
+          </InputLabel>
+          <Input
+            id="workLocation"
+            type="text"
+            label="Work Location"
+            value={workLocation}
+            onChange={e => setWorkLocation(e.target.value)}
+          />
+        </FormControl>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="workModel" label="Work Model">
+            Work Model
+          </InputLabel>
           <Select
             id="workModel"
+            label="Work Model"
+            type="text"
             value={workModel}
             onChange={e => setWorkModel(e.target.value)}
           >
@@ -134,14 +186,7 @@ function EditApplication({ open, onClose, application }) {
             <MenuItem value={'Hybrid'}>Hybrid</MenuItem>
           </Select>
         </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="workLocation">Work Location</InputLabel>
-          <Input
-            id="workLocation"
-            value={workLocation}
-            onChange={e => setWorkLocation(e.target.value)}
-          />
-        </FormControl>
+
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <TextField
             id="date"
@@ -155,6 +200,25 @@ function EditApplication({ open, onClose, application }) {
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="list" label="List">
+            List
+          </InputLabel>
+          <Select
+            id="list"
+            label="List"
+            type="text"
+            value={listName}
+            onChange={e => setListName(e.target.value)}
+            defaultValue={listName}
+          >
+            {lists.map(list => (
+              <MenuItem key={list._id} value={list.listName}>
+                {list.listName}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <InputLabel htmlFor="notes">Notes</InputLabel>
           <Input
             id="notes"
@@ -164,36 +228,7 @@ function EditApplication({ open, onClose, application }) {
             rows={2}
           />
         </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="customLabel">Custom Label</InputLabel>
-          <Input
-            id="customLabel"
-            value={customLabel}
-            onChange={e => setCustomLabel(e.target.value)}
-          />
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="board">Board</InputLabel>
-          <Input
-            id="board"
-            value={board}
-            onChange={e => setBoard(e.target.value)}
-          />
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="list">List</InputLabel>
-          <Select
-            id="list"
-            value={list}
-            onChange={e => setList(e.target.value)}
-          >
-            <MenuItem value={'Wishlist'}>Wishlist</MenuItem>
-            <MenuItem value={'Applied'}>Applied</MenuItem>
-            <MenuItem value={'Interview'}>Interview</MenuItem>
-            <MenuItem value={'Offers'}>Offers</MenuItem>
-            <MenuItem value={'Rejected'}>Rejected</MenuItem>
-          </Select>
-        </FormControl>
+
         <FormControlLabel
           control={
             <Switch
@@ -220,7 +255,6 @@ function EditApplication({ open, onClose, application }) {
           setCustomLabel={setCustomLabel}
           setDate={setDate}
           setStarred={setStarred}
-          setBoard={setBoard}
           setList={setList}
         />
         <Button onClick={handleSave} sx={{ ...buttonGreenStyle }}>

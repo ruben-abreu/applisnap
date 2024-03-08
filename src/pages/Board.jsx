@@ -7,7 +7,6 @@ import EditApplication from '../components/EditApplication';
 import AddJobButton from '../components/AddJobButton';
 import AddBoardButton from '../components/AddBoardButton';
 import { updateApplicationListInBackend } from '../api/lists.api';
-
 import { AuthContext } from '../context/auth.context';
 
 function Board() {
@@ -254,6 +253,18 @@ function Board() {
         </h2>
         <AddBoardButton />
       </div>
+      {board && board.jobs.length === 0 && (
+        <div className="flex items-center mt-[30px]">
+          <h3
+            className={`text-[16px] ${
+              darkMode ? 'text-white' : 'text-[black]'
+            } font-bold`}
+          >
+            Add your first job application
+          </h3>
+          <AddJobButton board={board} list="" role="" />
+        </div>
+      )}
       <div style={{ overflowX: 'auto', marginTop: '60px' }}>
         <div style={{ display: 'flex' }}>
           {uniqueRoles &&
@@ -282,6 +293,7 @@ function Board() {
             open={Boolean(selectedApplication)}
             onClose={handleEditClose}
             application={selectedApplication}
+            board={board}
           />
         )}
       </div>
