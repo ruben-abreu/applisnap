@@ -185,7 +185,7 @@ function SignUpButton() {
   };
 
   const SignUpDialogTitle = styled(DialogTitle)({
-    color: darkMode ? 'white' : '#677f8b',
+    color: darkMode ? 'white' : '#678B85',
   });
 
   return (
@@ -297,7 +297,7 @@ function SignUpButton() {
           <div className="mr-[6px]">
             {isLoading && (
               <CircularProgress
-                sx={{ color: darkMode ? 'white' : '#677f8b' }}
+                sx={{ color: darkMode ? 'white' : '#678B85' }}
               />
             )}
           </div>

@@ -11,7 +11,7 @@ function HomePage() {
     <div className="h-full min-h-[80vh] mx-[2%] flex flex-col justify-center items-center">
       <h1
         className={`${
-          darkMode ? 'white' : 'text-[#677f8b]'
+          darkMode ? 'white' : 'text-[#678B85]'
         } text-[3rem] mb-[30px]`}
       >
         AppliSnap

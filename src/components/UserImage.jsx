@@ -103,7 +103,7 @@ function UserImage() {
   };
 
   const UploadImageDialogTitle = styled(DialogTitle)({
-    color: darkMode ? 'white' : '#677f8b',
+    color: darkMode ? 'white' : '#678B85',
   });
 
   const UploadImageButtonStyled = styled(Button)({
@@ -114,8 +114,8 @@ function UserImage() {
     padding: '6px 12px',
     border: '1px solid',
     lineHeight: 1.5,
-    backgroundColor: '#677f8b',
-    borderColor: '#677f8b',
+    backgroundColor: '#678B85',
+    borderColor: '#678B85',
 
     '&:hover': {
       backgroundColor: '#62a699',
@@ -136,7 +136,7 @@ function UserImage() {
     width: '50px',
     height: '50px',
     backgroundColor:
-      isHovered || user.imgURL ? 'transparent' : darkMode ? 'white' : '#677f8b',
+      isHovered || user.imgURL ? 'transparent' : darkMode ? 'white' : '#678B85',
   }));
 
   return user ? (
@@ -178,11 +178,11 @@ function UserImage() {
             sx={{
               '.MuiFormLabel-root': {
                 color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#677f8b',
+                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
               },
               '.MuiInputLabel-root': {
                 color: theme =>
-                  theme.palette.mode === 'dark' ? 'white' : '#677f8b',
+                  theme.palette.mode === 'dark' ? 'white' : '#678B85',
               },
               '.MuiFormLabel-root.MuiInputLabel-root.Mui-focused': {
                 color: '#30b39a',
@@ -219,7 +219,7 @@ function UserImage() {
           <div className="mr-[6px]">
             {isLoading && (
               <CircularProgress
-                sx={{ color: darkMode ? 'white' : '#677f8b' }}
+                sx={{ color: darkMode ? 'white' : '#678B85' }}
               />
             )}
           </div>

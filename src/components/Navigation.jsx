@@ -25,7 +25,7 @@ function Navigation() {
         />
         <h1
           className={`${
-            darkMode ? 'text-white' : 'text-[#677f8b]'
+            darkMode ? 'text-white' : 'text-[#678B85]'
           } text-[2rem]`}
         >
           AppliSnap

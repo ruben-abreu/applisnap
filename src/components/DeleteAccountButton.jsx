@@ -94,7 +94,7 @@ function DeleteAccountButton() {
           <div className="mr-[6px]">
             {isLoading && (
               <CircularProgress
-                sx={{ color: darkMode ? 'white' : '#677f8b' }}
+                sx={{ color: darkMode ? 'white' : '#678B85' }}
               />
             )}
           </div>

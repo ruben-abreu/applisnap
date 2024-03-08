@@ -27,7 +27,7 @@ function Settings() {
               height: '36px',
               marginLeft: '15px',
               marginRight: '15px',
-              color: darkMode ? 'white' : '#677f8b',
+              color: darkMode ? 'white' : '#678B85',
             }}
           />
           <p className="ml-[15px]">

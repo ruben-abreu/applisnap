@@ -116,7 +116,7 @@ function LogInButton() {
   };
 
   const LogInDialogTitle = styled(DialogTitle)({
-    color: darkMode ? 'white' : '#677f8b',
+    color: darkMode ? 'white' : '#678B85',
   });
 
   return (
@@ -198,7 +198,7 @@ function LogInButton() {
               <div className="mr-[10px]">
                 {isLoading && (
                   <CircularProgress
-                    sx={{ color: darkMode ? 'white' : '#677f8b' }}
+                    sx={{ color: darkMode ? 'white' : '#678B85' }}
                   />
                 )}
               </div>
@@ -223,7 +223,7 @@ function LogInButton() {
             </div>
             <div
               className={`text-right text-[14px] ${
-                darkMode ? 'text-white' : 'text-[#677f8b]'
+                darkMode ? 'text-white' : 'text-[#678B85]'
               } mr-[16px] mt-[15px]`}
             >
               {!forgotPasswordClicked && (

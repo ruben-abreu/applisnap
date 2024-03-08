@@ -60,7 +60,7 @@ function AccountMenu() {
               ? 'transparent'
               : darkMode
               ? 'white'
-              : '#677f8b',
+              : '#678B85',
           }}
           src={user.imgURL && user.imgURL}
         >
@@ -111,7 +111,7 @@ function AccountMenu() {
                       ? '#30b39a'
                       : darkMode
                       ? 'white'
-                      : '#677f8b',
+                      : '#678B85',
                   }}
                 />
               </ListItemIcon>
@@ -133,7 +133,7 @@ function AccountMenu() {
                       ? '#30b39a'
                       : darkMode
                       ? 'white'
-                      : '#677f8b',
+                      : '#678B85',
                   }}
                 />
               </ListItemIcon>
@@ -155,7 +155,7 @@ function AccountMenu() {
                       ? '#30b39a'
                       : darkMode
                       ? 'white'
-                      : '#677f8b',
+                      : '#678B85',
                   }}
                 />
               </ListItemIcon>
@@ -177,7 +177,7 @@ function AccountMenu() {
                       ? '#30b39a'
                       : darkMode
                       ? 'white'
-                      : '#677f8b',
+                      : '#678B85',
                   }}
                 />
               </ListItemIcon>
@@ -199,7 +199,7 @@ function AccountMenu() {
                       ? '#30b39a'
                       : darkMode
                       ? 'white'
-                      : '#677f8b',
+                      : '#678B85',
                   }}
                 />
               </ListItemIcon>
@@ -221,7 +221,7 @@ function AccountMenu() {
                       ? '#30b39a'
                       : darkMode
                       ? 'white'
-                      : '#677f8b',
+                      : '#678B85',
                   }}
                 />
               </ListItemIcon>
@@ -247,7 +247,7 @@ function AccountMenu() {
                       ? '#30b39a'
                       : darkMode
                       ? 'white'
-                      : '#677f8b',
+                      : '#678B85',
                   }}
                 />
               </ListItemIcon>
@@ -269,7 +269,7 @@ function AccountMenu() {
                       ? '#30b39a'
                       : darkMode
                       ? 'white'
-                      : '#677f8b',
+                      : '#678B85',
                   }}
                 />
               </ListItemIcon>
@@ -281,7 +281,7 @@ function AccountMenu() {
           <ListItemIcon>
             <Logout
               fontSize="small"
-              sx={{ color: darkMode ? 'white' : '#677f8b' }}
+              sx={{ color: darkMode ? 'white' : '#678B85' }}
             />
           </ListItemIcon>
           Logout
