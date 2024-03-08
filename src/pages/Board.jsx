@@ -201,7 +201,13 @@ function Board() {
     />
   );
 
-  const uniqueRoles = [...new Set(applicationList.map(app => app.roleName))];
+  const uniqueRoles = [
+    ...new Set(
+      applicationList
+        .map(app => app.roleName)
+        .sort((a, b) => a.localeCompare(b))
+    ),
+  ];
 
   console.log('uniqueRoles:', uniqueRoles);
 
