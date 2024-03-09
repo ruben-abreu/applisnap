@@ -1,13 +1,13 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { getBoard } from '../api/boards.api';
+import { updateApplicationListInBackend } from '../api/lists.api';
+import { editJob } from '../api/jobs.api';
 import { ThemeContext } from '../context/theme.context';
 import { Grid, Paper, Typography } from '@mui/material';
 import EditApplication from '../components/EditApplication';
 import AddJobButton from '../components/AddJobButton';
 import AddBoardButton from '../components/AddBoardButton';
-import { updateApplicationListInBackend } from '../api/lists.api';
-import { AuthContext } from '../context/auth.context';
 
 function Board() {
   const [applicationList, setApplicationList] = useState([]);
@@ -65,7 +65,7 @@ function Board() {
     setSelectedApplication(application);
   };
 
-  const onDrop = (e, targetRole, targetList, dropIndex) => {
+  const onDrop = async (e, targetRole, targetList, dropIndex) => {
     e.preventDefault();
     e.target.classList.remove('dragged-over');
     const applicationId = e.dataTransfer.getData('text/plain');
@@ -77,20 +77,60 @@ function Board() {
     console.log('draggedApplication:', draggedApplication);
     console.log('Target List:', targetList);
     console.log('Target List ID:', targetList._id);
+    console.log('Target Role:', targetRole);
 
-    if (
-      draggedApplication.roleName === targetRole &&
-      draggedApplication.listId !== targetList._id
-    ) {
-      const updatedApplications = applicationList.filter(
-        app => app._id.toString() !== applicationId.toString()
-      );
-      draggedApplication.listId = targetList._id;
-      updatedApplications.splice(dropIndex, 0, draggedApplication);
+    try {
+      if (
+        draggedApplication.roleName === targetRole &&
+        draggedApplication.listId !== targetList._id
+      ) {
+        const updatedApplications = applicationList.filter(
+          app => app._id.toString() !== applicationId.toString()
+        );
+        draggedApplication.listId = targetList._id;
+        updatedApplications.splice(dropIndex, 0, draggedApplication);
 
-      setApplicationList(updatedApplications);
+        setApplicationList(updatedApplications);
 
-      updateApplicationListInBackend(applicationId, targetList._id);
+        await updateApplicationListInBackend(applicationId, targetList._id);
+      }
+
+      const {
+        companyName,
+        domain,
+        jobURL,
+        jobDescription,
+        workModel,
+        workLocation,
+        notes,
+        customLabel,
+        date,
+        starred,
+        userId,
+        boardId,
+      } = draggedApplication;
+
+      const updatedJob = {
+        companyName,
+        domain,
+        jobURL,
+        jobDescription,
+        workModel,
+        workLocation,
+        notes,
+        customLabel,
+        date,
+        starred,
+        userId,
+        boardId,
+        listId: targetList._id,
+        roleName: targetRole,
+      };
+
+      await editJob(applicationId, updatedJob);
+      fetchBoard();
+    } catch (error) {
+      alert(error.response.data.message);
     }
   };
 
