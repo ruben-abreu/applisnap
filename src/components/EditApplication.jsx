@@ -20,8 +20,9 @@ import { ThemeContext } from '../context/theme.context';
 import CancelButton from '../components/CancelButton';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { editJob, deleteJob } from '../api/jobs.api';
+import { addJob, editJob, deleteJob } from '../api/jobs.api';
 import { getList } from '../api/lists.api';
+import { getBoard } from '../api/boards.api';
 
 function EditApplication({
   open,
@@ -30,6 +31,7 @@ function EditApplication({
   board,
   fetchBoard,
   lists,
+  boardId,
 }) {
   const [companyName, setCompanyName] = useState(application.companyName);
   const [roleName, setRoleName] = useState(application.roleName);
@@ -45,23 +47,30 @@ function EditApplication({
   const [date, setDate] = useState(application.date);
   const [starred, setStarred] = useState(application.starred);
   const [list, setList] = useState(application.listId);
-  const [listName, setListName] = useState('');
+  const [listName, setListName] = useState(
+    list.listName ? list.listName : 'Wishlist'
+  );
+  const [boardName, setBoardName] = useState('');
+  const [boards, setBoards] = useState([]);
 
   const { user } = useContext(AuthContext);
   const { formGreenStyle, buttonGreenStyle } = useContext(ThemeContext);
 
   console.log('application:', application);
+  console.log('application.listId:', application.listId);
 
   useEffect(() => {
-    getListName();
+    getData();
   }, []);
 
-  const getListName = async () => {
+  const getData = async () => {
     try {
       const list = await getList(application.listId);
       setListName(list.listName);
+      setBoardName(board.boardName);
+      setBoards(user.boards);
     } catch (error) {
-      alert(error.response.data.message);
+      console.log('Error fetching data');
     }
   };
 
@@ -77,6 +86,18 @@ function EditApplication({
     }
     formattedDomain = formattedDomain.split('/')[0];
 
+    const newBoard = boards.filter(board => board.boardName === boardName)[0];
+    console.log('newBoard:', newBoard);
+
+    const newBoardDetails = await getBoard(newBoard._id);
+    console.log('newBoardDetails', newBoardDetails);
+
+    const newList = newBoardDetails.lists.filter(
+      list => list.listName === listName
+    )[0];
+
+    console.log('newList:', newList);
+
     const jobData = {
       companyName,
       roleName,
@@ -89,14 +110,22 @@ function EditApplication({
       customLabel,
       date,
       starred,
-      board,
-      list,
+      boardId: newBoard._id,
+      listId: newList._id,
       userId: user._id,
     };
     console.log('Data to be saved:', jobData);
     try {
-      await editJob(application._id, jobData);
-      fetchBoard();
+      if (boardId === newBoard._id) {
+        console.log('application.boardId', application.boardId);
+        console.log('newBoard._id', newBoard._id);
+        await editJob(application._id, jobData);
+      } else {
+        await addJob(jobData);
+        await deleteJob(application._id);
+      }
+
+      await fetchBoard();
       onClose();
     } catch (error) {
       alert(error.response.data.message);
@@ -106,7 +135,8 @@ function EditApplication({
   const handleDelete = async () => {
     try {
       await deleteJob(application._id);
-      fetchBoard();
+
+      await fetchBoard();
       onClose();
     } catch (error) {
       alert(error.response.data.message);
@@ -235,6 +265,25 @@ function EditApplication({
             {lists.map(list => (
               <MenuItem key={list._id} value={list.listName}>
                 {list.listName}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="board" label="Board">
+            Board
+          </InputLabel>
+          <Select
+            id="board"
+            label="Board"
+            type="text"
+            value={boardName}
+            onChange={e => setBoardName(e.target.value)}
+            defaultValue={boardName}
+          >
+            {boards.map(board => (
+              <MenuItem key={board._id} value={board.boardName}>
+                {board.boardName}
               </MenuItem>
             ))}
           </Select>

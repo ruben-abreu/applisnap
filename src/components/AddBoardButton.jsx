@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../context/theme.context';
 import { AuthContext } from '../context/auth.context';
 import { useNavigate } from 'react-router-dom';
@@ -28,6 +28,10 @@ function AddBoardButton() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    authenticateUser();
+  }, []);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -47,6 +51,9 @@ function AddBoardButton() {
 
     try {
       const boardResponse = await addBoard(newBoard);
+
+      console.log('New board:', boardResponse);
+      console.log('New boardId:', boardResponse.data._id);
 
       const firstWishlist = {
         listName: 'Wishlist',
@@ -85,11 +92,10 @@ function AddBoardButton() {
       await addList(firstRejectedList);
 
       setIsLoading(false);
-      authenticateUser();
       setBoardName('');
       alert('Your new board was successfully created.');
-      handleClose();
       navigate(`/boards/${boardResponse.data._id}`);
+      handleClose();
     } catch (error) {
       setIsLoading(false);
       console.log('Error creating a new board', error);

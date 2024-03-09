@@ -18,15 +18,16 @@ import {
 } from '@mui/material';
 import CancelButton from '../components/CancelButton';
 import { addJob } from '../api/jobs.api';
+import { getList } from '../api/lists.api';
 
 function AddJobApplication({
   open,
   setOpen,
   handleClose,
   board,
-  fetchBoard,
   list,
   role,
+  fetchBoard,
 }) {
   const [companyName, setCompanyName] = useState('');
   const [roleName, setRoleName] = useState(role);
@@ -42,16 +43,22 @@ function AddJobApplication({
   const [listName, setListName] = useState(
     list.listName ? list.listName : 'Wishlist'
   );
-  const [lists, setLists] = useState(board.lists);
-  const [boardId, setBoardId] = useState(board._id);
 
   const { user } = useContext(AuthContext);
   const { formGreenStyle, buttonGreenStyle } = useContext(ThemeContext);
 
   useEffect(() => {
-    setLists(board.lists);
-    setBoardId(board._id);
+    getData();
   }, []);
+
+  const getData = async () => {
+    try {
+      const list = await getList(list._id);
+      setListName(list.listName);
+    } catch (error) {
+      console.log('Error fetching data');
+    }
+  };
 
   const handleSave = async () => {
     try {
@@ -85,7 +92,7 @@ function AddJobApplication({
         customLabel,
         date,
         starred,
-        boardId: boardId,
+        boardId: board._id,
         listId: list[0]._id,
         userId: user._id,
       };
@@ -94,7 +101,9 @@ function AddJobApplication({
       const addedJob = await addJob(jobData);
       console.log('Added Job:', addedJob);
 
-      fetchBoard();
+      if (fetchBoard) {
+        await fetchBoard();
+      }
       handleClose();
     } catch (error) {
       console.error('Error adding job:', error);
@@ -224,7 +233,7 @@ function AddJobApplication({
             onChange={e => setListName(e.target.value)}
             defaultValue={listName ? listName : 'Wishlist'}
           >
-            {lists.map(list => (
+            {board.lists.map(list => (
               <MenuItem key={list._id} value={list.listName}>
                 {list.listName}
               </MenuItem>

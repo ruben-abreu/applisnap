@@ -35,8 +35,8 @@ export const addBoard = board => {
   return axios.post(`${baseURL}/boards`, board);
 };
 
-export const editBoard = board => {
-  return axios.put(`${baseURL}/boards`, board);
+export const editBoard = (boardId, board) => {
+  return axios.put(`${baseURL}/boards/${boardId}`, board);
 };
 
 export const deleteBoard = boardId => {

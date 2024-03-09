@@ -26,13 +26,9 @@ function Board() {
     try {
       const currentBoard = await getBoard(boardId);
       setBoard(currentBoard);
-      console.log('currentBoard', currentBoard);
       setBoardName(currentBoard.boardName);
-      console.log('boardName:', currentBoard.boardName);
       setApplicationList(currentBoard.jobs);
-      console.log('applicationList:', currentBoard.jobs);
       setLists(currentBoard.lists);
-      console.log('lists:', currentBoard.lists);
     } catch (error) {
       alert(error.response.data.message);
     }
@@ -258,7 +254,13 @@ function Board() {
         >
           {list.listName}
 
-          <AddJobButton board={board} list={list} role={role} />
+          <AddJobButton
+            board={board}
+            list={list}
+            role={role}
+            fetchBoard={fetchBoard}
+            boardId={boardId}
+          />
         </Typography>
         {renderApplications(role, list)}
         {applicationList &&
@@ -293,7 +295,13 @@ function Board() {
               ? 'Add your first job application'
               : 'Add new job application'}
           </h3>
-          <AddJobButton board={board} list="" role="" fetchBoard={fetchBoard} />
+          <AddJobButton
+            board={board}
+            list="Wishlist"
+            role=""
+            fetchBoard={fetchBoard}
+            boardId={boardId}
+          />
         </div>
       )}
       <div style={{ overflowX: 'auto', marginTop: '60px' }}>
@@ -327,6 +335,7 @@ function Board() {
             board={board}
             fetchBoard={fetchBoard}
             lists={lists}
+            boardId={boardId}
           />
         )}
       </div>
