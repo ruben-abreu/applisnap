@@ -85,7 +85,7 @@ function BoardLists() {
         <ListItemText
           primary={
             <Link
-              to={`/board/${boardItem._id}`}
+              to={`/boards/${boardItem._id}`}
               className='text-[#678B85] hover:underline'
             >
               <h2>{boardItem.boardName}</h2>
