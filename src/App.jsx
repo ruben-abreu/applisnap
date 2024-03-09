@@ -5,7 +5,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
 import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
-import Board from './pages/Board';
 import Wishlist from './pages/Wishlist';
 import Applications from './pages/Applications';
 import Interviews from './pages/Interviews';
@@ -13,7 +12,7 @@ import Offers from './pages/Offers';
 import Rejected from './pages/Rejected';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
-import ResetPassword from './pages/ResetPassword';
+import BoardLists from './pages/BoardLists';
 
 function App() {
   const { darkMode } = useContext(ThemeContext);
@@ -35,16 +34,15 @@ function App() {
     <ThemeProvider theme={theme}>
       <Navigation />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/boards/:boardId" element={<Board />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/applications" element={<Applications />} />
-        <Route path="/interviews" element={<Interviews />} />
-        <Route path="/offers" element={<Offers />} />
-        <Route path="/rejected" element={<Rejected />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path='/' element={<HomePage />} />
+        <Route path='/boards' element={<BoardLists />} />
+        <Route path='/wishlist' element={<Wishlist />} />
+        <Route path='/applications' element={<Applications />} />
+        <Route path='/interviews' element={<Interviews />} />
+        <Route path='/offers' element={<Offers />} />
+        <Route path='/rejected' element={<Rejected />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/settings' element={<Settings />} />
       </Routes>
     </ThemeProvider>
   );
