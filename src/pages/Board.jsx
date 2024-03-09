@@ -1,10 +1,19 @@
 import { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/auth.context';
 import { getBoard } from '../api/boards.api';
 import { updateApplicationListInBackend } from '../api/lists.api';
 import { editJob } from '../api/jobs.api';
 import { ThemeContext } from '../context/theme.context';
-import { Grid, Paper, Typography } from '@mui/material';
+import {
+  Grid,
+  Paper,
+  Typography,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from '@mui/material';
 import EditApplication from '../components/EditApplication';
 import AddJobButton from '../components/AddJobButton';
 import AddBoardButton from '../components/AddBoardButton';
@@ -15,12 +24,25 @@ function Board() {
   const [board, setBoard] = useState('');
   const [boardName, setBoardName] = useState('');
   const [lists, setLists] = useState([]);
+
   const { boardId } = useParams();
-  const { darkMode } = useContext(ThemeContext);
+
+  const { darkMode, formGreenStyle } = useContext(ThemeContext);
+  const { user } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchBoard();
-  }, []);
+  }, [boardId]);
+
+  const handleBoardSelection = e => {
+    setBoardName(e.target.value);
+    const selectedBoard = user.boards.filter(
+      board => board.boardName === e.target.value
+    )[0];
+    navigate(`/boards/${selectedBoard._id}`);
+  };
 
   const fetchBoard = async () => {
     try {
@@ -29,6 +51,7 @@ function Board() {
       setBoardName(currentBoard.boardName);
       setApplicationList(currentBoard.jobs);
       setLists(currentBoard.lists);
+      console.log('currentBoard:', currentBoard);
     } catch (error) {
       alert(error.response.data.message);
     }
@@ -275,13 +298,42 @@ function Board() {
   return (
     <div className="m-[2%] mt-[30px]">
       <div className="flex justify-between items-center">
-        <h2
-          className={`text-[1.4em] ${
-            darkMode ? 'text-white' : 'text-[#678B85]'
-          }`}
-        >
-          {boardName && boardName}
-        </h2>
+        {user && user.boards.length === 1 && boardName && (
+          <h2
+            className={`text-[1.4em] ${
+              darkMode ? 'text-white' : 'text-[#678B85]'
+            }`}
+          >
+            {boardName}
+          </h2>
+        )}
+        {user && user.boards.length > 1 && boardName && (
+          <form>
+            <FormControl sx={{ ...formGreenStyle, my: 1 }}>
+              <InputLabel htmlFor="board" label="Board">
+                Board
+              </InputLabel>
+              <Select
+                id="board"
+                label="Board"
+                type="text"
+                value={boardName}
+                onChange={e => handleBoardSelection(e)}
+                defaultValue={
+                  boardName
+                    ? boardName
+                    : user.boards[user.boards.length - 1].boardName
+                }
+              >
+                {user.boards.map(board => (
+                  <MenuItem key={board._id} value={board.boardName}>
+                    {board.boardName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </form>
+        )}
         <AddBoardButton />
       </div>
       {board && (
