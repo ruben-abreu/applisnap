@@ -18,7 +18,6 @@ import {
 } from '@mui/material';
 import CancelButton from '../components/CancelButton';
 import { addJob } from '../api/jobs.api';
-import { addRole } from '../api/role.api';
 
 function AddJobApplication({
   open,
@@ -94,18 +93,6 @@ function AddJobApplication({
       console.log('Data to be saved:', jobData);
       const addedJob = await addJob(jobData);
       console.log('Added Job:', addedJob);
-
-      const { jobId } = addedJob.data._id;
-
-      const role = {
-        roleName,
-        userId: user._id,
-        boardId,
-        listId: list[0]._id,
-        jobId,
-      };
-      const addedRole = await addRole(role);
-      console.log('Added Role:', addedRole);
 
       fetchBoard();
       handleClose();

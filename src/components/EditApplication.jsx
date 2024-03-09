@@ -20,7 +20,6 @@ import { ThemeContext } from '../context/theme.context';
 import CancelButton from '../components/CancelButton';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddRole from './AddRole';
 import { editJob, deleteJob } from '../api/jobs.api';
 import { getList } from '../api/lists.api';
 
@@ -130,7 +129,18 @@ function EditApplication({
             onChange={e => setCompanyName(e.target.value)}
           />
         </FormControl>
-        <AddRole roleName={roleName} setRoleName={setRoleName} />
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="companyName" label="Role">
+            Role
+          </InputLabel>
+          <Input
+            id="role"
+            value={roleName}
+            type="text"
+            label="Role"
+            onChange={e => setRoleName(e.target.value)}
+          />
+        </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <InputLabel htmlFor="domain" label="Company Website">
             Company Website
