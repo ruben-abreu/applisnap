@@ -42,7 +42,7 @@ insert image
 
 ### Git
 
-[`Frontend`](hhttps://github.com/ruben-abreu/applisnap)
+[`Frontend`](https://github.com/ruben-abreu/applisnap)
 
 [`Backend`](https://github.com/ruben-abreu/applisnap-backend)
 ​
