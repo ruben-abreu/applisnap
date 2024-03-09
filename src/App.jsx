@@ -13,6 +13,7 @@ import Rejected from './pages/Rejected';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import BoardLists from './pages/BoardLists';
+import Board from './pages/Board';
 
 function App() {
   const { darkMode } = useContext(ThemeContext);
@@ -34,15 +35,16 @@ function App() {
     <ThemeProvider theme={theme}>
       <Navigation />
       <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/boards' element={<BoardLists />} />
-        <Route path='/wishlist' element={<Wishlist />} />
-        <Route path='/applications' element={<Applications />} />
-        <Route path='/interviews' element={<Interviews />} />
-        <Route path='/offers' element={<Offers />} />
-        <Route path='/rejected' element={<Rejected />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/settings' element={<Settings />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/boards" element={<BoardLists />} />
+        <Route path="/boards/:boardId" element={<Board />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/applications" element={<Applications />} />
+        <Route path="/interviews" element={<Interviews />} />
+        <Route path="/offers" element={<Offers />} />
+        <Route path="/rejected" element={<Rejected />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </ThemeProvider>
   );
