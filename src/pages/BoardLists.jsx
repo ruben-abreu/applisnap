@@ -110,7 +110,11 @@ function BoardLists() {
               <h2>{boardItem.boardName}</h2>
             </Link>
           }
-          secondary={`${countJobs(boardItem)} jobs`}
+          secondary={`${
+            countJobs(boardItem) === 1
+              ? '1 job'
+              : `${countJobs(boardItem)} jobs`
+          }`}
         />
       </ListItem>
     ));
