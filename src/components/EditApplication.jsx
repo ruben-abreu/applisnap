@@ -24,7 +24,14 @@ import AddRole from './AddRole';
 import { editJob, deleteJob } from '../api/jobs.api';
 import { getList } from '../api/lists.api';
 
-function EditApplication({ open, onClose, application, board }) {
+function EditApplication({
+  open,
+  onClose,
+  application,
+  board,
+  fetchBoard,
+  lists,
+}) {
   const [companyName, setCompanyName] = useState(application.companyName);
   const [roleName, setRoleName] = useState(application.roleName);
   const [domain, setDomain] = useState(application.domain);
@@ -40,7 +47,6 @@ function EditApplication({ open, onClose, application, board }) {
   const [starred, setStarred] = useState(application.starred);
   const [list, setList] = useState(application.listId);
   const [listName, setListName] = useState('');
-  const [lists, setLists] = useState(board.lists);
 
   const { user } = useContext(AuthContext);
   const { formGreenStyle, buttonGreenStyle } = useContext(ThemeContext);
@@ -60,7 +66,7 @@ function EditApplication({ open, onClose, application, board }) {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     let formattedDomain = domain.trim().toLowerCase();
     if (formattedDomain.startsWith('http://')) {
       formattedDomain = formattedDomain.slice(7);
@@ -88,15 +94,20 @@ function EditApplication({ open, onClose, application, board }) {
       list,
       userId: user._id,
     };
-
     console.log('Data to be saved:', jobData);
-    onClose();
-    editJob(application._id, jobData);
+    try {
+      await editJob(application._id, jobData);
+      fetchBoard();
+      onClose();
+    } catch (error) {
+      alert(error.response.data.message);
+    }
   };
 
   const handleDelete = async () => {
     try {
       await deleteJob(application._id);
+      fetchBoard();
       onClose();
     } catch (error) {
       alert(error.response.data.message);

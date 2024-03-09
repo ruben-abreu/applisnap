@@ -16,22 +16,11 @@ function Board() {
   const [boardName, setBoardName] = useState('');
   const [lists, setLists] = useState([]);
   const { boardId } = useParams();
-  const { user } = useContext(AuthContext);
   const { darkMode } = useContext(ThemeContext);
 
   useEffect(() => {
-    fetchAllData();
-  }, [user]);
-
-  const fetchAllData = async () => {
-    try {
-      if (user && user._id) {
-        await fetchBoard();
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+    fetchBoard();
+  }, []);
 
   const fetchBoard = async () => {
     try {
@@ -253,16 +242,18 @@ function Board() {
         </h2>
         <AddBoardButton />
       </div>
-      {board && board.jobs.length === 0 && (
+      {board && (
         <div className="flex items-center mt-[30px]">
           <h3
             className={`text-[16px] ${
               darkMode ? 'text-white' : 'text-[black]'
             } font-bold`}
           >
-            Add your first job application
+            {board.jobs.length === 0
+              ? 'Add your first job application'
+              : 'Add new job application'}
           </h3>
-          <AddJobButton board={board} list="" role="" />
+          <AddJobButton board={board} list="" role="" fetchBoard={fetchBoard} />
         </div>
       )}
       <div style={{ overflowX: 'auto', marginTop: '60px' }}>
@@ -294,6 +285,8 @@ function Board() {
             onClose={handleEditClose}
             application={selectedApplication}
             board={board}
+            fetchBoard={fetchBoard}
+            lists={lists}
           />
         )}
       </div>

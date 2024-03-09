@@ -20,28 +20,39 @@ import CancelButton from '../components/CancelButton';
 import { addJob } from '../api/jobs.api';
 import { addRole } from '../api/role.api';
 
-function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
+function AddJobApplication({
+  open,
+  setOpen,
+  handleClose,
+  board,
+  fetchBoard,
+  list,
+  role,
+}) {
   const [companyName, setCompanyName] = useState('');
   const [roleName, setRoleName] = useState(role);
   const [domain, setDomain] = useState('');
   const [jobURL, setJobURL] = useState('');
   const [jobDescription, setJobDescription] = useState('');
-  const [workModel, setWorkModel] = useState('');
+  const [workModel, setWorkModel] = useState('On-Site');
   const [workLocation, setWorkLocation] = useState('');
   const [notes, setNotes] = useState('');
   const [customLabel, setCustomLabel] = useState('');
   const [date, setDate] = useState('');
   const [starred, setStarred] = useState(false);
-  const [listName, setListName] = useState(list.listName);
+  const [listName, setListName] = useState(
+    list.listName ? list.listName : 'Wishlist'
+  );
   const [lists, setLists] = useState(board.lists);
+  const [boardId, setBoardId] = useState(board._id);
 
   const { user } = useContext(AuthContext);
   const { formGreenStyle, buttonGreenStyle } = useContext(ThemeContext);
 
   useEffect(() => {
-    setListName(list.listName);
     setLists(board.lists);
-  }, [board, list]);
+    setBoardId(board._id);
+  }, []);
 
   const handleSave = async () => {
     try {
@@ -56,7 +67,12 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
       }
       formattedDomain = formattedDomain.split('/')[0];
 
-      const list = lists.filter(list => list.listName === listName);
+      console.log('listName', listName);
+      console.log('board.lists', board.lists);
+
+      const list = board.lists.filter(list => list.listName === listName);
+
+      console.log('list:', list);
 
       const jobData = {
         companyName,
@@ -71,24 +87,28 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
         date,
         starred,
         boardId: boardId,
-        listId: list._id,
+        listId: list[0]._id,
         userId: user._id,
       };
 
       console.log('Data to be saved:', jobData);
-      handleClose();
       const addedJob = await addJob(jobData);
-
-      const { roleName, userId, boardId } = jobData;
-
-      const { jobId } = addJob.data._id;
-
-      const role = { roleName, userId, boardId, jobId };
-
-      const addedRole = await addRole(role);
-
       console.log('Added Job:', addedJob);
+
+      const { jobId } = addedJob.data._id;
+
+      const role = {
+        roleName,
+        userId: user._id,
+        boardId,
+        listId: list[0]._id,
+        jobId,
+      };
+      const addedRole = await addRole(role);
       console.log('Added Role:', addedRole);
+
+      fetchBoard();
+      handleClose();
     } catch (error) {
       console.error('Error adding job:', error);
     }
@@ -183,6 +203,7 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
             label="Work Model"
             type="text"
             value={workModel}
+            defaultValue="On-Site"
             onChange={e => setWorkModel(e.target.value)}
           >
             <MenuItem value={'On-Site'}>On-Site</MenuItem>
@@ -213,7 +234,7 @@ function AddJobApplication({ open, setOpen, handleClose, board, list, role }) {
             type="text"
             value={listName}
             onChange={e => setListName(e.target.value)}
-            defaultValue={listName}
+            defaultValue={listName ? listName : 'Wishlist'}
           >
             {lists.map(list => (
               <MenuItem key={list._id} value={list.listName}>
