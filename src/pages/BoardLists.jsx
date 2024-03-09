@@ -1,5 +1,3 @@
-import { getAllBoards, deleteBoard } from '../api/boards.api';
-import { AuthContext } from '../context/auth.context';
 import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import AddBoardButton from '../components/AddBoardButton';
@@ -14,6 +12,9 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import DeleteBoardButton from '../components/DeleteBoardButton';
+import EditBoardButton from '../components/EditBoardButton';
+import { getAllBoards, deleteBoard, editBoard } from '../api/boards.api';
+import { AuthContext } from '../context/auth.context';
 
 function BoardLists() {
   const [boards, setBoards] = useState([]);
@@ -61,6 +62,18 @@ function BoardLists() {
     }
   };
 
+  const editBoardItem = async (boardId, newName) => {
+    try {
+      const updatedBoard = await editBoard(boardId, { boardName: newName });
+      const updatedBoards = boards.map(board =>
+        board._id === boardId ? updatedBoard.data : board
+      );
+      setBoards(updatedBoards);
+    } catch (error) {
+      console.error('Error editing board:', error);
+    }
+  };
+
   function countJobs(board) {
     return board.jobs.length;
   }
@@ -70,10 +83,16 @@ function BoardLists() {
       <ListItem
         key={boardItem._id}
         secondaryAction={
-          <DeleteBoardButton
-            boardId={boardItem._id}
-            onDelete={deleteBoardItem}
-          />
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <EditBoardButton
+              boardId={boardItem._id}
+              onEdit={newName => handleEditBoard(boardItem._id, newName)}
+            />
+            <DeleteBoardButton
+              boardId={boardItem._id}
+              onDelete={deleteBoardItem}
+            />
+          </div>
         }
         onClick={() => handleBoardClick(boardItem._id)}
       >
@@ -97,6 +116,14 @@ function BoardLists() {
     ));
   }
 
+  const handleEditBoard = async (boardId, newName) => {
+    try {
+      await editBoardItem(boardId, newName);
+    } catch (error) {
+      console.error('Error editing board:', error);
+    }
+  };
+
   return (
     <div className='m-[2%] mt-[30px]'>
       <div className='flex justify-between items-center'>
@@ -105,11 +132,11 @@ function BoardLists() {
             darkMode ? 'text-white' : 'text-[#678B85]'
           }`}
         >
-          My Boards:
+          My Boards
         </h2>
         <AddBoardButton />
       </div>
-      <Box sx={{ flexGrow: 1, maxWidth: 420 }}>
+      <Box sx={{ flexGrow: 1, maxWidth: 520 }}>
         <Grid item xs={12} md={6}>
           <Typography
             sx={{ mt: 4, mb: 2 }}
