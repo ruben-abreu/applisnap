@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { ThemeContext } from '../context/theme.context';
 import Button from '@mui/material/Button';
-import ChangeCircleRoundedIcon from '@mui/icons-material/ChangeCircleRounded';
+import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import Dialog from '@mui/material/Dialog';
 import { DialogActions, DialogContent, TextField } from '@mui/material';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -9,7 +9,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 function EditBoardButton({ onEdit }) {
   const [open, setOpen] = useState(false);
   const [newName, setNewName] = useState('');
-  const { yellowButtonStyle } = useContext(ThemeContext);
+  const {
+    yellowButtonStyle,
+    lightButtonStyle,
+    buttonGreenStyle,
+    formGreenStyle,
+  } = useContext(ThemeContext);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -36,12 +41,12 @@ function EditBoardButton({ onEdit }) {
     <React.Fragment>
       <Button
         onClick={handleClickOpen}
-        startIcon={<ChangeCircleRoundedIcon />}
+        startIcon={<ModeEditRoundedIcon />}
         sx={{
           ...yellowButtonStyle,
         }}
       >
-        Edit Name
+        Edit
       </Button>
       <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
         <DialogTitle>Edit Board</DialogTitle>
@@ -55,13 +60,14 @@ function EditBoardButton({ onEdit }) {
             fullWidth
             value={newName}
             onChange={handleInputChange}
+            sx={{ ...formGreenStyle }}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} sx={{ ...yellowButtonStyle }}>
+          <Button onClick={handleClose} sx={{ ...lightButtonStyle }}>
             Cancel
           </Button>
-          <Button onClick={handleEdit} sx={{ ...yellowButtonStyle }}>
+          <Button onClick={handleEdit} sx={{ ...buttonGreenStyle }}>
             Save Changes
           </Button>
         </DialogActions>

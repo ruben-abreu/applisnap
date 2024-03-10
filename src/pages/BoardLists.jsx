@@ -83,7 +83,7 @@ function BoardLists() {
     <div className="m-[2%] mt-[30px]">
       <div className="flex justify-between items-center">
         <h2
-          className={`text-[1.4em] font-bold mt-4 md-6 ${
+          className={`text-[1.4em] font-bold ${
             darkMode ? 'text-white' : 'text-[#678B85]'
           }`}
         >
