@@ -99,15 +99,13 @@ function BoardLists() {
             className="flex items-center gap-[10px]"
           >
             <div className="flex items-center gap-[20px] w-[250px]">
-              <Link
-                to={`/boards/${boardItem._id}`}
-                className="text-[#30b39a] hover:underline"
-              >
+              <Link to={`/boards/${boardItem._id}`}>
                 <Avatar
                   sx={{
                     width: '72px',
                     height: '72px',
                     backgroundColor: '#30b39a',
+                    '&:hover': { backgroundColor: '#678B85' },
                   }}
                 >
                   <DashboardRoundedIcon
@@ -119,7 +117,7 @@ function BoardLists() {
               <div>
                 <Link
                   to={`/boards/${boardItem._id}`}
-                  className="text-[#30b39a] hover:underline"
+                  className="text-[#30b39a] hover:text-[#678B85]"
                 >
                   <h2 className="text-wrap">{boardItem.boardName}</h2>
                 </Link>
