@@ -2,14 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import AddBoardButton from '../components/AddBoardButton';
 import { ThemeContext } from '../context/theme.context';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import DeleteBoardButton from '../components/DeleteBoardButton';
 import EditBoardButton from '../components/EditBoardButton';
@@ -78,47 +71,6 @@ function BoardLists() {
     return board.jobs.length;
   };
 
-  const generate = () => {
-    return boards.map(boardItem => (
-      <ListItem
-        key={boardItem._id}
-        onClick={() => handleBoardClick(boardItem._id)}
-      >
-        <ListItemAvatar>
-          <Avatar sx={{ backgroundColor: '#30b39a' }}>
-            <DashboardRoundedIcon sx={{ color: 'white' }} />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={
-            <Link
-              to={`/boards/${boardItem._id}`}
-              className="text-[#30b39a] hover:underline"
-            >
-              <h2>{boardItem.boardName}</h2>
-            </Link>
-          }
-          secondary={`${
-            countJobs(boardItem) === 1
-              ? '1 job'
-              : `${countJobs(boardItem)} jobs`
-          }`}
-        />
-
-        <div className="flex gap-[8px]">
-          <EditBoardButton
-            boardId={boardItem._id}
-            onEdit={newName => handleEditBoard(boardItem._id, newName)}
-          />
-          <DeleteBoardButton
-            boardId={boardItem._id}
-            onDelete={deleteBoardItem}
-          />
-        </div>
-      </ListItem>
-    ));
-  };
-
   const handleEditBoard = async (boardId, newName) => {
     try {
       await editBoardItem(boardId, newName);
@@ -131,7 +83,7 @@ function BoardLists() {
     <div className="m-[2%] mt-[30px]">
       <div className="flex justify-between items-center">
         <h2
-          className={`text-[1.4em] mt-4 md-6 ${
+          className={`text-[1.4em] font-bold mt-4 md-6 ${
             darkMode ? 'text-white' : 'text-[#678B85]'
           }`}
         >
@@ -139,11 +91,61 @@ function BoardLists() {
         </h2>
         <AddBoardButton />
       </div>
-      <Box sx={{ maxWidth: '80%', marginTop: '50px' }}>
-        <Grid>
-          <List dense={false}>{generate()}</List>
-        </Grid>
-      </Box>
+      <div className="mt-[50px] flex flex-col gap-[30px]">
+        {boards.map(boardItem => (
+          <div
+            key={boardItem._id}
+            onClick={() => handleBoardClick(boardItem._id)}
+            className="flex items-center gap-[10px]"
+          >
+            <div className="flex items-center gap-[20px] w-[250px]">
+              <Link
+                to={`/boards/${boardItem._id}`}
+                className="text-[#30b39a] hover:underline"
+              >
+                <Avatar
+                  sx={{
+                    width: '72px',
+                    height: '72px',
+                    backgroundColor: '#30b39a',
+                  }}
+                >
+                  <DashboardRoundedIcon
+                    sx={{ width: '42px', height: '42px', color: 'white' }}
+                  />
+                </Avatar>
+              </Link>
+
+              <div>
+                <Link
+                  to={`/boards/${boardItem._id}`}
+                  className="text-[#30b39a] hover:underline"
+                >
+                  <h2 className="text-wrap">{boardItem.boardName}</h2>
+                </Link>
+                <p>
+                  {`${
+                    countJobs(boardItem) === 1
+                      ? '1 job'
+                      : `${countJobs(boardItem)} jobs`
+                  }`}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-[8px] w-[300px] max-[545px]:flex-col max-[545px]:w-[145px]">
+              <EditBoardButton
+                boardId={boardItem._id}
+                onEdit={newName => handleEditBoard(boardItem._id, newName)}
+              />
+              <DeleteBoardButton
+                boardId={boardItem._id}
+                onDelete={deleteBoardItem}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

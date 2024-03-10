@@ -43,15 +43,15 @@ function EditBoardButton({ onEdit }) {
       >
         Edit Name
       </Button>
-      <Dialog open={open} onClose={handleClose} maxWidth='xs' fullWidth>
+      <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
         <DialogTitle>Edit Board</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
-            margin='dense'
-            id='newName'
-            label='New Board Name'
-            type='text'
+            margin="dense"
+            id="newName"
+            label="New Board Name"
+            type="text"
             fullWidth
             value={newName}
             onChange={handleInputChange}
