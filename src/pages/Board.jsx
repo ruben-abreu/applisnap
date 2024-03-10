@@ -17,6 +17,11 @@ import {
 import EditApplication from '../components/EditApplication';
 import AddJobButton from '../components/AddJobButton';
 import AddBoardButton from '../components/AddBoardButton';
+import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import ContentPasteSearchRoundedIcon from '@mui/icons-material/ContentPasteSearchRounded';
+import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
+import ThumbDownAltRoundedIcon from '@mui/icons-material/ThumbDownAltRounded';
 
 function Board() {
   const [applicationList, setApplicationList] = useState([]);
@@ -159,7 +164,7 @@ function Board() {
         container
         spacing={1}
         onDragOver={onDragOver}
-        sx={{ flexWrap: 'wrap' }}
+        sx={{ flexWrap: 'wrap', maxWidth: '300px' }}
       >
         {applicationList &&
           applicationList
@@ -174,7 +179,15 @@ function Board() {
               }
             })
             .map((application, index) => (
-              <Grid item key={application._id + '-' + index}>
+              <Grid
+                item
+                key={application._id + '-' + index}
+                sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  alignItems: 'center',
+                }}
+              >
                 <Paper
                   elevation={3}
                   draggable
@@ -189,7 +202,7 @@ function Board() {
                     mb: 1,
                     cursor: 'pointer',
                     minWidth: 100,
-                    maxWidth: 300,
+                    maxWidth: 200,
                     width: '100%',
                     display: 'flex',
                     flexDirection: 'column',
@@ -237,11 +250,7 @@ function Board() {
 
   const EmptyDropArea = ({ role, list }) => (
     <div
-      className="empty-drop-area"
-      style={{
-        minHeight: '50px',
-        marginBottom: '10px',
-      }}
+      className="empty-drop-area min-h-[50px] my-[10px] hover:bg-[#d5e7e4]"
       onDragEnter={onDragEnter}
       onDragOver={onDragOver}
       onDrop={e => onDrop(e, role, list, 0)}
@@ -273,8 +282,52 @@ function Board() {
             marginTop: '18px',
             display: 'flex',
             alignItems: 'center',
+            color: '#30b39a',
           }}
         >
+          {list.listName === 'Wishlist' ? (
+            <AutoAwesomeRoundedIcon
+              fontSize="small"
+              sx={{
+                color: '#30b39a',
+                marginRight: '10px',
+              }}
+            />
+          ) : list.listName === 'Applied' ? (
+            <SendRoundedIcon
+              fontSize="small"
+              sx={{
+                color: '#30b39a',
+                marginRight: '10px',
+              }}
+            />
+          ) : list.listName === 'Interviews' ? (
+            <ContentPasteSearchRoundedIcon
+              fontSize="small"
+              sx={{
+                color: '#30b39a',
+                marginRight: '10px',
+              }}
+            />
+          ) : list.listName === 'Offers' ? (
+            <EmojiEventsRoundedIcon
+              fontSize="small"
+              sx={{
+                color: '#30b39a',
+                marginRight: '10px',
+              }}
+            />
+          ) : list.listName === 'Rejected' ? (
+            <ThumbDownAltRoundedIcon
+              fontSize="small"
+              sx={{
+                color: '#30b39a',
+                marginRight: '10px',
+              }}
+            />
+          ) : (
+            ''
+          )}
           {list.listName}
 
           <AddJobButton
@@ -362,13 +415,18 @@ function Board() {
             uniqueRoles.map((role, index) => (
               <div
                 key={index}
-                style={{ minWidth: 300, maxWidth: 500, marginRight: 150 }}
+                style={{
+                  minWidth: 200,
+                  maxWidth: 300,
+                  marginRight: 50,
+                }}
               >
                 <Typography
                   variant="h5"
                   style={{
                     fontWeight: 'bold',
                     marginBottom: '8px',
+                    color: '#a32995',
                   }}
                 >
                   {role}

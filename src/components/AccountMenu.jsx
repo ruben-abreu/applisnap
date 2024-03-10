@@ -74,7 +74,7 @@ function AccountMenu() {
         open={open}
         onClose={handleClose}
         onClick={handleClose}
-        PaperProps={{
+        sx={{
           elevation: 0,
           sx: {
             overflow: 'visible',
