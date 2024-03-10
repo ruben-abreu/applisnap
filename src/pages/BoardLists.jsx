@@ -74,38 +74,26 @@ function BoardLists() {
     }
   };
 
-  function countJobs(board) {
+  const countJobs = board => {
     return board.jobs.length;
-  }
+  };
 
-  function generate() {
+  const generate = () => {
     return boards.map(boardItem => (
       <ListItem
         key={boardItem._id}
-        secondaryAction={
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <EditBoardButton
-              boardId={boardItem._id}
-              onEdit={newName => handleEditBoard(boardItem._id, newName)}
-            />
-            <DeleteBoardButton
-              boardId={boardItem._id}
-              onDelete={deleteBoardItem}
-            />
-          </div>
-        }
         onClick={() => handleBoardClick(boardItem._id)}
       >
         <ListItemAvatar>
-          <Avatar>
-            <DashboardRoundedIcon />
+          <Avatar sx={{ backgroundColor: '#30b39a' }}>
+            <DashboardRoundedIcon sx={{ color: 'white' }} />
           </Avatar>
         </ListItemAvatar>
         <ListItemText
           primary={
             <Link
               to={`/boards/${boardItem._id}`}
-              className='text-[#678B85] hover:underline'
+              className="text-[#30b39a] hover:underline"
             >
               <h2>{boardItem.boardName}</h2>
             </Link>
@@ -116,9 +104,20 @@ function BoardLists() {
               : `${countJobs(boardItem)} jobs`
           }`}
         />
+
+        <div className="flex gap-[8px]">
+          <EditBoardButton
+            boardId={boardItem._id}
+            onEdit={newName => handleEditBoard(boardItem._id, newName)}
+          />
+          <DeleteBoardButton
+            boardId={boardItem._id}
+            onDelete={deleteBoardItem}
+          />
+        </div>
       </ListItem>
     ));
-  }
+  };
 
   const handleEditBoard = async (boardId, newName) => {
     try {
@@ -129,8 +128,8 @@ function BoardLists() {
   };
 
   return (
-    <div className='m-[2%] mt-[30px]'>
-      <div className='flex justify-between items-center'>
+    <div className="m-[2%] mt-[30px]">
+      <div className="flex justify-between items-center">
         <h2
           className={`text-[1.4em] mt-4 md-6 ${
             darkMode ? 'text-white' : 'text-[#678B85]'
@@ -140,13 +139,8 @@ function BoardLists() {
         </h2>
         <AddBoardButton />
       </div>
-      <Box sx={{ flexGrow: 1, maxWidth: 520 }}>
-        <Grid item xs={12} md={6}>
-          <Typography
-            sx={{ mt: 4, mb: 2 }}
-            variant='h6'
-            component='div'
-          ></Typography>
+      <Box sx={{ maxWidth: '80%', marginTop: '50px' }}>
+        <Grid>
           <List dense={false}>{generate()}</List>
         </Grid>
       </Box>
