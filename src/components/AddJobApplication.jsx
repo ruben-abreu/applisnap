@@ -10,15 +10,19 @@ import {
   FormControl,
   InputLabel,
   Input,
-  Switch,
-  TextField,
-  FormControlLabel,
   Select,
   MenuItem,
 } from '@mui/material';
+import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import CancelButton from '../components/CancelButton';
 import { addJob } from '../api/jobs.api';
 import { getList } from '../api/lists.api';
+import dayjs from 'dayjs';
 
 function AddJobApplication({
   open,
@@ -37,14 +41,17 @@ function AddJobApplication({
   const [workModel, setWorkModel] = useState('On-Site');
   const [workLocation, setWorkLocation] = useState('');
   const [notes, setNotes] = useState('');
-  const [date, setDate] = useState('');
   const [starred, setStarred] = useState(false);
   const [listName, setListName] = useState(
     list.listName ? list.listName : 'Wishlist'
   );
+  const [dateInput, setDateInput] = useState(dayjs());
+  const [dateLabel, setDateLabel] = useState('');
+  const [date, setDate] = useState({});
 
   const { user } = useContext(AuthContext);
-  const { formGreenStyle, buttonGreenStyle } = useContext(ThemeContext);
+  const { darkMode, formGreenStyle, buttonGreenStyle, greenIconButtonStyle } =
+    useContext(ThemeContext);
 
   useEffect(() => {
     getData();
@@ -121,9 +128,34 @@ function AddJobApplication({
     }
   };
 
+  const dateTypes = ['created', 'applied', 'interviews', 'offer', 'rejected'];
+
   return (
     <Dialog open={open}>
-      <DialogTitle>Add Job Application</DialogTitle>
+      <div className="flex justify-between items-center">
+        <DialogTitle>Add Job Application</DialogTitle>
+        <button onClick={() => setStarred(!starred)}>
+          {starred ? (
+            <StarRoundedIcon
+              sx={{
+                color: darkMode ? '#f9cc71' : '#e8a135',
+                width: '30px',
+                height: '30px',
+                margin: '24px',
+              }}
+            />
+          ) : (
+            <StarOutlineRoundedIcon
+              sx={{
+                color: darkMode ? '#f9cc71' : '#e8a135',
+                width: '30px',
+                height: '30px',
+                margin: '24px',
+              }}
+            />
+          )}
+        </button>
+      </div>
       <DialogContent>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
           <InputLabel htmlFor="companyName" label="Company Name">
@@ -190,6 +222,20 @@ function AddJobApplication({
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="notes" label="Notes">
+            Notes
+          </InputLabel>
+          <Input
+            id="notes"
+            value={notes}
+            type="text"
+            label="Notes"
+            onChange={e => setNotes(e.target.value)}
+            multiline
+            rows={2}
+          />
+        </FormControl>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <InputLabel htmlFor="workLocation" label="Work Location">
             Work Location
           </InputLabel>
@@ -218,18 +264,6 @@ function AddJobApplication({
             <MenuItem value={'Hybrid'}>Hybrid</MenuItem>
           </Select>
         </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <TextField
-            id="date"
-            label="Date"
-            type="date"
-            value={date}
-            onChange={e => setDate(e.target.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </FormControl>
 
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <InputLabel htmlFor="list" label="List">
@@ -250,31 +284,48 @@ function AddJobApplication({
             ))}
           </Select>
         </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="notes" label="Notes">
-            Notes
-          </InputLabel>
-          <Input
-            id="notes"
-            value={notes}
-            type="text"
-            label="Notes"
-            onChange={e => setNotes(e.target.value)}
-            multiline
-            rows={2}
-          />
-        </FormControl>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={starred}
-              onChange={e => setStarred(e.target.checked)}
-              name="starred"
-              color="primary"
+
+        <div className="flex gap-[10px]">
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                id="date"
+                label="Date"
+                type="date"
+                openTo="day"
+                views={['year', 'month', 'day']}
+                format="YYYY-MM-DD"
+                value={dateInput}
+                onChange={e => setDateInput(e.target.value)}
+                defaultValue={dayjs()}
+              />
+            </LocalizationProvider>
+          </FormControl>
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+            <InputLabel htmlFor="dateLabel" label="Date Label">
+              Date Label
+            </InputLabel>
+            <Select
+              id="dateLabel"
+              label="Date Label"
+              type="text"
+              value={dateLabel}
+              onChange={e => setDateLabel(e.target.value)}
+              defaultValue={dateLabel ? dateLabel : 'created'}
+            >
+              {dateTypes.map((dateType, index) => (
+                <MenuItem key={index} value={dateType}>
+                  <p className="capitalize">{dateType}</p>
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <button>
+            <AddCircleOutlineRoundedIcon
+              sx={{ ...greenIconButtonStyle, width: '20px', height: '20px' }}
             />
-          }
-          label="Starred"
-        />
+          </button>
+        </div>
       </DialogContent>
       <DialogActions>
         <CancelButton
