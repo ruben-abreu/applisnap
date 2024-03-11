@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -40,15 +41,16 @@ function AddJobApplication({
   const [workModel, setWorkModel] = useState('On-Site');
   const [workLocation, setWorkLocation] = useState('');
   const [notes, setNotes] = useState('');
-  const [date, setDate] = useState('');
   const [starred, setStarred] = useState(false);
   const [listName, setListName] = useState(
     list.listName ? list.listName : 'Wishlist'
   );
+  const [dateInput, setDateInput] = useState(dayjs());
   const [dateLabel, setDateLabel] = useState('');
+  const [date, setDate] = useState({});
 
   const { user } = useContext(AuthContext);
-  const { darkMode, formGreenStyle, buttonGreenStyle } =
+  const { darkMode, formGreenStyle, buttonGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
 
   useEffect(() => {
@@ -220,6 +222,20 @@ function AddJobApplication({
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="notes" label="Notes">
+            Notes
+          </InputLabel>
+          <Input
+            id="notes"
+            value={notes}
+            type="text"
+            label="Notes"
+            onChange={e => setNotes(e.target.value)}
+            multiline
+            rows={2}
+          />
+        </FormControl>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <InputLabel htmlFor="workLocation" label="Work Location">
             Work Location
           </InputLabel>
@@ -248,6 +264,27 @@ function AddJobApplication({
             <MenuItem value={'Hybrid'}>Hybrid</MenuItem>
           </Select>
         </FormControl>
+
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="list" label="List">
+            List
+          </InputLabel>
+          <Select
+            id="list"
+            label="List"
+            type="text"
+            value={listName}
+            onChange={e => setListName(e.target.value)}
+            defaultValue={listName ? listName : 'Wishlist'}
+          >
+            {board.lists.map(list => (
+              <MenuItem key={list._id} value={list.listName}>
+                {list.listName}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
         <div className="flex gap-[10px]">
           <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -258,8 +295,8 @@ function AddJobApplication({
                 openTo="day"
                 views={['year', 'month', 'day']}
                 format="YYYY-MM-DD"
-                value={date}
-                onChange={e => setDate(e.target.value)}
+                value={dateInput}
+                onChange={e => setDateInput(e.target.value)}
                 defaultValue={dayjs()}
               />
             </LocalizationProvider>
@@ -283,41 +320,12 @@ function AddJobApplication({
               ))}
             </Select>
           </FormControl>
+          <button>
+            <AddCircleOutlineRoundedIcon
+              sx={{ ...greenIconButtonStyle, width: '20px', height: '20px' }}
+            />
+          </button>
         </div>
-
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="list" label="List">
-            List
-          </InputLabel>
-          <Select
-            id="list"
-            label="List"
-            type="text"
-            value={listName}
-            onChange={e => setListName(e.target.value)}
-            defaultValue={listName ? listName : 'Wishlist'}
-          >
-            {board.lists.map(list => (
-              <MenuItem key={list._id} value={list.listName}>
-                {list.listName}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="notes" label="Notes">
-            Notes
-          </InputLabel>
-          <Input
-            id="notes"
-            value={notes}
-            type="text"
-            label="Notes"
-            onChange={e => setNotes(e.target.value)}
-            multiline
-            rows={2}
-          />
-        </FormControl>
       </DialogContent>
       <DialogActions>
         <CancelButton

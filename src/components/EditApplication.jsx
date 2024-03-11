@@ -60,7 +60,7 @@ function EditApplication({
   const [dateLabel, setDateLabel] = useState('');
 
   const { user } = useContext(AuthContext);
-  const { darkMode, formGreenStyle, buttonGreenStyle } =
+  const { darkMode, formGreenStyle, buttonGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
 
   console.log('application:', application);
@@ -68,7 +68,7 @@ function EditApplication({
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [list]);
 
   const getData = async () => {
     try {
@@ -242,6 +242,20 @@ function EditApplication({
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="notes" label="Notes">
+            Notes
+          </InputLabel>
+          <Input
+            id="notes"
+            value={notes}
+            type="text"
+            label="Notes"
+            onChange={e => setNotes(e.target.value)}
+            multiline
+            rows={2}
+          />
+        </FormControl>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <InputLabel htmlFor="workLocation" label="Work Location">
             Work Location
           </InputLabel>
@@ -270,42 +284,6 @@ function EditApplication({
           </Select>
         </FormControl>
 
-        <div className="flex gap-[10px]">
-          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                id="date"
-                label="Date"
-                type="date"
-                openTo="day"
-                views={['year', 'month', 'day']}
-                format="YYYY-MM-DD"
-                value={date}
-                onChange={e => setDate(e.target.value)}
-                defaultValue={dayjs()}
-              />
-            </LocalizationProvider>
-          </FormControl>
-          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-            <InputLabel htmlFor="dateLabel" label="Date Label">
-              Date Label
-            </InputLabel>
-            <Select
-              id="dateLabel"
-              label="Date Label"
-              type="text"
-              value={dateLabel}
-              onChange={e => setDateLabel(e.target.value)}
-              defaultValue={dateLabel ? dateLabel : 'created'}
-            >
-              {dateTypes.map((dateType, index) => (
-                <MenuItem key={index} value={dateType}>
-                  <p className="capitalize">{dateType}</p>
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <InputLabel htmlFor="list" label="List">
             List
@@ -344,16 +322,42 @@ function EditApplication({
             ))}
           </Select>
         </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="notes">Notes</InputLabel>
-          <Input
-            id="notes"
-            value={notes}
-            onChange={e => setNotes(e.target.value)}
-            multiline
-            rows={2}
-          />
-        </FormControl>
+        <div className="flex gap-[10px]">
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                id="date"
+                label="Date"
+                type="date"
+                openTo="day"
+                views={['year', 'month', 'day']}
+                format="YYYY-MM-DD"
+                value={date}
+                onChange={e => setDate(e.target.value)}
+                defaultValue={dayjs()}
+              />
+            </LocalizationProvider>
+          </FormControl>
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+            <InputLabel htmlFor="dateLabel" label="Date Label">
+              Date Label
+            </InputLabel>
+            <Select
+              id="dateLabel"
+              label="Date Label"
+              type="text"
+              value={dateLabel}
+              onChange={e => setDateLabel(e.target.value)}
+              defaultValue={dateLabel ? dateLabel : 'created'}
+            >
+              {dateTypes.map((dateType, index) => (
+                <MenuItem key={index} value={dateType}>
+                  <p className="capitalize">{dateType}</p>
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
       </DialogContent>
       <DialogActions>
         <CancelButton
