@@ -68,7 +68,7 @@ function EditApplication({
 
   useEffect(() => {
     getData();
-  }, [list]);
+  }, []);
 
   const getData = async () => {
     try {
