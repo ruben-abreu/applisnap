@@ -426,7 +426,7 @@ function Board() {
                   style={{
                     fontWeight: 'bold',
                     marginBottom: '8px',
-                    color: '#a32995',
+                    color: darkMode ? '#FFA17A' : '#f06c35',
                   }}
                 >
                   {role}
