@@ -47,7 +47,9 @@ function EditApplication({
   const [workLocation, setWorkLocation] = useState(application.workLocation);
   const [notes, setNotes] = useState(application.notes);
   const [customLabel, setCustomLabel] = useState(application.customLabel);
-  const [date, setDate] = useState(application.date);
+  const [date, setDate] = useState(
+    application.date ? application.date : dayjs()
+  );
   const [starred, setStarred] = useState(application.starred);
   const [list, setList] = useState(application.listId);
   const [listName, setListName] = useState(
