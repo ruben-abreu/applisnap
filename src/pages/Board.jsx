@@ -250,7 +250,7 @@ function Board() {
 
   const EmptyDropArea = ({ role, list }) => (
     <div
-      className="empty-drop-area min-h-[50px] my-[10px] hover:bg-[#d5e7e4]"
+      className="empty-drop-area min-h-[50px] my-[10px] hover:bg-[#d5e7e4] rounded-md"
       onDragEnter={onDragEnter}
       onDragOver={onDragOver}
       onDrop={e => onDrop(e, role, list, 0)}
