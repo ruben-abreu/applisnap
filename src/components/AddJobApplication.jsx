@@ -54,13 +54,15 @@ function AddJobApplication({
     useContext(ThemeContext);
 
   useEffect(() => {
-    getData();
+    if (list) {
+      getData(list);
+    }
   }, [list]);
 
-  const getData = async () => {
+  const getData = async list => {
     try {
-      const list = await getList(list._id);
-      setListName(list.listName);
+      const currentList = await getList(list._id);
+      setListName(currentList.listName);
     } catch (error) {
       console.log('Error fetching data');
     }

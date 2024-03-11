@@ -67,15 +67,21 @@ function EditApplication({
   console.log('application.listId:', application.listId);
 
   useEffect(() => {
-    getData();
-  }, []);
+    if (application) {
+      getData(application);
+    }
+    if (board) {
+      setBoardName(board.boardName);
+    }
+    if (user) {
+      setBoards(user.boards);
+    }
+  }, [application, board, user]);
 
-  const getData = async () => {
+  const getData = async application => {
     try {
       const list = await getList(application.listId);
       setListName(list.listName);
-      setBoardName(board.boardName);
-      setBoards(user.boards);
     } catch (error) {
       console.log('Error fetching data');
     }

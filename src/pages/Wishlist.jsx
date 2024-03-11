@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { AuthContext } from '../context/auth.context';
-import { getAllJobs, editJob } from '../api/jobs.api';
+import { editJob } from '../api/jobs.api';
 import { ThemeContext } from '../context/theme.context';
 import EditApplication from '../components/EditApplication';
 import { getAllBoards } from '../api/boards.api';
@@ -20,10 +20,26 @@ const Wishlist = () => {
   const [boards, setBoards] = useState([]);
 
   useEffect(() => {
-    fetchWishlistJobs();
-    fetchBoard();
-    updateUser();
-  }, [user]);
+    if (user) {
+      updateUser(user._id);
+      setBoards(user.boards);
+      const wishlistIds = [];
+      user.lists.map(list => {
+        if (list.listName === 'Wishlist') {
+          wishlistIds.push(list._id);
+        }
+      });
+      console.log('wishlistIds:', wishlistIds);
+
+      setWishlistJobs(
+        user.jobs.filter(job => wishlistIds.includes(job.listId))
+      );
+      console.log(
+        'wishlistJobsArray:',
+        user.jobs.filter(job => wishlistIds.includes(job.listId))
+      );
+    }
+  }, []);
 
   const updateUser = async () => {
     try {
@@ -31,27 +47,6 @@ const Wishlist = () => {
       setUser(newDetails.data);
     } catch (error) {
       console.error('Error fetching user:', error);
-    }
-  };
-
-  const fetchWishlistJobs = async () => {
-    try {
-      if (user && user._id) {
-        const userJobsResponse = await getAllJobs();
-        const userLists = user.lists || [];
-        const wishlistList = userLists.find(
-          list => list.listName === 'Wishlist'
-        );
-
-        if (wishlistList) {
-          const wishlistJobs = userJobsResponse.data.filter(
-            job => job.userId === user._id && job.listId === wishlistList._id
-          );
-          setWishlistJobs(wishlistJobs);
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching wishlist jobs:', error);
     }
   };
 
@@ -79,7 +74,7 @@ const Wishlist = () => {
   const onEditApplication = async updatedJob => {
     try {
       await editJob(updatedJob._id, updatedJob);
-      fetchWishlistJobs();
+      updateUser(user._id);
       handleEditClose();
     } catch (error) {
       console.error('Error editing job:', error);
@@ -92,8 +87,8 @@ const Wishlist = () => {
   };
 
   return (
-    <div className='m-[2%] mt-[30px]'>
-      <div className='flex justify-between items-center'>
+    <div className="m-[2%] mt-[30px]">
+      <div className="flex justify-between items-center">
         <h2
           className={`text-[1.4em] mt-4 mb-6 ${
             darkMode ? 'text-white' : 'text-[#678B85]'
@@ -102,7 +97,7 @@ const Wishlist = () => {
           Wishlist
         </h2>
       </div>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {wishlistJobs.map((job, index) => {
           const jobBoard = boards.find(board => board._id === job.boardId);
           const listsForBoard = getListsForBoard(job.boardId);
@@ -110,9 +105,9 @@ const Wishlist = () => {
           return (
             <Card key={index} sx={{ maxWidth: 150, marginBottom: '20px' }}>
               <CardMedia
-                component='img'
-                alt='job logo'
-                height='100'
+                component="img"
+                alt="job logo"
+                height="100"
                 image={`https://logo.clearbit.com/${job.domain}`}
                 sx={{
                   p: 1,
@@ -125,16 +120,16 @@ const Wishlist = () => {
                 }}
               />
               <CardContent>
-                <Typography gutterBottom variant='h5' component='div'>
+                <Typography gutterBottom variant="h5" component="div">
                   {job.companyName}
                 </Typography>
-                <Typography variant='body2' color='text.secondary'>
+                <Typography variant="body2" color="text.secondary">
                   {job.roleName}
                 </Typography>
               </CardContent>
               <CardActions>
                 <Button
-                  size='small'
+                  size="small"
                   sx={{ color: '#678B85' }}
                   onClick={() => handleEdit(job)}
                 >
@@ -152,7 +147,7 @@ const Wishlist = () => {
                     onEdit={onEditApplication}
                   />
                 )}
-                <Button size='small' sx={{ color: '#678B85' }}>
+                <Button size="small" sx={{ color: '#678B85' }}>
                   Learn More
                 </Button>
               </CardActions>
