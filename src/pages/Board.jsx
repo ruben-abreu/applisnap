@@ -274,17 +274,7 @@ function Board() {
   const renderListsForRole = role => {
     return lists.map(list => (
       <div key={`${role}-${list.listName}`}>
-        <Typography
-          variant="subtitle1"
-          style={{
-            marginBottom: '8px',
-            fontWeight: 'bold',
-            marginTop: '18px',
-            display: 'flex',
-            alignItems: 'center',
-            color: '#30b39a',
-          }}
-        >
+        <div className="mt-[18px] mb-[8px] font-bold flex items-center text-[#30b39a]">
           {list.listName === 'Wishlist' ? (
             <AutoAwesomeRoundedIcon
               fontSize="small"
@@ -328,7 +318,7 @@ function Board() {
           ) : (
             ''
           )}
-          {list.listName}
+          <p>{list.listName}</p>
 
           <AddJobButton
             board={board}
@@ -337,7 +327,7 @@ function Board() {
             fetchBoard={fetchBoard}
             boardId={boardId}
           />
-        </Typography>
+        </div>
         {renderApplications(role, list)}
         {applicationList &&
           applicationList.filter(
