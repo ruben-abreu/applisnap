@@ -37,7 +37,6 @@ function AddJobApplication({
   const [workModel, setWorkModel] = useState('On-Site');
   const [workLocation, setWorkLocation] = useState('');
   const [notes, setNotes] = useState('');
-  const [customLabel, setCustomLabel] = useState('');
   const [date, setDate] = useState('');
   const [starred, setStarred] = useState(false);
   const [listName, setListName] = useState(
@@ -49,7 +48,7 @@ function AddJobApplication({
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [list]);
 
   const getData = async () => {
     try {
@@ -89,7 +88,6 @@ function AddJobApplication({
         workModel,
         workLocation,
         notes,
-        customLabel,
         date,
         starred,
         boardId: board._id,
@@ -104,6 +102,18 @@ function AddJobApplication({
       if (fetchBoard) {
         await fetchBoard();
       }
+
+      setCompanyName('');
+      setRoleName('');
+      setDomain('');
+      setJobURL('');
+      setJobDescription('');
+      setWorkModel('On-Site');
+      setWorkLocation('');
+      setNotes('');
+      setDate('');
+      setStarred(false);
+
       handleClose();
     } catch (error) {
       console.error('Error adding job:', error);
@@ -277,7 +287,6 @@ function AddJobApplication({
           setWorkModel={setWorkModel}
           setWorkLocation={setWorkLocation}
           setNotes={setNotes}
-          setCustomLabel={setCustomLabel}
           setDate={setDate}
           setStarred={setStarred}
           setListName={setListName}

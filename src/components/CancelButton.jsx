@@ -18,7 +18,6 @@ function CancelButton({
   setWorkModel,
   setWorkLocation,
   setNotes,
-  setCustomLabel,
   setDate,
   setStarred,
   setListName,
@@ -41,7 +40,6 @@ function CancelButton({
     setWorkModel ? setWorkModel() : '';
     setWorkLocation ? setWorkLocation() : '';
     setNotes ? setNotes() : '';
-    setCustomLabel ? setCustomLabel() : '';
     setDate ? setDate() : '';
     setStarred ? setStarred(false) : '';
     setListName ? setListName() : '';
