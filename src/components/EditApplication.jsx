@@ -8,12 +8,14 @@ import {
   FormControl,
   InputLabel,
   Input,
-  Switch,
-  TextField,
-  FormControlLabel,
   Select,
   MenuItem,
 } from '@mui/material';
+import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
 import { ThemeContext } from '../context/theme.context';
@@ -23,6 +25,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { addJob, editJob, deleteJob } from '../api/jobs.api';
 import { getList } from '../api/lists.api';
 import { getBoard } from '../api/boards.api';
+import dayjs from 'dayjs';
 
 function EditApplication({
   open,
@@ -52,9 +55,11 @@ function EditApplication({
   );
   const [boardName, setBoardName] = useState('');
   const [boards, setBoards] = useState([]);
+  const [dateLabel, setDateLabel] = useState('');
 
   const { user } = useContext(AuthContext);
-  const { formGreenStyle, buttonGreenStyle } = useContext(ThemeContext);
+  const { darkMode, formGreenStyle, buttonGreenStyle } =
+    useContext(ThemeContext);
 
   console.log('application:', application);
   console.log('application.listId:', application.listId);
@@ -143,9 +148,34 @@ function EditApplication({
     }
   };
 
+  const dateTypes = ['created', 'applied', 'interviews', 'offer', 'rejected'];
+
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Edit Job</DialogTitle>
+      <div className="flex justify-between items-center">
+        <DialogTitle>Edit Job</DialogTitle>
+        <button onClick={() => setStarred(!starred)}>
+          {starred ? (
+            <StarRoundedIcon
+              sx={{
+                color: darkMode ? '#f9cc71' : '#e8a135',
+                width: '30px',
+                height: '30px',
+                margin: '24px',
+              }}
+            />
+          ) : (
+            <StarOutlineRoundedIcon
+              sx={{
+                color: darkMode ? '#f9cc71' : '#e8a135',
+                width: '30px',
+                height: '30px',
+                margin: '24px',
+              }}
+            />
+          )}
+        </button>
+      </div>
       <DialogContent>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <InputLabel htmlFor="companyName" label="Company Name">
@@ -238,18 +268,42 @@ function EditApplication({
           </Select>
         </FormControl>
 
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <TextField
-            id="date"
-            label="Date"
-            type="date"
-            value={date}
-            onChange={e => setDate(e.target.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </FormControl>
+        <div className="flex gap-[10px]">
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                id="date"
+                label="Date"
+                type="date"
+                openTo="day"
+                views={['year', 'month', 'day']}
+                format="YYYY-MM-DD"
+                value={date}
+                onChange={e => setDate(e.target.value)}
+                defaultValue={dayjs()}
+              />
+            </LocalizationProvider>
+          </FormControl>
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+            <InputLabel htmlFor="dateLabel" label="Date Label">
+              Date Label
+            </InputLabel>
+            <Select
+              id="dateLabel"
+              label="Date Label"
+              type="text"
+              value={dateLabel}
+              onChange={e => setDateLabel(e.target.value)}
+              defaultValue={dateLabel ? dateLabel : 'created'}
+            >
+              {dateTypes.map((dateType, index) => (
+                <MenuItem key={index} value={dateType}>
+                  <p className="capitalize">{dateType}</p>
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
           <InputLabel htmlFor="list" label="List">
             List
@@ -298,18 +352,6 @@ function EditApplication({
             rows={2}
           />
         </FormControl>
-
-        <FormControlLabel
-          control={
-            <Switch
-              checked={starred}
-              onChange={e => setStarred(e.target.checked)}
-              name="starred"
-              color="primary"
-            />
-          }
-          label="Starred"
-        />
       </DialogContent>
       <DialogActions>
         <CancelButton
