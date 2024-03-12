@@ -30,6 +30,7 @@ const Wishlist = () => {
   );
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [boards, setBoards] = useState([]);
+  const [lists, setLists] = useState([]);
 
   useEffect(() => {
     updateUser(storedUserId);
@@ -41,6 +42,7 @@ const Wishlist = () => {
       setUser(newDetails.data);
 
       setBoards(newDetails.data.boards);
+      setLists(newDetails.data.lists);
 
       setWishlistJobs(
         newDetails.data.jobs.filter(job =>
@@ -147,10 +149,10 @@ const Wishlist = () => {
                     application={selectedApplication}
                     board={jobBoard}
                     fetchBoard={fetchBoard}
-                    lists={listsForBoard}
                     boardId={jobBoard ? jobBoard._id : null}
                     onEdit={onEditApplication}
                     updateUser={updateUser}
+                    lists={lists}
                   />
                 )}
                 <Button size="small" sx={{ color: '#678B85' }}>

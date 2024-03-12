@@ -140,10 +140,12 @@ function EditApplication({
       }
 
       await fetchBoard();
-      updateUser(user._id);
+      if (updateUser) {
+        updateUser(user._id);
+      }
       onClose();
     } catch (error) {
-      alert(error.response.data.message);
+      console.log('Error saving changes', error);
     }
   };
 
@@ -154,11 +156,13 @@ function EditApplication({
       await fetchBoard();
       onClose();
     } catch (error) {
-      alert(error.response.data.message);
+      console.log('Error deleting job', error);
     }
   };
 
   const dateTypes = ['created', 'applied', 'interviews', 'offer', 'rejected'];
+
+  const uniqueLists = [...new Set(lists.map(list => list.listName))];
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -304,9 +308,9 @@ function EditApplication({
             onChange={e => setListName(e.target.value)}
             defaultValue={listName}
           >
-            {lists.map(list => (
-              <MenuItem key={list._id} value={list.listName}>
-                {list.listName}
+            {uniqueLists.map((list, index) => (
+              <MenuItem key={index} value={list}>
+                {list}
               </MenuItem>
             ))}
           </Select>
