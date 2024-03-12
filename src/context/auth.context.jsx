@@ -12,6 +12,10 @@ const AuthProviderWrapper = props => {
     localStorage.setItem('authToken', token);
   };
 
+  const storeUserId = userId => {
+    localStorage.setItem('userId', userId);
+  };
+
   const authenticateUser = async () => {
     const storedToken = localStorage.getItem('authToken');
 
@@ -60,6 +64,7 @@ const AuthProviderWrapper = props => {
         loggedIn,
         user,
         storeToken,
+        storeUserId,
         removeToken,
         authenticateUser,
         logoutUser,

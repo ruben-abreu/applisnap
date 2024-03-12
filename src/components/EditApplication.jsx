@@ -35,6 +35,7 @@ function EditApplication({
   fetchBoard,
   lists,
   boardId,
+  updateUser,
 }) {
   const [companyName, setCompanyName] = useState(application.companyName);
   const [roleName, setRoleName] = useState(application.roleName);
@@ -139,6 +140,7 @@ function EditApplication({
       }
 
       await fetchBoard();
+      updateUser(user._id);
       onClose();
     } catch (error) {
       alert(error.response.data.message);

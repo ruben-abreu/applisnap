@@ -31,7 +31,7 @@ function LogInButton() {
 
   const { darkMode, lightButtonNoBorder, buttonGreenStyle, formGreenStyle } =
     useContext(ThemeContext);
-  const { storeToken, authenticateUser } = useContext(AuthContext);
+  const { storeToken, storeUserId, authenticateUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -86,6 +86,7 @@ function LogInButton() {
 
       setIsLoading(false);
       storeToken(response.data.authToken);
+      storeUserId(response.data.userId);
       authenticateUser();
       setPassword('');
       handleClose();

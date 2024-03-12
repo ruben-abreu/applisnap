@@ -13,38 +13,43 @@ import { getAllBoards } from '../api/boards.api';
 import { getUserDetails } from '../api/auth.api';
 
 const Wishlist = () => {
-  const [wishlistJobs, setWishlistJobs] = useState([]);
   const { user, setUser } = useContext(AuthContext);
   const { darkMode } = useContext(ThemeContext);
+
+  const storedUserId = localStorage.getItem('userId');
+
+  const [wishlistJobs, setWishlistJobs] = useState(
+    user
+      ? user.jobs.filter(job =>
+          user.lists
+            .filter(list => list.listName === 'Wishlist')
+            .map(list => list._id)
+            .includes(job.listId)
+        )
+      : []
+  );
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [boards, setBoards] = useState([]);
 
   useEffect(() => {
-    if (user) {
-      updateUser(user._id);
-      setBoards(user.boards);
-      const wishlistIds = [];
-      user.lists.map(list => {
-        if (list.listName === 'Wishlist') {
-          wishlistIds.push(list._id);
-        }
-      });
-      console.log('wishlistIds:', wishlistIds);
-
-      setWishlistJobs(
-        user.jobs.filter(job => wishlistIds.includes(job.listId))
-      );
-      console.log(
-        'wishlistJobsArray:',
-        user.jobs.filter(job => wishlistIds.includes(job.listId))
-      );
-    }
+    updateUser(storedUserId);
   }, []);
 
-  const updateUser = async () => {
+  const updateUser = async userId => {
     try {
-      const newDetails = await getUserDetails(user._id);
+      const newDetails = await getUserDetails(userId);
       setUser(newDetails.data);
+
+      setBoards(newDetails.data.boards);
+
+      setWishlistJobs(
+        newDetails.data.jobs.filter(job =>
+          newDetails.data.lists
+            .filter(list => list.listName === 'Wishlist')
+            .map(list => list._id)
+            .includes(job.listId)
+        )
+      );
     } catch (error) {
       console.error('Error fetching user:', error);
     }
@@ -145,6 +150,7 @@ const Wishlist = () => {
                     lists={listsForBoard}
                     boardId={jobBoard ? jobBoard._id : null}
                     onEdit={onEditApplication}
+                    updateUser={updateUser}
                   />
                 )}
                 <Button size="small" sx={{ color: '#678B85' }}>
