@@ -1,16 +1,22 @@
 import { useState, useEffect, useContext } from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import { AuthContext } from '../context/auth.context';
-import { editJob } from '../api/jobs.api';
+import { editJob, deleteJob } from '../api/jobs.api';
 import { ThemeContext } from '../context/theme.context';
 import EditApplication from '../components/EditApplication';
 import { getAllBoards } from '../api/boards.api';
 import { getUserDetails } from '../api/auth.api';
+import {
+  Button,
+  Card,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Typography,
+} from '@mui/material';
 
 const Wishlist = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -31,6 +37,8 @@ const Wishlist = () => {
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [boards, setBoards] = useState([]);
   const [lists, setLists] = useState([]);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deletingJob, setDeletingJob] = useState(null);
 
   useEffect(() => {
     updateUser(storedUserId);
@@ -88,14 +96,29 @@ const Wishlist = () => {
     }
   };
 
-  const getListsForBoard = boardId => {
-    const boardObj = boards.find(board => board._id === boardId);
-    return boardObj ? boardObj.lists : [];
+  const handleDelete = job => {
+    setDeletingJob(job);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await deleteJob(deletingJob._id);
+      setDeleteDialogOpen(false);
+      setDeletingJob(null);
+    } catch (error) {
+      console.log('Error deleting job', error);
+    }
+  };
+
+  const cancelDelete = () => {
+    setDeleteDialogOpen(false);
+    setDeletingJob(null);
   };
 
   return (
-    <div className="m-[2%] mt-[30px]">
-      <div className="flex justify-between items-center">
+    <div className='m-[2%] mt-[30px]'>
+      <div className='flex justify-between items-center'>
         <h2
           className={`text-[1.4em] mt-4 mb-6 ${
             darkMode ? 'text-white' : 'text-[#678B85]'
@@ -104,39 +127,38 @@ const Wishlist = () => {
           Wishlist
         </h2>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2'>
         {wishlistJobs.map((job, index) => {
           const jobBoard = boards.find(board => board._id === job.boardId);
-          const listsForBoard = getListsForBoard(job.boardId);
 
           return (
-            <Card key={index} sx={{ maxWidth: 150, marginBottom: '20px' }}>
+            <Card key={index} sx={{ maxWidth: 300, marginBottom: '20px' }}>
               <CardMedia
-                component="img"
-                alt="job logo"
-                height="100"
+                component='img'
+                alt='job logo'
+                height='100'
                 image={`https://logo.clearbit.com/${job.domain}`}
                 sx={{
                   p: 1,
                   mb: 1,
                   minWidth: 100,
-                  maxWidth: 300,
+                  maxWidth: 160,
                   width: '100%',
                   display: 'flex',
                   flexDirection: 'column',
                 }}
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant='subtitle2' component='div'>
                   {job.companyName}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant='body2' color='text.secondary'>
                   {job.roleName}
                 </Typography>
               </CardContent>
-              <CardActions>
+              <CardActions sx={{ justifyContent: 'center' }}>
                 <Button
-                  size="small"
+                  size='small'
                   sx={{ color: '#678B85' }}
                   onClick={() => handleEdit(job)}
                 >
@@ -155,14 +177,34 @@ const Wishlist = () => {
                     lists={lists}
                   />
                 )}
-                <Button size="small" sx={{ color: '#678B85' }}>
-                  Learn More
+                <Button
+                  size='small'
+                  sx={{ color: '#678B85' }}
+                  onClick={() => handleDelete(job)}
+                >
+                  Delete
                 </Button>
               </CardActions>
             </Card>
           );
         })}
       </div>
+      <Dialog open={deleteDialogOpen} onClose={cancelDelete}>
+        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <Typography variant='body1'>
+            Are you sure you want to delete this job?
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={cancelDelete} sx={{ color: '#678B85' }}>
+            Cancel
+          </Button>
+          <Button onClick={confirmDelete} sx={{ color: '#678B85' }}>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
