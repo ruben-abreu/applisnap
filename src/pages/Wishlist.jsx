@@ -127,12 +127,12 @@ const Wishlist = () => {
           Wishlist
         </h2>
       </div>
-      <div className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2'>
+      <div className='grid grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-3'>
         {wishlistJobs.map((job, index) => {
           const jobBoard = boards.find(board => board._id === job.boardId);
 
           return (
-            <Card key={index} sx={{ maxWidth: 300, marginBottom: '20px' }}>
+            <Card key={index} sx={{ maxWidth: 120 }}>
               <CardMedia
                 component='img'
                 alt='job logo'
@@ -141,8 +141,8 @@ const Wishlist = () => {
                 sx={{
                   p: 1,
                   mb: 1,
-                  minWidth: 100,
-                  maxWidth: 160,
+                  minWidth: 50,
+                  maxWidth: 120,
                   width: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -156,10 +156,10 @@ const Wishlist = () => {
                   {job.roleName}
                 </Typography>
               </CardContent>
-              <CardActions sx={{ justifyContent: 'center' }}>
+              <CardActions sx={{ justifyContent: 'center', width: '90%' }}>
                 <Button
                   size='small'
-                  sx={{ color: '#678B85' }}
+                  sx={{ color: '#678B85', ml: 0.5, mr: 0, pr: 0 }}
                   onClick={() => handleEdit(job)}
                 >
                   Edit
@@ -179,7 +179,7 @@ const Wishlist = () => {
                 )}
                 <Button
                   size='small'
-                  sx={{ color: '#678B85' }}
+                  sx={{ color: '#678B85', ml: 0, pl: 0 }}
                   onClick={() => handleDelete(job)}
                 >
                   Delete
