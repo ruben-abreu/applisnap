@@ -46,7 +46,7 @@ function AddJobApplication({
     list.listName ? list.listName : 'Wishlist'
   );
   const [dateInput, setDateInput] = useState(dayjs());
-  const [dateLabel, setDateLabel] = useState('');
+  const [dateLabel, setDateLabel] = useState('created');
   const [date, setDate] = useState({});
 
   const { user } = useContext(AuthContext);
@@ -65,6 +65,42 @@ function AddJobApplication({
       setListName(currentList.listName);
     } catch (error) {
       console.log('Error fetching data');
+    }
+  };
+
+  const handleDateChange = e => {
+    const formattedDate = dayjs(e.target.value).format('YYYY/MM/DD');
+
+    setDateInput(formattedDate);
+  };
+
+  const handleAddDate = async () => {
+    if (!dateInput) {
+      return;
+    }
+    let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
+    switch (dateLabel) {
+      case 'created':
+        setDate({ ...date, created: formattedDate });
+        break;
+      case 'applied':
+        setDate({ ...date, applied: formattedDate });
+        break;
+      case 'interviews':
+        if (date.interviews) {
+          setDate({ ...date, interviews: [...date.interviews, formattedDate] });
+        } else {
+          setDate({ ...date, interviews: [formattedDate] });
+        }
+        break;
+      case 'offer':
+        setDate({ ...date, offer: formattedDate });
+        break;
+      case 'rejected':
+        setDate({ ...date, rejected: formattedDate });
+        break;
+      default:
+        setDate({ ...date, created: formattedDate });
     }
   };
 
@@ -97,7 +133,7 @@ function AddJobApplication({
         workModel,
         workLocation,
         notes,
-        date,
+        date: date,
         starred,
         boardId: board._id,
         listId: list[0]._id,
@@ -120,7 +156,7 @@ function AddJobApplication({
       setWorkModel('On-Site');
       setWorkLocation('');
       setNotes('');
-      setDate('');
+      setDate({});
       setStarred(false);
 
       handleClose();
@@ -296,10 +332,12 @@ function AddJobApplication({
                 type="date"
                 openTo="day"
                 views={['year', 'month', 'day']}
-                format="YYYY-MM-DD"
+                inputFormat="YYYY-MM-DD"
                 value={dateInput}
-                onChange={e => setDateInput(e.target.value)}
-                defaultValue={dayjs()}
+                onChange={newDate => {
+                  setDateInput(newDate);
+                }}
+                defaultValue={dayjs().format('YYYY/MM/DD')}
               />
             </LocalizationProvider>
           </FormControl>
@@ -322,12 +360,43 @@ function AddJobApplication({
               ))}
             </Select>
           </FormControl>
-          <button>
+          <button onClick={handleAddDate}>
             <AddCircleOutlineRoundedIcon
               sx={{ ...greenIconButtonStyle, width: '20px', height: '20px' }}
             />
           </button>
         </div>
+        {Object.keys(date).map(dateType => {
+          if (dateType === 'interviews' && date.interviews.length > 0) {
+            return (
+              <div key={dateType}>
+                {date.interviews.length > 0 && (
+                  <div>
+                    <p>
+                      {date.interviews.length === 1
+                        ? 'Interview:'
+                        : 'Interviews:'}
+                    </p>
+                    <ul>
+                      {date.interviews.map((interview, index) => (
+                        <li key={index}>{interview}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            );
+          } else if (date[dateType]) {
+            return (
+              <p key={dateType}>
+                {dateType.charAt(0).toUpperCase() + dateType.slice(1)}:{' '}
+                {date[dateType]}
+              </p>
+            );
+          } else {
+            return '';
+          }
+        })}
       </DialogContent>
       <DialogActions>
         <CancelButton
@@ -343,6 +412,7 @@ function AddJobApplication({
           setDate={setDate}
           setStarred={setStarred}
           setListName={setListName}
+          setDateLabel={setDateLabel}
         />
         <Button onClick={handleSave} sx={{ ...buttonGreenStyle }}>
           Save

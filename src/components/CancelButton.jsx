@@ -21,6 +21,7 @@ function CancelButton({
   setDate,
   setStarred,
   setListName,
+  setDateLabel,
 }) {
   const { lightButtonStyle } = useContext(ThemeContext);
 
@@ -40,9 +41,10 @@ function CancelButton({
     setWorkModel ? setWorkModel() : '';
     setWorkLocation ? setWorkLocation() : '';
     setNotes ? setNotes() : '';
-    setDate ? setDate() : '';
+    setDate ? setDate({}) : '';
     setStarred ? setStarred(false) : '';
     setListName ? setListName() : '';
+    setDateLabel ? setDateLabel : '';
   };
 
   return (
