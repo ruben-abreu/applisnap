@@ -16,6 +16,7 @@ import {
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -290,6 +291,7 @@ function EditApplication({
                         !domain.includes('://') ? `http://${domain}` : domain
                       }
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
                       <img
                         src={`https://logo.clearbit.com/${domain}` || ''}
@@ -313,6 +315,24 @@ function EditApplication({
             label="Job URL"
             value={jobURL}
             onChange={e => setJobURL(e.target.value)}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  edge="end"
+                  sx={{
+                    marginRight: 0,
+                    marginLeft: '8px',
+                    borderRadius: '50%',
+                  }}
+                >
+                  {jobURL && (
+                    <a href={jobURL} target="_blank" rel="noopener noreferrer">
+                      <LinkRoundedIcon sx={{ width: '20px', height: '20px' }} />
+                    </a>
+                  )}
+                </IconButton>
+              </InputAdornment>
+            }
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
