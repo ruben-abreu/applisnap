@@ -75,11 +75,8 @@ function AddJobApplication({
     }
   };
 
-  const handleDateChange = e => {
-    const formattedDate = dayjs(e.target.value).format('YYYY/MM/DD');
-
-    setDateInput(formattedDate);
-  };
+  const formatDate = unformattedDate =>
+    dayjs(unformattedDate).format('DD/MM/YYYY');
 
   const handleAddDate = async () => {
     if (!dateInput) {
@@ -384,7 +381,7 @@ function AddJobApplication({
                   <TimelineDot />
                   <TimelineConnector />
                 </TimelineSeparator>
-                <TimelineContent>{date.created}</TimelineContent>
+                <TimelineContent>{formatDate(date.created)}</TimelineContent>
               </TimelineItem>
             )}
 
@@ -397,7 +394,7 @@ function AddJobApplication({
                   <TimelineDot />
                   <TimelineConnector />
                 </TimelineSeparator>
-                <TimelineContent>{date.applied}</TimelineContent>
+                <TimelineContent>{formatDate(date.applied)}</TimelineContent>
               </TimelineItem>
             )}
 
@@ -413,7 +410,7 @@ function AddJobApplication({
                 <TimelineContent>
                   <ul>
                     {date.interviews.map((interview, index) => (
-                      <li key={index}>{interview}</li>
+                      <li key={index}>{formatDate(interview)}</li>
                     ))}
                   </ul>
                 </TimelineContent>
@@ -429,7 +426,7 @@ function AddJobApplication({
                   <TimelineDot />
                   <TimelineConnector />
                 </TimelineSeparator>
-                <TimelineContent>{date.offer}</TimelineContent>
+                <TimelineContent>{formatDate(date.offer)}</TimelineContent>
               </TimelineItem>
             )}
 
@@ -442,7 +439,7 @@ function AddJobApplication({
                   <TimelineDot />
                   <TimelineConnector />
                 </TimelineSeparator>
-                <TimelineContent>{date.rejected}</TimelineContent>
+                <TimelineContent>{formatDate(date.rejected)}</TimelineContent>
               </TimelineItem>
             )}
           </Timeline>

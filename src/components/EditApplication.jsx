@@ -13,12 +13,20 @@ import {
 } from '@mui/material';
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
 import { ThemeContext } from '../context/theme.context';
+import Timeline from '@mui/lab/Timeline';
+import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineDot from '@mui/lab/TimelineDot';
+import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import CancelButton from '../components/CancelButton';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -48,9 +56,10 @@ function EditApplication({
   const [workLocation, setWorkLocation] = useState(application.workLocation);
   const [notes, setNotes] = useState(application.notes);
   const [customLabel, setCustomLabel] = useState(application.customLabel);
-  const [date, setDate] = useState(
-    application.date ? application.date : dayjs()
+  const [editDate, setEditDate] = useState(
+    application.date ? application.date : {}
   );
+  const [dateInput, setDateInput] = useState(dayjs());
   const [starred, setStarred] = useState(application.starred);
   const [list, setList] = useState(application.listId);
   const [listName, setListName] = useState(
@@ -58,7 +67,7 @@ function EditApplication({
   );
   const [boardName, setBoardName] = useState('');
   const [boards, setBoards] = useState([]);
-  const [dateLabel, setDateLabel] = useState('');
+  const [dateLabel, setDateLabel] = useState('created');
 
   const { user } = useContext(AuthContext);
   const { darkMode, formGreenStyle, buttonGreenStyle, greenIconButtonStyle } =
@@ -85,6 +94,42 @@ function EditApplication({
       setListName(list.listName);
     } catch (error) {
       console.log('Error fetching data');
+    }
+  };
+
+  const formatDate = unformattedDate =>
+    dayjs(unformattedDate).format('DD/MM/YYYY');
+
+  const handleAddDate = async () => {
+    if (!dateInput) {
+      return;
+    }
+    let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
+    switch (dateLabel) {
+      case 'created':
+        setEditDate({ ...editDate, created: formattedDate });
+        break;
+      case 'applied':
+        setEditDate({ ...editDate, applied: formattedDate });
+        break;
+      case 'interviews':
+        if (editDate.interviews) {
+          setEditDate({
+            ...editDate,
+            interviews: [...editDate.interviews, formattedDate],
+          });
+        } else {
+          setEditDate({ ...editDate, interviews: [formattedDate] });
+        }
+        break;
+      case 'offer':
+        setEditDate({ ...editDate, offer: formattedDate });
+        break;
+      case 'rejected':
+        setEditDate({ ...editDate, rejected: formattedDate });
+        break;
+      default:
+        setEditDate({ ...editDate, created: formattedDate });
     }
   };
 
@@ -122,7 +167,7 @@ function EditApplication({
       workLocation,
       notes,
       customLabel,
-      date,
+      date: editDate,
       starred,
       boardId: newBoard._id,
       listId: newList._id,
@@ -343,10 +388,12 @@ function EditApplication({
                 type="date"
                 openTo="day"
                 views={['year', 'month', 'day']}
-                format="YYYY-MM-DD"
-                value={date}
-                onChange={e => setDate(e.target.value)}
-                defaultValue={dayjs()}
+                inputFormat="YYYY-MM-DD"
+                value={dateInput}
+                onChange={newDate => {
+                  setDateInput(newDate);
+                }}
+                defaultValue={dayjs().format('YYYY/MM/DD')}
               />
             </LocalizationProvider>
           </FormControl>
@@ -369,7 +416,94 @@ function EditApplication({
               ))}
             </Select>
           </FormControl>
+          <button onClick={handleAddDate}>
+            <AddCircleOutlineRoundedIcon
+              sx={{ ...greenIconButtonStyle, width: '20px', height: '20px' }}
+            />
+          </button>
         </div>
+        {editDate && (
+          <Timeline>
+            {editDate.created && (
+              <TimelineItem>
+                <TimelineOppositeContent color="text.secondary">
+                  Created
+                </TimelineOppositeContent>
+                <TimelineSeparator>
+                  <TimelineDot />
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>
+                  {formatDate(editDate.created)}
+                </TimelineContent>
+              </TimelineItem>
+            )}
+
+            {editDate.applied && (
+              <TimelineItem>
+                <TimelineOppositeContent color="text.secondary">
+                  Applied
+                </TimelineOppositeContent>
+                <TimelineSeparator>
+                  <TimelineDot />
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>
+                  {formatDate(editDate.applied)}
+                </TimelineContent>
+              </TimelineItem>
+            )}
+
+            {editDate.interviews && editDate.interviews.length > 0 && (
+              <TimelineItem>
+                <TimelineOppositeContent color="text.secondary">
+                  {editDate.interviews.length === 1
+                    ? 'Interview'
+                    : 'Interviews'}
+                </TimelineOppositeContent>
+                <TimelineSeparator>
+                  <TimelineDot />
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>
+                  <ul>
+                    {editDate.interviews.map((interview, index) => (
+                      <li key={index}>{formatDate(interview)}</li>
+                    ))}
+                  </ul>
+                </TimelineContent>
+              </TimelineItem>
+            )}
+
+            {editDate.offer && (
+              <TimelineItem>
+                <TimelineOppositeContent color="text.secondary">
+                  Offer
+                </TimelineOppositeContent>
+                <TimelineSeparator>
+                  <TimelineDot />
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>{formatDate(editDate.offer)}</TimelineContent>
+              </TimelineItem>
+            )}
+
+            {editDate.rejected && (
+              <TimelineItem>
+                <TimelineOppositeContent color="text.secondary">
+                  Offer
+                </TimelineOppositeContent>
+                <TimelineSeparator>
+                  <TimelineDot />
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>
+                  {formatDate(editDate.rejected)}
+                </TimelineContent>
+              </TimelineItem>
+            )}
+          </Timeline>
+        )}
       </DialogContent>
       <DialogActions>
         <CancelButton
@@ -383,9 +517,10 @@ function EditApplication({
           setWorkLocation={setWorkLocation}
           setNotes={setNotes}
           setCustomLabel={setCustomLabel}
-          setDate={setDate}
+          setEditDate={setEditDate}
           setStarred={setStarred}
           setList={setList}
+          application={application}
         />
         <Button onClick={handleSave} sx={{ ...buttonGreenStyle }}>
           Save

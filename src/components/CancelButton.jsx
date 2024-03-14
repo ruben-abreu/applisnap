@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import Button from '@mui/material/Button';
 import { ThemeContext } from '../context/theme.context';
+import { setRef } from '@mui/material';
 
 function CancelButton({
   setOpen,
@@ -22,6 +23,8 @@ function CancelButton({
   setStarred,
   setListName,
   setDateLabel,
+  setEditDate,
+  application,
 }) {
   const { lightButtonStyle } = useContext(ThemeContext);
 
@@ -44,7 +47,8 @@ function CancelButton({
     setDate ? setDate({}) : '';
     setStarred ? setStarred(false) : '';
     setListName ? setListName() : '';
-    setDateLabel ? setDateLabel : '';
+    setDateLabel ? setDateLabel('created') : '';
+    setEditDate ? setEditDate(application.date ? application.date : {}) : '';
   };
 
   return (
