@@ -19,6 +19,13 @@ import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRou
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import Timeline from '@mui/lab/Timeline';
+import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineDot from '@mui/lab/TimelineDot';
+import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import CancelButton from '../components/CancelButton';
 import { addJob } from '../api/jobs.api';
 import { getList } from '../api/lists.api';
@@ -366,37 +373,80 @@ function AddJobApplication({
             />
           </button>
         </div>
-        {Object.keys(date).map(dateType => {
-          if (dateType === 'interviews' && date.interviews.length > 0) {
-            return (
-              <div key={dateType}>
-                {date.interviews.length > 0 && (
-                  <div>
-                    <p>
-                      {date.interviews.length === 1
-                        ? 'Interview:'
-                        : 'Interviews:'}
-                    </p>
-                    <ul>
-                      {date.interviews.map((interview, index) => (
-                        <li key={index}>{interview}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            );
-          } else if (date[dateType]) {
-            return (
-              <p key={dateType}>
-                {dateType.charAt(0).toUpperCase() + dateType.slice(1)}:{' '}
-                {date[dateType]}
-              </p>
-            );
-          } else {
-            return '';
-          }
-        })}
+        {date && (
+          <Timeline>
+            {date.created && (
+              <TimelineItem>
+                <TimelineOppositeContent color="text.secondary">
+                  Created
+                </TimelineOppositeContent>
+                <TimelineSeparator>
+                  <TimelineDot />
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>{date.created}</TimelineContent>
+              </TimelineItem>
+            )}
+
+            {date.applied && (
+              <TimelineItem>
+                <TimelineOppositeContent color="text.secondary">
+                  Applied
+                </TimelineOppositeContent>
+                <TimelineSeparator>
+                  <TimelineDot />
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>{date.applied}</TimelineContent>
+              </TimelineItem>
+            )}
+
+            {date.interviews && (
+              <TimelineItem>
+                <TimelineOppositeContent color="text.secondary">
+                  {date.interviews.length === 1 ? 'Interview' : 'Interviews'}
+                </TimelineOppositeContent>
+                <TimelineSeparator>
+                  <TimelineDot />
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>
+                  <ul>
+                    {date.interviews.map((interview, index) => (
+                      <li key={index}>{interview}</li>
+                    ))}
+                  </ul>
+                </TimelineContent>
+              </TimelineItem>
+            )}
+
+            {date.offer && (
+              <TimelineItem>
+                <TimelineOppositeContent color="text.secondary">
+                  Offer
+                </TimelineOppositeContent>
+                <TimelineSeparator>
+                  <TimelineDot />
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>{date.offer}</TimelineContent>
+              </TimelineItem>
+            )}
+
+            {date.rejected && (
+              <TimelineItem>
+                <TimelineOppositeContent color="text.secondary">
+                  Offer
+                </TimelineOppositeContent>
+                <TimelineSeparator>
+                  <TimelineDot />
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>{date.rejected}</TimelineContent>
+              </TimelineItem>
+            )}
+          </Timeline>
+        )}
       </DialogContent>
       <DialogActions>
         <CancelButton
