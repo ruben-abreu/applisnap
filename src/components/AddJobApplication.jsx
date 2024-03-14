@@ -12,6 +12,8 @@ import {
   Input,
   Select,
   MenuItem,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
@@ -240,6 +242,33 @@ function AddJobApplication({
             value={domain}
             placeholder=""
             onChange={e => setDomain(e.target.value)}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  edge="end"
+                  sx={{
+                    marginRight: 0,
+                    marginLeft: '8px',
+                    borderRadius: '5px',
+                  }}
+                >
+                  {domain && (
+                    <a
+                      href={
+                        !domain.includes('://') ? `http://${domain}` : domain
+                      }
+                      target="_blank"
+                    >
+                      <img
+                        src={`https://logo.clearbit.com/${domain}` || ''}
+                        alt=""
+                        className="max-h-[20px]"
+                      />
+                    </a>
+                  )}
+                </IconButton>
+              </InputAdornment>
+            }
           />
         </FormControl>
         <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>

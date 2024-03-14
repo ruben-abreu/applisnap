@@ -22,6 +22,7 @@ import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import ContentPasteSearchRoundedIcon from '@mui/icons-material/ContentPasteSearchRounded';
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import ThumbDownAltRoundedIcon from '@mui/icons-material/ThumbDownAltRounded';
+import Avatar from '@mui/material/Avatar';
 
 function Board() {
   const [applicationList, setApplicationList] = useState([]);
@@ -202,7 +203,7 @@ function Board() {
                     mb: 1,
                     cursor: 'pointer',
                     minWidth: 100,
-                    maxWidth: 200,
+                    maxWidth: 300,
                     width: '100%',
                     display: 'flex',
                     flexDirection: 'column',
@@ -213,28 +214,44 @@ function Board() {
                     alignItems="center"
                     spacing={1}
                     style={{ flex: '1' }}
+                    width="130px"
                   >
                     <Grid item>
-                      <img
+                      <Avatar
+                        sx={{
+                          fontSize: '14px',
+                          borderRadius: 0,
+                          maxHeight: '25px',
+                          maxWidth: '25px',
+                          width: 'auto',
+                          height: 'auto',
+                          backgroundColor: 'transparent',
+                          color: darkMode ? 'white' : 'black',
+                        }}
                         src={
                           `https://logo.clearbit.com/${application.domain}` ||
                           ''
                         }
-                        alt="box"
-                        style={{ maxWidth: 25 }}
-                      />
+                      >
+                        {application.companyName &&
+                        application.companyName.split(' ').length > 1
+                          ? application.companyName
+                              .split(' ')
+                              .map(word => word[0])
+                              .slice(0, 2)
+                              .join('')
+                              .toUpperCase()
+                          : application.companyName.split(' ').length === 1
+                          ? application.companyName[0].toUpperCase()
+                          : ''}
+                      </Avatar>
                     </Grid>
                     <Grid item xs style={{ flex: '1', textAlign: 'center' }}>
                       <Typography
                         variant="body2"
                         style={{
-                          fontSize: `${Math.max(
-                            12,
-                            20 -
-                              (application.companyName
-                                ? application.companyName.length / 2
-                                : 0)
-                          )}px`,
+                          fontSize: '14px',
+                          textAlign: 'left',
                         }}
                       >
                         {application.companyName || ''}
