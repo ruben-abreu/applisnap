@@ -8,7 +8,6 @@ import { ThemeContext } from '../context/theme.context';
 import {
   Grid,
   Paper,
-  Typography,
   Select,
   MenuItem,
   FormControl,
@@ -165,7 +164,12 @@ function Board() {
         container
         spacing={1}
         onDragOver={onDragOver}
-        sx={{ flexWrap: 'wrap', maxWidth: '300px' }}
+        sx={{
+          flexWrap: 'wrap',
+          justifyContent: 'flex-start',
+          maxWidth: '310px',
+          marginRight: '8px',
+        }}
       >
         {applicationList &&
           applicationList
@@ -199,11 +203,10 @@ function Board() {
                   onDrop={e => onDrop(e, role, list, index)}
                   onClick={() => handleEdit(application)}
                   sx={{
-                    p: 1,
-                    mb: 1,
+                    padding: '5px',
                     cursor: 'pointer',
                     minWidth: 100,
-                    maxWidth: 300,
+                    maxWidth: 310,
                     width: '100%',
                     display: 'flex',
                     flexDirection: 'column',
@@ -213,8 +216,8 @@ function Board() {
                     container
                     alignItems="center"
                     spacing={1}
-                    style={{ flex: '1' }}
                     width="130px"
+                    minHeight="50px"
                   >
                     <Grid item>
                       <Avatar
@@ -247,15 +250,9 @@ function Board() {
                       </Avatar>
                     </Grid>
                     <Grid item xs style={{ flex: '1', textAlign: 'center' }}>
-                      <Typography
-                        variant="body2"
-                        style={{
-                          fontSize: '14px',
-                          textAlign: 'left',
-                        }}
-                      >
+                      <p className="text-xs text-left p-0">
                         {application.companyName || ''}
-                      </Typography>
+                      </p>
                     </Grid>
                   </Grid>
                 </Paper>
@@ -267,7 +264,7 @@ function Board() {
 
   const EmptyDropArea = ({ role, list }) => (
     <div
-      className="empty-drop-area min-h-[50px] my-[10px] hover:bg-[#d5e7e4] rounded-md"
+      className="empty-drop-area min-h-[50px] my-[10px] hover:bg-[#c3e1dc] rounded-md"
       onDragEnter={onDragEnter}
       onDragOver={onDragOver}
       onDrop={e => onDrop(e, role, list, 0)}
@@ -356,7 +353,7 @@ function Board() {
   };
 
   return (
-    <div className="m-[2%] mt-[30px]">
+    <div className="m-[2%] mt-[30px] pb-[30px]">
       <div className="flex justify-between items-center">
         {user && user.boards.length === 1 && boardName && (
           <h2
@@ -416,29 +413,22 @@ function Board() {
           />
         </div>
       )}
-      <div style={{ overflowX: 'auto', marginTop: '60px' }}>
-        <div style={{ display: 'flex' }}>
+      <div className="overflow-visible mt-[40px]">
+        <div className="flex">
           {uniqueRoles &&
             uniqueRoles.map((role, index) => (
               <div
                 key={index}
-                style={{
-                  minWidth: 200,
-                  maxWidth: 300,
-                  marginRight: 50,
-                }}
+                className="min-w-[200px] max-w-[310px] mr-[50px] bg-[#fbf1ed] rounded-2xl shadow-md shadow-[#f06c35] py-[20px] pl-[18px] pr-[12px]"
               >
-                <Typography
-                  variant="h5"
-                  style={{
-                    fontWeight: 'bold',
-                    marginBottom: '8px',
-                    color: darkMode ? '#FFA17A' : '#f06c35',
-                  }}
+                <h5
+                  className={`font-bold mb-[8px] text-xl ${
+                    darkMode ? 'text-[#FFA17A]' : 'text-[#f06c35]'
+                  }`}
                 >
                   {role}
-                </Typography>
-                <Grid container direction="column">
+                </h5>
+                <Grid container direction="column" style={{ margin: 0 }}>
                   {renderListsForRole(role)}
                 </Grid>
               </div>
