@@ -173,7 +173,6 @@ function AddJobApplication({
       handleClose();
     } catch (error) {
       console.error('Error adding job:', error);
-      alert(error.response.data.message);
     }
   };
 

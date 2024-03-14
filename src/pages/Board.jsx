@@ -22,6 +22,7 @@ import ContentPasteSearchRoundedIcon from '@mui/icons-material/ContentPasteSearc
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import ThumbDownAltRoundedIcon from '@mui/icons-material/ThumbDownAltRounded';
 import Avatar from '@mui/material/Avatar';
+import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 
 function Board() {
   const [applicationList, setApplicationList] = useState([]);
@@ -167,7 +168,7 @@ function Board() {
         sx={{
           flexWrap: 'wrap',
           justifyContent: 'flex-start',
-          maxWidth: '310px',
+          maxWidth: '320px',
           marginRight: '8px',
         }}
       >
@@ -206,17 +207,19 @@ function Board() {
                     padding: '5px',
                     cursor: 'pointer',
                     minWidth: 100,
-                    maxWidth: 310,
+                    maxWidth: 320,
                     width: '100%',
                     display: 'flex',
                     flexDirection: 'column',
+                    boxShadow:
+                      '0px 3px 3px -2px rgba(55, 89, 84, 0.2),0px 3px 4px 0px rgba(55, 89, 84,0.14),0px 1px 8px 0px rgba(55, 89, 84,0.12)',
                   }}
                 >
                   <Grid
                     container
                     alignItems="center"
                     spacing={1}
-                    width="130px"
+                    width="135px"
                     minHeight="50px"
                   >
                     <Grid item>
@@ -224,8 +227,8 @@ function Board() {
                         sx={{
                           fontSize: '14px',
                           borderRadius: '2px',
-                          maxHeight: '25px',
-                          maxWidth: '25px',
+                          maxHeight: '20px',
+                          maxWidth: '20px',
                           width: 'auto',
                           height: 'auto',
                           backgroundColor: 'transparent',
@@ -254,6 +257,19 @@ function Board() {
                         {application.companyName || ''}
                       </p>
                     </Grid>
+                    {application.jobURL && (
+                      <Grid item>
+                        <a
+                          href={application.jobURL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <LinkRoundedIcon
+                            sx={{ width: '15px', height: '15px' }}
+                          />
+                        </a>
+                      </Grid>
+                    )}
                   </Grid>
                 </Paper>
               </Grid>
@@ -354,7 +370,7 @@ function Board() {
 
   return (
     <div className="m-[2%] mt-[30px] pb-[30px]">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-wrap gap-[10px] justify-between items-center">
         {user && user.boards.length === 1 && boardName && (
           <h2
             className={`text-[1.4em] ${
@@ -414,12 +430,12 @@ function Board() {
         </div>
       )}
       <div className="overflow-visible mt-[40px]">
-        <div className="flex">
+        <div className="flex gap-[20px]">
           {uniqueRoles &&
             uniqueRoles.map((role, index) => (
               <div
                 key={index}
-                className="min-w-[200px] max-w-[310px] mr-[50px] bg-[#fbf1ed] rounded-2xl shadow-md shadow-[#f06c35] py-[20px] pl-[18px] pr-[12px]"
+                className="min-w-[200px] max-w-[320px] bg-[#fbf1ed] rounded-2xl shadow-sm shadow-[#daa690] py-[20px] pl-[18px] pr-[12px]"
               >
                 <h5
                   className={`font-bold mb-[8px] text-xl ${
