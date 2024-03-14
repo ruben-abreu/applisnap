@@ -53,7 +53,7 @@ function AddJobApplication({
     list.listName ? list.listName : 'Wishlist'
   );
   const [dateInput, setDateInput] = useState(dayjs());
-  const [dateLabel, setDateLabel] = useState('created');
+  const [dateLabel, setDateLabel] = useState('applied');
   const [date, setDate] = useState({});
 
   const { user } = useContext(AuthContext);
@@ -64,7 +64,12 @@ function AddJobApplication({
     if (list) {
       getData(list);
     }
-  }, [list]);
+    let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
+
+    if (!date.created) {
+      setDate({ ...date, created: formattedDate });
+    }
+  }, [list, date, dateInput]);
 
   const getData = async list => {
     try {
@@ -355,7 +360,7 @@ function AddJobApplication({
               type="text"
               value={dateLabel}
               onChange={e => setDateLabel(e.target.value)}
-              defaultValue={dateLabel ? dateLabel : 'created'}
+              defaultValue={dateLabel ? dateLabel : 'applied'}
             >
               {dateTypes.map((dateType, index) => (
                 <MenuItem key={index} value={dateType}>

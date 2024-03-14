@@ -67,7 +67,9 @@ function EditApplication({
   );
   const [boardName, setBoardName] = useState('');
   const [boards, setBoards] = useState([]);
-  const [dateLabel, setDateLabel] = useState('created');
+  const [editDateLabel, setEditDateLabel] = useState(
+    application.date.applied ? 'interviews' : 'applied'
+  );
 
   const { user } = useContext(AuthContext);
   const { darkMode, formGreenStyle, buttonGreenStyle, greenIconButtonStyle } =
@@ -105,7 +107,7 @@ function EditApplication({
       return;
     }
     let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
-    switch (dateLabel) {
+    switch (editDateLabel) {
       case 'created':
         setEditDate({ ...editDate, created: formattedDate });
         break;
@@ -398,16 +400,16 @@ function EditApplication({
             </LocalizationProvider>
           </FormControl>
           <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-            <InputLabel htmlFor="dateLabel" label="Date Label">
+            <InputLabel htmlFor="editDateLabel" label="Date Label">
               Date Label
             </InputLabel>
             <Select
-              id="dateLabel"
+              id="editDateLabel"
               label="Date Label"
               type="text"
-              value={dateLabel}
-              onChange={e => setDateLabel(e.target.value)}
-              defaultValue={dateLabel ? dateLabel : 'created'}
+              value={editDateLabel}
+              onChange={e => setEditDateLabel(e.target.value)}
+              defaultValue={application.date.applied ? 'interviews' : 'applied'}
             >
               {dateTypes.map((dateType, index) => (
                 <MenuItem key={index} value={dateType}>

@@ -24,6 +24,7 @@ function CancelButton({
   setListName,
   setDateLabel,
   setEditDate,
+  setEditDateLabel,
   application,
 }) {
   const { lightButtonStyle } = useContext(ThemeContext);
@@ -47,7 +48,10 @@ function CancelButton({
     setDate ? setDate({}) : '';
     setStarred ? setStarred(false) : '';
     setListName ? setListName() : '';
-    setDateLabel ? setDateLabel('created') : '';
+    setDateLabel ? setDateLabel('applied') : '';
+    setEditDateLabel
+      ? setEditDateLabel(application.date.applied ? 'interviews' : 'applied')
+      : '';
     setEditDate ? setEditDate(application.date ? application.date : {}) : '';
   };
 
