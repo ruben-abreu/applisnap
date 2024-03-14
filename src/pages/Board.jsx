@@ -223,7 +223,7 @@ function Board() {
                       <Avatar
                         sx={{
                           fontSize: '14px',
-                          borderRadius: 0,
+                          borderRadius: '2px',
                           maxHeight: '25px',
                           maxWidth: '25px',
                           width: 'auto',

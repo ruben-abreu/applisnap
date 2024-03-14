@@ -262,7 +262,7 @@ function AddJobApplication({
                       <img
                         src={`https://logo.clearbit.com/${domain}` || ''}
                         alt=""
-                        className="max-h-[20px]"
+                        className="max-h-[20px] rounded-[2px]"
                       />
                     </a>
                   )}
