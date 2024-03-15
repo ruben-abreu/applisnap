@@ -14,15 +14,14 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  CardActions,
   CardContent,
-  CardMedia,
   Typography,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
 } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 
 const Wishlist = () => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
@@ -186,9 +185,11 @@ const Wishlist = () => {
               </form>
             )}
           </div>
-          <div className="flex justify-start my-[20px]">
-            <SearchBar searchedCompany={searchedCompany} />
-          </div>
+          {wishlistJobs && wishlistJobs.length > 0 && (
+            <div className="flex justify-start my-[20px]">
+              <SearchBar searchedCompany={searchedCompany} />
+            </div>
+          )}
           <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-3">
             {showWishlistJobs
               .filter(job => job.boardId === selectedBoardId)
@@ -198,43 +199,55 @@ const Wishlist = () => {
                 );
                 return (
                   <Card key={index} sx={{ maxWidth: 120 }}>
-                    <CardMedia
-                      component="img"
-                      alt="job logo"
-                      height="100"
-                      image={`https://logo.clearbit.com/${job.domain}`}
-                      sx={{
-                        p: 1,
-                        mb: 1,
-                        minWidth: 50,
-                        maxWidth: 120,
-                        width: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                      }}
-                    />
-                    <CardContent>
-                      <Typography
-                        gutterBottom
-                        variant="subtitle2"
-                        component="div"
-                      >
-                        {job.companyName}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {job.roleName}
-                      </Typography>
-                    </CardContent>
-                    <CardActions
-                      sx={{ justifyContent: 'center', width: '90%' }}
-                    >
-                      <Button
-                        size="small"
-                        sx={{ color: '#678B85', ml: 0.5, mr: 0, pr: 0 }}
+                    <button onClick={() => handleEdit(job)}>
+                      <div className="w-[100%] mt-[10px] flex justify-center">
+                        <Avatar
+                          sx={{
+                            fontSize: '18px',
+                            borderRadius: '2px',
+                            maxHeight: '100px',
+                            maxWidth: '100px',
+                            width: 'auto',
+                            height: 'auto',
+                            backgroundColor: 'transparent',
+                            color: darkMode ? 'white' : 'black',
+                          }}
+                          src={`https://logo.clearbit.com/${job.domain}` || ''}
+                        >
+                          {job.companyName &&
+                          job.companyName.split(' ').length > 1
+                            ? job.companyName
+                                .split(' ')
+                                .map(word => word[0])
+                                .slice(0, 2)
+                                .join('')
+                                .toUpperCase()
+                            : job.companyName.split(' ').length === 1
+                            ? job.companyName[0].toUpperCase()
+                            : ''}
+                        </Avatar>
+                      </div>
+                      <CardContent>
+                        <Typography
+                          gutterBottom
+                          variant="subtitle2"
+                          component="div"
+                        >
+                          {job.companyName}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {job.roleName}
+                        </Typography>
+                      </CardContent>
+                    </button>
+
+                    <div className="mb-[10px] flex justify-center gap-[15px]">
+                      <button
                         onClick={() => handleEdit(job)}
+                        className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
                       >
                         Edit
-                      </Button>
+                      </button>
                       {selectedApplication &&
                         selectedApplication._id === job._id && (
                           <EditApplication
@@ -249,31 +262,26 @@ const Wishlist = () => {
                             lists={lists}
                           />
                         )}
-                      <Button
-                        size="small"
-                        sx={{ color: '#678B85', ml: 0, pl: 0 }}
+                      <button
                         onClick={() => handleDelete(job)}
+                        className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
                       >
                         Delete
-                      </Button>
-                    </CardActions>
+                      </button>
+                    </div>
                   </Card>
                 );
               })}
             {wishlistJobs.length === 0 && (
               <div className="text-center col-span-full mt-4">
-                <Typography variant="body1">
-                  You have no jobs in this list.
-                </Typography>
+                <p>You have no jobs in this list.</p>
               </div>
             )}
           </div>
           <Dialog open={deleteDialogOpen} onClose={cancelDelete}>
             <DialogTitle>Confirm Deletion</DialogTitle>
             <DialogContent>
-              <Typography variant="body1">
-                Are you sure you want to delete this job?
-              </Typography>
+              <p>Are you sure you want to delete this job?</p>
             </DialogContent>
             <DialogActions>
               <Button onClick={cancelDelete} sx={{ color: '#678B85' }}>

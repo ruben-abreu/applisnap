@@ -445,9 +445,11 @@ function Board() {
               />
             </div>
           )}
-          <div className="flex justify-start mt-[30px]">
-            <SearchBar searchedCompany={searchedCompany} />
-          </div>
+          {uniqueRoles && uniqueRoles.length > 0 && (
+            <div className="flex justify-start mt-[30px]">
+              <SearchBar searchedCompany={searchedCompany} />
+            </div>
+          )}
           <div className="overflow-visible mt-[30px]">
             <div className="flex gap-[20px]">
               {uniqueRoles &&
