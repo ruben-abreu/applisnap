@@ -3,6 +3,7 @@ import { AuthContext } from '../context/auth.context';
 import { editJob, deleteJob } from '../api/jobs.api';
 import { ThemeContext } from '../context/theme.context';
 import EditApplication from '../components/EditApplication';
+import SearchBar from '../components/SearchBar';
 import { getAllBoards } from '../api/boards.api';
 import { getUserDetails } from '../api/auth.api';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -29,6 +30,7 @@ const Wishlist = () => {
   const navigate = useNavigate();
   const storedUserId = localStorage.getItem('userId');
   const [wishlistJobs, setWishlistJobs] = useState([]);
+  const [showWishlistJobs, setShowWishlistJobs] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [boards, setBoards] = useState([]);
   const [lists, setLists] = useState([]);
@@ -38,6 +40,13 @@ const Wishlist = () => {
   const [selectedBoardId, setSelectedBoardId] = useState('');
 
   const { boardId } = useParams();
+
+  const searchedCompany = query => {
+    const filteredWishlist = wishlistJobs.filter(job => {
+      return job.companyName.toLowerCase().includes(query.toLowerCase());
+    });
+    setShowWishlistJobs(filteredWishlist);
+  };
 
   const handleBoardSelection = e => {
     const selectedBoardName = e.target.value;
@@ -67,6 +76,7 @@ const Wishlist = () => {
       );
 
       setWishlistJobs(filteredJobs);
+      setShowWishlistJobs(filteredJobs);
 
       if (
         boardId &&
@@ -147,7 +157,7 @@ const Wishlist = () => {
         <div>
           <div className="flex justify-between items-center">
             <h2
-              className={`text-[1.4em] mt-4 mb-6 ${
+              className={`text-[1.4em] font-bold mt-4 mb-6 ${
                 darkMode ? 'text-white' : 'text-[#678B85]'
               }`}
             >
@@ -176,8 +186,11 @@ const Wishlist = () => {
               </form>
             )}
           </div>
+          <div className="flex justify-start my-[20px]">
+            <SearchBar searchedCompany={searchedCompany} />
+          </div>
           <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-3">
-            {wishlistJobs
+            {showWishlistJobs
               .filter(job => job.boardId === selectedBoardId)
               .map((job, index) => {
                 const jobBoard = boards.find(
