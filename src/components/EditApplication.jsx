@@ -97,6 +97,9 @@ function EditApplication({
     if (user) {
       setBoards(user.boards);
     }
+    if (updateUser) {
+      updateUser();
+    }
   }, [application, board, user]);
 
   const getData = async application => {
