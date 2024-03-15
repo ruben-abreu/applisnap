@@ -200,45 +200,51 @@ const Wishlist = () => {
                 return (
                   <Card key={index} sx={{ maxWidth: 120 }}>
                     <button onClick={() => handleEdit(job)}>
-                      <div className="w-[100%] mt-[10px] flex justify-center">
-                        <Avatar
-                          sx={{
-                            fontSize: '18px',
-                            borderRadius: '2px',
-                            maxHeight: '100px',
-                            maxWidth: '100px',
-                            width: 'auto',
-                            height: 'auto',
-                            backgroundColor: 'transparent',
-                            color: darkMode ? 'white' : 'black',
-                          }}
-                          src={`https://logo.clearbit.com/${job.domain}` || ''}
-                        >
-                          {job.companyName &&
-                          job.companyName.split(' ').length > 1
-                            ? job.companyName
-                                .split(' ')
-                                .map(word => word[0])
-                                .slice(0, 2)
-                                .join('')
-                                .toUpperCase()
-                            : job.companyName.split(' ').length === 1
-                            ? job.companyName[0].toUpperCase()
-                            : ''}
-                        </Avatar>
+                      <div className="h-[100px] flex items-center">
+                        <div className="w-[100%] mt-[10px] flex justify-center items-center">
+                          <Avatar
+                            sx={{
+                              fontSize: '18px',
+                              borderRadius: '2px',
+                              maxHeight: '100px',
+                              maxWidth: '100px',
+                              width: 'auto',
+                              height: 'auto',
+                              backgroundColor: 'transparent',
+                              color: darkMode ? 'white' : 'black',
+                            }}
+                            src={
+                              `https://logo.clearbit.com/${job.domain}` || ''
+                            }
+                          >
+                            {job.companyName &&
+                            job.companyName.split(' ').length > 1
+                              ? job.companyName
+                                  .split(' ')
+                                  .map(word => word[0])
+                                  .slice(0, 2)
+                                  .join('')
+                                  .toUpperCase()
+                              : job.companyName.split(' ').length === 1
+                              ? job.companyName[0].toUpperCase()
+                              : ''}
+                          </Avatar>
+                        </div>
                       </div>
-                      <CardContent>
-                        <Typography
-                          gutterBottom
-                          variant="subtitle2"
-                          component="div"
-                        >
-                          {job.companyName}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {job.roleName}
-                        </Typography>
-                      </CardContent>
+                      <div className="h-[130px]">
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="subtitle2"
+                            component="div"
+                          >
+                            {job.companyName}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {job.roleName}
+                          </Typography>
+                        </CardContent>
+                      </div>
                     </button>
 
                     <div className="mb-[10px] flex justify-center gap-[15px]">
