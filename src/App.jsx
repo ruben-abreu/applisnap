@@ -10,7 +10,7 @@ import Applications from './pages/Applications';
 import Interviews from './pages/Interviews';
 import Offers from './pages/Offers';
 import Rejected from './pages/Rejected';
-import Profile from './pages/Profile';
+import Insights from './pages/Insights';
 import Settings from './pages/Settings';
 import BoardLists from './pages/BoardLists';
 import Board from './pages/Board';
@@ -44,7 +44,7 @@ function App() {
         <Route path="/interviews" element={<Interviews />} />
         <Route path="/offers" element={<Offers />} />
         <Route path="/rejected" element={<Rejected />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/insights" element={<Insights />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
