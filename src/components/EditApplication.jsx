@@ -73,6 +73,7 @@ function EditApplication({
   const [editDateLabel, setEditDateLabel] = useState(
     application.date.applied ? 'interviews' : 'applied'
   );
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const { user } = useContext(AuthContext);
   const {
@@ -237,7 +238,11 @@ function EditApplication({
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
     try {
       await deleteJob(application._id);
 
@@ -246,6 +251,10 @@ function EditApplication({
     } catch (error) {
       console.log('Error deleting job', error);
     }
+  };
+
+  const cancelDelete = () => {
+    setDeleteDialogOpen(false);
   };
 
   const dateTypes = ['created', 'applied', 'interviews', 'offer', 'rejected'];
@@ -679,6 +688,20 @@ function EditApplication({
           <DeleteIcon />
         </IconButton>
       </DialogActions>
+      <Dialog open={deleteDialogOpen} onClose={cancelDelete}>
+        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <p>Are you sure you want to delete this job?</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={cancelDelete} sx={{ color: '#678B85' }}>
+            Cancel
+          </Button>
+          <Button onClick={confirmDelete} sx={{ color: '#678B85' }}>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Dialog>
   );
 }
