@@ -16,6 +16,7 @@ import {
 import EditApplication from '../components/EditApplication';
 import AddJobButton from '../components/AddJobButton';
 import AddBoardButton from '../components/AddBoardButton';
+import SearchBar from '../components/SearchBar';
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import ContentPasteSearchRoundedIcon from '@mui/icons-material/ContentPasteSearchRounded';
@@ -26,6 +27,8 @@ import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 
 function Board() {
   const [applicationList, setApplicationList] = useState([]);
+  const [filteredApplicationList, setFilteredApplicationList] =
+    useState(applicationList);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [board, setBoard] = useState('');
   const [boardName, setBoardName] = useState('');
@@ -204,6 +207,7 @@ function Board() {
                   onDrop={e => onDrop(e, role, list, index)}
                   onClick={() => handleEdit(application)}
                   sx={{
+                    backgroundColor: darkMode ? '#6e6e6e' : '#cfcfcf',
                     padding: '5px',
                     cursor: 'pointer',
                     minWidth: 100,
@@ -437,11 +441,15 @@ function Board() {
                 uniqueRoles.map((role, index) => (
                   <div
                     key={index}
-                    className="min-w-[200px] max-w-[320px] bg-[#fbf1ed] rounded-2xl shadow-sm shadow-[#daa690] py-[20px] pl-[18px] pr-[12px]"
+                    className={`min-w-[200px] max-w-[320px] ${
+                      darkMode ? 'bg-[#525252]' : 'bg-[#eaeaea]'
+                    } ${
+                      darkMode ? 'shadow-[#6f6f6f]' : 'shadow-[#cfcfcf]'
+                    } rounded-xl shadow-sm  py-[20px] pl-[18px] pr-[12px]`}
                   >
                     <h5
                       className={`font-bold mb-[8px] text-xl ${
-                        darkMode ? 'text-[#FFA17A]' : 'text-[#f06c35]'
+                        darkMode ? 'text-[#ff8956]' : 'text-[#f06c35]'
                       }`}
                     >
                       {role}
