@@ -64,14 +64,22 @@ function EditApplication({
   );
   const [dateInput, setDateInput] = useState(dayjs());
   const [starred, setStarred] = useState(application.starred);
-  const [list, setList] = useState(application.listId);
+  const [list, setList] = useState({});
   const [listName, setListName] = useState(
     list.listName ? list.listName : 'Wishlist'
   );
   const [boardName, setBoardName] = useState('');
   const [boards, setBoards] = useState([]);
   const [editDateLabel, setEditDateLabel] = useState(
-    application.date.applied ? 'interviews' : 'applied'
+    listName === 'Applied'
+      ? 'applied'
+      : listName === 'Interviews'
+      ? 'interviews'
+      : listName === 'Offers'
+      ? 'offer'
+      : listName === 'Rejected'
+      ? 'rejected'
+      : 'interviews'
   );
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -83,9 +91,6 @@ function EditApplication({
     greenIconButtonStyle,
     greyIconButtonStyle,
   } = useContext(ThemeContext);
-
-  console.log('application:', application);
-  console.log('application.listId:', application.listId);
 
   useEffect(() => {
     if (application) {
@@ -105,6 +110,7 @@ function EditApplication({
   const getData = async application => {
     try {
       const list = await getList(application.listId);
+      setList(list);
       setListName(list.listName);
     } catch (error) {
       console.log('Error fetching data');
@@ -509,7 +515,17 @@ function EditApplication({
               type="text"
               value={editDateLabel}
               onChange={e => setEditDateLabel(e.target.value)}
-              defaultValue={application.date.applied ? 'interviews' : 'applied'}
+              defaultValue={
+                listName === 'Applied'
+                  ? 'applied'
+                  : listName === 'Interviews'
+                  ? 'interviews'
+                  : listName === 'Offers'
+                  ? 'offer'
+                  : listName === 'Rejected'
+                  ? 'rejected'
+                  : 'interviews'
+              }
             >
               {dateTypes.map((dateType, index) => (
                 <MenuItem key={index} value={dateType}>
@@ -681,8 +697,8 @@ function EditApplication({
           setCustomLabel={setCustomLabel}
           setEditDate={setEditDate}
           setStarred={setStarred}
-          setList={setList}
           application={application}
+          listName={listName}
         />
         <Button onClick={handleSave} sx={{ ...buttonGreenStyle }}>
           Save

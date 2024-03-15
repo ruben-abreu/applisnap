@@ -26,6 +26,7 @@ function CancelButton({
   setEditDate,
   setEditDateLabel,
   application,
+  listName,
 }) {
   const { lightButtonStyle } = useContext(ThemeContext);
 
@@ -42,15 +43,37 @@ function CancelButton({
     setDomain ? setDomain() : '';
     setJobURL ? setJobURL() : '';
     setJobDescription ? setJobDescription() : '';
-    setWorkModel ? setWorkModel() : '';
+    setWorkModel ? setWorkModel('On-Site') : '';
     setWorkLocation ? setWorkLocation() : '';
     setNotes ? setNotes() : '';
     setDate ? setDate({}) : '';
     setStarred ? setStarred(false) : '';
     setListName ? setListName() : '';
-    setDateLabel ? setDateLabel('applied') : '';
+    setDateLabel
+      ? setDateLabel(
+          listName === 'Applied' || listName === 'Wishlist'
+            ? 'applied'
+            : listName === 'Interviews'
+            ? 'interviews'
+            : listName === 'Offers'
+            ? 'offer'
+            : listName === 'Rejected'
+            ? 'rejected'
+            : 'applied'
+        )
+      : '';
     setEditDateLabel
-      ? setEditDateLabel(application.date.applied ? 'interviews' : 'applied')
+      ? setEditDateLabel(
+          listName === 'Applied'
+            ? 'applied'
+            : listName === 'Interviews'
+            ? 'interviews'
+            : listName === 'Offers'
+            ? 'offer'
+            : listName === 'Rejected'
+            ? 'rejected'
+            : 'interviews'
+        )
       : '';
     setEditDate ? setEditDate(application.date ? application.date : {}) : '';
   };

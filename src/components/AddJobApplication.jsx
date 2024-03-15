@@ -57,7 +57,17 @@ function AddJobApplication({
     list.listName ? list.listName : 'Wishlist'
   );
   const [dateInput, setDateInput] = useState(dayjs());
-  const [dateLabel, setDateLabel] = useState('applied');
+  const [dateLabel, setDateLabel] = useState(
+    listName === 'Applied' || listName === 'Wishlist'
+      ? 'applied'
+      : listName === 'Interviews'
+      ? 'interviews'
+      : listName === 'Offers'
+      ? 'offer'
+      : listName === 'Rejected'
+      ? 'rejected'
+      : 'applied'
+  );
   const [date, setDate] = useState({});
 
   const { user } = useContext(AuthContext);
@@ -447,7 +457,19 @@ function AddJobApplication({
               type="text"
               value={dateLabel}
               onChange={e => setDateLabel(e.target.value)}
-              defaultValue={dateLabel ? dateLabel : 'applied'}
+              defaultValue={
+                listName === 'Applied' || listName === 'Wishlist'
+                  ? 'applied'
+                  : listName === 'Interviews'
+                  ? 'interviews'
+                  : listName === 'Offers'
+                  ? 'offer'
+                  : listName === 'Rejected'
+                  ? 'rejected'
+                  : dateLabel
+                  ? dateLabel
+                  : 'applied'
+              }
             >
               {dateTypes.map((dateType, index) => (
                 <MenuItem key={index} value={dateType}>
@@ -615,6 +637,7 @@ function AddJobApplication({
           setStarred={setStarred}
           setListName={setListName}
           setDateLabel={setDateLabel}
+          listName={listName}
         />
         <Button onClick={handleSave} sx={{ ...buttonGreenStyle }}>
           Save
