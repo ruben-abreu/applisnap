@@ -27,8 +27,7 @@ import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 
 function Board() {
   const [applicationList, setApplicationList] = useState([]);
-  const [filteredApplicationList, setFilteredApplicationList] =
-    useState(applicationList);
+  const [showApplicationList, setShowApplicationList] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [board, setBoard] = useState('');
   const [boardName, setBoardName] = useState('');
@@ -45,6 +44,15 @@ function Board() {
     fetchBoard();
   }, [boardId]);
 
+  const searchedCompany = query => {
+    const filteredApplicationList = applicationList.filter(application => {
+      return application.companyName
+        .toLowerCase()
+        .includes(query.toLowerCase());
+    });
+    setShowApplicationList(filteredApplicationList);
+  };
+
   const handleBoardSelection = e => {
     setBoardName(e.target.value);
     const selectedBoard = user.boards.filter(
@@ -59,6 +67,7 @@ function Board() {
       setBoard(currentBoard);
       setBoardName(currentBoard.boardName);
       setApplicationList(currentBoard.jobs);
+      setShowApplicationList(currentBoard.jobs);
       setLists(currentBoard.lists);
       console.log('currentBoard:', currentBoard);
     } catch (error) {
@@ -98,7 +107,7 @@ function Board() {
     e.target.classList.remove('dragged-over');
     const applicationId = e.dataTransfer.getData('text/plain');
 
-    const draggedApplication = applicationList.find(
+    const draggedApplication = showApplicationList.find(
       app => app._id.toString() === applicationId.toString()
     );
 
@@ -112,13 +121,14 @@ function Board() {
         draggedApplication.roleName === targetRole &&
         draggedApplication.listId !== targetList._id
       ) {
-        const updatedApplications = applicationList.filter(
+        const updatedApplications = showApplicationList.filter(
           app => app._id.toString() !== applicationId.toString()
         );
         draggedApplication.listId = targetList._id;
         updatedApplications.splice(dropIndex, 0, draggedApplication);
 
         setApplicationList(updatedApplications);
+        setShowApplicationList(updatedApplications);
 
         await updateApplicationListInBackend(applicationId, targetList._id);
       }
@@ -175,8 +185,8 @@ function Board() {
           marginRight: '8px',
         }}
       >
-        {applicationList &&
-          applicationList
+        {showApplicationList &&
+          showApplicationList
             .filter(application => {
               if (list !== undefined) {
                 return (
@@ -293,7 +303,7 @@ function Board() {
 
   const uniqueRoles = [
     ...new Set(
-      applicationList
+      showApplicationList
         .map(app => app.roleName)
         .sort((a, b) => a.localeCompare(b))
     ),
@@ -363,8 +373,8 @@ function Board() {
           />
         </div>
         {renderApplications(role, list)}
-        {applicationList &&
-          applicationList.filter(
+        {showApplicationList &&
+          showApplicationList.filter(
             application =>
               application.roleName === role && application.listId === list._id
           ).length === 0 && <EmptyDropArea role={role} list={list} />}{' '}
@@ -435,7 +445,10 @@ function Board() {
               />
             </div>
           )}
-          <div className="overflow-visible mt-[40px]">
+          <div className="flex justify-start mt-[30px]">
+            <SearchBar searchedCompany={searchedCompany} />
+          </div>
+          <div className="overflow-visible mt-[30px]">
             <div className="flex gap-[20px]">
               {uniqueRoles &&
                 uniqueRoles.map((role, index) => (

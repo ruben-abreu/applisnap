@@ -38,7 +38,7 @@ function SearchBar({ searchedCompany }) {
               <SearchIcon />
             </InputAdornment>
           }
-          label="Search Country"
+          label="Search Company"
           value={search}
           onChange={handleSearch}
           placeholder="Company Name"
