@@ -12,10 +12,6 @@ const AuthProviderWrapper = props => {
     authenticateUser();
   }, []);
 
-  useEffect(() => {
-    console.log('loggedIn', loggedIn);
-  }, [loggedIn]);
-
   const storeToken = token => {
     localStorage.setItem('authToken', token);
   };
