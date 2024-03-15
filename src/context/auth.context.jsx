@@ -8,6 +8,14 @@ const AuthProviderWrapper = props => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    authenticateUser();
+  }, []);
+
+  useEffect(() => {
+    console.log('loggedIn', loggedIn);
+  }, [loggedIn]);
+
   const storeToken = token => {
     localStorage.setItem('authToken', token);
   };
@@ -52,10 +60,6 @@ const AuthProviderWrapper = props => {
     removeToken();
     authenticateUser();
   };
-
-  useEffect(() => {
-    authenticateUser();
-  }, []);
 
   return (
     <AuthContext.Provider

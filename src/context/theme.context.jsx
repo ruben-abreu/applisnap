@@ -153,6 +153,30 @@ const ThemeProviderWrapper = props => {
     },
   };
 
+  const greyIconButtonStyle = {
+    boxShadow: 'none',
+    textTransform: 'none',
+    color: darkMode ? 'white' : '#cfcecc',
+    fontSize: 16,
+    padding: '0',
+    width: '20px',
+    '&:hover': {
+      color: darkMode ? 'white' : '#8a8988',
+      backgroundColor: 'transparent',
+      boxShadow: 'none',
+    },
+    '&:active': {
+      color: darkMode ? 'white' : '#595959',
+      backgroundColor: 'transparent',
+      boxShadow: 'none',
+    },
+    '&:focus': {
+      color: darkMode ? 'white' : '#595959',
+      backgroundColor: 'transparent',
+      boxShadow: 'none',
+    },
+  };
+
   const lightButtonNoBorder = {
     boxShadow: 'none',
     textTransform: 'none',

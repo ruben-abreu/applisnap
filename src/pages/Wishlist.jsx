@@ -24,7 +24,7 @@ import {
 } from '@mui/material';
 
 const Wishlist = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { loggedIn, user, setUser } = useContext(AuthContext);
   const { darkMode, formGreenStyle } = useContext(ThemeContext);
   const navigate = useNavigate();
   const storedUserId = localStorage.getItem('userId');
@@ -142,125 +142,141 @@ const Wishlist = () => {
   };
 
   return (
-    <div className='m-[2%] mt-[30px]'>
-      <div className='flex justify-between items-center'>
-        <h2
-          className={`text-[1.4em] mt-4 mb-6 ${
-            darkMode ? 'text-white' : 'text-[#678B85]'
-          }`}
-        >
-          Wishlist
-        </h2>
-        {user && user.boards.length > 1 && (
-          <form>
-            <FormControl sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor='board' label='Board'>
-                Board
-              </InputLabel>
-              <Select
-                id='board'
-                label='Board'
-                type='text'
-                value={boardName}
-                onChange={e => handleBoardSelection(e)}
-              >
-                {user.boards.map(board => (
-                  <MenuItem key={board._id} value={board.boardName}>
-                    {board.boardName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </form>
-        )}
-      </div>
-      <div className='grid grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-3'>
-        {wishlistJobs
-          .filter(job => job.boardId === selectedBoardId)
-          .map((job, index) => {
-            const jobBoard = boards.find(board => board._id === job.boardId);
-            return (
-              <Card key={index} sx={{ maxWidth: 120 }}>
-                <CardMedia
-                  component='img'
-                  alt='job logo'
-                  height='100'
-                  image={`https://logo.clearbit.com/${job.domain}`}
-                  sx={{
-                    p: 1,
-                    mb: 1,
-                    minWidth: 50,
-                    maxWidth: 120,
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant='subtitle2' component='div'>
-                    {job.companyName}
-                  </Typography>
-                  <Typography variant='body2' color='text.secondary'>
-                    {job.roleName}
-                  </Typography>
-                </CardContent>
-                <CardActions sx={{ justifyContent: 'center', width: '90%' }}>
-                  <Button
-                    size='small'
-                    sx={{ color: '#678B85', ml: 0.5, mr: 0, pr: 0 }}
-                    onClick={() => handleEdit(job)}
+    <div className="m-[2%] mt-[30px]">
+      {loggedIn ? (
+        <div>
+          <div className="flex justify-between items-center">
+            <h2
+              className={`text-[1.4em] mt-4 mb-6 ${
+                darkMode ? 'text-white' : 'text-[#678B85]'
+              }`}
+            >
+              Wishlist
+            </h2>
+            {user && user.boards.length > 1 && (
+              <form>
+                <FormControl sx={{ ...formGreenStyle, my: 1 }}>
+                  <InputLabel htmlFor="board" label="Board">
+                    Board
+                  </InputLabel>
+                  <Select
+                    id="board"
+                    label="Board"
+                    type="text"
+                    value={boardName}
+                    onChange={e => handleBoardSelection(e)}
                   >
-                    Edit
-                  </Button>
-                  {selectedApplication &&
-                    selectedApplication._id === job._id && (
-                      <EditApplication
-                        open={Boolean(selectedApplication)}
-                        onClose={handleEditClose}
-                        application={selectedApplication}
-                        board={jobBoard}
-                        fetchBoard={fetchBoard}
-                        boardId={jobBoard ? jobBoard._id : null}
-                        onEdit={onEditApplication}
-                        updateUser={updateUser}
-                        lists={lists}
-                      />
-                    )}
-                  <Button
-                    size='small'
-                    sx={{ color: '#678B85', ml: 0, pl: 0 }}
-                    onClick={() => handleDelete(job)}
-                  >
-                    Delete
-                  </Button>
-                </CardActions>
-              </Card>
-            );
-          })}
-        {wishlistJobs.length === 0 && (
-          <div className='text-center col-span-full mt-4'>
-            <Typography variant='body1'>
-              You have no jobs in this list.
-            </Typography>
+                    {user.boards.map(board => (
+                      <MenuItem key={board._id} value={board.boardName}>
+                        {board.boardName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </form>
+            )}
           </div>
-        )}
-      </div>
-      <Dialog open={deleteDialogOpen} onClose={cancelDelete}>
-        <DialogTitle>Confirm Deletion</DialogTitle>
-        <DialogContent>
-          <Typography variant='body1'>
-            Are you sure you want to delete this job?
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={cancelDelete} sx={{ color: '#678B85' }}>
-            Cancel
-          </Button>
-          <Button onClick={confirmDelete} sx={{ color: '#678B85' }}>
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
+          <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-3">
+            {wishlistJobs
+              .filter(job => job.boardId === selectedBoardId)
+              .map((job, index) => {
+                const jobBoard = boards.find(
+                  board => board._id === job.boardId
+                );
+                return (
+                  <Card key={index} sx={{ maxWidth: 120 }}>
+                    <CardMedia
+                      component="img"
+                      alt="job logo"
+                      height="100"
+                      image={`https://logo.clearbit.com/${job.domain}`}
+                      sx={{
+                        p: 1,
+                        mb: 1,
+                        minWidth: 50,
+                        maxWidth: 120,
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                      }}
+                    />
+                    <CardContent>
+                      <Typography
+                        gutterBottom
+                        variant="subtitle2"
+                        component="div"
+                      >
+                        {job.companyName}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {job.roleName}
+                      </Typography>
+                    </CardContent>
+                    <CardActions
+                      sx={{ justifyContent: 'center', width: '90%' }}
+                    >
+                      <Button
+                        size="small"
+                        sx={{ color: '#678B85', ml: 0.5, mr: 0, pr: 0 }}
+                        onClick={() => handleEdit(job)}
+                      >
+                        Edit
+                      </Button>
+                      {selectedApplication &&
+                        selectedApplication._id === job._id && (
+                          <EditApplication
+                            open={Boolean(selectedApplication)}
+                            onClose={handleEditClose}
+                            application={selectedApplication}
+                            board={jobBoard}
+                            fetchBoard={fetchBoard}
+                            boardId={jobBoard ? jobBoard._id : null}
+                            onEdit={onEditApplication}
+                            updateUser={updateUser}
+                            lists={lists}
+                          />
+                        )}
+                      <Button
+                        size="small"
+                        sx={{ color: '#678B85', ml: 0, pl: 0 }}
+                        onClick={() => handleDelete(job)}
+                      >
+                        Delete
+                      </Button>
+                    </CardActions>
+                  </Card>
+                );
+              })}
+            {wishlistJobs.length === 0 && (
+              <div className="text-center col-span-full mt-4">
+                <Typography variant="body1">
+                  You have no jobs in this list.
+                </Typography>
+              </div>
+            )}
+          </div>
+          <Dialog open={deleteDialogOpen} onClose={cancelDelete}>
+            <DialogTitle>Confirm Deletion</DialogTitle>
+            <DialogContent>
+              <Typography variant="body1">
+                Are you sure you want to delete this job?
+              </Typography>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={cancelDelete} sx={{ color: '#678B85' }}>
+                Cancel
+              </Button>
+              <Button onClick={confirmDelete} sx={{ color: '#678B85' }}>
+                Confirm
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+      ) : (
+        <p className="text-center mt-[50px] font-bold text-xl">
+          Please log in to view this page
+        </p>
+      )}
     </div>
   );
 };

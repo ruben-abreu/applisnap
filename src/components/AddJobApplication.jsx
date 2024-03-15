@@ -18,6 +18,7 @@ import {
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -60,8 +61,13 @@ function AddJobApplication({
   const [date, setDate] = useState({});
 
   const { user } = useContext(AuthContext);
-  const { darkMode, formGreenStyle, buttonGreenStyle, greenIconButtonStyle } =
-    useContext(ThemeContext);
+  const {
+    darkMode,
+    formGreenStyle,
+    buttonGreenStyle,
+    greenIconButtonStyle,
+    greyIconButtonStyle,
+  } = useContext(ThemeContext);
 
   useEffect(() => {
     if (list) {
@@ -447,7 +453,20 @@ function AddJobApplication({
                   <TimelineDot />
                   <TimelineConnector />
                 </TimelineSeparator>
-                <TimelineContent>{formatDate(date.applied)}</TimelineContent>
+                <TimelineContent>
+                  <div className="flex items-center gap-[5px]">
+                    {formatDate(date.applied)}
+                    <button>
+                      <HighlightOffRoundedIcon
+                        sx={{
+                          ...greyIconButtonStyle,
+                          width: '20px',
+                          height: '20px',
+                        }}
+                      />
+                    </button>
+                  </div>
+                </TimelineContent>
               </TimelineItem>
             )}
 

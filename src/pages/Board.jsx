@@ -34,7 +34,7 @@ function Board() {
   const { boardId } = useParams();
 
   const { darkMode, formGreenStyle } = useContext(ThemeContext);
-  const { user } = useContext(AuthContext);
+  const { loggedIn, user } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -370,98 +370,106 @@ function Board() {
 
   return (
     <div className="m-[2%] mt-[30px] pb-[30px]">
-      <div className="flex flex-wrap gap-[10px] justify-between items-center">
-        {user && user.boards.length === 1 && boardName && (
-          <h2
-            className={`text-[1.4em] ${
-              darkMode ? 'text-white' : 'text-[#678B85]'
-            }`}
-          >
-            {boardName}
-          </h2>
-        )}
-        {user && user.boards.length > 1 && boardName && (
-          <form>
-            <FormControl sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="board" label="Board">
-                Board
-              </InputLabel>
-              <Select
-                id="board"
-                label="Board"
-                type="text"
-                value={boardName}
-                onChange={e => handleBoardSelection(e)}
-                defaultValue={
-                  boardName
-                    ? boardName
-                    : user.boards[user.boards.length - 1].boardName
-                }
+      {loggedIn ? (
+        <div>
+          <div className="flex flex-wrap gap-[10px] justify-between items-center">
+            {user && user.boards.length === 1 && boardName && (
+              <h2
+                className={`text-[1.4em] ${
+                  darkMode ? 'text-white' : 'text-[#678B85]'
+                }`}
               >
-                {user.boards.map(board => (
-                  <MenuItem key={board._id} value={board.boardName}>
-                    {board.boardName}
-                  </MenuItem>
+                {boardName}
+              </h2>
+            )}
+            {user && user.boards.length > 1 && boardName && (
+              <form>
+                <FormControl sx={{ ...formGreenStyle, my: 1 }}>
+                  <InputLabel htmlFor="board" label="Board">
+                    Board
+                  </InputLabel>
+                  <Select
+                    id="board"
+                    label="Board"
+                    type="text"
+                    value={boardName}
+                    onChange={e => handleBoardSelection(e)}
+                    defaultValue={
+                      boardName
+                        ? boardName
+                        : user.boards[user.boards.length - 1].boardName
+                    }
+                  >
+                    {user.boards.map(board => (
+                      <MenuItem key={board._id} value={board.boardName}>
+                        {board.boardName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </form>
+            )}
+            <AddBoardButton />
+          </div>
+          {board && (
+            <div className="flex items-center mt-[30px]">
+              <h3
+                className={`text-[16px] ${
+                  darkMode ? 'text-white' : 'text-[black]'
+                } font-bold`}
+              >
+                {board.jobs.length === 0
+                  ? 'Add your first job application'
+                  : 'Add new job application'}
+              </h3>
+              <AddJobButton
+                board={board}
+                list="Wishlist"
+                role=""
+                fetchBoard={fetchBoard}
+                boardId={boardId}
+              />
+            </div>
+          )}
+          <div className="overflow-visible mt-[40px]">
+            <div className="flex gap-[20px]">
+              {uniqueRoles &&
+                uniqueRoles.map((role, index) => (
+                  <div
+                    key={index}
+                    className="min-w-[200px] max-w-[320px] bg-[#fbf1ed] rounded-2xl shadow-sm shadow-[#daa690] py-[20px] pl-[18px] pr-[12px]"
+                  >
+                    <h5
+                      className={`font-bold mb-[8px] text-xl ${
+                        darkMode ? 'text-[#FFA17A]' : 'text-[#f06c35]'
+                      }`}
+                    >
+                      {role}
+                    </h5>
+                    <Grid container direction="column" style={{ margin: 0 }}>
+                      {renderListsForRole(role)}
+                    </Grid>
+                  </div>
                 ))}
-              </Select>
-            </FormControl>
-          </form>
-        )}
-        <AddBoardButton />
-      </div>
-      {board && (
-        <div className="flex items-center mt-[30px]">
-          <h3
-            className={`text-[16px] ${
-              darkMode ? 'text-white' : 'text-[black]'
-            } font-bold`}
-          >
-            {board.jobs.length === 0
-              ? 'Add your first job application'
-              : 'Add new job application'}
-          </h3>
-          <AddJobButton
-            board={board}
-            list="Wishlist"
-            role=""
-            fetchBoard={fetchBoard}
-            boardId={boardId}
-          />
+            </div>
+            {selectedApplication && (
+              <EditApplication
+                open={Boolean(selectedApplication)}
+                onClose={handleEditClose}
+                application={selectedApplication}
+                board={board}
+                fetchBoard={fetchBoard}
+                lists={lists}
+                boardId={boardId}
+              />
+            )}
+          </div>
         </div>
+      ) : (
+        <p className="text-center mt-[50px] font-bold text-xl">
+          Please log in to view this page
+        </p>
       )}
-      <div className="overflow-visible mt-[40px]">
-        <div className="flex gap-[20px]">
-          {uniqueRoles &&
-            uniqueRoles.map((role, index) => (
-              <div
-                key={index}
-                className="min-w-[200px] max-w-[320px] bg-[#fbf1ed] rounded-2xl shadow-sm shadow-[#daa690] py-[20px] pl-[18px] pr-[12px]"
-              >
-                <h5
-                  className={`font-bold mb-[8px] text-xl ${
-                    darkMode ? 'text-[#FFA17A]' : 'text-[#f06c35]'
-                  }`}
-                >
-                  {role}
-                </h5>
-                <Grid container direction="column" style={{ margin: 0 }}>
-                  {renderListsForRole(role)}
-                </Grid>
-              </div>
-            ))}
-        </div>
-        {selectedApplication && (
-          <EditApplication
-            open={Boolean(selectedApplication)}
-            onClose={handleEditClose}
-            application={selectedApplication}
-            board={board}
-            fetchBoard={fetchBoard}
-            lists={lists}
-            boardId={boardId}
-          />
-        )}
-      </div>
     </div>
   );
 }
