@@ -16,6 +16,7 @@ import {
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -74,8 +75,13 @@ function EditApplication({
   );
 
   const { user } = useContext(AuthContext);
-  const { darkMode, formGreenStyle, buttonGreenStyle, greenIconButtonStyle } =
-    useContext(ThemeContext);
+  const {
+    darkMode,
+    formGreenStyle,
+    buttonGreenStyle,
+    greenIconButtonStyle,
+    greyIconButtonStyle,
+  } = useContext(ThemeContext);
 
   console.log('application:', application);
   console.log('application.listId:', application.listId);
@@ -134,6 +140,39 @@ function EditApplication({
         break;
       default:
         setEditDate({ ...editDate, created: formattedDate });
+    }
+  };
+
+  const handleRemoveDate = (dateType, dateValue) => {
+    if (!dateType) {
+      return;
+    }
+
+    switch (dateType) {
+      case 'created':
+        setEditDate({ ...editDate, created: null });
+        break;
+      case 'applied':
+        setEditDate({ ...editDate, applied: null });
+        break;
+      case 'interviews':
+        if (editDate.interviews.length > 1) {
+          const updatedInterviewDates = editDate.interviews.filter(
+            interview => interview !== dateValue
+          );
+          setEditDate({ ...editDate, interviews: [...updatedInterviewDates] });
+        } else {
+          setEditDate({ ...editDate, interviews: [] });
+        }
+        break;
+      case 'offer':
+        setEditDate({ ...editDate, offer: null });
+        break;
+      case 'rejected':
+        setEditDate({ ...editDate, rejected: null });
+        break;
+      default:
+        setEditDate({ ...editDate, created: null });
     }
   };
 
@@ -500,7 +539,21 @@ function EditApplication({
                   <TimelineConnector />
                 </TimelineSeparator>
                 <TimelineContent>
-                  {formatDate(editDate.applied)}
+                  <div className="flex items-center gap-[5px]">
+                    <p className="w-[100px]">{formatDate(editDate.applied)}</p>
+                    <button
+                      className="flex items-center"
+                      onClick={() => handleRemoveDate('applied')}
+                    >
+                      <HighlightOffRoundedIcon
+                        sx={{
+                          ...greyIconButtonStyle,
+                          width: '20px',
+                          height: '20px',
+                        }}
+                      />
+                    </button>
+                  </div>
                 </TimelineContent>
               </TimelineItem>
             )}
@@ -519,7 +572,23 @@ function EditApplication({
                 <TimelineContent>
                   <ul>
                     {editDate.interviews.map((interview, index) => (
-                      <li key={index}>{formatDate(interview)}</li>
+                      <div key={index} className="flex items-center gap-[5px]">
+                        <li className="w-[100px]">{formatDate(interview)}</li>
+                        <button
+                          className="flex items-center"
+                          onClick={() =>
+                            handleRemoveDate('interviews', interview)
+                          }
+                        >
+                          <HighlightOffRoundedIcon
+                            sx={{
+                              ...greyIconButtonStyle,
+                              width: '20px',
+                              height: '20px',
+                            }}
+                          />
+                        </button>
+                      </div>
                     ))}
                   </ul>
                 </TimelineContent>
@@ -535,7 +604,23 @@ function EditApplication({
                   <TimelineDot />
                   <TimelineConnector />
                 </TimelineSeparator>
-                <TimelineContent>{formatDate(editDate.offer)}</TimelineContent>
+                <TimelineContent>
+                  <div className="flex items-center gap-[5px]">
+                    <p className="w-[100px]">{formatDate(editDate.offer)}</p>
+                    <button
+                      className="flex items-center"
+                      onClick={() => handleRemoveDate('offer')}
+                    >
+                      <HighlightOffRoundedIcon
+                        sx={{
+                          ...greyIconButtonStyle,
+                          width: '20px',
+                          height: '20px',
+                        }}
+                      />
+                    </button>
+                  </div>
+                </TimelineContent>
               </TimelineItem>
             )}
 
@@ -549,7 +634,21 @@ function EditApplication({
                   <TimelineConnector />
                 </TimelineSeparator>
                 <TimelineContent>
-                  {formatDate(editDate.rejected)}
+                  <div className="flex items-center gap-[5px]">
+                    <p className="w-[100px]">{formatDate(editDate.rejected)}</p>
+                    <button
+                      className="flex items-center"
+                      onClick={() => handleRemoveDate('rejected')}
+                    >
+                      <HighlightOffRoundedIcon
+                        sx={{
+                          ...greyIconButtonStyle,
+                          width: '20px',
+                          height: '20px',
+                        }}
+                      />
+                    </button>
+                  </div>
                 </TimelineContent>
               </TimelineItem>
             )}
