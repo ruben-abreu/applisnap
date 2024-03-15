@@ -156,7 +156,7 @@ const ThemeProviderWrapper = props => {
   const greyIconButtonStyle = {
     boxShadow: 'none',
     textTransform: 'none',
-    color: darkMode ? 'white' : '#cfcecc',
+    color: darkMode ? 'white' : '#bdbdbd',
     fontSize: 16,
     padding: '0',
     width: '20px',
@@ -271,6 +271,7 @@ const ThemeProviderWrapper = props => {
         lightButtonStyle,
         yellowButtonStyle,
         greenIconButtonStyle,
+        greyIconButtonStyle,
       }}
     >
       {props.children}

@@ -70,7 +70,7 @@ function AddJobApplication({
   } = useContext(ThemeContext);
 
   useEffect(() => {
-    if (list) {
+    if (list._id) {
       getData(list);
     }
     let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
@@ -92,7 +92,7 @@ function AddJobApplication({
   const formatDate = unformattedDate =>
     dayjs(unformattedDate).format('DD/MM/YYYY');
 
-  const handleAddDate = async () => {
+  const handleAddDate = () => {
     if (!dateInput) {
       return;
     }
@@ -119,6 +119,39 @@ function AddJobApplication({
         break;
       default:
         setDate({ ...date, created: formattedDate });
+    }
+  };
+
+  const handleRemoveDate = (dateType, dateValue) => {
+    if (!dateType) {
+      return;
+    }
+
+    switch (dateType) {
+      case 'created':
+        setDate({ ...date, created: null });
+        break;
+      case 'applied':
+        setDate({ ...date, applied: null });
+        break;
+      case 'interviews':
+        if (date.interviews.length > 1) {
+          const updatedInterviewDates = date.interviews.filter(
+            interview => interview !== dateValue
+          );
+          setDate({ ...date, interviews: [...updatedInterviewDates] });
+        } else {
+          setDate({ ...date, interviews: [] });
+        }
+        break;
+      case 'offer':
+        setDate({ ...date, offer: null });
+        break;
+      case 'rejected':
+        setDate({ ...date, rejected: null });
+        break;
+      default:
+        setDate({ ...date, created: null });
     }
   };
 
@@ -455,8 +488,11 @@ function AddJobApplication({
                 </TimelineSeparator>
                 <TimelineContent>
                   <div className="flex items-center gap-[5px]">
-                    {formatDate(date.applied)}
-                    <button>
+                    <p className="w-[100px]">{formatDate(date.applied)}</p>
+                    <button
+                      className="flex items-center"
+                      onClick={() => handleRemoveDate('applied')}
+                    >
                       <HighlightOffRoundedIcon
                         sx={{
                           ...greyIconButtonStyle,
@@ -470,7 +506,7 @@ function AddJobApplication({
               </TimelineItem>
             )}
 
-            {date.interviews && (
+            {date.interviews && date.interviews.length > 0 && (
               <TimelineItem>
                 <TimelineOppositeContent color="text.secondary">
                   {date.interviews.length === 1 ? 'Interview' : 'Interviews'}
@@ -482,7 +518,23 @@ function AddJobApplication({
                 <TimelineContent>
                   <ul>
                     {date.interviews.map((interview, index) => (
-                      <li key={index}>{formatDate(interview)}</li>
+                      <div key={index} className="flex items-center gap-[5px]">
+                        <li className="w-[100px]">{formatDate(interview)}</li>
+                        <button
+                          className="flex items-center"
+                          onClick={() =>
+                            handleRemoveDate('interviews', interview)
+                          }
+                        >
+                          <HighlightOffRoundedIcon
+                            sx={{
+                              ...greyIconButtonStyle,
+                              width: '20px',
+                              height: '20px',
+                            }}
+                          />
+                        </button>
+                      </div>
                     ))}
                   </ul>
                 </TimelineContent>
@@ -498,20 +550,51 @@ function AddJobApplication({
                   <TimelineDot />
                   <TimelineConnector />
                 </TimelineSeparator>
-                <TimelineContent>{formatDate(date.offer)}</TimelineContent>
+                <TimelineContent>
+                  <div className="flex items-center gap-[5px]">
+                    <p className="w-[100px]">{formatDate(date.offer)}</p>
+                    <button
+                      className="flex items-center"
+                      onClick={() => handleRemoveDate('offer')}
+                    >
+                      <HighlightOffRoundedIcon
+                        sx={{
+                          ...greyIconButtonStyle,
+                          width: '20px',
+                          height: '20px',
+                        }}
+                      />
+                    </button>
+                  </div>
+                </TimelineContent>
               </TimelineItem>
             )}
 
             {date.rejected && (
               <TimelineItem>
                 <TimelineOppositeContent color="text.secondary">
-                  Offer
+                  Rejected
                 </TimelineOppositeContent>
                 <TimelineSeparator>
                   <TimelineDot />
-                  <TimelineConnector />
                 </TimelineSeparator>
-                <TimelineContent>{formatDate(date.rejected)}</TimelineContent>
+                <TimelineContent>
+                  <div className="flex items-center gap-[5px]">
+                    <p className="w-[100px]">{formatDate(date.rejected)}</p>
+                    <button
+                      className="flex items-center"
+                      onClick={() => handleRemoveDate('rejected')}
+                    >
+                      <HighlightOffRoundedIcon
+                        sx={{
+                          ...greyIconButtonStyle,
+                          width: '20px',
+                          height: '20px',
+                        }}
+                      />
+                    </button>
+                  </div>
+                </TimelineContent>
               </TimelineItem>
             )}
           </Timeline>
