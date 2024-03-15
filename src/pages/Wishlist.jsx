@@ -201,7 +201,7 @@ const Wishlist = () => {
                   <Card key={index} sx={{ maxWidth: 120 }}>
                     <button onClick={() => handleEdit(job)}>
                       <div className="h-[100px] flex items-center">
-                        <div className="w-[100%] mt-[10px] flex justify-center items-center">
+                        <div className="w-[100%] pt-[20px] flex justify-center items-center">
                           <Avatar
                             sx={{
                               fontSize: '18px',
