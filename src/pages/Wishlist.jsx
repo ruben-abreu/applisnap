@@ -46,11 +46,9 @@ const Wishlist = () => {
   const { boardId } = useParams();
 
   useEffect(() => {
+    fetchBoard(boardId);
     updateUser();
-    if (boardId) {
-      fetchBoard(boardId);
-    }
-  }, []);
+  }, [boardId]);
 
   const searchedCompany = query => {
     const filteredWishlist = wishlistJobs.filter(job => {
@@ -63,6 +61,8 @@ const Wishlist = () => {
     try {
       const currentBoard = await getBoard(boardId);
       setBoard(currentBoard);
+      setWishlistJobs(currentBoard.jobs);
+      setShowWishlistJobs(currentBoard.jobs);
       console.log('board', currentBoard);
     } catch (error) {
       console.error('Error fetching board:', error);
@@ -87,7 +87,6 @@ const Wishlist = () => {
       const newDetails = await getUserDetails(storedUserId);
       setUser(newDetails.data);
       setBoards(newDetails.data.boards);
-      fetchBoard(boardId);
       setLists(newDetails.data.lists);
 
       const filteredJobs = newDetails.data.jobs.filter(job =>
