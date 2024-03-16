@@ -234,7 +234,7 @@ function Board() {
                     alignItems="center"
                     spacing={1}
                     width="145px"
-                    minHeight="50px"
+                    minHeight="56px"
                   >
                     <Grid item>
                       <Avatar
@@ -260,9 +260,8 @@ function Board() {
                               .map(word => word[0])
                               .slice(0, 2)
                               .join('')
-                              .toUpperCase()
                           : application.companyName.split(' ').length === 1
-                          ? application.companyName[0].toUpperCase()
+                          ? application.companyName[0]
                           : ''}
                       </Avatar>
                     </Grid>
@@ -294,7 +293,7 @@ function Board() {
 
   const EmptyDropArea = ({ role, list }) => (
     <div
-      className="empty-drop-area min-h-[60px] hover:bg-[#c3e1dc] rounded-md"
+      className="empty-drop-area min-h-[66px] hover:bg-[#c3e1dc] rounded-md"
       onDragEnter={onDragEnter}
       onDragOver={onDragOver}
       onDrop={e => onDrop(e, role, list, 0)}
