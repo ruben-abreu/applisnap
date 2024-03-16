@@ -133,7 +133,9 @@ function LogInButton() {
           component: 'form',
         }}
       >
-        <LogInDialogTitle>Log In</LogInDialogTitle>
+        <LogInDialogTitle>
+          {!forgotPasswordClicked ? 'Log In' : 'Reset Password'}
+        </LogInDialogTitle>
 
         <DialogContent>
           <FormControl
