@@ -159,7 +159,7 @@ const Wishlist = () => {
         <div>
           <div className="flex justify-between items-center">
             <h2
-              className={`text-[1.4em] font-bold mt-4 mb-6 ${
+              className={`text-[1.4em] font-bold mt-[30px] mb-[10px] ${
                 darkMode ? 'text-white' : 'text-[#678B85]'
               }`}
             >
@@ -189,7 +189,7 @@ const Wishlist = () => {
             )}
           </div>
           {board && (
-            <div className="flex items-center mt-[30px]">
+            <div className="flex items-center mt-[20px] mb-[30px]">
               <h3
                 className={`text-[16px] ${
                   darkMode ? 'text-white' : 'text-[black]'
