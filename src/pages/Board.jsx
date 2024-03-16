@@ -242,6 +242,7 @@ function Board() {
                           fontSize: '14px',
                           borderRadius: '2px',
                           maxHeight: '20px',
+                          minWidth: '20px',
                           maxWidth: '20px',
                           width: 'auto',
                           height: 'auto',

@@ -207,7 +207,7 @@ const Wishlist = () => {
                         <div className="w-[100%] pt-[20px] flex justify-center items-center">
                           <Avatar
                             sx={{
-                              fontSize: '18px',
+                              fontSize: '20px',
                               borderRadius: '2px',
                               maxHeight: '100px',
                               maxWidth: '100px',
