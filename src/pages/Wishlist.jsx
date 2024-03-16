@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
+import { ThemeContext } from '../context/theme.context';
 import { editJob, deleteJob } from '../api/jobs.api';
 import { getBoard } from '../api/boards.api';
-import { ThemeContext } from '../context/theme.context';
 import EditApplication from '../components/EditApplication';
 import AddJobButton from '../components/AddJobButton';
 import SearchBar from '../components/SearchBar';
@@ -30,8 +30,11 @@ import Avatar from '@mui/material/Avatar';
 const Wishlist = () => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
   const { darkMode, formGreenStyle } = useContext(ThemeContext);
+
   const navigate = useNavigate();
+
   const storedUserId = localStorage.getItem('userId');
+
   const [wishlistJobs, setWishlistJobs] = useState([]);
   const [showWishlistJobs, setShowWishlistJobs] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);

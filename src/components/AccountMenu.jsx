@@ -234,7 +234,7 @@ function AccountMenu() {
         <Divider />
 
         <NavLink
-          to="/insights"
+          to={`/insights/${user.boards[user.boards.length - 1]._id}`}
           className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
         >
           {({ isActive }) => (

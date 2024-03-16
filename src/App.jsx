@@ -44,7 +44,7 @@ function App() {
         <Route path="/interviews" element={<Interviews />} />
         <Route path="/offers" element={<Offers />} />
         <Route path="/rejected" element={<Rejected />} />
-        <Route path="/insights" element={<Insights />} />
+        <Route path="/insights/:boardId" element={<Insights />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
