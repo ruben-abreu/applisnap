@@ -27,6 +27,7 @@ function Insights() {
       setBoard(currentBoard);
       setBoardName(currentBoard.boardName);
       console.log('board', currentBoard);
+      console.log('lists', board.lists);
     } catch (error) {
       console.error('Error fetching board:', error);
     }
@@ -87,9 +88,13 @@ function Insights() {
                   },
                 ]}
                 series={[
-                  { data: [4, 3, 5] },
-                  { data: [1, 6, 3] },
-                  { data: [2, 5, 6] },
+                  {
+                    data: board.lists.map(list => {
+                      const array = [];
+                      array.push(list.jobs.length);
+                      return array;
+                    }),
+                  },
                 ]}
                 width={500}
                 height={300}

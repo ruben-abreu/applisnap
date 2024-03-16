@@ -2,8 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth.context';
 import { getBoard } from '../api/boards.api';
-import { updateApplicationListInBackend } from '../api/lists.api';
-import { editJob } from '../api/jobs.api';
+import { addJob, editJob, deleteJob } from '../api/jobs.api';
 import { ThemeContext } from '../context/theme.context';
 import {
   Grid,
@@ -116,10 +115,44 @@ function Board() {
     console.log('Target List ID:', targetList._id);
     console.log('Target Role:', targetRole);
 
+    const {
+      companyName,
+      domain,
+      jobURL,
+      jobDescription,
+      workModel,
+      workLocation,
+      notes,
+      customLabel,
+      date,
+      starred,
+      userId,
+      boardId,
+    } = draggedApplication;
+
+    const updatedJob = {
+      companyName,
+      domain,
+      jobURL,
+      jobDescription,
+      workModel,
+      workLocation,
+      notes,
+      customLabel,
+      date,
+      starred,
+      userId,
+      boardId,
+      listId: targetList._id,
+      roleName: targetRole,
+    };
+
     try {
       if (
-        draggedApplication.roleName === targetRole &&
-        draggedApplication.listId !== targetList._id
+        (draggedApplication.roleName === targetRole &&
+          draggedApplication.listId !== targetList._id) ||
+        (draggedApplication.roleName !== targetRole &&
+          draggedApplication.listId !== targetList._id)
       ) {
         const updatedApplications = showApplicationList.filter(
           app => app._id.toString() !== applicationId.toString()
@@ -130,42 +163,12 @@ function Board() {
         setApplicationList(updatedApplications);
         setShowApplicationList(updatedApplications);
 
-        await updateApplicationListInBackend(applicationId, targetList._id);
+        await addJob(updatedJob);
+        await deleteJob(applicationId);
+      } else {
+        await editJob(applicationId, updatedJob);
       }
 
-      const {
-        companyName,
-        domain,
-        jobURL,
-        jobDescription,
-        workModel,
-        workLocation,
-        notes,
-        customLabel,
-        date,
-        starred,
-        userId,
-        boardId,
-      } = draggedApplication;
-
-      const updatedJob = {
-        companyName,
-        domain,
-        jobURL,
-        jobDescription,
-        workModel,
-        workLocation,
-        notes,
-        customLabel,
-        date,
-        starred,
-        userId,
-        boardId,
-        listId: targetList._id,
-        roleName: targetRole,
-      };
-
-      await editJob(applicationId, updatedJob);
       fetchBoard(boardId);
     } catch (error) {
       alert(error.response.data.message);
