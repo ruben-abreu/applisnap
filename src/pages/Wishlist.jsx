@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
-import { ThemeContext } from '../context/theme.context';
 import { editJob, deleteJob } from '../api/jobs.api';
 import { getBoard } from '../api/boards.api';
+import { ThemeContext } from '../context/theme.context';
 import EditApplication from '../components/EditApplication';
 import AddJobButton from '../components/AddJobButton';
 import SearchBar from '../components/SearchBar';
@@ -31,11 +31,8 @@ import Sort from '../components/Sort';
 const Wishlist = () => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
   const { darkMode, formGreenStyle } = useContext(ThemeContext);
-
   const navigate = useNavigate();
-
   const storedUserId = localStorage.getItem('userId');
-
   const [wishlistJobs, setWishlistJobs] = useState([]);
   const [showWishlistJobs, setShowWishlistJobs] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
@@ -246,7 +243,6 @@ const Wishlist = () => {
               <Sort sortBy={sortBy} setSortBy={setSortBy} />
             </div>
           )}
-
           <div className='grid grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-3'>
             {handleSort(showWishlistJobs, sortBy)
               .filter(job => job.boardId === selectedBoardId)
@@ -289,7 +285,7 @@ const Wishlist = () => {
                           </Avatar>
                         </div>
                       </div>
-                      <div className='h-[140px]'>
+                      <div className='h-[140px] w-[120px]'>
                         <CardContent>
                           <Typography
                             gutterBottom
