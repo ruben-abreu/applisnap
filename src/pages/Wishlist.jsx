@@ -227,9 +227,8 @@ const Wishlist = () => {
                                   .map(word => word[0])
                                   .slice(0, 2)
                                   .join('')
-                                  .toUpperCase()
                               : job.companyName.split(' ').length === 1
-                              ? job.companyName[0].toUpperCase()
+                              ? job.companyName[0]
                               : ''}
                           </Avatar>
                         </div>
