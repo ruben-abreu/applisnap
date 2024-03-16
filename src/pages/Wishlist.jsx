@@ -62,28 +62,41 @@ const Wishlist = () => {
     setShowWishlistJobs(filteredWishlist);
   };
 
-  const fetchBoard = async boardId => {
-    try {
-      const currentBoard = await getBoard(boardId);
-      setBoard(currentBoard);
-      setWishlistJobs(currentBoard.jobs);
-      setShowWishlistJobs(currentBoard.jobs);
-      console.log('board', currentBoard);
-    } catch (error) {
-      console.error('Error fetching board:', error);
-    }
-  };
-
-  const handleBoardSelection = e => {
+  const handleBoardSelection = async e => {
     const selectedBoardName = e.target.value;
     const selectedBoard = user.boards.find(
       board => board.boardName === selectedBoardName
     );
     if (selectedBoard) {
       setBoardName(selectedBoard.boardName);
-      fetchBoard(selectedBoard._id);
       setSelectedBoardId(selectedBoard._id);
+      await fetchBoard(selectedBoard._id);
       navigate(`/wishlist/${selectedBoard._id}`);
+    }
+  };
+
+  const fetchBoard = async boardId => {
+    try {
+      const currentBoard = await getBoard(boardId);
+      setBoard(currentBoard);
+      const wishlistListId = currentBoard.lists.find(
+        list => list.listName === 'Wishlist'
+      )?._id;
+
+      if (!wishlistListId) {
+        console.error('Wishlist list not found for this board.');
+        return;
+      }
+
+      const wishlistJobsFromBoard = currentBoard.jobs.filter(
+        job => job.listId === wishlistListId
+      );
+
+      setWishlistJobs(wishlistJobsFromBoard);
+      setShowWishlistJobs(wishlistJobsFromBoard);
+      console.log('board', currentBoard);
+    } catch (error) {
+      console.error('Error fetching board:', error);
     }
   };
 
