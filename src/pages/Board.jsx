@@ -181,7 +181,7 @@ function Board() {
         sx={{
           flexWrap: 'wrap',
           justifyContent: 'flex-start',
-          maxWidth: '320px',
+          maxWidth: '340px',
           marginRight: '8px',
         }}
       >
@@ -221,7 +221,7 @@ function Board() {
                     padding: '5px',
                     cursor: 'pointer',
                     minWidth: 100,
-                    maxWidth: 320,
+                    maxWidth: 340,
                     width: '100%',
                     display: 'flex',
                     flexDirection: 'column',
@@ -233,7 +233,7 @@ function Board() {
                     container
                     alignItems="center"
                     spacing={1}
-                    width="135px"
+                    width="145px"
                     minHeight="50px"
                   >
                     <Grid item>
@@ -456,7 +456,7 @@ function Board() {
                 uniqueRoles.map((role, index) => (
                   <div
                     key={index}
-                    className={`min-w-[200px] max-w-[320px] ${
+                    className={`min-w-[200px] max-w-[340px] ${
                       darkMode ? 'bg-[#525252]' : 'bg-[#eaeaea]'
                     } ${
                       darkMode ? 'shadow-[#6f6f6f]' : 'shadow-[#cfcfcf]'
