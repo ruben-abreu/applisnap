@@ -444,7 +444,7 @@ function Board() {
               />
             </div>
           )}
-          {uniqueRoles && uniqueRoles.length > 0 && (
+          {applicationList && applicationList.length > 0 && (
             <div className="flex justify-start mt-[30px]">
               <SearchBar searchedCompany={searchedCompany} />
             </div>
