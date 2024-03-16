@@ -228,7 +228,7 @@ function EditApplication({
     };
     console.log('Data to be saved:', jobData);
     try {
-      if (boardId === newBoard._id) {
+      if (boardId === newBoard._id && application.listId === newList._id) {
         console.log('application.boardId', application.boardId);
         console.log('newBoard._id', newBoard._id);
         await editJob(application._id, jobData);
