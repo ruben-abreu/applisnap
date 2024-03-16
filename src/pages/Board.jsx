@@ -253,16 +253,18 @@ function Board() {
                           ''
                         }
                       >
-                        {application.companyName &&
-                        application.companyName.split(' ').length > 1
-                          ? application.companyName
-                              .split(' ')
-                              .map(word => word[0])
-                              .slice(0, 2)
-                              .join('')
-                          : application.companyName.split(' ').length === 1
-                          ? application.companyName[0]
-                          : ''}
+                        <p className="uppercase">
+                          {application.companyName &&
+                          application.companyName.split(' ').length > 1
+                            ? application.companyName
+                                .split(' ')
+                                .map(word => word[0])
+                                .slice(0, 2)
+                                .join('')
+                            : application.companyName.split(' ').length === 1
+                            ? application.companyName[0]
+                            : ''}
+                        </p>
                       </Avatar>
                     </Grid>
                     <Grid item xs style={{ flex: '1', textAlign: 'center' }}>

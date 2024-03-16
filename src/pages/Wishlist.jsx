@@ -220,16 +220,18 @@ const Wishlist = () => {
                               `https://logo.clearbit.com/${job.domain}` || ''
                             }
                           >
-                            {job.companyName &&
-                            job.companyName.split(' ').length > 1
-                              ? job.companyName
-                                  .split(' ')
-                                  .map(word => word[0])
-                                  .slice(0, 2)
-                                  .join('')
-                              : job.companyName.split(' ').length === 1
-                              ? job.companyName[0]
-                              : ''}
+                            <p className="uppercase">
+                              {job.companyName &&
+                              job.companyName.split(' ').length > 1
+                                ? job.companyName
+                                    .split(' ')
+                                    .map(word => word[0])
+                                    .slice(0, 2)
+                                    .join('')
+                                : job.companyName.split(' ').length === 1
+                                ? job.companyName[0]
+                                : ''}
+                            </p>
                           </Avatar>
                         </div>
                       </div>
