@@ -256,7 +256,7 @@ const Wishlist = () => {
                           </Avatar>
                         </div>
                       </div>
-                      <div className="h-[120px]">
+                      <div className="h-[140px]">
                         <CardContent>
                           <Typography
                             gutterBottom
