@@ -179,7 +179,7 @@ const Wishlist = () => {
         <div>
           <div className='flex justify-between items-center'>
             <h2
-              className={`text-[1.4em] font-bold mt-4 mb-6 ${
+              className={`text-[1.4em] font-bold mt-[30px] mb-[10px] ${
                 darkMode ? 'text-white' : 'text-[#678B85]'
               }`}
             >
