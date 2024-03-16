@@ -1,4 +1,4 @@
-import { FormControl, Select, MenuItem, InputLabel } from '@mui/material';
+import { FormControl, Select, MenuItem } from '@mui/material';
 import { useContext } from 'react';
 import { ThemeContext } from '../context/theme.context';
 
@@ -10,31 +10,21 @@ const Sort = ({ sortBy, setSortBy }) => {
   const { formGreenStyle } = useContext(ThemeContext);
 
   return (
-    <FormControl
-      sx={{
-        ...formGreenStyle,
-      }}
-    >
-      <InputLabel htmlFor='sort-by' label='sort-by'>
-        Sort
-      </InputLabel>
+    <FormControl sx={{ ...formGreenStyle }}>
       <Select
         value={sortBy}
         onChange={handleSortChange}
-        label='Sort by'
+        labelId='sort-by-label'
         id='sort-by'
-        type='text'
         displayEmpty
-        className='w-42 md:w-50 lg:w-60'
-        MenuProps={{
-          PaperProps: {
-            className: 'mt-1.5',
-          },
-        }}
-        inputProps={{ 'aria-label': 'Sort By' }}
       >
+        <MenuItem value='' disabled>
+          Sort by
+        </MenuItem>
         <MenuItem value='asc'>A-Z</MenuItem>
         <MenuItem value='desc'>Z-A</MenuItem>
+        <MenuItem value='dateAsc'>Oldest</MenuItem>
+        <MenuItem value='dateDesc'>Newest</MenuItem>
       </Select>
     </FormControl>
   );
