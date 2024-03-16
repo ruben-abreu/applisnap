@@ -160,16 +160,24 @@ const Wishlist = () => {
 
   const handleSort = (jobs, sortBy) => {
     if (sortBy === 'asc') {
-      return [...jobs].sort((a, b) =>
-        a.companyName.localeCompare(b.companyName, undefined, {
-          ignorePunctuation: true,
-        })
-      );
+      return [...jobs].sort((a, b) => {
+        if (a.companyName < b.companyName) return -1;
+        if (a.companyName > b.companyName) return 1;
+        return 0;
+      });
     } else if (sortBy === 'desc') {
-      return [...jobs].sort((a, b) =>
-        b.companyName.localeCompare(a.companyName, undefined, {
-          ignorePunctuation: true,
-        })
+      return [...jobs].sort((a, b) => {
+        if (a.companyName > b.companyName) return -1;
+        if (a.companyName < b.companyName) return 1;
+        return 0;
+      });
+    } else if (sortBy === 'dateAsc') {
+      return [...jobs].sort(
+        (a, b) => new Date(a.date.created) - new Date(b.date.created)
+      );
+    } else if (sortBy === 'dateDesc') {
+      return [...jobs].sort(
+        (a, b) => new Date(b.date.created) - new Date(a.date.created)
       );
     } else {
       return jobs;
@@ -233,13 +241,12 @@ const Wishlist = () => {
           )}
 
           {wishlistJobs && wishlistJobs.length > 0 && (
-            <div className='flex justify-start my-[20px]'>
+            <div className='flex justify-start my-[20px] gap-2'>
               <SearchBar searchedCompany={searchedCompany} />
+              <Sort sortBy={sortBy} setSortBy={setSortBy} />
             </div>
           )}
-          <div className='flex justify-start my-[20px]'>
-            <Sort sortBy={sortBy} setSortBy={setSortBy} />
-          </div>
+
           <div className='grid grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-3'>
             {handleSort(showWishlistJobs, sortBy)
               .filter(job => job.boardId === selectedBoardId)
