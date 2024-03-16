@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../context/auth.context';
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -12,6 +13,8 @@ import CancelButton from './CancelButton'; // Updated import
 function DeleteBoardButton({ boardId, onDelete }) {
   const [open, setOpen] = useState(false);
 
+  const { authenticateUser } = useContext(AuthContext);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -23,6 +26,7 @@ function DeleteBoardButton({ boardId, onDelete }) {
   const handleDelete = async () => {
     try {
       await onDelete(boardId);
+      await authenticateUser();
       handleClose();
     } catch (error) {
       console.error('Error deleting board:', error);
@@ -32,8 +36,8 @@ function DeleteBoardButton({ boardId, onDelete }) {
   return (
     <React.Fragment>
       <Button
-        variant='outlined'
-        color='error'
+        variant="outlined"
+        color="error"
         fullWidth
         startIcon={<DeleteIcon />}
         onClick={handleClickOpen}
@@ -44,14 +48,14 @@ function DeleteBoardButton({ boardId, onDelete }) {
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id='alert-dialog-title'>
+        <DialogTitle id="alert-dialog-title">
           Are you sure you want to delete this board?
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
+          <DialogContentText id="alert-dialog-description">
             This action cannot be undone.
           </DialogContentText>
         </DialogContent>
@@ -60,8 +64,8 @@ function DeleteBoardButton({ boardId, onDelete }) {
           <Button
             onClick={handleDelete}
             autoFocus
-            variant='outlined'
-            color='error'
+            variant="outlined"
+            color="error"
             startIcon={<DeleteIcon />}
             sx={{ padding: '6px 12px' }}
           >
