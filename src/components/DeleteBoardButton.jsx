@@ -48,7 +48,7 @@ function DeleteBoardButton({ boardId, onDelete }) {
         aria-describedby='alert-dialog-description'
       >
         <DialogTitle id='alert-dialog-title'>
-          Are you sure you would like to delete this board?
+          Are you sure you want to delete this board?
         </DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
