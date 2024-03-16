@@ -21,6 +21,9 @@ import {
   FormControl,
   InputLabel,
 } from '@mui/material';
+import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import Avatar from '@mui/material/Avatar';
 
 const Wishlist = () => {
@@ -231,7 +234,7 @@ const Wishlist = () => {
                           </Avatar>
                         </div>
                       </div>
-                      <div className="h-[130px]">
+                      <div className="h-[120px]">
                         <CardContent>
                           <Typography
                             gutterBottom
@@ -248,11 +251,29 @@ const Wishlist = () => {
                     </button>
 
                     <div className="mb-[10px] flex justify-center gap-[15px]">
+                      {job.jobURL && (
+                        <a
+                          href={job.jobURL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <LinkRoundedIcon
+                            sx={{
+                              width: '18px',
+                              height: '18px',
+                              color: darkMode ? 'white' : '#678B85',
+                              '&:hover': {
+                                color: darkMode ? 'white' : '#62a699',
+                              },
+                            }}
+                          />
+                        </a>
+                      )}
                       <button
                         onClick={() => handleEdit(job)}
                         className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
                       >
-                        Edit
+                        <EditRoundedIcon />
                       </button>
                       {selectedApplication &&
                         selectedApplication._id === job._id && (
@@ -272,7 +293,7 @@ const Wishlist = () => {
                         onClick={() => handleDelete(job)}
                         className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
                       >
-                        Delete
+                        <DeleteRoundedIcon />
                       </button>
                     </div>
                   </Card>
