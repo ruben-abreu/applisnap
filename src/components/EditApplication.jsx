@@ -237,7 +237,7 @@ function EditApplication({
         await deleteJob(application._id);
       }
 
-      await fetchBoard();
+      await fetchBoard(newBoard._id);
       if (updateUser) {
         updateUser(user._id);
       }
@@ -255,7 +255,7 @@ function EditApplication({
     try {
       await deleteJob(application._id);
 
-      await fetchBoard();
+      await fetchBoard(boardId);
       onClose();
     } catch (error) {
       console.log('Error deleting job', error);

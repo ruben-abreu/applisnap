@@ -41,7 +41,7 @@ function Board() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchBoard();
+    fetchBoard(boardId);
   }, [boardId]);
 
   const searchedCompany = query => {
@@ -61,7 +61,7 @@ function Board() {
     navigate(`/boards/${selectedBoard._id}`);
   };
 
-  const fetchBoard = async () => {
+  const fetchBoard = async boardId => {
     try {
       const currentBoard = await getBoard(boardId);
       setBoard(currentBoard);
@@ -166,7 +166,7 @@ function Board() {
       };
 
       await editJob(applicationId, updatedJob);
-      fetchBoard();
+      fetchBoard(boardId);
     } catch (error) {
       alert(error.response.data.message);
     }
@@ -242,7 +242,6 @@ function Board() {
                           fontSize: '14px',
                           borderRadius: '2px',
                           maxHeight: '20px',
-                          minWidth: '20px',
                           maxWidth: '20px',
                           width: 'auto',
                           height: 'auto',

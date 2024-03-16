@@ -1,10 +1,11 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
 import { editJob, deleteJob } from '../api/jobs.api';
+import { getBoard } from '../api/boards.api';
 import { ThemeContext } from '../context/theme.context';
 import EditApplication from '../components/EditApplication';
+import AddJobButton from '../components/AddJobButton';
 import SearchBar from '../components/SearchBar';
-import { getAllBoards } from '../api/boards.api';
 import { getUserDetails } from '../api/auth.api';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -35,6 +36,7 @@ const Wishlist = () => {
   const [showWishlistJobs, setShowWishlistJobs] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [boards, setBoards] = useState([]);
+  const [board, setBoard] = useState('');
   const [lists, setLists] = useState([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingJob, setDeletingJob] = useState(null);
@@ -43,11 +45,28 @@ const Wishlist = () => {
 
   const { boardId } = useParams();
 
+  useEffect(() => {
+    updateUser();
+    if (boardId) {
+      fetchBoard(boardId);
+    }
+  }, []);
+
   const searchedCompany = query => {
     const filteredWishlist = wishlistJobs.filter(job => {
       return job.companyName.toLowerCase().includes(query.toLowerCase());
     });
     setShowWishlistJobs(filteredWishlist);
+  };
+
+  const fetchBoard = async boardId => {
+    try {
+      const currentBoard = await getBoard(boardId);
+      setBoard(currentBoard);
+      console.log('board', currentBoard);
+    } catch (error) {
+      console.error('Error fetching board:', error);
+    }
   };
 
   const handleBoardSelection = e => {
@@ -57,6 +76,7 @@ const Wishlist = () => {
     );
     if (selectedBoard) {
       setBoardName(selectedBoard.boardName);
+      fetchBoard(selectedBoard._id);
       setSelectedBoardId(selectedBoard._id);
       navigate(`/wishlist/${selectedBoard._id}`);
     }
@@ -66,8 +86,8 @@ const Wishlist = () => {
     try {
       const newDetails = await getUserDetails(storedUserId);
       setUser(newDetails.data);
-
       setBoards(newDetails.data.boards);
+      fetchBoard(boardId);
       setLists(newDetails.data.lists);
 
       const filteredJobs = newDetails.data.jobs.filter(job =>
@@ -95,31 +115,12 @@ const Wishlist = () => {
     }
   };
 
-  useEffect(() => {
-    updateUser();
-  }, [storedUserId, boardId]);
-
   const handleEdit = job => {
     setSelectedApplication(job);
   };
 
   const handleEditClose = () => {
     setSelectedApplication(null);
-  };
-
-  const fetchBoard = async () => {
-    try {
-      if (user && user._id) {
-        const allBoardsResponse = await getAllBoards();
-        const userBoards = allBoardsResponse.data.filter(
-          board => board.userId === user._id
-        );
-
-        setBoards(userBoards);
-      }
-    } catch (error) {
-      console.error('Error fetching board:', error);
-    }
   };
 
   const onEditApplication = async updatedJob => {
@@ -188,6 +189,27 @@ const Wishlist = () => {
               </form>
             )}
           </div>
+          {board && (
+            <div className="flex items-center mt-[30px]">
+              <h3
+                className={`text-[16px] ${
+                  darkMode ? 'text-white' : 'text-[black]'
+                } font-bold`}
+              >
+                {board.jobs.length === 0
+                  ? 'Add your first job application'
+                  : 'Add new job application'}
+              </h3>
+              <AddJobButton
+                board={board}
+                list="Wishlist"
+                role=""
+                fetchBoard={fetchBoard}
+                boardId={boardId}
+              />
+            </div>
+          )}
+
           {wishlistJobs && wishlistJobs.length > 0 && (
             <div className="flex justify-start my-[20px]">
               <SearchBar searchedCompany={searchedCompany} />

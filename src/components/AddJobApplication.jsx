@@ -178,12 +178,8 @@ function AddJobApplication({
       }
       formattedDomain = formattedDomain.split('/')[0];
 
-      console.log('listName', listName);
-      console.log('board.lists', board.lists);
-
       const list = board.lists.filter(list => list.listName === listName);
-
-      console.log('list:', list);
+      console.log('list', list);
 
       const jobData = {
         companyName,
@@ -206,7 +202,7 @@ function AddJobApplication({
       console.log('Added Job:', addedJob);
 
       if (fetchBoard) {
-        await fetchBoard();
+        await fetchBoard(board._id);
       }
 
       setCompanyName('');
@@ -472,7 +468,7 @@ function AddJobApplication({
               }
             >
               {dateTypes.map((dateType, index) => (
-                <MenuItem key={index} value={dateType}>
+                <MenuItem key={dateType + index} value={dateType}>
                   <p className="capitalize">{dateType}</p>
                 </MenuItem>
               ))}
@@ -540,7 +536,10 @@ function AddJobApplication({
                 <TimelineContent>
                   <ul>
                     {date.interviews.map((interview, index) => (
-                      <div key={index} className="flex items-center gap-[5px]">
+                      <div
+                        key={interview + index}
+                        className="flex items-center gap-[5px]"
+                      >
                         <li className="w-[100px]">{formatDate(interview)}</li>
                         <button
                           className="flex items-center"
