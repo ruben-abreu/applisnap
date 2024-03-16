@@ -5,7 +5,7 @@ import { getBoard } from '../api/boards.api';
 import { ThemeContext } from '../context/theme.context';
 import EditApplication from '../components/EditApplication';
 import AddJobButton from '../components/AddJobButton';
-import SearchBar from '../components/SearchBar';
+import SearchBarListPages from '../components/SearchBarListPages';
 import { getUserDetails } from '../api/auth.api';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -52,9 +52,12 @@ const Wishlist = () => {
     updateUser();
   }, [boardId]);
 
-  const searchedCompany = query => {
+  const searchedJob = query => {
     const filteredWishlist = wishlistJobs.filter(job => {
-      return job.companyName.toLowerCase().includes(query.toLowerCase());
+      return (
+        job.companyName.toLowerCase().includes(query.toLowerCase()) ||
+        job.roleName.toLowerCase().includes(query.toLowerCase())
+      );
     });
     setShowWishlistJobs(filteredWishlist);
   };
@@ -239,7 +242,7 @@ const Wishlist = () => {
 
           {wishlistJobs && wishlistJobs.length > 0 && (
             <div className='flex justify-start my-[20px] gap-2'>
-              <SearchBar searchedCompany={searchedCompany} />
+              <SearchBarListPages searchedJob={searchedJob} />
               <Sort sortBy={sortBy} setSortBy={setSortBy} />
             </div>
           )}
