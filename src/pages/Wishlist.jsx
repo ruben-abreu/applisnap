@@ -246,7 +246,7 @@ const Wishlist = () => {
             )}
           </div>
           {board && (
-            <div className="flex items-center mt-[30px]">
+            <div className="flex items-center my-[30px]">
               <h3
                 className={`text-[16px] ${
                   darkMode ? 'text-white' : 'text-[black]'
