@@ -212,7 +212,7 @@ const Wishlist = () => {
               Wishlist
             </h2>
             {user && (
-              <div className="flex gap-[10px]">
+              <div className="flex gap-[10px] items-center">
                 <form>
                   <FormControl sx={{ ...formGreenStyle, my: 1 }}>
                     <InputLabel htmlFor="board" label="Board">

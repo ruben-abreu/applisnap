@@ -23,6 +23,7 @@ import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import ThumbDownAltRoundedIcon from '@mui/icons-material/ThumbDownAltRounded';
 import Avatar from '@mui/material/Avatar';
 import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
+import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
 
 function Board() {
   const [applicationList, setApplicationList] = useState([]);
@@ -34,7 +35,8 @@ function Board() {
 
   const { boardId } = useParams();
 
-  const { darkMode, formGreenStyle } = useContext(ThemeContext);
+  const { darkMode, formGreenStyle, greenIconButtonStyle } =
+    useContext(ThemeContext);
   const { loggedIn, user, authenticateUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -365,7 +367,26 @@ function Board() {
             ''
           )}
           <p>{list.listName}</p>
-
+          <button
+            className="ml-[10px]"
+            onClick={() =>
+              navigate(
+                `/${
+                  list.listName === 'Applied'
+                    ? 'applications'
+                    : list.listName.toLowerCase()
+                }/${boardId}`
+              )
+            }
+          >
+            <LaunchRoundedIcon
+              sx={{
+                ...greenIconButtonStyle,
+                width: '20px',
+                height: '20px',
+              }}
+            />
+          </button>
           <AddJobButton
             board={board}
             list={list}

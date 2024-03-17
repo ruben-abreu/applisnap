@@ -63,7 +63,7 @@ function Insights() {
               Insights
             </h2>
             {user && user.boards.length > 1 && (
-              <div className="flex gap-[10px]">
+              <div className="flex gap-[10px] items-center">
                 <form>
                   <FormControl sx={{ ...formGreenStyle, my: 1 }}>
                     <InputLabel htmlFor="board" label="Board">
