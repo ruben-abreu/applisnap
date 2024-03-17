@@ -298,8 +298,8 @@ const Wishlist = () => {
                             sx={{
                               fontSize: '20px',
                               borderRadius: '2px',
-                              maxHeight: '100px',
-                              maxWidth: '100px',
+                              maxHeight: '90px',
+                              maxWidth: '90px',
                               width: 'auto',
                               height: 'auto',
                               backgroundColor: 'transparent',
