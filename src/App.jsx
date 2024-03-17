@@ -36,17 +36,17 @@ function App() {
     <ThemeProvider theme={theme}>
       <Navigation />
       <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/boards' element={<BoardLists />} />
-        <Route path='/boards/:boardId' element={<Board />} />
-        <Route path='/wishlist/:boardId' element={<Wishlist />} />
-        <Route path='/applications/:boardId' element={<Applications />} />
-        <Route path='/interviews' element={<Interviews />} />
-        <Route path='/offers' element={<Offers />} />
-        <Route path='/rejected' element={<Rejected />} />
-        <Route path='/insights/:boardId' element={<Insights />} />
-        <Route path='/settings' element={<Settings />} />
-        <Route path='*' element={<ErrorPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/boards" element={<BoardLists />} />
+        <Route path="/boards/:boardId" element={<Board />} />
+        <Route path="/wishlist/:boardId" element={<Wishlist />} />
+        <Route path="/applications/:boardId" element={<Applications />} />
+        <Route path="/interviews/:boardId" element={<Interviews />} />
+        <Route path="/offers/:boardId" element={<Offers />} />
+        <Route path="/rejected/:boardId" element={<Rejected />} />
+        <Route path="/insights/:boardId" element={<Insights />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </ThemeProvider>
   );
