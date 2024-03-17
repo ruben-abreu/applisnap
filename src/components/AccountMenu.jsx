@@ -46,10 +46,10 @@ function AccountMenu() {
     <React.Fragment>
       <IconButton
         onClick={handleClick}
-        size="small"
+        size='small'
         sx={{ ml: 2 }}
         aria-controls={open ? 'account-menu' : undefined}
-        aria-haspopup="true"
+        aria-haspopup='true'
         aria-expanded={open ? 'true' : undefined}
       >
         <Avatar
@@ -71,7 +71,7 @@ function AccountMenu() {
 
       <Menu
         anchorEl={anchorEl}
-        id="account-menu"
+        id='account-menu'
         open={open}
         onClose={handleClose}
         onClick={handleClose}
@@ -99,14 +99,14 @@ function AccountMenu() {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <NavLink
-          to="/boards"
+          to='/boards'
           className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
         >
           {({ isActive }) => (
             <MenuItem>
               <ListItemIcon>
                 <DashboardRoundedIcon
-                  fontSize="small"
+                  fontSize='small'
                   sx={{
                     color: isActive
                       ? '#30b39a'
@@ -128,7 +128,7 @@ function AccountMenu() {
             <MenuItem>
               <ListItemIcon>
                 <AutoAwesomeRoundedIcon
-                  fontSize="small"
+                  fontSize='small'
                   sx={{
                     color: isActive
                       ? '#30b39a'
@@ -143,14 +143,14 @@ function AccountMenu() {
           )}
         </NavLink>
         <NavLink
-          to="/applications"
+          to={`/applications/${user.boards[user.boards.length - 1]._id}`}
           className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
         >
           {({ isActive }) => (
             <MenuItem>
               <ListItemIcon>
                 <SendRoundedIcon
-                  fontSize="small"
+                  fontSize='small'
                   sx={{
                     color: isActive
                       ? '#30b39a'
@@ -165,14 +165,14 @@ function AccountMenu() {
           )}
         </NavLink>
         <NavLink
-          to="/interviews"
+          to='/interviews'
           className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
         >
           {({ isActive }) => (
             <MenuItem>
               <ListItemIcon>
                 <ContentPasteSearchRoundedIcon
-                  fontSize="small"
+                  fontSize='small'
                   sx={{
                     color: isActive
                       ? '#30b39a'
@@ -187,14 +187,14 @@ function AccountMenu() {
           )}
         </NavLink>
         <NavLink
-          to="/offers"
+          to='/offers'
           className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
         >
           {({ isActive }) => (
             <MenuItem>
               <ListItemIcon>
                 <EmojiEventsRoundedIcon
-                  fontSize="small"
+                  fontSize='small'
                   sx={{
                     color: isActive
                       ? '#30b39a'
@@ -209,14 +209,14 @@ function AccountMenu() {
           )}
         </NavLink>
         <NavLink
-          to="/rejected"
+          to='/rejected'
           className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
         >
           {({ isActive }) => (
             <MenuItem>
               <ListItemIcon>
                 <ThumbDownAltRoundedIcon
-                  fontSize="small"
+                  fontSize='small'
                   sx={{
                     color: isActive
                       ? '#30b39a'
@@ -241,7 +241,7 @@ function AccountMenu() {
             <MenuItem>
               <ListItemIcon>
                 <InsightsRoundedIcon
-                  fontSize="small"
+                  fontSize='small'
                   sx={{
                     color: isActive
                       ? '#30b39a'
@@ -256,14 +256,14 @@ function AccountMenu() {
           )}
         </NavLink>
         <NavLink
-          to="/settings"
+          to='/settings'
           className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
         >
           {({ isActive }) => (
             <MenuItem>
               <ListItemIcon>
                 <Settings
-                  fontSize="small"
+                  fontSize='small'
                   sx={{
                     color: isActive
                       ? '#30b39a'
@@ -280,7 +280,7 @@ function AccountMenu() {
         <MenuItem onClick={handleLogOut}>
           <ListItemIcon>
             <Logout
-              fontSize="small"
+              fontSize='small'
               sx={{ color: darkMode ? 'white' : '#678B85' }}
             />
           </ListItemIcon>
