@@ -15,17 +15,17 @@ function Insights() {
 
   const { darkMode, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
-  const { loggedIn, user } = useContext(AuthContext);
+  const { loggedIn, user, setUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   const { boardId } = useParams();
 
   useEffect(() => {
-    fetchBoard();
+    fetchBoard(boardId);
   }, [boardId]);
 
-  const fetchBoard = async () => {
+  const fetchBoard = async boardId => {
     try {
       const currentBoard = await getBoard(boardId);
       setBoard(currentBoard);
