@@ -26,14 +26,14 @@ import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
 
 function Board() {
+  const { boardId } = useParams();
+
   const [applicationList, setApplicationList] = useState([]);
   const [showApplicationList, setShowApplicationList] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [board, setBoard] = useState('');
   const [boardName, setBoardName] = useState(board ? board.boardName : '');
   const [lists, setLists] = useState([]);
-
-  const { boardId } = useParams();
 
   const { darkMode, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);

@@ -9,17 +9,17 @@ import TimeChart from '../components/TimeChart';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 function Insights() {
-  const [boardName, setBoardName] = useState('');
-  const [board, setBoard] = useState('');
-  const [selectedBoardId, setSelectedBoardId] = useState('');
-
   const { darkMode, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
-  const { loggedIn, user, setUser } = useContext(AuthContext);
+  const { loggedIn, user } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   const { boardId } = useParams();
+
+  const [boardName, setBoardName] = useState('');
+  const [board, setBoard] = useState('');
+  const [selectedBoardId, setSelectedBoardId] = useState(boardId);
 
   useEffect(() => {
     fetchBoard(boardId);

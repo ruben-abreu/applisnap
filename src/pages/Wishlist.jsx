@@ -33,6 +33,8 @@ const Wishlist = () => {
 
   const navigate = useNavigate();
 
+  const { boardId } = useParams();
+
   const storedUserId = localStorage.getItem('userId');
   const [wishlistJobs, setWishlistJobs] = useState([]);
 
@@ -44,10 +46,8 @@ const Wishlist = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingJob, setDeletingJob] = useState(null);
   const [boardName, setBoardName] = useState('');
-  const [selectedBoardId, setSelectedBoardId] = useState('');
+  const [selectedBoardId, setSelectedBoardId] = useState(boardId);
   const [sortBy, setSortBy] = useState('');
-
-  const { boardId } = useParams();
 
   useEffect(() => {
     fetchBoard(boardId);
