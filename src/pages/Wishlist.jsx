@@ -10,13 +10,10 @@ import { getUserDetails } from '../api/auth.api';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Button,
-  Card,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  CardContent,
-  Typography,
   Select,
   MenuItem,
   FormControl,

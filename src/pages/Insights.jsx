@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ThemeContext } from '../context/theme.context';
 import { AuthContext } from '../context/auth.context';
 import { getBoard } from '../api/boards.api';
+import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
 import ListsBarChart from '../components/ListsBarChart';
 import TimeChart from '../components/TimeChart';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
@@ -10,8 +11,10 @@ import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 function Insights() {
   const [boardName, setBoardName] = useState('');
   const [board, setBoard] = useState('');
+  const [selectedBoardId, setSelectedBoardId] = useState('');
 
-  const { darkMode, formGreenStyle } = useContext(ThemeContext);
+  const { darkMode, formGreenStyle, greenIconButtonStyle } =
+    useContext(ThemeContext);
   const { loggedIn, user } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -41,6 +44,7 @@ function Insights() {
     );
     if (selectedBoard) {
       setBoardName(selectedBoard.boardName);
+      setSelectedBoardId(selectedBoard._id);
       fetchBoard(selectedBoard._id);
       navigate(`/insights/${selectedBoard._id}`);
     }
@@ -50,35 +54,48 @@ function Insights() {
     <div className="m-[2%] mt-[30px]">
       {loggedIn ? (
         <div>
-          <h2
-            className={`text-[1.4em] font-bold mt-[30px] mb-[10px] ${
-              darkMode ? 'text-white' : 'text-[#678B85]'
-            }`}
-          >
-            Insights
-          </h2>
-          {user && user.boards.length > 1 && (
-            <form>
-              <FormControl sx={{ ...formGreenStyle, my: 1 }}>
-                <InputLabel htmlFor="board" label="Board">
-                  Board
-                </InputLabel>
-                <Select
-                  id="board"
-                  label="Board"
-                  type="text"
-                  value={boardName}
-                  onChange={e => handleBoardSelection(e)}
-                >
-                  {user.boards.map(board => (
-                    <MenuItem key={board._id} value={board.boardName}>
-                      {board.boardName}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </form>
-          )}
+          <div className="flex justify-between items-center">
+            <h2
+              className={`text-[1.4em] font-bold mt-[30px] mb-[10px] ${
+                darkMode ? 'text-white' : 'text-[#678B85]'
+              }`}
+            >
+              Insights
+            </h2>
+            {user && user.boards.length > 1 && (
+              <div className="flex gap-[10px]">
+                <form>
+                  <FormControl sx={{ ...formGreenStyle, my: 1 }}>
+                    <InputLabel htmlFor="board" label="Board">
+                      Board
+                    </InputLabel>
+                    <Select
+                      id="board"
+                      label="Board"
+                      type="text"
+                      value={boardName}
+                      onChange={e => handleBoardSelection(e)}
+                    >
+                      {user.boards.map(board => (
+                        <MenuItem key={board._id} value={board.boardName}>
+                          {board.boardName}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </form>
+                <button onClick={() => navigate(`/boards/${selectedBoardId}`)}>
+                  <LaunchRoundedIcon
+                    sx={{
+                      ...greenIconButtonStyle,
+                      width: '20px',
+                      height: '20px',
+                    }}
+                  />
+                </button>
+              </div>
+            )}
+          </div>
           {board && <ListsBarChart board={board} />}
           {board && <TimeChart board={board} />}
         </div>
