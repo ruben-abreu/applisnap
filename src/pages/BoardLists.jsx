@@ -94,57 +94,60 @@ function BoardLists() {
             <AddBoardButton />
           </div>
           <div className="mt-[50px] flex flex-col gap-[30px]">
-            {boards.map(boardItem => (
-              <div
-                key={boardItem._id}
-                onClick={() => handleBoardClick(boardItem._id)}
-                className="flex items-center gap-[10px]"
-              >
-                <div className="flex items-center gap-[20px] w-[250px]">
-                  <Link to={`/boards/${boardItem._id}`}>
-                    <Avatar
-                      sx={{
-                        width: '72px',
-                        height: '72px',
-                        backgroundColor: '#30b39a',
-                        '&:hover': { backgroundColor: '#678B85' },
-                      }}
-                    >
-                      <DashboardRoundedIcon
-                        sx={{ width: '42px', height: '42px', color: 'white' }}
-                      />
-                    </Avatar>
-                  </Link>
-
-                  <div>
-                    <Link
-                      to={`/boards/${boardItem._id}`}
-                      className="text-[#30b39a] hover:text-[#678B85]"
-                    >
-                      <h2 className="text-wrap">{boardItem.boardName}</h2>
+            {boards &&
+              boards.map(boardItem => (
+                <div
+                  key={boardItem._id}
+                  onClick={() => handleBoardClick(boardItem._id)}
+                  className="flex items-center gap-[10px]"
+                >
+                  <div className="flex items-center gap-[20px] w-[250px]">
+                    <Link to={`/boards/${boardItem._id}`}>
+                      <Avatar
+                        sx={{
+                          width: '72px',
+                          height: '72px',
+                          backgroundColor: '#30b39a',
+                          '&:hover': { backgroundColor: '#678B85' },
+                        }}
+                      >
+                        <DashboardRoundedIcon
+                          sx={{ width: '42px', height: '42px', color: 'white' }}
+                        />
+                      </Avatar>
                     </Link>
-                    <p>
-                      {`${
-                        countJobs(boardItem) === 1
-                          ? '1 job'
-                          : `${countJobs(boardItem)} jobs`
-                      }`}
-                    </p>
+
+                    <div>
+                      <Link
+                        to={`/boards/${boardItem._id}`}
+                        className="text-[#30b39a] hover:text-[#678B85]"
+                      >
+                        <h2 className="text-wrap">{boardItem.boardName}</h2>
+                      </Link>
+                      <p>
+                        {`${
+                          countJobs(boardItem) === 1
+                            ? '1 job'
+                            : `${countJobs(boardItem)} jobs`
+                        }`}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-[8px] w-[300px] max-[545px]:flex-col max-[545px]:w-[145px]">
+                    <EditBoardButton
+                      boardId={boardItem._id}
+                      onEdit={newName =>
+                        handleEditBoard(boardItem._id, newName)
+                      }
+                    />
+                    <DeleteBoardButton
+                      boardId={boardItem._id}
+                      onDelete={deleteBoardItem}
+                    />
                   </div>
                 </div>
-
-                <div className="flex gap-[8px] w-[300px] max-[545px]:flex-col max-[545px]:w-[145px]">
-                  <EditBoardButton
-                    boardId={boardItem._id}
-                    onEdit={newName => handleEditBoard(boardItem._id, newName)}
-                  />
-                  <DeleteBoardButton
-                    boardId={boardItem._id}
-                    onDelete={deleteBoardItem}
-                  />
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       ) : (

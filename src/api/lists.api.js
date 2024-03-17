@@ -38,3 +38,7 @@ export const getList = async listId => {
 export const addList = list => {
   return axios.post(`${baseURL}/lists`, list);
 };
+
+export const editList = (listId, list) => {
+  return axios.put(`${baseURL}/lists/${listId}`, list);
+};

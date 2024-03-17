@@ -228,15 +228,7 @@ function EditApplication({
     };
     console.log('Data to be saved:', jobData);
     try {
-      if (boardId === newBoard._id && application.listId === newList._id) {
-        console.log('application.boardId', application.boardId);
-        console.log('newBoard._id', newBoard._id);
-        await editJob(application._id, jobData);
-      } else {
-        await addJob(jobData);
-        await deleteJob(application._id);
-      }
-
+      await editJob(application._id, jobData);
       await fetchBoard(newBoard._id);
       if (updateUser) {
         updateUser(user._id);

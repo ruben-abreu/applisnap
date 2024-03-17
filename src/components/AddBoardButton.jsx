@@ -94,6 +94,7 @@ function AddBoardButton() {
       setIsLoading(false);
       setBoardName('');
       alert('Your new board was successfully created.');
+      authenticateUser();
       navigate(`/boards/${boardResponse.data._id}`);
       handleClose();
     } catch (error) {

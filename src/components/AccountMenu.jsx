@@ -46,10 +46,10 @@ function AccountMenu() {
     <React.Fragment>
       <IconButton
         onClick={handleClick}
-        size='small'
+        size="small"
         sx={{ ml: 2 }}
         aria-controls={open ? 'account-menu' : undefined}
-        aria-haspopup='true'
+        aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
       >
         <Avatar
@@ -71,7 +71,7 @@ function AccountMenu() {
 
       <Menu
         anchorEl={anchorEl}
-        id='account-menu'
+        id="account-menu"
         open={open}
         onClose={handleClose}
         onClick={handleClose}
@@ -99,14 +99,14 @@ function AccountMenu() {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <NavLink
-          to='/boards'
+          to="/boards"
           className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
         >
           {({ isActive }) => (
             <MenuItem>
               <ListItemIcon>
                 <DashboardRoundedIcon
-                  fontSize='small'
+                  fontSize="small"
                   sx={{
                     color: isActive
                       ? '#30b39a'
@@ -120,150 +120,162 @@ function AccountMenu() {
             </MenuItem>
           )}
         </NavLink>
-        <NavLink
-          to={`/wishlist/${user.boards[user.boards.length - 1]._id}`}
-          className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
-        >
-          {({ isActive }) => (
-            <MenuItem>
-              <ListItemIcon>
-                <AutoAwesomeRoundedIcon
-                  fontSize='small'
-                  sx={{
-                    color: isActive
-                      ? '#30b39a'
-                      : darkMode
-                      ? 'white'
-                      : '#678B85',
-                  }}
-                />
-              </ListItemIcon>
-              Wishlist
-            </MenuItem>
-          )}
-        </NavLink>
-        <NavLink
-          to={`/applications/${user.boards[user.boards.length - 1]._id}`}
-          className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
-        >
-          {({ isActive }) => (
-            <MenuItem>
-              <ListItemIcon>
-                <SendRoundedIcon
-                  fontSize='small'
-                  sx={{
-                    color: isActive
-                      ? '#30b39a'
-                      : darkMode
-                      ? 'white'
-                      : '#678B85',
-                  }}
-                />
-              </ListItemIcon>
-              Applications
-            </MenuItem>
-          )}
-        </NavLink>
-        <NavLink
-          to='/interviews'
-          className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
-        >
-          {({ isActive }) => (
-            <MenuItem>
-              <ListItemIcon>
-                <ContentPasteSearchRoundedIcon
-                  fontSize='small'
-                  sx={{
-                    color: isActive
-                      ? '#30b39a'
-                      : darkMode
-                      ? 'white'
-                      : '#678B85',
-                  }}
-                />
-              </ListItemIcon>
-              Interviews
-            </MenuItem>
-          )}
-        </NavLink>
-        <NavLink
-          to='/offers'
-          className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
-        >
-          {({ isActive }) => (
-            <MenuItem>
-              <ListItemIcon>
-                <EmojiEventsRoundedIcon
-                  fontSize='small'
-                  sx={{
-                    color: isActive
-                      ? '#30b39a'
-                      : darkMode
-                      ? 'white'
-                      : '#678B85',
-                  }}
-                />
-              </ListItemIcon>
-              Offers
-            </MenuItem>
-          )}
-        </NavLink>
-        <NavLink
-          to='/rejected'
-          className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
-        >
-          {({ isActive }) => (
-            <MenuItem>
-              <ListItemIcon>
-                <ThumbDownAltRoundedIcon
-                  fontSize='small'
-                  sx={{
-                    color: isActive
-                      ? '#30b39a'
-                      : darkMode
-                      ? 'white'
-                      : '#678B85',
-                  }}
-                />
-              </ListItemIcon>
-              Rejected
-            </MenuItem>
-          )}
-        </NavLink>
+        {user.boards && user.boards.length > 0 && (
+          <NavLink
+            to={`/wishlist/${user.boards[user.boards.length - 1]._id}`}
+            className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
+          >
+            {({ isActive }) => (
+              <MenuItem>
+                <ListItemIcon>
+                  <AutoAwesomeRoundedIcon
+                    fontSize="small"
+                    sx={{
+                      color: isActive
+                        ? '#30b39a'
+                        : darkMode
+                        ? 'white'
+                        : '#678B85',
+                    }}
+                  />
+                </ListItemIcon>
+                Wishlist
+              </MenuItem>
+            )}
+          </NavLink>
+        )}
+        {user.boards && user.boards.length > 0 && (
+          <NavLink
+            to={`/applications/${user.boards[user.boards.length - 1]._id}`}
+            className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
+          >
+            {({ isActive }) => (
+              <MenuItem>
+                <ListItemIcon>
+                  <SendRoundedIcon
+                    fontSize="small"
+                    sx={{
+                      color: isActive
+                        ? '#30b39a'
+                        : darkMode
+                        ? 'white'
+                        : '#678B85',
+                    }}
+                  />
+                </ListItemIcon>
+                Applications
+              </MenuItem>
+            )}
+          </NavLink>
+        )}
+        {user.boards && user.boards.length > 0 && (
+          <NavLink
+            to="/interviews"
+            className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
+          >
+            {({ isActive }) => (
+              <MenuItem>
+                <ListItemIcon>
+                  <ContentPasteSearchRoundedIcon
+                    fontSize="small"
+                    sx={{
+                      color: isActive
+                        ? '#30b39a'
+                        : darkMode
+                        ? 'white'
+                        : '#678B85',
+                    }}
+                  />
+                </ListItemIcon>
+                Interviews
+              </MenuItem>
+            )}
+          </NavLink>
+        )}
+        {user.boards && user.boards.length > 0 && (
+          <NavLink
+            to="/offers"
+            className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
+          >
+            {({ isActive }) => (
+              <MenuItem>
+                <ListItemIcon>
+                  <EmojiEventsRoundedIcon
+                    fontSize="small"
+                    sx={{
+                      color: isActive
+                        ? '#30b39a'
+                        : darkMode
+                        ? 'white'
+                        : '#678B85',
+                    }}
+                  />
+                </ListItemIcon>
+                Offers
+              </MenuItem>
+            )}
+          </NavLink>
+        )}
+        {user.boards && user.boards.length > 0 && (
+          <NavLink
+            to="/rejected"
+            className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
+          >
+            {({ isActive }) => (
+              <MenuItem>
+                <ListItemIcon>
+                  <ThumbDownAltRoundedIcon
+                    fontSize="small"
+                    sx={{
+                      color: isActive
+                        ? '#30b39a'
+                        : darkMode
+                        ? 'white'
+                        : '#678B85',
+                    }}
+                  />
+                </ListItemIcon>
+                Rejected
+              </MenuItem>
+            )}
+          </NavLink>
+        )}
 
         <Divider />
 
+        {user.boards && user.boards.length > 0 && (
+          <NavLink
+            to={`/insights/${user.boards[user.boards.length - 1]._id}`}
+            className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
+          >
+            {({ isActive }) => (
+              <MenuItem>
+                <ListItemIcon>
+                  <InsightsRoundedIcon
+                    fontSize="small"
+                    sx={{
+                      color: isActive
+                        ? '#30b39a'
+                        : darkMode
+                        ? 'white'
+                        : '#678B85',
+                    }}
+                  />
+                </ListItemIcon>
+                Insights
+              </MenuItem>
+            )}
+          </NavLink>
+        )}
         <NavLink
-          to={`/insights/${user.boards[user.boards.length - 1]._id}`}
-          className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
-        >
-          {({ isActive }) => (
-            <MenuItem>
-              <ListItemIcon>
-                <InsightsRoundedIcon
-                  fontSize='small'
-                  sx={{
-                    color: isActive
-                      ? '#30b39a'
-                      : darkMode
-                      ? 'white'
-                      : '#678B85',
-                  }}
-                />
-              </ListItemIcon>
-              Insights
-            </MenuItem>
-          )}
-        </NavLink>
-        <NavLink
-          to='/settings'
+          to="/settings"
           className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
         >
           {({ isActive }) => (
             <MenuItem>
               <ListItemIcon>
                 <Settings
-                  fontSize='small'
+                  fontSize="small"
                   sx={{
                     color: isActive
                       ? '#30b39a'
@@ -280,7 +292,7 @@ function AccountMenu() {
         <MenuItem onClick={handleLogOut}>
           <ListItemIcon>
             <Logout
-              fontSize='small'
+              fontSize="small"
               sx={{ color: darkMode ? 'white' : '#678B85' }}
             />
           </ListItemIcon>

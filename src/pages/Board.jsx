@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth.context';
 import { getBoard } from '../api/boards.api';
-import { addJob, editJob, deleteJob } from '../api/jobs.api';
+import { editJob } from '../api/jobs.api';
 import { ThemeContext } from '../context/theme.context';
 import {
   Grid,
@@ -29,18 +29,23 @@ function Board() {
   const [showApplicationList, setShowApplicationList] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [board, setBoard] = useState('');
-  const [boardName, setBoardName] = useState('');
+  const [boardName, setBoardName] = useState(board ? board.boardName : '');
   const [lists, setLists] = useState([]);
 
   const { boardId } = useParams();
 
   const { darkMode, formGreenStyle } = useContext(ThemeContext);
-  const { loggedIn, user } = useContext(AuthContext);
+  const { loggedIn, user, authenticateUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchBoard(boardId);
+    if (user) {
+      setBoardName(
+        user.boards.filter(board => board._id === boardId).boardName
+      );
+    }
   }, [boardId]);
 
   const searchedCompany = query => {
@@ -148,27 +153,19 @@ function Board() {
     };
 
     try {
-      if (
-        (draggedApplication.roleName === targetRole &&
-          draggedApplication.listId !== targetList._id) ||
-        (draggedApplication.roleName !== targetRole &&
-          draggedApplication.listId !== targetList._id)
-      ) {
+      if (draggedApplication.listId !== targetList._id) {
         const updatedApplications = showApplicationList.filter(
           app => app._id.toString() !== applicationId.toString()
         );
         draggedApplication.listId = targetList._id;
         updatedApplications.splice(dropIndex, 0, draggedApplication);
 
-        setApplicationList(updatedApplications);
         setShowApplicationList(updatedApplications);
-
-        await addJob(updatedJob);
-        await deleteJob(applicationId);
-      } else {
-        await editJob(applicationId, updatedJob);
+        setApplicationList(updatedApplications);
       }
 
+      await editJob(applicationId, updatedJob);
+      authenticateUser();
       fetchBoard(boardId);
     } catch (error) {
       alert(error.response.data.message);
@@ -401,7 +398,7 @@ function Board() {
                 {boardName}
               </h2>
             )}
-            {user && user.boards.length > 1 && boardName && (
+            {user && boardName && (
               <form>
                 <FormControl sx={{ ...formGreenStyle, my: 1 }}>
                   <InputLabel htmlFor="board" label="Board">
@@ -414,9 +411,12 @@ function Board() {
                     value={boardName}
                     onChange={e => handleBoardSelection(e)}
                     defaultValue={
-                      boardName
-                        ? boardName
-                        : user.boards[user.boards.length - 1].boardName
+                      board
+                        ? board.boardName
+                        : user
+                        ? user.boards.filter(board => board._id === boardId)
+                            .boardName
+                        : ''
                     }
                   >
                     {user.boards.map(board => (

@@ -3,7 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ThemeContext } from '../context/theme.context';
 import { AuthContext } from '../context/auth.context';
 import { getBoard } from '../api/boards.api';
-import { BarChart } from '@mui/x-charts/BarChart';
+import ListsBarChart from '../components/ListsBarChart';
+import TimeChart from '../components/TimeChart';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 function Insights() {
@@ -78,29 +79,8 @@ function Insights() {
               </FormControl>
             </form>
           )}
-          <div>
-            {board && (
-              <BarChart
-                xAxis={[
-                  {
-                    scaleType: 'band',
-                    data: board.lists.map(list => list.listName),
-                  },
-                ]}
-                series={[
-                  {
-                    data: board.lists.map(list => {
-                      const array = [];
-                      array.push(list.jobs.length);
-                      return array;
-                    }),
-                  },
-                ]}
-                width={500}
-                height={300}
-              />
-            )}
-          </div>
+          {board && <ListsBarChart board={board} />}
+          {board && <TimeChart board={board} />}
         </div>
       ) : (
         <p className="text-center mt-[50px] font-bold text-xl">
