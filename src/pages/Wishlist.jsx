@@ -275,7 +275,7 @@ const Wishlist = () => {
               <Sort sortBy={sortBy} setSortBy={setSortBy} />
             </div>
           )}
-          <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-3">
+          <div className="flex flex-wrap gap-[15px]">
             {handleSort(showWishlistJobs, sortBy)
               .filter(job => job.boardId === selectedBoardId)
               .map((job, index) => {
@@ -283,10 +283,17 @@ const Wishlist = () => {
                   board => board._id === job.boardId
                 );
                 return (
-                  <Card key={index} sx={{ maxWidth: 120 }}>
+                  <div
+                    key={index}
+                    className={`w-[120px] rounded ${
+                      darkMode ? 'bg-[#6e6e6e]' : 'bg-[#ebebeb]'
+                    } shadow-md ${
+                      darkMode ? 'shadow-[#6f6f6f]' : 'shadow-[#cfcfcf]'
+                    } `}
+                  >
                     <button onClick={() => handleEdit(job)}>
-                      <div className="h-[100px] flex items-center">
-                        <div className="w-[100%] pt-[20px] flex justify-center items-center">
+                      <div className="h-[120px] flex items-center">
+                        <div className="w-[100%] m-[10px] flex justify-center items-center">
                           <Avatar
                             sx={{
                               fontSize: '20px',
@@ -318,18 +325,10 @@ const Wishlist = () => {
                         </div>
                       </div>
                       <div className="h-[140px] w-[120px]">
-                        <CardContent>
-                          <Typography
-                            gutterBottom
-                            variant="subtitle2"
-                            component="div"
-                          >
-                            {job.companyName}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            {job.roleName}
-                          </Typography>
-                        </CardContent>
+                        <div className="flex flex-col justify-center gap-[10px] mx-[10px]">
+                          <p className="text-sm font-bold">{job.companyName}</p>
+                          <p className="text-xs">{job.roleName}</p>
+                        </div>
                       </div>
                     </button>
 
@@ -353,7 +352,13 @@ const Wishlist = () => {
                         onClick={() => handleEdit(job)}
                         className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
                       >
-                        <EditRoundedIcon />
+                        <EditRoundedIcon
+                          sx={{
+                            ...greenIconButtonStyle,
+                            width: '20px',
+                            height: '20px',
+                          }}
+                        />
                       </button>
                       {selectedApplication &&
                         selectedApplication._id === job._id && (
@@ -373,10 +378,16 @@ const Wishlist = () => {
                         onClick={() => handleDelete(job)}
                         className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
                       >
-                        <DeleteRoundedIcon />
+                        <DeleteRoundedIcon
+                          sx={{
+                            ...greenIconButtonStyle,
+                            width: '20px',
+                            height: '20px',
+                          }}
+                        />
                       </button>
                     </div>
-                  </Card>
+                  </div>
                 );
               })}
             {wishlistJobs.length === 0 && (
