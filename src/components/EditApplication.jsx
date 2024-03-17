@@ -33,7 +33,7 @@ import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import CancelButton from '../components/CancelButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { addJob, editJob, deleteJob } from '../api/jobs.api';
+import { editJob, deleteJob } from '../api/jobs.api';
 import { getList } from '../api/lists.api';
 import { getBoard } from '../api/boards.api';
 import dayjs from 'dayjs';
@@ -105,7 +105,7 @@ function EditApplication({
     if (updateUser) {
       updateUser();
     }
-  }, [application, board, user]);
+  }, [application]);
 
   const getData = async application => {
     try {
@@ -198,6 +198,8 @@ function EditApplication({
     }
     formattedDomain = formattedDomain.split('/')[0];
 
+    console.log('listName', listName);
+
     const newBoard = boards.filter(board => board.boardName === boardName)[0];
     console.log('newBoard:', newBoard);
 
@@ -261,6 +263,8 @@ function EditApplication({
   const dateTypes = ['created', 'applied', 'interviews', 'offer', 'rejected'];
 
   const uniqueLists = [...new Set(lists.map(list => list.listName))];
+
+  console.log('uniqueLists', uniqueLists);
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -451,7 +455,7 @@ function EditApplication({
             type="text"
             value={listName}
             onChange={e => setListName(e.target.value)}
-            defaultValue={listName}
+            defaultValue={list.listName ? list.listName : 'Wishlist'}
           >
             {uniqueLists.map((list, index) => (
               <MenuItem key={index} value={list}>
