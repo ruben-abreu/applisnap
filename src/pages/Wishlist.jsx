@@ -25,15 +25,20 @@ import {
 import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
 import Avatar from '@mui/material/Avatar';
 import Sort from '../components/Sort';
 
 const Wishlist = () => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
-  const { darkMode, formGreenStyle } = useContext(ThemeContext);
+  const { darkMode, formGreenStyle, greenIconButtonStyle } =
+    useContext(ThemeContext);
+
   const navigate = useNavigate();
+
   const storedUserId = localStorage.getItem('userId');
   const [wishlistJobs, setWishlistJobs] = useState([]);
+
   const [showWishlistJobs, setShowWishlistJobs] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [boards, setBoards] = useState([]);
@@ -66,9 +71,6 @@ const Wishlist = () => {
     try {
       const currentBoard = await getBoard(boardId);
       setBoard(currentBoard);
-      setWishlistJobs(currentBoard.jobs);
-      setShowWishlistJobs(currentBoard.jobs);
-      console.log('board', currentBoard);
     } catch (error) {
       console.error('Error fetching board:', error);
     }
@@ -185,10 +187,10 @@ const Wishlist = () => {
   };
 
   return (
-    <div className='m-[2%] mt-[30px]'>
+    <div className="m-[2%] mt-[30px]">
       {loggedIn ? (
         <div>
-          <div className='flex justify-between items-center'>
+          <div className="flex justify-between items-center">
             <h2
               className={`text-[1.4em] font-bold mt-[30px] mb-[10px] ${
                 darkMode ? 'text-white' : 'text-[#678B85]'
@@ -196,31 +198,42 @@ const Wishlist = () => {
             >
               Wishlist
             </h2>
-            {user && user.boards.length > 1 && (
-              <form>
-                <FormControl sx={{ ...formGreenStyle, my: 1 }}>
-                  <InputLabel htmlFor='board' label='Board'>
-                    Board
-                  </InputLabel>
-                  <Select
-                    id='board'
-                    label='Board'
-                    type='text'
-                    value={boardName}
-                    onChange={e => handleBoardSelection(e)}
-                  >
-                    {user.boards.map(board => (
-                      <MenuItem key={board._id} value={board.boardName}>
-                        {board.boardName}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </form>
+            {user && (
+              <div className="flex gap-[10px]">
+                <form>
+                  <FormControl sx={{ ...formGreenStyle, my: 1 }}>
+                    <InputLabel htmlFor="board" label="Board">
+                      Board
+                    </InputLabel>
+                    <Select
+                      id="board"
+                      label="Board"
+                      type="text"
+                      value={boardName}
+                      onChange={e => handleBoardSelection(e)}
+                    >
+                      {user.boards.map(board => (
+                        <MenuItem key={board._id} value={board.boardName}>
+                          {board.boardName}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </form>
+                <button onClick={() => navigate(`/boards/${selectedBoardId}`)}>
+                  <LaunchRoundedIcon
+                    sx={{
+                      ...greenIconButtonStyle,
+                      width: '20px',
+                      height: '20px',
+                    }}
+                  />
+                </button>
+              </div>
             )}
           </div>
           {board && (
-            <div className='flex items-center mt-[30px]'>
+            <div className="flex items-center mt-[30px]">
               <h3
                 className={`text-[16px] ${
                   darkMode ? 'text-white' : 'text-[black]'
@@ -232,8 +245,8 @@ const Wishlist = () => {
               </h3>
               <AddJobButton
                 board={board}
-                list='Wishlist'
-                role=''
+                list="Wishlist"
+                role=""
                 fetchBoard={fetchBoard}
                 boardId={boardId}
               />
@@ -241,12 +254,12 @@ const Wishlist = () => {
           )}
 
           {wishlistJobs && wishlistJobs.length > 0 && (
-            <div className='flex justify-start my-[20px] gap-2'>
+            <div className="flex justify-start my-[20px] gap-2">
               <SearchBarListPages searchedJob={searchedJob} />
               <Sort sortBy={sortBy} setSortBy={setSortBy} />
             </div>
           )}
-          <div className='grid grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-3'>
+          <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-3">
             {handleSort(showWishlistJobs, sortBy)
               .filter(job => job.boardId === selectedBoardId)
               .map((job, index) => {
@@ -256,8 +269,8 @@ const Wishlist = () => {
                 return (
                   <Card key={index} sx={{ maxWidth: 120 }}>
                     <button onClick={() => handleEdit(job)}>
-                      <div className='h-[100px] flex items-center'>
-                        <div className='w-[100%] pt-[20px] flex justify-center items-center'>
+                      <div className="h-[100px] flex items-center">
+                        <div className="w-[100%] pt-[20px] flex justify-center items-center">
                           <Avatar
                             sx={{
                               fontSize: '20px',
@@ -273,7 +286,7 @@ const Wishlist = () => {
                               `https://logo.clearbit.com/${job.domain}` || ''
                             }
                           >
-                            <p className='uppercase'>
+                            <p className="uppercase">
                               {job.companyName &&
                               job.companyName.split(' ').length > 1
                                 ? job.companyName
@@ -288,44 +301,41 @@ const Wishlist = () => {
                           </Avatar>
                         </div>
                       </div>
-                      <div className='h-[140px] w-[120px]'>
+                      <div className="h-[140px] w-[120px]">
                         <CardContent>
                           <Typography
                             gutterBottom
-                            variant='subtitle2'
-                            component='div'
+                            variant="subtitle2"
+                            component="div"
                           >
                             {job.companyName}
                           </Typography>
-                          <Typography variant='body2' color='text.secondary'>
+                          <Typography variant="body2" color="text.secondary">
                             {job.roleName}
                           </Typography>
                         </CardContent>
                       </div>
                     </button>
 
-                    <div className='mb-[10px] flex justify-center gap-[15px]'>
+                    <div className="mb-[10px] flex justify-center gap-[15px]">
                       {job.jobURL && (
                         <a
                           href={job.jobURL}
-                          target='_blank'
-                          rel='noopener noreferrer'
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
                           <LinkRoundedIcon
                             sx={{
-                              width: '18px',
-                              height: '18px',
-                              color: darkMode ? 'white' : '#678B85',
-                              '&:hover': {
-                                color: darkMode ? 'white' : '#62a699',
-                              },
+                              ...greenIconButtonStyle,
+                              width: '20px',
+                              height: '20px',
                             }}
                           />
                         </a>
                       )}
                       <button
                         onClick={() => handleEdit(job)}
-                        className='text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase'
+                        className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
                       >
                         <EditRoundedIcon />
                       </button>
@@ -345,7 +355,7 @@ const Wishlist = () => {
                         )}
                       <button
                         onClick={() => handleDelete(job)}
-                        className='text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase'
+                        className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
                       >
                         <DeleteRoundedIcon />
                       </button>
@@ -354,7 +364,7 @@ const Wishlist = () => {
                 );
               })}
             {wishlistJobs.length === 0 && (
-              <div className='text-center col-span-full mt-4'>
+              <div className="text-center col-span-full mt-4">
                 <p>You have no jobs in this list.</p>
               </div>
             )}
@@ -375,7 +385,7 @@ const Wishlist = () => {
           </Dialog>
         </div>
       ) : (
-        <p className='text-center mt-[50px] font-bold text-xl'>
+        <p className="text-center mt-[50px] font-bold text-xl">
           Please log in to view this page
         </p>
       )}
