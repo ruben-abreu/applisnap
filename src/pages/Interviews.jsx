@@ -285,6 +285,14 @@ const Interviews = () => {
                 const jobBoard = boards.find(
                   board => board._id === job.boardId
                 );
+                const scheduledDate = new Date(job.date.interviews);
+                const currentDate = new Date();
+                const differenceInTime =
+                  scheduledDate.getTime() - currentDate.getTime();
+                const daysLeft = Math.ceil(
+                  differenceInTime / (1000 * 3600 * 24)
+                );
+
                 return (
                   <div
                     key={index}
@@ -331,6 +339,16 @@ const Interviews = () => {
                         <div className='flex flex-col justify-center gap-[10px] mx-[10px]'>
                           <p className='text-sm font-bold'>{job.companyName}</p>
                           <p className='text-xs'>{job.roleName}</p>
+                          {job.date.interviews.length > 0 && (
+                            <p className='text-xs font-bold'>
+                              Scheduled for:{' '}
+                              <span className='font-normal'>
+                                {String(job.date.interviews).slice(0, 10)}{' '}
+                                {daysLeft > 0 && `(in ${daysLeft} days)`}
+                                {daysLeft === 0 && `(Today!)`}
+                              </span>
+                            </p>
+                          )}
                         </div>
                       </div>
                     </button>
