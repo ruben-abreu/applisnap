@@ -267,6 +267,7 @@ const Interviews = () => {
                 role=''
                 fetchBoard={fetchBoard}
                 boardId={boardId}
+                defaultList='Interviews'
               />
             </div>
           )}

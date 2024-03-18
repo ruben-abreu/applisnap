@@ -267,6 +267,7 @@ const Offers = () => {
                 role=''
                 fetchBoard={fetchBoard}
                 boardId={boardId}
+                defaultList='Offers'
               />
             </div>
           )}
