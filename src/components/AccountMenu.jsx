@@ -194,7 +194,7 @@ function AccountMenu() {
         )}
         {user.boards && user.boards.length > 0 && (
           <NavLink
-            to='/offers'
+            to={`/offers/${user.boards[user.boards.length - 1]._id}`}
             className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
           >
             {({ isActive }) => (
@@ -218,7 +218,7 @@ function AccountMenu() {
         )}
         {user.boards && user.boards.length > 0 && (
           <NavLink
-            to='/rejected'
+            to={`/rejected/${user.boards[user.boards.length - 1]._id}`}
             className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
           >
             {({ isActive }) => (
