@@ -5,8 +5,8 @@ import Slider from '@mui/material/Slider';
 import { BarChart } from '@mui/x-charts/BarChart';
 
 function TimeChart({ board }) {
-  const [seriesNb, setSeriesNb] = useState(12);
-  const [itemNb, setItemNb] = useState([31]);
+  const [seriesNb, setSeriesNb] = useState([1, 12]);
+  const [itemNb, setItemNb] = useState([1, 31]);
   const [chartSeries, setChartSeries] = useState([]);
 
   const months = [
@@ -66,16 +66,20 @@ function TimeChart({ board }) {
     setSeriesNb(newValue);
   };
 
-  const highlightScope = {
-    highlighted: 'series',
-    faded: 'global',
-  };
-
-  const series = chartSeries.map(s => ({ ...s, highlightScope }));
-
   const valuetext = value => {
     return `${months[value - 1]}`;
   };
+
+  const filteredSeries = chartSeries.map(s => ({
+    ...s,
+    data: s.data.slice(itemNb[0] - 1, itemNb[1]),
+  }));
+
+  // Generate x-axis data for the selected month range
+  const xAxisData = Array.from(
+    { length: itemNb[1] - itemNb[0] + 1 },
+    (_, i) => i + itemNb[0]
+  );
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -83,13 +87,11 @@ function TimeChart({ board }) {
         xAxis={[
           {
             scaleType: 'band',
-            data: Array.from({ length: 31 }, (_, i) => i + 1),
+            data: xAxisData,
           },
         ]}
         height={300}
-        series={series
-          .slice(0, seriesNb)
-          .map(s => ({ ...s, data: s.data.slice(0, itemNb) }))}
+        series={filteredSeries.slice(seriesNb[0] - 1, seriesNb[1])}
         skipAnimation={false}
         margin={{
           left: 50,
@@ -102,6 +104,7 @@ function TimeChart({ board }) {
         Day
       </Typography>
       <Slider
+        getAriaLabel={() => 'Day range'}
         value={itemNb}
         onChange={handleItemNbChange}
         valueLabelDisplay="auto"
