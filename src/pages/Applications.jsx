@@ -18,6 +18,7 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  ListItemIcon,
 } from '@mui/material';
 import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
@@ -25,6 +26,7 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
 import Avatar from '@mui/material/Avatar';
 import Sort from '../components/Sort';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
 
 const Applications = () => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
@@ -209,6 +211,9 @@ const Applications = () => {
                 darkMode ? 'text-white' : 'text-[#678B85]'
               }`}
             >
+              <ListItemIcon>
+                <SendRoundedIcon fontSize='small' />
+              </ListItemIcon>
               My Applications
             </h2>
             {user && (

@@ -1,4 +1,4 @@
-/* import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
 import { editJob, deleteJob } from '../api/jobs.api';
 import { getBoard } from '../api/boards.api';
@@ -18,15 +18,17 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  ListItemIcon,
 } from '@mui/material';
 import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
+import ContentPasteSearchRoundedIcon from '@mui/icons-material/ContentPasteSearchRounded';
 import Avatar from '@mui/material/Avatar';
 import Sort from '../components/Sort';
 
-const Interview = () => {
+const Interviews = () => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
   const { darkMode, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
@@ -36,9 +38,9 @@ const Interview = () => {
   const { boardId } = useParams();
 
   const storedUserId = localStorage.getItem('userId');
-  const [interviewJobs, setInterviewJobs] = useState([]);
+  const [interviewsJobs, setInterviewsJobs] = useState([]);
 
-  const [showInterviewJobs, setShowInterviewJobs] = useState([]);
+  const [showInterviewsJobs, setShowInterviewsJobs] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [boards, setBoards] = useState([]);
   const [board, setBoard] = useState('');
@@ -55,13 +57,13 @@ const Interview = () => {
   }, [boardId]);
 
   const searchedJob = query => {
-    const filteredInterview = interviewJobs.filter(job => {
+    const filteredInterviews = interviewsJobs.filter(job => {
       return (
         job.companyName.toLowerCase().includes(query.toLowerCase()) ||
         job.roleName.toLowerCase().includes(query.toLowerCase())
       );
     });
-    setShowInterviewJobs(filteredInterview);
+    setShowInterviewsJobs(filteredInterviews);
   };
 
   const handleBoardSelection = async e => {
@@ -81,21 +83,21 @@ const Interview = () => {
     try {
       const currentBoard = await getBoard(boardId);
       setBoard(currentBoard);
-      const interviewListId = currentBoard.lists.find(
+      const interviewsListId = currentBoard.lists.find(
         list => list.listName === 'Interviews'
       )?._id;
 
-      if (!interviewListId) {
+      if (!interviewsListId) {
         console.error('Interviews list not found for this board.');
         return;
       }
 
-      const interviewJobsFromBoard = currentBoard.jobs.filter(
-        job => job.listId === interviewListId
+      const interviewsJobsFromBoard = currentBoard.jobs.filter(
+        job => job.listId === interviewsListId
       );
 
-      setInterviewJobs(interviewJobsFromBoard);
-      setShowInterviewJobs(interviewJobsFromBoard);
+      setInterviewsJobs(interviewsJobsFromBoard);
+      setShowInterviewsJobs(interviewsJobsFromBoard);
       console.log('board', currentBoard);
     } catch (error) {
       console.error('Error fetching board:', error);
@@ -111,13 +113,13 @@ const Interview = () => {
 
       const filteredJobs = newDetails.data.jobs.filter(job =>
         newDetails.data.lists
-          .filter(list => list.listName === 'interviews')
+          .filter(list => list.listName === 'Interviews')
           .map(list => list._id)
           .includes(job.listId)
       );
 
-      setInterviewJobs(filteredJobs);
-      setShowInterviewJobs(filteredJobs);
+      setInterviewsJobs(filteredJobs);
+      setShowInterviewsJobs(filteredJobs);
 
       if (
         boardId &&
@@ -209,6 +211,9 @@ const Interview = () => {
                 darkMode ? 'text-white' : 'text-[#678B85]'
               }`}
             >
+              <ListItemIcon>
+                <ContentPasteSearchRoundedIcon fontSize='small' />
+              </ListItemIcon>
               My Interviews
             </h2>
             {user && (
@@ -262,19 +267,18 @@ const Interview = () => {
                 role=''
                 fetchBoard={fetchBoard}
                 boardId={boardId}
-                defaultList='Interviews'
               />
             </div>
           )}
 
-          {interviewJobs && interviewJobs.length > 0 && (
+          {interviewsJobs && interviewsJobs.length > 0 && (
             <div className='flex justify-start my-[20px] gap-2'>
               <SearchBarListPages searchedJob={searchedJob} />
               <Sort sortBy={sortBy} setSortBy={setSortBy} />
             </div>
           )}
           <div className='flex flex-wrap gap-[15px]'>
-            {handleSort(showInterviewJobs, sortBy)
+            {handleSort(showInterviewsJobs, sortBy)
               .filter(job => job.boardId === selectedBoardId)
               .map((job, index) => {
                 const jobBoard = boards.find(
@@ -388,7 +392,7 @@ const Interview = () => {
                   </div>
                 );
               })}
-            {interviewJobs.length === 0 && (
+            {interviewsJobs.length === 0 && (
               <div className='text-center col-span-full mt-4'>
                 <p>You have no jobs in this list.</p>
               </div>
@@ -418,5 +422,4 @@ const Interview = () => {
   );
 };
 
-export default Interview;
- */
+export default Interviews;
