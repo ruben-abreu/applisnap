@@ -1,0 +1,188 @@
+[
+  {
+    "companyName": "Google",
+    "roleName": "Software Engineer",
+    "domain": "google.com",
+    "jobURL": "https://www.linkedin.com/company/google/jobs/",
+    "jobDescription": "Developing software solutions for various projects.",
+    "workModel": "Remote",
+    "workLocation": "Anywhere",
+    "notes": "Need to follow up after initial application.",
+    "date": {
+      "created": "2024-02-10T00:00:00.000+00:00",
+      "applied": "2023-02-12T00:00:00.000+00:00",
+      "interviews": [],
+      "offer": null,
+      "rejected": "2023-02-20T00:00:00.000+00:00"
+    },
+    "starred": true
+  },
+  {
+    "companyName": "Apple",
+    "roleName": "Frontend Developer",
+    "domain": "apple.com",
+    "jobURL": "https://www.linkedin.com/company/apple/jobs/",
+    "jobDescription": "Building user interfaces and implementing designs.",
+    "workModel": "On-Site",
+    "workLocation": "New York City",
+    "notes": "Great opportunity for career growth.",
+    "date": {
+      "created": "2024-03-15T00:00:00.000+00:00",
+      "applied": "2024-03-15T00:00:00.000+00:00",
+      "interviews": ["2024-03-25T00:00:00.000+00:00"],
+      "offer": null,
+      "rejected": "2024-03-30T00:00:00.000+00:00"
+    },
+    "starred": false
+  },
+  {
+    "companyName": "Microsoft Corporation",
+    "roleName": "Software Engineer",
+    "domain": "microsoft.com",
+    "jobURL": "https://www.linkedin.com/company/microsoft/jobs/",
+    "jobDescription": "Developing algorithms and models for AI applications.",
+    "workModel": "Hybrid",
+    "workLocation": "San Francisco",
+    "notes": "Require strong background in mathematics.",
+    "date": {
+      "created": "2024-01-05T00:00:00.000+00:00",
+      "applied": "2024-01-06T00:00:00.000+00:00",
+      "interviews": [
+        "2024-01-16T00:00:00.000+00:00",
+        "2024-02-05T00:00:00.000+00:00"
+      ],
+      "offer": "2024-02-25T00:00:00.000+00:00",
+      "rejected": null
+    },
+    "starred": true
+  },
+  {
+    "companyName": "Amazon.com Inc.",
+    "roleName": "Senior Backend Developer",
+    "domain": "amazon.com",
+    "jobURL": "https://www.linkedin.com/company/amazon/jobs/",
+    "jobDescription": "Leading backend development projects and teams.",
+    "workModel": "Remote",
+    "workLocation": "Anywhere",
+    "notes": "Highly competitive position.",
+    "date": {
+      "created": "2024-01-10T00:00:00.000+00:00",
+      "applied": "2024-01-12T00:00:00.000+00:00",
+      "interviews": [],
+      "offer": null,
+      "rejected": "2024-02-01T00:00:00.000+00:00"
+    },
+    "starred": false
+  },
+  {
+    "companyName": "Facebook",
+    "roleName": "Full Stack Developer",
+    "domain": "facebook.com",
+    "jobURL": "https://www.linkedin.com/company/facebook/jobs/",
+    "jobDescription": "Building and maintaining web applications.",
+    "workModel": "Remote",
+    "workLocation": "Anywhere",
+    "notes": "Flexible work hours.",
+    "date": {
+      "created": "2024-01-15T00:00:00.000+00:00",
+      "applied": "2024-01-15T00:00:00.000+00:00",
+      "interviews": [],
+      "offer": null,
+      "rejected": "2024-01-20T00:00:00.000+00:00"
+    },
+    "starred": true
+  },
+  {
+    "companyName": "Tesla",
+    "roleName": "UI/UX Designer",
+    "domain": "tesla.com",
+    "jobURL": "https://www.linkedin.com/company/tesla-motors/jobs/",
+    "jobDescription": "Creating intuitive user interfaces and experiences.",
+    "workModel": "On-Site",
+    "workLocation": "Los Angeles",
+    "notes": "Requires strong portfolio.",
+    "date": {
+      "created": "2024-02-20T00:00:00.000+00:00",
+      "applied": "2024-02-21T00:00:00.000+00:00",
+      "interviews": [
+        "2024-02-28T00:00:00.000+00:00",
+        "2024-03-14T00:00:00.000+00:00"
+      ],
+      "offer": null,
+      "rejected": null
+    },
+    "starred": false
+  },
+  {
+    "companyName": "Netflix Inc.",
+    "roleName": "Software Engineer",
+    "domain": "netflix.com",
+    "jobURL": "https://www.linkedin.com/company/netflix/jobs/",
+    "jobDescription": "Developing software solutions for streaming services.",
+    "workModel": "Remote",
+    "workLocation": "Anywhere",
+    "notes": "Must have experience in video streaming technologies.",
+    "date": {
+      "created": "2024-03-01T00:00:00.000+00:00",
+      "applied": "2024-03-03T00:00:00.000+00:00",
+      "interviews": [],
+      "offer": null,
+      "rejected": null
+    },
+    "starred": true
+  },
+  {
+    "companyName": "SpaceX",
+    "roleName": "Software Engineer",
+    "domain": "spacex.com",
+    "jobURL": "https://www.linkedin.com/company/spacex/jobs/",
+    "jobDescription": "Designing and testing spacecraft and rocket systems.",
+    "workModel": "On-Site",
+    "workLocation": "Hawthorne, CA",
+    "notes": "Exciting opportunity to work on cutting-edge space technology.",
+    "date": {
+      "created": "2024-03-05T00:00:00.000+00:00",
+      "applied": "2024-03-07T00:00:00.000+00:00",
+      "interviews": [],
+      "offer": null,
+      "rejected": null
+    },
+    "starred": false
+  },
+  {
+    "companyName": "Twitter Inc.",
+    "roleName": "Frontend Developer",
+    "domain": "twitter.com",
+    "jobURL": "https://www.linkedin.com/company/twitter/jobs/",
+    "jobDescription": "Building user interfaces and implementing designs.",
+    "workModel": "Hybrid",
+    "workLocation": "San Francisco, CA",
+    "notes": "Looking for candidates with experience in big data analytics.",
+    "date": {
+      "created": "2024-03-30T00:00:00.000+00:00",
+      "applied": null,
+      "interviews": [],
+      "offer": null,
+      "rejected": null
+    },
+    "starred": true
+  },
+  {
+    "companyName": "Adobe Inc.",
+    "roleName": "UI/UX Designer",
+    "domain": "adobe.com",
+    "jobURL": "https://www.linkedin.com/company/adobe/jobs/",
+    "jobDescription": "Creating intuitive user interfaces for creative software.",
+    "workModel": "Remote",
+    "workLocation": "Anywhere",
+    "notes": "Opportunity to work with leading design tools and platforms.",
+    "date": {
+      "created": "2024-03-15T00:00:00.000+00:00",
+      "applied": "2024-03-20T00:00:00.000+00:00",
+      "interviews": [],
+      "offer": null,
+      "rejected": null
+    },
+    "starred": false
+  }
+]

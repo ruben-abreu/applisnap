@@ -3,6 +3,8 @@ import { ThemeContext } from '../context/theme.context';
 import { signup } from '../api/auth.api';
 import { addBoard } from '../api/boards.api';
 import { addList } from '../api/lists.api';
+import { addJob } from '../api/jobs.api';
+import demoApplications from '../assets/demoApplications.json';
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -129,7 +131,7 @@ function SignUpButton() {
       const firstBoard = {
         boardName: `${getMonthName(
           new Date().toJSON().slice(5, 7)
-        )} ${new Date().toJSON().slice(0, 4)}`,
+        )} ${new Date().toJSON().slice(0, 4)} Demo Board`,
         userId: userResponse.data._id,
       };
 
@@ -165,11 +167,54 @@ function SignUpButton() {
         boardId: boardResponse.data._id,
       };
 
-      await addList(firstWishlist);
-      await addList(firstAppliedList);
-      await addList(firstInterviewsList);
-      await addList(firstOffersList);
-      await addList(firstRejectedList);
+      const wishlistResponse = await addList(firstWishlist);
+      const appliedListResponse = await addList(firstAppliedList);
+      const interviewsListResponse = await addList(firstInterviewsList);
+      const offerListResponse = await addList(firstOffersList);
+      const rejectedListResponse = await addList(firstRejectedList);
+
+      demoApplications.forEach(application => {
+        const list = () => {
+          if (application.date.rejected) {
+            return rejectedListResponse.data._id;
+          } else if (application.date.offer) {
+            return offerListResponse.data._id;
+          } else if (application.date.interviews[0]) {
+            return interviewsListResponse.data._id;
+          } else if (application.date.applied) {
+            return appliedListResponse.data._id;
+          } else {
+            return wishlistResponse.data._id;
+          }
+        };
+
+        const jobData = {
+          companyName: application.companyName,
+          roleName: application.roleName,
+          domain: application.domain,
+          jobURL: application.jobURL,
+          jobDescription: application.jobDescription,
+          workModel: application.workModel,
+          workLocation: application.workLocation,
+          notes: application.notes,
+          date: application.date,
+          starred: application.starred,
+          boardId: boardResponse.data._id,
+          listId: list(),
+          userId: userResponse.data._id,
+        };
+
+        const addDemoJob = async () => {
+          try {
+            const addedJob = await addJob(jobData);
+            console.log('Added Job:', addedJob);
+          } catch (error) {
+            console.error('Error adding job:', error);
+          }
+        };
+
+        addDemoJob();
+      });
 
       setIsLoading(false);
       alert('Your registration was successful, please log in.');

@@ -412,15 +412,6 @@ function Board() {
       {loggedIn ? (
         <div>
           <div className="flex flex-wrap gap-[10px] justify-between items-center">
-            {user && user.boards.length === 1 && boardName && (
-              <h2
-                className={`text-[1.4em] ${
-                  darkMode ? 'text-white' : 'text-[#678B85]'
-                }`}
-              >
-                {boardName}
-              </h2>
-            )}
             {user && boardName && (
               <div className="flex gap-[10px] items-center">
                 <form>
