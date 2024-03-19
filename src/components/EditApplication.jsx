@@ -293,7 +293,7 @@ function EditApplication({
         </button>
       </div>
       <DialogContent>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
           <InputLabel htmlFor="companyName" label="Company Name">
             Company Name
           </InputLabel>
@@ -305,8 +305,8 @@ function EditApplication({
             onChange={e => setCompanyName(e.target.value)}
           />
         </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="companyName" label="Role">
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
+          <InputLabel htmlFor="roleName" label="Role">
             Role
           </InputLabel>
           <Input
