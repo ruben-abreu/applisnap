@@ -24,6 +24,7 @@ import ThumbDownAltRoundedIcon from '@mui/icons-material/ThumbDownAltRounded';
 import Avatar from '@mui/material/Avatar';
 import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
+import InsightsRoundedIcon from '@mui/icons-material/InsightsRounded';
 import { list } from 'postcss';
 
 function Board() {
@@ -234,10 +235,10 @@ function Board() {
                 >
                   <Grid
                     container
-                    alignItems='center'
+                    alignItems="center"
                     spacing={1}
-                    width='145px'
-                    minHeight='56px'
+                    width="145px"
+                    minHeight="56px"
                   >
                     <Grid item>
                       <Avatar
@@ -257,7 +258,7 @@ function Board() {
                           ''
                         }
                       >
-                        <p className='uppercase'>
+                        <p className="uppercase">
                           {application.companyName &&
                           application.companyName.split(' ').length > 1
                             ? application.companyName
@@ -272,7 +273,7 @@ function Board() {
                       </Avatar>
                     </Grid>
                     <Grid item xs style={{ flex: '1', textAlign: 'center' }}>
-                      <p className='text-xs text-left p-0'>
+                      <p className="text-xs text-left p-0">
                         {application.companyName || ''}
                       </p>
                     </Grid>
@@ -280,8 +281,8 @@ function Board() {
                       <Grid item>
                         <a
                           href={application.jobURL}
-                          target='_blank'
-                          rel='noopener noreferrer'
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
                           <LinkRoundedIcon
                             sx={{ width: '15px', height: '15px' }}
@@ -299,7 +300,7 @@ function Board() {
 
   const EmptyDropArea = ({ role, list }) => (
     <div
-      className='empty-drop-area min-h-[66px] hover:bg-[#c3e1dc] rounded-md'
+      className="empty-drop-area min-h-[66px] hover:bg-[#c3e1dc] rounded-md"
       onDragEnter={onDragEnter}
       onDragOver={onDragOver}
       onDrop={e => onDrop(e, role, list, 0)}
@@ -323,10 +324,10 @@ function Board() {
   const renderListsForRole = role => {
     return lists.map(list => (
       <div key={`${role}-${list.listName}`}>
-        <div className='mt-[18px] mb-[8px] font-bold flex items-center text-[#30b39a]'>
+        <div className="mt-[18px] mb-[8px] font-bold flex items-center text-[#30b39a]">
           {list.listName === 'Wishlist' ? (
             <AutoAwesomeRoundedIcon
-              fontSize='small'
+              fontSize="small"
               sx={{
                 color: '#30b39a',
                 marginRight: '10px',
@@ -334,7 +335,7 @@ function Board() {
             />
           ) : list.listName === 'Applied' ? (
             <SendRoundedIcon
-              fontSize='small'
+              fontSize="small"
               sx={{
                 color: '#30b39a',
                 marginRight: '10px',
@@ -342,7 +343,7 @@ function Board() {
             />
           ) : list.listName === 'Interviews' ? (
             <ContentPasteSearchRoundedIcon
-              fontSize='small'
+              fontSize="small"
               sx={{
                 color: '#30b39a',
                 marginRight: '10px',
@@ -350,7 +351,7 @@ function Board() {
             />
           ) : list.listName === 'Offers' ? (
             <EmojiEventsRoundedIcon
-              fontSize='small'
+              fontSize="small"
               sx={{
                 color: '#30b39a',
                 marginRight: '10px',
@@ -358,7 +359,7 @@ function Board() {
             />
           ) : list.listName === 'Rejected' ? (
             <ThumbDownAltRoundedIcon
-              fontSize='small'
+              fontSize="small"
               sx={{
                 color: '#30b39a',
                 marginRight: '10px',
@@ -369,7 +370,7 @@ function Board() {
           )}
           <p>{list.listName}</p>
           <button
-            className='ml-[10px]'
+            className="ml-[10px]"
             onClick={() =>
               navigate(
                 `/${
@@ -407,10 +408,10 @@ function Board() {
   };
 
   return (
-    <div className='m-[2%] mt-[30px] pb-[30px]'>
+    <div className="m-[2%] mt-[30px] pb-[30px]">
       {loggedIn ? (
         <div>
-          <div className='flex flex-wrap gap-[10px] justify-between items-center'>
+          <div className="flex flex-wrap gap-[10px] justify-between items-center">
             {user && user.boards.length === 1 && boardName && (
               <h2
                 className={`text-[1.4em] ${
@@ -421,39 +422,50 @@ function Board() {
               </h2>
             )}
             {user && boardName && (
-              <form>
-                <FormControl sx={{ ...formGreenStyle, my: 1 }}>
-                  <InputLabel htmlFor='board' label='Board'>
-                    Board
-                  </InputLabel>
-                  <Select
-                    id='board'
-                    label='Board'
-                    type='text'
-                    value={boardName}
-                    onChange={e => handleBoardSelection(e)}
-                    defaultValue={
-                      board
-                        ? board.boardName
-                        : user
-                        ? user.boards.filter(board => board._id === boardId)
-                            .boardName
-                        : ''
-                    }
-                  >
-                    {user.boards.map(board => (
-                      <MenuItem key={board._id} value={board.boardName}>
-                        {board.boardName}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </form>
+              <div className="flex gap-[10px] items-center">
+                <form>
+                  <FormControl sx={{ ...formGreenStyle, my: 1 }}>
+                    <InputLabel htmlFor="board" label="Board">
+                      Board
+                    </InputLabel>
+                    <Select
+                      id="board"
+                      label="Board"
+                      type="text"
+                      value={boardName}
+                      onChange={e => handleBoardSelection(e)}
+                      defaultValue={
+                        board
+                          ? board.boardName
+                          : user
+                          ? user.boards.filter(board => board._id === boardId)
+                              .boardName
+                          : ''
+                      }
+                    >
+                      {user.boards.map(board => (
+                        <MenuItem key={board._id} value={board.boardName}>
+                          {board.boardName}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </form>
+                <button onClick={() => navigate(`/insights/${boardId}`)}>
+                  <InsightsRoundedIcon
+                    sx={{
+                      ...greenIconButtonStyle,
+                      width: '20px',
+                      height: '20px',
+                    }}
+                  />
+                </button>
+              </div>
             )}
             <AddBoardButton />
           </div>
           {board && (
-            <div className='flex items-center mt-[30px]'>
+            <div className="flex items-center mt-[30px]">
               <h3
                 className={`text-[16px] ${
                   darkMode ? 'text-white' : 'text-[black]'
@@ -465,8 +477,8 @@ function Board() {
               </h3>
               <AddJobButton
                 board={board}
-                list='Wishlist'
-                role=''
+                list="Wishlist"
+                role=""
                 fetchBoard={fetchBoard}
                 boardId={boardId}
                 defaultList={list.listName ? list.listName : 'Wishlist'}
@@ -474,12 +486,12 @@ function Board() {
             </div>
           )}
           {applicationList && applicationList.length > 0 && (
-            <div className='flex justify-start mt-[30px]'>
+            <div className="flex justify-start mt-[30px]">
               <SearchBar searchedCompany={searchedCompany} />
             </div>
           )}
-          <div className='overflow-visible mt-[30px]'>
-            <div className='flex gap-[20px]'>
+          <div className="overflow-visible mt-[30px]">
+            <div className="flex gap-[20px]">
               {uniqueRoles &&
                 uniqueRoles.map((role, index) => (
                   <div
@@ -497,7 +509,7 @@ function Board() {
                     >
                       {role}
                     </h5>
-                    <Grid container direction='column' style={{ margin: 0 }}>
+                    <Grid container direction="column" style={{ margin: 0 }}>
                       {renderListsForRole(role)}
                     </Grid>
                   </div>
@@ -517,7 +529,7 @@ function Board() {
           </div>
         </div>
       ) : (
-        <p className='text-center mt-[50px] font-bold text-xl'>
+        <p className="text-center mt-[50px] font-bold text-xl">
           Please log in to view this page
         </p>
       )}
