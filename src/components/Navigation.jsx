@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AppliSnapIcon from '../assets/AppliSnapIcon.png';
 import { ThemeContext } from '../context/theme.context';
@@ -11,11 +11,19 @@ import AccountMenu from './AccountMenu';
 
 function Navigation() {
   const { darkMode, setDarkMode } = useContext(ThemeContext);
-  const { loggedIn } = useContext(AuthContext);
+  const { loggedIn, user } = useContext(AuthContext);
+
+  const [boardId, setBoardId] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      setBoardId(user.boards[user.boards.length - 1]._id);
+    }
+  }, [user]);
 
   return (
     <div className="m-[2%] flex justify-between items-center">
-      <NavLink to="/" className="flex">
+      <NavLink to={loggedIn ? `/boards/${boardId}` : '/'} className="flex">
         <img
           src={AppliSnapIcon}
           alt="app icon"
