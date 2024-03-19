@@ -187,6 +187,16 @@ function EditApplication({
   };
 
   const handleSave = async () => {
+    if (companyName.trim() === '') {
+      alert('Company name cannot be empty');
+      return;
+    }
+
+    if (roleName.trim() === '') {
+      alert('Role name cannot be empty');
+      return;
+    }
+
     let formattedDomain = domain.trim().toLowerCase();
     if (formattedDomain.startsWith('http://')) {
       formattedDomain = formattedDomain.slice(7);
@@ -310,7 +320,7 @@ function EditApplication({
             Role
           </InputLabel>
           <Input
-            id="role"
+            id="roleName"
             value={roleName}
             type="text"
             label="Role"
