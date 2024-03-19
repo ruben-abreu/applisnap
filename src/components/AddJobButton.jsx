@@ -1,7 +1,6 @@
 import { useState, useContext } from 'react';
 import { ThemeContext } from '../context/theme.context';
 import AddJobApplication from './AddJobApplication';
-import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 function AddJobButton({ board, fetchBoard, list, role, boardId, defaultList }) {
