@@ -661,7 +661,7 @@ function EditApplication({
             {editDate.rejected && (
               <TimelineItem>
                 <TimelineOppositeContent color="text.secondary">
-                  Offer
+                  Rejected
                 </TimelineOppositeContent>
                 <TimelineSeparator>
                   <TimelineDot />
