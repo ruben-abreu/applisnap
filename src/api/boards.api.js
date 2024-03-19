@@ -18,7 +18,7 @@ const setAuthorizationHeaders = () => {
 setAuthorizationHeaders();
 
 export const getAllBoards = userId => {
-  return axios.get(`${baseURL}/boards`, userId);
+  return axios.get(`${baseURL}/boards?userId=${userId}`);
 };
 
 export const getBoard = async boardId => {
