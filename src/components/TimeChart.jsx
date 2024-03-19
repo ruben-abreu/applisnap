@@ -25,37 +25,39 @@ function TimeChart({ board }) {
   ];
 
   useEffect(() => {
-    const jobCountPerDay = {};
+    if (board && board.jobs) {
+      const jobCountPerDay = {};
 
-    board.jobs.forEach(job => {
-      const month = parseInt(job.date.created.slice(5, 7), 10);
-      const day = parseInt(job.date.created.slice(8, 10), 10);
+      board.jobs.forEach(job => {
+        const month = parseInt(job.date.created.slice(5, 7), 10);
+        const day = parseInt(job.date.created.slice(8, 10), 10);
 
-      if (!jobCountPerDay[month]) {
-        jobCountPerDay[month] = {};
-      }
-
-      jobCountPerDay[month][day] = (jobCountPerDay[month][day] || 0) + 1;
-    });
-
-    const updatedSeries = Array.from({ length: 12 }, (_, i) => i + 1).map(
-      month => {
-        const data = [];
-        for (let day = 1; day <= 31; day++) {
-          const jobCount = jobCountPerDay[month]
-            ? jobCountPerDay[month][day] || 0
-            : 0;
-          data.push(jobCount);
+        if (!jobCountPerDay[month]) {
+          jobCountPerDay[month] = {};
         }
 
-        return {
-          label: months[month - 1],
-          data: data,
-        };
-      }
-    );
+        jobCountPerDay[month][day] = (+jobCountPerDay[month][day] || 0) + 1;
+      });
 
-    setChartSeries(updatedSeries);
+      const updatedSeries = Array.from({ length: 12 }, (_, i) => i + 1).map(
+        month => {
+          const data = [];
+          for (let day = 1; day <= 31; day++) {
+            const jobCount = jobCountPerDay[month]
+              ? jobCountPerDay[month][day] || 0
+              : 0;
+            data.push(+jobCount);
+          }
+
+          return {
+            label: months[month - 1],
+            data: data,
+          };
+        }
+      );
+
+      setChartSeries(updatedSeries);
+    }
   }, [board.jobs]);
 
   const handleItemNbChange = (event, newValue) => {
@@ -75,7 +77,6 @@ function TimeChart({ board }) {
     data: s.data.slice(itemNb[0] - 1, itemNb[1]),
   }));
 
-  // Generate x-axis data for the selected month range
   const xAxisData = Array.from(
     { length: itemNb[1] - itemNb[0] + 1 },
     (_, i) => i + itemNb[0]
@@ -83,23 +84,43 @@ function TimeChart({ board }) {
 
   return (
     <Box sx={{ width: '100%' }}>
+      <h2 className="text-center">Applications per Day and Month</h2>
       <BarChart
         xAxis={[
           {
             scaleType: 'band',
             data: xAxisData,
+            label: 'Day',
           },
         ]}
-        height={300}
+        yAxis={[
+          {
+            label: 'Applications',
+            tickNumber: '1',
+          },
+        ]}
+        height={400}
         series={filteredSeries.slice(seriesNb[0] - 1, seriesNb[1])}
         skipAnimation={false}
         margin={{
           left: 50,
-          right: 50,
+          right: 150,
           top: 100,
           bottom: 50,
         }}
+        slotProps={{
+          legend: {
+            direction: 'column',
+            position: { vertical: 'middle', horizontal: 'right' },
+            itemMarkWidth: 20,
+            itemMarkHeight: 2,
+            labelStyle: {
+              fontSize: 14,
+            },
+          },
+        }}
       />
+
       <Typography id="input-item-number" gutterBottom>
         Day
       </Typography>

@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ThemeContext } from '../context/theme.context';
 import { AuthContext } from '../context/auth.context';
 import { getBoard } from '../api/boards.api';
+import { getAllLists } from '../api/lists.api';
+import { getAllJobs } from '../api/jobs.api';
 import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
 import ListsBarChart from '../components/ListsBarChart';
 import TimeChart from '../components/TimeChart';
@@ -22,8 +24,12 @@ function Insights() {
   const [selectedBoardId, setSelectedBoardId] = useState(boardId);
 
   useEffect(() => {
-    fetchBoard(boardId);
-  }, [boardId]);
+    if (boardId) {
+      fetchBoard(boardId);
+    } else if (user && user._id) {
+      fetchAllBoardsData(user._id);
+    }
+  }, [boardId, user]);
 
   const fetchBoard = async boardId => {
     try {
@@ -31,14 +37,74 @@ function Insights() {
       setBoard(currentBoard);
       setBoardName(currentBoard.boardName);
       console.log('board', currentBoard);
-      console.log('lists', board.lists);
+      console.log('lists', currentBoard.lists);
     } catch (error) {
       console.error('Error fetching board:', error);
     }
   };
 
+  const fetchAllBoardsData = async userId => {
+    setBoardName('All Boards');
+
+    const newBoard = {
+      boardName: 'All Boards',
+      lists: [
+        { listName: 'Wishlist', jobs: [] },
+        { listName: 'Applied', jobs: [] },
+        { listName: 'Interviews', jobs: [] },
+        { listName: 'Offers', jobs: [] },
+        { listName: 'Rejected', jobs: [] },
+      ],
+      jobs: [],
+    };
+
+    console.log('userId', userId);
+
+    try {
+      const allJobs = await getAllJobs(userId);
+      newBoard.jobs = allJobs.data;
+
+      console.log('allJobs', allJobs.data);
+
+      const allLists = await getAllLists(userId);
+
+      console.log('allLists', allLists.data);
+
+      allLists.data.map(list => {
+        switch (list.listName) {
+          case 'Wishlist':
+            newBoard.lists[0].jobs = newBoard.lists[0].jobs.concat(list.jobs);
+            break;
+          case 'Applied':
+            newBoard.lists[1].jobs = newBoard.lists[1].jobs.concat(list.jobs);
+            break;
+          case 'Interviews':
+            newBoard.lists[2].jobs = newBoard.lists[2].jobs.concat(list.jobs);
+            break;
+          case 'Offers':
+            newBoard.lists[3].jobs = newBoard.lists[3].jobs.concat(list.jobs);
+            break;
+          case 'Rejected':
+            newBoard.lists[4].jobs = newBoard.lists[4].jobs.concat(list.jobs);
+            break;
+        }
+      });
+
+      console.log('newBoard', newBoard);
+      setBoard(newBoard);
+    } catch (error) {
+      console.log('Error fetching all boards data', error);
+    }
+  };
+
   const handleBoardSelection = e => {
     const selectedBoardName = e.target.value;
+
+    if (selectedBoardName === 'All Boards') {
+      setBoardName('All Boards');
+      return navigate(`/insights`);
+    }
+
     const selectedBoard = user.boards.find(
       board => board.boardName === selectedBoardName
     );
@@ -62,7 +128,7 @@ function Insights() {
             >
               Insights
             </h2>
-            {user && user.boards.length > 1 && (
+            {user && user.boards.length > 0 ? (
               <div className="flex gap-[10px] items-center">
                 <form>
                   <FormControl sx={{ ...formGreenStyle, my: 1 }}>
@@ -81,22 +147,38 @@ function Insights() {
                           {board.boardName}
                         </MenuItem>
                       ))}
+                      <MenuItem value="All Boards">All Boards</MenuItem>
                     </Select>
                   </FormControl>
                 </form>
-                <button onClick={() => navigate(`/boards/${selectedBoardId}`)}>
-                  <LaunchRoundedIcon
-                    sx={{
-                      ...greenIconButtonStyle,
-                      width: '20px',
-                      height: '20px',
-                    }}
-                  />
-                </button>
+                {boardName ? (
+                  <button
+                    onClick={() => navigate(`/boards/${selectedBoardId}`)}
+                  >
+                    <LaunchRoundedIcon
+                      sx={{
+                        ...greenIconButtonStyle,
+                        width: '20px',
+                        height: '20px',
+                      }}
+                    />
+                  </button>
+                ) : (
+                  ''
+                )}
               </div>
+            ) : (
+              <p className="text-center mt-[50px] font-bold text-xl">
+                Please create a new board in to view this page
+              </p>
             )}
           </div>
-          {board && <ListsBarChart board={board} />}
+
+          {board && (
+            <div className="flex justify-center my-[40px]">
+              <ListsBarChart board={board} />
+            </div>
+          )}
           {board && <TimeChart board={board} />}
         </div>
       ) : (
