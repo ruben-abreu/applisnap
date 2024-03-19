@@ -11,7 +11,7 @@ function HomePage() {
 
   return (
     <div className="h-full min-h-[80vh] mx-[2%] flex flex-col justify-center items-center">
-      <h1 className="mb-[30px] text-2xl text-wrap text-center leading-loose">
+      <h1 className="mb-[20px] text-2xl text-wrap text-center leading-loose">
         Chart Your Course, Track Your Success!
         <br />
         Effortlessly Navigate Your Job Search with Our{' '}

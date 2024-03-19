@@ -19,11 +19,11 @@ function AddJobButton({ board, fetchBoard, list, role, boardId, defaultList }) {
 
   return (
     <div>
-      <Button
-        onClick={handleOpenDialog}
-        startIcon={<AddCircleIcon />}
-        sx={{ ...greenIconButtonStyle }}
-      ></Button>
+      <button onClick={handleOpenDialog} className="w-[20px] h-[20px] ml-[5px]">
+        <AddCircleIcon
+          sx={{ ...greenIconButtonStyle, width: '20px', height: '20px' }}
+        />
+      </button>
       <AddJobApplication
         open={open}
         setOpen={setOpen}
