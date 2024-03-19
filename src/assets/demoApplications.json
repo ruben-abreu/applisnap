@@ -168,5 +168,85 @@
       "interviews": []
     },
     "starred": false
+  },
+  {
+    "companyName": "LinkedIn Corporation",
+    "roleName": "Full Stack Developer",
+    "domain": "linkedin.com",
+    "jobURL": "https://www.linkedin.com/company/linkedin/jobs/",
+    "jobDescription": "Leading software development.",
+    "workModel": "Hybrid",
+    "workLocation": "Sunnyvale, CA",
+    "notes": "Exciting opportunity to shape the future of professional networking.",
+    "date": {
+      "created": "2024-03-18T00:00:00.000+00:00",
+      "applied": "2023-02-19T00:00:00.000+00:00",
+      "interviews": ["2024-03-24T00:00:00.000+00:00"]
+    },
+    "starred": false
+  },
+  {
+    "companyName": "Airbus SE",
+    "roleName": "Senior Backend Developer",
+    "domain": "airbus.com",
+    "jobURL": "https://www.linkedin.com/company/airbus/jobs/",
+    "jobDescription": "Leading backend development projects and teams.",
+    "workModel": "On-Site",
+    "workLocation": "Toulouse, France",
+    "notes": "Opportunity to work in a leading aerospace company.",
+    "date": {
+      "created": "2024-03-10T00:00:00.000+00:00",
+      "applied": "2023-02-10T00:00:00.000+00:00",
+      "interviews": []
+    },
+    "starred": false
+  },
+  {
+    "companyName": "Oracle Corporation",
+    "roleName": "Frontend Developer",
+    "domain": "oracle.com",
+    "jobURL": "https://www.linkedin.com/company/oracle/jobs/",
+    "jobDescription": "Building user interfaces and implementing designs.",
+    "workModel": "Remote",
+    "workLocation": "Anywhere",
+    "notes": "Must know Oracle technologies.",
+    "date": {
+      "created": "2024-03-05T00:00:00.000+00:00",
+      "applied": "2023-03-06T00:00:00.000+00:00",
+      "interviews": []
+    },
+    "starred": false
+  },
+  {
+    "companyName": "IBM Corporation",
+    "roleName": "Senior Backend Developer",
+    "domain": "ibm.com",
+    "jobURL": "https://www.linkedin.com/company/ibm/jobs/",
+    "jobDescription": "Leading backend development projects and teams.",
+    "workModel": "Remote",
+    "workLocation": "Anywhere",
+    "notes": "Requires expertise in cloud platforms and architecture.",
+    "date": {
+      "created": "2024-03-15T00:00:00.000+00:00",
+      "applied": "2023-03-15T00:00:00.000+00:00",
+      "interviews": []
+    },
+    "starred": false
+  },
+  {
+    "companyName": "Walt Disney Company",
+    "roleName": "Frontend Developer",
+    "domain": "disney.com",
+    "jobURL": "https://www.linkedin.com/company/the-walt-disney-company/jobs/",
+    "jobDescription": "Developing software solutions for entertainment experiences.",
+    "workModel": "Hybrid",
+    "workLocation": "Burbank, CA",
+    "notes": "Exciting opportunity to work in the entertainment industry.",
+    "date": {
+      "created": "2024-03-20T00:00:00.000+00:00",
+      "applied": "2023-03-20T00:00:00.000+00:00",
+      "interviews": []
+    },
+    "starred": false
   }
 ]
