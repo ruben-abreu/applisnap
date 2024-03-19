@@ -482,7 +482,7 @@ function Board() {
             </div>
           )}
           <div className="overflow-visible mt-[30px]">
-            <div className="flex gap-[20px]">
+            <div className="flex gap-[20px] w-[100%] pb-[10px] overflow-x-scroll">
               {uniqueRoles &&
                 uniqueRoles.map((role, index) => (
                   <div
