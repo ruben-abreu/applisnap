@@ -10,7 +10,7 @@ import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import AccountMenu from './AccountMenu';
 
 function Navigation() {
-  const { darkMode, setDarkMode } = useContext(ThemeContext);
+  const { darkMode, setDarkMode, width } = useContext(ThemeContext);
   const { loggedIn, user } = useContext(AuthContext);
 
   const [boardId, setBoardId] = useState('');
@@ -22,7 +22,7 @@ function Navigation() {
   }, [user]);
 
   return (
-    <div className="m-[2%] flex justify-between items-center">
+    <div className="m-[2%] flex justify-between items-center max-[500px]:mb-[30px]">
       <NavLink to={loggedIn ? `/boards/${boardId}` : '/'} className="flex">
         <img
           src={AppliSnapIcon}
@@ -39,12 +39,12 @@ function Navigation() {
       </NavLink>
 
       <div className="flex items-center">
-        {!loggedIn && (
+        {!loggedIn && width > 500 && (
           <div className="mr-[10px]">
             <LogInButton />
           </div>
         )}
-        {!loggedIn && (
+        {!loggedIn && width > 500 && (
           <div className="mr-[20px]">
             <SignUpButton />
           </div>

@@ -4,6 +4,7 @@ const ThemeContext = createContext();
 
 const ThemeProviderWrapper = props => {
   const [darkMode, setDarkMode] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const isDarkMode =
@@ -21,6 +22,18 @@ const ThemeProviderWrapper = props => {
       body.style.color = '';
     };
   }, [darkMode]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const formGreenStyle = {
     '.MuiFormLabel-root': {
@@ -264,6 +277,7 @@ const ThemeProviderWrapper = props => {
     <ThemeContext.Provider
       value={{
         darkMode,
+        width,
         setDarkMode,
         formGreenStyle,
         buttonGreenStyle,
