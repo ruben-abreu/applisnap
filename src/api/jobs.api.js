@@ -17,8 +17,8 @@ const setAuthorizationHeaders = () => {
 
 setAuthorizationHeaders();
 
-export const getAllJobs = () => {
-  return axios.get(`${baseURL}/jobs`);
+export const getAllJobs = userId => {
+  return axios.get(`${baseURL}/jobs`, userId);
 };
 
 export const getJob = async jobId => {

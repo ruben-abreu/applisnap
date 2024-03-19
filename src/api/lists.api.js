@@ -18,11 +18,7 @@ const setAuthorizationHeaders = () => {
 setAuthorizationHeaders();
 
 export const getAllLists = userId => {
-  return axios.get(`${baseURL}/lists`, {
-    headers: {
-      userId: userId,
-    },
-  });
+  return axios.get(`${baseURL}/lists`, userId);
 };
 
 export const getList = async listId => {

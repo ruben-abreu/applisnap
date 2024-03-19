@@ -21,16 +21,16 @@ function BoardLists() {
   const fetchAllData = async () => {
     try {
       if (user && user._id) {
-        await fetchBoard();
+        await fetchBoards(user._id);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-  const fetchBoard = async () => {
+  const fetchBoards = async userId => {
     try {
-      const allBoardsResponse = await getAllBoards();
+      const allBoardsResponse = await getAllBoards(userId);
       const userBoards = allBoardsResponse.data.filter(
         board => board.userId === user._id
       );
