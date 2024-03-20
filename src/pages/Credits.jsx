@@ -8,7 +8,7 @@ import Patricia from '../assets/Patrícia.png';
 import Ruben from '../assets/Ruben.png';
 
 function Credits({ setCreditsPage }) {
-  const { darkMode } = useContext(ThemeContext);
+  const { darkMode, greenIconButtonStyle } = useContext(ThemeContext);
 
   useEffect(() => {
     setCreditsPage(true);
@@ -37,8 +37,8 @@ function Credits({ setCreditsPage }) {
       >
         <div className="text-center w-[50%] max-[640px]:mr-0 max-[640px]:mb-[15px] max-[640px]:w-[95%]">
           <h2
-            className={`text-lg font-medium ${
-              darkMode ? 'text-white' : 'text-[#678B85]'
+            className={`font-bold mb-[8px] text-xl ${
+              darkMode ? 'text-[#ff8956]' : 'text-[#f06c35]'
             }`}
           >
             Ana Patrícia Gomes
@@ -54,8 +54,13 @@ function Credits({ setCreditsPage }) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div className="flex justify-center items-center gap-[10px]">
-                <LocationOnIcon />
+              <div className="flex justify-center items-center gap-[10px] hover:text-[#62a699]">
+                <LocationOnIcon
+                  sx={{
+                    width: '24px',
+                    height: '24px',
+                  }}
+                />
                 <p>Lisbon, Portugal</p>
               </div>
             </a>
@@ -68,11 +73,8 @@ function Credits({ setCreditsPage }) {
               className="mr-[70px] max-[250px]:mr-[20px]"
             >
               <GitHubIcon
-                sx={{
-                  width: '35px',
-                  height: '35px',
-                }}
-                className="hover:translate-y-[-5px]"
+                sx={{ width: '35px', height: '35px' }}
+                className="hover:translate-y-[-5px] hover:text-[#62a699]"
               />
             </a>
             <a
@@ -82,7 +84,7 @@ function Credits({ setCreditsPage }) {
             >
               <LinkedInIcon
                 sx={{ width: '35px', height: '35px' }}
-                className="hover:translate-y-[-5px]"
+                className="hover:translate-y-[-5px] hover:text-[#62a699]"
               />
             </a>
           </div>
@@ -90,8 +92,8 @@ function Credits({ setCreditsPage }) {
 
         <div className="text-center w-[50%] max-[640px]:ml-0 max-[640px]:mt-[15px] max-[640px]:w-[95%]">
           <h2
-            className={`text-lg font-medium ${
-              darkMode ? 'text-white' : 'text-[#678B85]'
+            className={`font-bold mb-[8px] text-xl ${
+              darkMode ? 'text-[#ff8956]' : 'text-[#f06c35]'
             }`}
           >
             Ruben Abreu
@@ -107,8 +109,13 @@ function Credits({ setCreditsPage }) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div className="flex justify-center items-center gap-[10px]">
-                <LocationOnIcon />
+              <div className="flex justify-center items-center gap-[10px] hover:text-[#62a699]">
+                <LocationOnIcon
+                  sx={{
+                    width: '24px',
+                    height: '24px',
+                  }}
+                />
                 <p>Lisbon, Portugal</p>
               </div>
             </a>
@@ -122,7 +129,7 @@ function Credits({ setCreditsPage }) {
             >
               <GitHubIcon
                 sx={{ width: '35px', height: '35px' }}
-                className="hover:translate-y-[-5px]"
+                className="hover:translate-y-[-5px] hover:text-[#62a699]"
               />
             </a>
             <a
@@ -132,7 +139,7 @@ function Credits({ setCreditsPage }) {
             >
               <LinkedInIcon
                 sx={{ width: '35px', height: '35px' }}
-                className="hover:translate-y-[-5px]"
+                className="hover:translate-y-[-5px] hover:text-[#62a699]"
               />
             </a>
           </div>
