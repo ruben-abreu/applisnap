@@ -167,7 +167,9 @@ function Insights({ setCreditsPage }) {
                           {board.boardName}
                         </MenuItem>
                       ))}
-                      <MenuItem value="All Boards">All Boards</MenuItem>
+                      {user.boards && user.boards.length > 1 && (
+                        <MenuItem value="All Boards">All Boards</MenuItem>
+                      )}
                     </Select>
                   </FormControl>
                 </form>
