@@ -53,7 +53,12 @@ function Navigation() {
           </div>
         )}
 
-        <button onClick={() => setDarkMode(!darkMode)}>
+        <button
+          onClick={() => {
+            localStorage.setItem('darkMode', !darkMode);
+            setDarkMode(!darkMode);
+          }}
+        >
           {darkMode === true ? (
             <DarkModeRoundedIcon />
           ) : (

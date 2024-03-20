@@ -37,61 +37,63 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Navigation />
-      <Routes>
-        <Route
-          path="/"
-          element={<HomePage setCreditsPage={setCreditsPage} />}
-        />
-        <Route
-          path="/boards"
-          element={<BoardLists setCreditsPage={setCreditsPage} />}
-        />
-        <Route
-          path="/boards/:boardId"
-          element={<Board setCreditsPage={setCreditsPage} />}
-        />
-        <Route
-          path="/wishlist/:boardId"
-          element={<Wishlist setCreditsPage={setCreditsPage} />}
-        />
-        <Route
-          path="/applications/:boardId"
-          element={<Applications setCreditsPage={setCreditsPage} />}
-        />
-        <Route
-          path="/interviews/:boardId"
-          element={<Interviews setCreditsPage={setCreditsPage} />}
-        />
-        <Route
-          path="/offers/:boardId"
-          element={<Offers setCreditsPage={setCreditsPage} />}
-        />
-        <Route
-          path="/rejected/:boardId"
-          element={<Rejected setCreditsPage={setCreditsPage} />}
-        />
-        <Route
-          path="/insights"
-          element={<Insights setCreditsPage={setCreditsPage} />}
-        />
-        <Route
-          path="/insights/:boardId"
-          element={<Insights setCreditsPage={setCreditsPage} />}
-        />
-        <Route
-          path="/settings"
-          element={<Settings setCreditsPage={setCreditsPage} />}
-        />
-        <Route
-          path="/credits"
-          element={<Credits setCreditsPage={setCreditsPage} />}
-        />
-        <Route
-          path="*"
-          element={<ErrorPage setCreditsPage={setCreditsPage} />}
-        />
-      </Routes>
+      <div className="min-h-[80vh]">
+        <Navigation />
+        <Routes>
+          <Route
+            path="/"
+            element={<HomePage setCreditsPage={setCreditsPage} />}
+          />
+          <Route
+            path="/boards"
+            element={<BoardLists setCreditsPage={setCreditsPage} />}
+          />
+          <Route
+            path="/boards/:boardId"
+            element={<Board setCreditsPage={setCreditsPage} />}
+          />
+          <Route
+            path="/wishlist/:boardId"
+            element={<Wishlist setCreditsPage={setCreditsPage} />}
+          />
+          <Route
+            path="/applications/:boardId"
+            element={<Applications setCreditsPage={setCreditsPage} />}
+          />
+          <Route
+            path="/interviews/:boardId"
+            element={<Interviews setCreditsPage={setCreditsPage} />}
+          />
+          <Route
+            path="/offers/:boardId"
+            element={<Offers setCreditsPage={setCreditsPage} />}
+          />
+          <Route
+            path="/rejected/:boardId"
+            element={<Rejected setCreditsPage={setCreditsPage} />}
+          />
+          <Route
+            path="/insights"
+            element={<Insights setCreditsPage={setCreditsPage} />}
+          />
+          <Route
+            path="/insights/:boardId"
+            element={<Insights setCreditsPage={setCreditsPage} />}
+          />
+          <Route
+            path="/settings"
+            element={<Settings setCreditsPage={setCreditsPage} />}
+          />
+          <Route
+            path="/credits"
+            element={<Credits setCreditsPage={setCreditsPage} />}
+          />
+          <Route
+            path="*"
+            element={<ErrorPage setCreditsPage={setCreditsPage} />}
+          />
+        </Routes>
+      </div>
       {!creditsPage && <Footer />}
     </ThemeProvider>
   );

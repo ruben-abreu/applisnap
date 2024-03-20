@@ -14,6 +14,7 @@ function EditBoardButton({ onEdit }) {
     lightButtonStyle,
     buttonGreenStyle,
     formGreenStyle,
+    width,
   } = useContext(ThemeContext);
 
   const handleClickOpen = () => {
@@ -44,6 +45,7 @@ function EditBoardButton({ onEdit }) {
         startIcon={<ModeEditRoundedIcon />}
         sx={{
           ...yellowButtonStyle,
+          fontSize: width < 450 ? '12px' : '16px',
         }}
       >
         Edit

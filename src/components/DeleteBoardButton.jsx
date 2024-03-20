@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
+import { ThemeContext } from '../context/theme.context';
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -14,6 +15,7 @@ function DeleteBoardButton({ boardId, onDelete }) {
   const [open, setOpen] = useState(false);
 
   const { authenticateUser } = useContext(AuthContext);
+  const { width } = useContext(ThemeContext);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,6 +43,7 @@ function DeleteBoardButton({ boardId, onDelete }) {
         fullWidth
         startIcon={<DeleteIcon />}
         onClick={handleClickOpen}
+        sx={{ fontSize: width < 450 ? '12px' : '16px' }}
       >
         Delete
       </Button>

@@ -22,7 +22,7 @@ function AddBoardButton() {
   const [isLoading, setIsLoading] = useState(false);
   const [boardName, setBoardName] = useState('');
 
-  const { darkMode, formGreenStyle, buttonGreenStyle } =
+  const { darkMode, width, formGreenStyle, buttonGreenStyle } =
     useContext(ThemeContext);
   const { user, authenticateUser } = useContext(AuthContext);
 
@@ -110,7 +110,10 @@ function AddBoardButton() {
 
   return (
     <React.Fragment>
-      <Button onClick={handleClickOpen} sx={{ ...buttonGreenStyle }}>
+      <Button
+        onClick={handleClickOpen}
+        sx={{ ...buttonGreenStyle, fontSize: width < 450 ? '0.8em' : '16px' }}
+      >
         Create New Board
       </Button>
       <Dialog

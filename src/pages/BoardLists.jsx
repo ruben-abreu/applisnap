@@ -12,7 +12,7 @@ import { AuthContext } from '../context/auth.context';
 function BoardLists({ setCreditsPage }) {
   const [boards, setBoards] = useState([]);
   const { loggedIn, user } = useContext(AuthContext);
-  const { darkMode } = useContext(ThemeContext);
+  const { darkMode, width } = useContext(ThemeContext);
 
   useEffect(() => {
     setCreditsPage(false);
@@ -84,14 +84,23 @@ function BoardLists({ setCreditsPage }) {
     <div className="m-[2%] mt-[30px]">
       {loggedIn ? (
         <div>
-          <div className="flex justify-between items-center">
-            <h2
-              className={`text-[1.4em] max-[450px]:text-[1em] font-bold ${
-                darkMode ? 'text-white' : 'text-[#678B85]'
-              }`}
-            >
-              My Boards
-            </h2>
+          <div className="flex justify-between items-center mt-[30px] mb-[10px]">
+            <div className="flex items-center gap-[10px]">
+              <DashboardRoundedIcon
+                sx={{
+                  color: darkMode ? 'white' : '#678B85',
+                  width: '20px',
+                  height: '20px',
+                }}
+              />
+              <h2
+                className={`mr-[10px] text-[1.4em] max-[450px]:text-[1em] font-bold  ${
+                  darkMode ? 'text-white' : 'text-[#678B85]'
+                }`}
+              >
+                My Boards
+              </h2>
+            </div>
             <AddBoardButton />
           </div>
           <div className="mt-[50px] flex flex-col gap-[30px]">
@@ -106,14 +115,18 @@ function BoardLists({ setCreditsPage }) {
                     <Link to={`/boards/${boardItem._id}`}>
                       <Avatar
                         sx={{
-                          width: '72px',
-                          height: '72px',
+                          width: width < 450 ? '52px' : '72px',
+                          height: width < 450 ? '52px' : '72px',
                           backgroundColor: '#30b39a',
                           '&:hover': { backgroundColor: '#678B85' },
                         }}
                       >
                         <DashboardRoundedIcon
-                          sx={{ width: '42px', height: '42px', color: 'white' }}
+                          sx={{
+                            width: width < 450 ? '32px' : '42px',
+                            height: width < 450 ? '32px' : '42px',
+                            color: 'white',
+                          }}
                         />
                       </Avatar>
                     </Link>
@@ -123,9 +136,11 @@ function BoardLists({ setCreditsPage }) {
                         to={`/boards/${boardItem._id}`}
                         className="text-[#30b39a] hover:text-[#678B85]"
                       >
-                        <h2 className="text-wrap">{boardItem.boardName}</h2>
+                        <h2 className="text-wrap max-[450px]:text-[0.8em]">
+                          {boardItem.boardName}
+                        </h2>
                       </Link>
-                      <p>
+                      <p className="max-[450px]:text-[0.8em]">
                         {`${
                           countJobs(boardItem) === 1
                             ? '1 job'

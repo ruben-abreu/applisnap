@@ -208,7 +208,11 @@ const Applications = ({ setCreditsPage }) => {
           <div className="flex justify-between items-center mt-[30px] mb-[10px]">
             <div className="flex items-center gap-[10px]">
               <SendRoundedIcon
-                sx={{ color: '#678B85', width: '20px', height: '20px' }}
+                sx={{
+                  color: darkMode ? 'white' : '#678B85',
+                  width: '20px',
+                  height: '20px',
+                }}
               />
               <h2
                 className={`mr-[10px] text-[1.4em] max-[450px]:text-[1em] font-bold  ${
