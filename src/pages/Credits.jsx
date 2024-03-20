@@ -1,6 +1,5 @@
 import { useEffect, useContext } from 'react';
 import { ThemeContext } from '../context/theme.context';
-import { Link } from 'react-router-dom';
 import FingerprintRoundedIcon from '@mui/icons-material/FingerprintRounded';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
