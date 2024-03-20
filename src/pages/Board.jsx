@@ -26,6 +26,7 @@ import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
 import InsightsRoundedIcon from '@mui/icons-material/InsightsRounded';
 import { list } from 'postcss';
+import dayjs from 'dayjs';
 
 function Board({ setCreditsPage }) {
   const { boardId } = useParams();
@@ -139,6 +140,22 @@ function Board({ setCreditsPage }) {
       userId,
       boardId,
     } = draggedApplication;
+
+    let formattedDate = dayjs().format('YYYY/MM/DD');
+
+    if (targetList.listName === 'Applied' && !date.applied) {
+      date.applied = formattedDate;
+    } else if (targetList.listName === 'Interviews') {
+      if (date.interviews) {
+        date.interviews = [...date.interviews, formattedDate];
+      } else {
+        date.interviews = [formattedDate];
+      }
+    } else if (targetList.listName === 'Offers' && !date.offer) {
+      date.offer = formattedDate;
+    } else if (targetList.listName === 'Rejected' && !date.rejected) {
+      date.rejected = formattedDate;
+    }
 
     const updatedJob = {
       companyName,

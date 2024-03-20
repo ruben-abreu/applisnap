@@ -197,16 +197,19 @@ function EditApplication({
       return;
     }
 
-    let formattedDomain = domain.trim().toLowerCase();
-    if (formattedDomain.startsWith('http://')) {
-      formattedDomain = formattedDomain.slice(7);
-    } else if (formattedDomain.startsWith('https://')) {
-      formattedDomain = formattedDomain.slice(8);
+    let formattedDomain;
+    if (domain) {
+      formattedDomain = domain.trim().toLowerCase();
+      if (formattedDomain.startsWith('http://')) {
+        formattedDomain = formattedDomain.slice(7);
+      } else if (formattedDomain.startsWith('https://')) {
+        formattedDomain = formattedDomain.slice(8);
+      }
+      if (formattedDomain.startsWith('www.')) {
+        formattedDomain = formattedDomain.slice(4);
+      }
+      formattedDomain = formattedDomain.split('/')[0];
     }
-    if (formattedDomain.startsWith('www.')) {
-      formattedDomain = formattedDomain.slice(4);
-    }
-    formattedDomain = formattedDomain.split('/')[0];
 
     console.log('listName', listName);
 
@@ -693,7 +696,6 @@ function EditApplication({
         <CancelButton
           setOpen={onClose}
           setCompanyName={setCompanyName}
-          setRoleName={setRoleName}
           setDomain={setDomain}
           setJobURL={setJobURL}
           setJobDescription={setJobDescription}

@@ -176,19 +176,40 @@ function AddJobApplication({
     }
 
     try {
-      let formattedDomain = domain.trim().toLowerCase();
-      if (formattedDomain.startsWith('http://')) {
-        formattedDomain = formattedDomain.slice(7);
-      } else if (formattedDomain.startsWith('https://')) {
-        formattedDomain = formattedDomain.slice(8);
+      let formattedDomain;
+      if (domain) {
+        formattedDomain = domain.trim().toLowerCase();
+        if (formattedDomain.startsWith('http://')) {
+          formattedDomain = formattedDomain.slice(7);
+        } else if (formattedDomain.startsWith('https://')) {
+          formattedDomain = formattedDomain.slice(8);
+        }
+        if (formattedDomain.startsWith('www.')) {
+          formattedDomain = formattedDomain.slice(4);
+        }
+        formattedDomain = formattedDomain.split('/')[0];
       }
-      if (formattedDomain.startsWith('www.')) {
-        formattedDomain = formattedDomain.slice(4);
-      }
-      formattedDomain = formattedDomain.split('/')[0];
 
       const list = board.lists.filter(list => list.listName === listName);
       console.log('list', list);
+
+      let formattedDate = dayjs().format('YYYY/MM/DD');
+
+      const updatedDate = { ...date };
+
+      if (listName === 'Applied' && !updatedDate.applied) {
+        updatedDate.applied = formattedDate;
+      } else if (listName === 'Interviews') {
+        if (updatedDate.interviews) {
+          updatedDate.interviews = [...updatedDate.interviews, formattedDate];
+        } else {
+          updatedDate.interviews = [formattedDate];
+        }
+      } else if (listName === 'Offers' && !updatedDate.offer) {
+        updatedDate.offer = formattedDate;
+      } else if (listName === 'Rejected' && !updatedDate.rejected) {
+        updatedDate.rejected = formattedDate;
+      }
 
       const jobData = {
         companyName,
@@ -199,7 +220,7 @@ function AddJobApplication({
         workModel,
         workLocation,
         notes,
-        date: date,
+        date: updatedDate,
         starred,
         boardId: board._id,
         listId: list[0]._id,
@@ -215,7 +236,6 @@ function AddJobApplication({
       }
 
       setCompanyName('');
-      setRoleName('');
       setDomain('');
       setJobURL('');
       setJobDescription('');
@@ -633,7 +653,6 @@ function AddJobApplication({
         <CancelButton
           setOpen={setOpen}
           setCompanyName={setCompanyName}
-          setRoleName={setRoleName}
           setDomain={setDomain}
           setJobURL={setJobURL}
           setJobDescription={setJobDescription}
@@ -642,7 +661,6 @@ function AddJobApplication({
           setNotes={setNotes}
           setDate={setDate}
           setStarred={setStarred}
-          setListName={setListName}
           setDateLabel={setDateLabel}
           listName={listName}
         />

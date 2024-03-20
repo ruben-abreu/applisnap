@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import Button from '@mui/material/Button';
 import { ThemeContext } from '../context/theme.context';
-import { setRef } from '@mui/material';
 
 function CancelButton({
   setOpen,
@@ -12,7 +11,6 @@ function CancelButton({
   setForgotPasswordClicked,
   setBoardName,
   setCompanyName,
-  setRoleName,
   setDomain,
   setJobURL,
   setJobDescription,
@@ -21,7 +19,6 @@ function CancelButton({
   setNotes,
   setDate,
   setStarred,
-  setListName,
   setDateLabel,
   setEditDate,
   setEditDateLabel,
@@ -39,7 +36,6 @@ function CancelButton({
     setForgotPasswordClicked ? setForgotPasswordClicked(false) : '';
     setBoardName ? setBoardName('') : '';
     setCompanyName ? setCompanyName() : '';
-    setRoleName ? setRoleName() : '';
     setDomain ? setDomain() : '';
     setJobURL ? setJobURL() : '';
     setJobDescription ? setJobDescription() : '';
@@ -48,7 +44,6 @@ function CancelButton({
     setNotes ? setNotes() : '';
     setDate ? setDate({}) : '';
     setStarred ? setStarred(false) : '';
-    setListName ? setListName() : '';
     setDateLabel
       ? setDateLabel(
           listName === 'Applied' || listName === 'Wishlist'
