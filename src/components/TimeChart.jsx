@@ -96,7 +96,8 @@ function TimeChart({ board }) {
             label: 'Day',
             tickLabelStyle: {
               angle: width < 600 ? -45 : 0,
-              textAnchor: 'end',
+              textAnchor: width < 600 ? 'end' : 'middle',
+              fontSize: width < 600 ? '10px' : '12px',
             },
           },
         ]}

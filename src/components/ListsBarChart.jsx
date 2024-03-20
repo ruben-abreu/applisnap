@@ -7,14 +7,14 @@ function ListsBarChart({ board }) {
 
   console.log('width', width);
 
-  const chartWidth = width * 0.9;
+  const chartWidth = width * 0.6;
 
   console.log('chartWidth', chartWidth);
 
   return (
     <div>
       {board && board.lists && (
-        <div className="w-[90%]">
+        <div>
           <h2 className="text-center">Applications per List</h2>
           <BarChart
             xAxis={[
@@ -23,7 +23,8 @@ function ListsBarChart({ board }) {
                 data: board.lists.map(list => list.listName),
                 tickLabelStyle: {
                   angle: width < 600 ? -45 : 0,
-                  textAnchor: 'end',
+                  textAnchor: width < 600 ? 'end' : 'middle',
+                  fontSize: width < 600 ? '10px' : '12px',
                 },
               },
             ]}

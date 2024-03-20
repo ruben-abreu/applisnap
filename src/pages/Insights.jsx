@@ -201,9 +201,8 @@ function Insights({ setCreditsPage }) {
           )}
 
           {board && (
-            <div className="flex justify-center ">
-              {' '}
-              <TimeChart board={board} />{' '}
+            <div className="flex justify-center">
+              <TimeChart board={board} />
             </div>
           )}
         </div>
