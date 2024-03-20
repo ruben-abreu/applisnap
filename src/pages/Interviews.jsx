@@ -202,11 +202,11 @@ const Interviews = ({ setCreditsPage }) => {
   };
 
   return (
-    <div className="m-[2%] mt-[30px]">
+    <div className='m-[2%] mt-[30px]'>
       {loggedIn ? (
         <div>
-          <div className="flex justify-between items-center mt-[30px] mb-[10px]">
-            <div className="flex items-center gap-[10px]">
+          <div className='flex justify-between items-center mt-[30px] mb-[10px]'>
+            <div className='flex items-center gap-[10px]'>
               <ContentPasteSearchRoundedIcon
                 sx={{
                   color: darkMode ? 'white' : '#678B85',
@@ -223,16 +223,16 @@ const Interviews = ({ setCreditsPage }) => {
               </h2>
             </div>
             {user && (
-              <div className="flex gap-[10px] items-center">
+              <div className='flex gap-[10px] items-center'>
                 <form>
                   <FormControl sx={{ ...formGreenStyle, my: 1 }}>
-                    <InputLabel htmlFor="board" label="Board">
+                    <InputLabel htmlFor='board' label='Board'>
                       Board
                     </InputLabel>
                     <Select
-                      id="board"
-                      label="Board"
-                      type="text"
+                      id='board'
+                      label='Board'
+                      type='text'
                       value={boardName}
                       sx={{
                         fontSize: '14px',
@@ -266,7 +266,7 @@ const Interviews = ({ setCreditsPage }) => {
             )}
           </div>
           {board && (
-            <div className="flex items-center my-[30px]">
+            <div className='flex items-center my-[30px]'>
               <h3
                 className={`text-[16px] ${
                   darkMode ? 'text-white' : 'text-[black]'
@@ -278,29 +278,31 @@ const Interviews = ({ setCreditsPage }) => {
               </h3>
               <AddJobButton
                 board={board}
-                list="Interviews"
-                role=""
+                list='Interviews'
+                role=''
                 fetchBoard={fetchBoard}
                 boardId={boardId}
-                defaultList="Interviews"
+                defaultList='Interviews'
               />
             </div>
           )}
 
           {interviewsJobs && interviewsJobs.length > 0 && (
-            <div className="flex justify-start my-[20px] gap-2">
+            <div className='flex justify-start my-[20px] gap-2'>
               <SearchBarListPages searchedJob={searchedJob} />
               <Sort sortBy={sortBy} setSortBy={setSortBy} />
             </div>
           )}
-          <div className="flex flex-wrap gap-[15px]">
+          <div className='flex flex-wrap gap-[15px]'>
             {handleSort(showInterviewsJobs, sortBy)
               .filter(job => job.boardId === selectedBoardId)
               .map((job, index) => {
                 const jobBoard = boards.find(
                   board => board._id === job.boardId
                 );
-                const scheduledDate = new Date(job.date.interviews);
+                const scheduledDate = new Date(
+                  job.date.interviews[job.date.interviews.length - 1]
+                );
                 const currentDate = new Date();
                 const differenceInTime =
                   scheduledDate.getTime() - currentDate.getTime();
@@ -318,8 +320,8 @@ const Interviews = ({ setCreditsPage }) => {
                     } `}
                   >
                     <button onClick={() => handleEdit(job)}>
-                      <div className="h-[120px] flex items-center">
-                        <div className="w-[100%] m-[10px] flex justify-center items-center">
+                      <div className='h-[120px] flex items-center'>
+                        <div className='w-[100%] m-[10px] flex justify-center items-center'>
                           <Avatar
                             sx={{
                               fontSize: '20px',
@@ -335,7 +337,7 @@ const Interviews = ({ setCreditsPage }) => {
                               `https://logo.clearbit.com/${job.domain}` || ''
                             }
                           >
-                            <p className="uppercase">
+                            <p className='uppercase'>
                               {job.companyName &&
                               job.companyName.split(' ').length > 1
                                 ? job.companyName
@@ -350,15 +352,19 @@ const Interviews = ({ setCreditsPage }) => {
                           </Avatar>
                         </div>
                       </div>
-                      <div className="h-[170px] w-[120px]">
-                        <div className="flex flex-col justify-center gap-[10px] mx-[10px]">
-                          <p className="text-sm font-bold">{job.companyName}</p>
-                          <p className="text-xs">{job.roleName}</p>
+                      <div className='h-[170px] w-[120px]'>
+                        <div className='flex flex-col justify-center gap-[10px] mx-[10px]'>
+                          <p className='text-sm font-bold'>{job.companyName}</p>
+                          <p className='text-xs'>{job.roleName}</p>
                           {job.date.interviews.length > 0 && (
-                            <p className="text-xs font-bold">
+                            <p className='text-xs font-bold'>
                               Scheduled for:{' '}
-                              <span className="font-normal">
-                                {String(job.date.interviews).slice(0, 10)}{' '}
+                              <span className='font-normal'>
+                                {String(
+                                  job.date.interviews[
+                                    job.date.interviews.length - 1
+                                  ]
+                                ).slice(0, 10)}{' '}
                                 {daysLeft > 0 && `(in ${daysLeft} days)`}
                                 {daysLeft === 0 && `(Today!)`}
                               </span>
@@ -368,12 +374,12 @@ const Interviews = ({ setCreditsPage }) => {
                       </div>
                     </button>
 
-                    <div className="mb-[10px] flex justify-center gap-[15px]">
+                    <div className='mb-[10px] flex justify-center gap-[15px]'>
                       {job.jobURL && (
                         <a
                           href={job.jobURL}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          target='_blank'
+                          rel='noopener noreferrer'
                         >
                           <LinkRoundedIcon
                             sx={{
@@ -386,7 +392,7 @@ const Interviews = ({ setCreditsPage }) => {
                       )}
                       <button
                         onClick={() => handleEdit(job)}
-                        className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
+                        className='text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase'
                       >
                         <EditRoundedIcon
                           sx={{
@@ -412,7 +418,7 @@ const Interviews = ({ setCreditsPage }) => {
                         )}
                       <button
                         onClick={() => handleDelete(job)}
-                        className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
+                        className='text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase'
                       >
                         <DeleteRoundedIcon
                           sx={{
@@ -427,7 +433,7 @@ const Interviews = ({ setCreditsPage }) => {
                 );
               })}
             {interviewsJobs.length === 0 && (
-              <div className="text-center col-span-full mt-4">
+              <div className='text-center col-span-full mt-4'>
                 <p>You have no jobs in this list.</p>
               </div>
             )}
@@ -448,7 +454,7 @@ const Interviews = ({ setCreditsPage }) => {
           </Dialog>
         </div>
       ) : (
-        <p className="text-center mt-[50px] font-bold text-xl">
+        <p className='text-center mt-[50px] font-bold text-xl'>
           Please log in to view this page
         </p>
       )}
