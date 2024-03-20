@@ -18,7 +18,6 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  ListItemIcon,
 } from '@mui/material';
 import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
@@ -30,7 +29,7 @@ import Sort from '../components/Sort';
 
 const Interviews = () => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
-  const { darkMode, formGreenStyle, greenIconButtonStyle } =
+  const { darkMode, width, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
 
   const navigate = useNavigate();
@@ -205,11 +204,13 @@ const Interviews = () => {
     <div className="m-[2%] mt-[30px]">
       {loggedIn ? (
         <div>
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-[10px] mt-[30px] mb-[10px]">
-              <ContentPasteSearchRoundedIcon sx={{ color: '#678B85' }} />
+          <div className="flex justify-between items-center mt-[30px] mb-[10px]">
+            <div className="flex items-center gap-[10px]">
+              <ContentPasteSearchRoundedIcon
+                sx={{ color: '#678B85', width: '20px', height: '20px' }}
+              />
               <h2
-                className={`text-[1.4em] font-bold ${
+                className={`mr-[10px] text-[1.4em] max-[450px]:text-[1em] font-bold ${
                   darkMode ? 'text-white' : 'text-[#678B85]'
                 }`}
               >
@@ -228,6 +229,15 @@ const Interviews = () => {
                       label="Board"
                       type="text"
                       value={boardName}
+                      sx={{
+                        fontSize: '14px',
+                        maxWidth:
+                          width < 450
+                            ? '100px'
+                            : width < 600
+                            ? '150px'
+                            : '300px',
+                      }}
                       onChange={e => handleBoardSelection(e)}
                     >
                       {user.boards.map(board => (

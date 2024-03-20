@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { ThemeContext } from '../context/theme.context';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
@@ -8,6 +9,8 @@ function TimeChart({ board }) {
   const [seriesNb, setSeriesNb] = useState([1, 12]);
   const [itemNb, setItemNb] = useState([1, 31]);
   const [chartSeries, setChartSeries] = useState([]);
+
+  const { width } = useContext(ThemeContext);
 
   const months = [
     'January',
@@ -83,7 +86,7 @@ function TimeChart({ board }) {
   );
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '90%' }}>
       <h2 className="text-center">Applications per Day and Month</h2>
       <BarChart
         xAxis={[
@@ -91,6 +94,10 @@ function TimeChart({ board }) {
             scaleType: 'band',
             data: xAxisData,
             label: 'Day',
+            tickLabelStyle: {
+              angle: width < 600 ? -45 : 0,
+              textAnchor: 'end',
+            },
           },
         ]}
         yAxis={[

@@ -37,7 +37,7 @@ function Board() {
   const [boardName, setBoardName] = useState(board ? board.boardName : '');
   const [lists, setLists] = useState([]);
 
-  const { darkMode, formGreenStyle, greenIconButtonStyle } =
+  const { darkMode, width, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
   const { loggedIn, user, authenticateUser } = useContext(AuthContext);
 
@@ -424,6 +424,15 @@ function Board() {
                       label="Board"
                       type="text"
                       value={boardName}
+                      sx={{
+                        fontSize: '14px',
+                        maxWidth:
+                          width < 450
+                            ? '100px'
+                            : width < 600
+                            ? '150px'
+                            : '300px',
+                      }}
                       onChange={e => handleBoardSelection(e)}
                       defaultValue={
                         board

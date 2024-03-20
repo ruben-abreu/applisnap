@@ -8,10 +8,11 @@ import { getAllJobs } from '../api/jobs.api';
 import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
 import ListsBarChart from '../components/ListsBarChart';
 import TimeChart from '../components/TimeChart';
+import InsightsRoundedIcon from '@mui/icons-material/InsightsRounded';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 function Insights() {
-  const { darkMode, formGreenStyle, greenIconButtonStyle } =
+  const { darkMode, width, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
   const { loggedIn, user } = useContext(AuthContext);
 
@@ -120,14 +121,19 @@ function Insights() {
     <div className="m-[2%] mt-[30px]">
       {loggedIn ? (
         <div>
-          <div className="flex justify-between items-center">
-            <h2
-              className={`text-[1.4em] font-bold mt-[30px] mb-[10px] ${
-                darkMode ? 'text-white' : 'text-[#678B85]'
-              }`}
-            >
-              Insights
-            </h2>
+          <div className="flex justify-between items-center mt-[30px] mb-[10px]">
+            <div className="flex items-center gap-[10px]">
+              <InsightsRoundedIcon
+                sx={{ color: '#678B85', width: '20px', height: '20px' }}
+              />
+              <h2
+                className={`mr-[10px] text-[1.4em] max-[450px]:text-[1em] font-bold ${
+                  darkMode ? 'text-white' : 'text-[#678B85]'
+                }`}
+              >
+                Insights
+              </h2>
+            </div>
             {user && user.boards.length > 0 ? (
               <div className="flex gap-[10px] items-center">
                 <form>
@@ -140,6 +146,15 @@ function Insights() {
                       label="Board"
                       type="text"
                       value={boardName}
+                      sx={{
+                        fontSize: '14px',
+                        maxWidth:
+                          width < 450
+                            ? '100px'
+                            : width < 600
+                            ? '150px'
+                            : '300px',
+                      }}
                       onChange={e => handleBoardSelection(e)}
                     >
                       {user.boards.map(board => (
@@ -179,7 +194,13 @@ function Insights() {
               <ListsBarChart board={board} />
             </div>
           )}
-          {board && <TimeChart board={board} />}
+
+          {board && (
+            <div className="flex justify-center ">
+              {' '}
+              <TimeChart board={board} />{' '}
+            </div>
+          )}
         </div>
       ) : (
         <p className="text-center mt-[50px] font-bold text-xl">

@@ -23,16 +23,19 @@ function Navigation() {
 
   return (
     <div className="m-[2%] flex justify-between items-center max-[500px]:mb-[30px]">
-      <NavLink to={loggedIn ? `/boards/${boardId}` : '/'} className="flex">
+      <NavLink
+        to={loggedIn ? `/boards/${boardId}` : '/'}
+        className="flex items-center"
+      >
         <img
           src={AppliSnapIcon}
           alt="app icon"
-          className="w-[50px] h-[50px mr-[10px]"
+          className="w-[50px] h-[50px] mr-[10px] max-[350px]:w-[40px] max-[350px]:h-[40px] max-[300px]:w-[30px] max-[300px]:h-[30px]"
         />
         <h1
           className={`${
             darkMode ? 'text-white' : 'text-[#678B85]'
-          } text-[2rem]`}
+          } text-[2rem] max-[350px]:text-[1.6rem] max-[300px]:text-[1.4rem]`}
         >
           AppliSnap
         </h1>

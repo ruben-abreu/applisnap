@@ -22,7 +22,7 @@ import Logout from '@mui/icons-material/Logout';
 function AccountMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const { darkMode } = useContext(ThemeContext);
+  const { darkMode, width } = useContext(ThemeContext);
   const { user, logoutUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -46,17 +46,17 @@ function AccountMenu() {
     <React.Fragment>
       <IconButton
         onClick={handleClick}
-        size='small'
-        sx={{ ml: 2 }}
+        size="small"
+        sx={{ ml: '10px' }}
         aria-controls={open ? 'account-menu' : undefined}
-        aria-haspopup='true'
+        aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
       >
         <Avatar
           sx={{
-            fontSize: '14px',
-            width: '30px',
-            height: '30px',
+            fontSize: width < 300 ? '12px' : '14px',
+            width: width < 300 ? '25px' : '30px',
+            height: width < 300 ? '25px' : '30px',
             backgroundColor: user.imgURL
               ? 'transparent'
               : darkMode
@@ -71,7 +71,7 @@ function AccountMenu() {
 
       <Menu
         anchorEl={anchorEl}
-        id='account-menu'
+        id="account-menu"
         open={open}
         onClose={handleClose}
         onClick={handleClose}
@@ -99,14 +99,14 @@ function AccountMenu() {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <NavLink
-          to='/boards'
+          to="/boards"
           className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
         >
           {({ isActive }) => (
             <MenuItem>
               <ListItemIcon>
                 <DashboardRoundedIcon
-                  fontSize='small'
+                  fontSize="small"
                   sx={{
                     color: isActive
                       ? '#30b39a'
@@ -129,7 +129,7 @@ function AccountMenu() {
               <MenuItem>
                 <ListItemIcon>
                   <AutoAwesomeRoundedIcon
-                    fontSize='small'
+                    fontSize="small"
                     sx={{
                       color: isActive
                         ? '#30b39a'
@@ -153,7 +153,7 @@ function AccountMenu() {
               <MenuItem>
                 <ListItemIcon>
                   <SendRoundedIcon
-                    fontSize='small'
+                    fontSize="small"
                     sx={{
                       color: isActive
                         ? '#30b39a'
@@ -177,7 +177,7 @@ function AccountMenu() {
               <MenuItem>
                 <ListItemIcon>
                   <ContentPasteSearchRoundedIcon
-                    fontSize='small'
+                    fontSize="small"
                     sx={{
                       color: isActive
                         ? '#30b39a'
@@ -201,7 +201,7 @@ function AccountMenu() {
               <MenuItem>
                 <ListItemIcon>
                   <EmojiEventsRoundedIcon
-                    fontSize='small'
+                    fontSize="small"
                     sx={{
                       color: isActive
                         ? '#30b39a'
@@ -225,7 +225,7 @@ function AccountMenu() {
               <MenuItem>
                 <ListItemIcon>
                   <ThumbDownAltRoundedIcon
-                    fontSize='small'
+                    fontSize="small"
                     sx={{
                       color: isActive
                         ? '#30b39a'
@@ -252,7 +252,7 @@ function AccountMenu() {
               <MenuItem>
                 <ListItemIcon>
                   <InsightsRoundedIcon
-                    fontSize='small'
+                    fontSize="small"
                     sx={{
                       color: isActive
                         ? '#30b39a'
@@ -268,14 +268,14 @@ function AccountMenu() {
           </NavLink>
         )}
         <NavLink
-          to='/settings'
+          to="/settings"
           className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
         >
           {({ isActive }) => (
             <MenuItem>
               <ListItemIcon>
                 <Settings
-                  fontSize='small'
+                  fontSize="small"
                   sx={{
                     color: isActive
                       ? '#30b39a'
@@ -292,7 +292,7 @@ function AccountMenu() {
         <MenuItem onClick={handleLogOut}>
           <ListItemIcon>
             <Logout
-              fontSize='small'
+              fontSize="small"
               sx={{ color: darkMode ? 'white' : '#678B85' }}
             />
           </ListItemIcon>
