@@ -27,7 +27,7 @@ import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import Avatar from '@mui/material/Avatar';
 import Sort from '../components/Sort';
 
-const Wishlist = () => {
+const Wishlist = ({ setCreditsPage }) => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
   const { darkMode, width, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
@@ -51,6 +51,7 @@ const Wishlist = () => {
   const [sortBy, setSortBy] = useState('');
 
   useEffect(() => {
+    setCreditsPage(false);
     fetchBoard(boardId);
     updateUser();
   }, [boardId]);

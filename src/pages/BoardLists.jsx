@@ -9,12 +9,13 @@ import EditBoardButton from '../components/EditBoardButton';
 import { getAllBoards, deleteBoard, editBoard } from '../api/boards.api';
 import { AuthContext } from '../context/auth.context';
 
-function BoardLists() {
+function BoardLists({ setCreditsPage }) {
   const [boards, setBoards] = useState([]);
   const { loggedIn, user } = useContext(AuthContext);
   const { darkMode } = useContext(ThemeContext);
 
   useEffect(() => {
+    setCreditsPage(false);
     fetchAllData();
   }, [user]);
 

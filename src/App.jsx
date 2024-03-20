@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeContext } from './context/theme.context';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -15,9 +15,12 @@ import Settings from './pages/Settings';
 import BoardLists from './pages/BoardLists';
 import Board from './pages/Board';
 import ErrorPage from './pages/ErrorPage';
+import Credits from './pages/Credits';
+import Footer from './components/Footer';
 
 function App() {
   const { darkMode } = useContext(ThemeContext);
+  const [creditsPage, setCreditsPage] = useState(false);
 
   const theme = React.useMemo(
     () =>
@@ -36,19 +39,60 @@ function App() {
     <ThemeProvider theme={theme}>
       <Navigation />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/boards" element={<BoardLists />} />
-        <Route path="/boards/:boardId" element={<Board />} />
-        <Route path="/wishlist/:boardId" element={<Wishlist />} />
-        <Route path="/applications/:boardId" element={<Applications />} />
-        <Route path="/interviews/:boardId" element={<Interviews />} />
-        <Route path="/offers/:boardId" element={<Offers />} />
-        <Route path="/rejected/:boardId" element={<Rejected />} />
-        <Route path="/insights" element={<Insights />} />
-        <Route path="/insights/:boardId" element={<Insights />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="*" element={<ErrorPage />} />
+        <Route
+          path="/"
+          element={<HomePage setCreditsPage={setCreditsPage} />}
+        />
+        <Route
+          path="/boards"
+          element={<BoardLists setCreditsPage={setCreditsPage} />}
+        />
+        <Route
+          path="/boards/:boardId"
+          element={<Board setCreditsPage={setCreditsPage} />}
+        />
+        <Route
+          path="/wishlist/:boardId"
+          element={<Wishlist setCreditsPage={setCreditsPage} />}
+        />
+        <Route
+          path="/applications/:boardId"
+          element={<Applications setCreditsPage={setCreditsPage} />}
+        />
+        <Route
+          path="/interviews/:boardId"
+          element={<Interviews setCreditsPage={setCreditsPage} />}
+        />
+        <Route
+          path="/offers/:boardId"
+          element={<Offers setCreditsPage={setCreditsPage} />}
+        />
+        <Route
+          path="/rejected/:boardId"
+          element={<Rejected setCreditsPage={setCreditsPage} />}
+        />
+        <Route
+          path="/insights"
+          element={<Insights setCreditsPage={setCreditsPage} />}
+        />
+        <Route
+          path="/insights/:boardId"
+          element={<Insights setCreditsPage={setCreditsPage} />}
+        />
+        <Route
+          path="/settings"
+          element={<Settings setCreditsPage={setCreditsPage} />}
+        />
+        <Route
+          path="/credits"
+          element={<Credits setCreditsPage={setCreditsPage} />}
+        />
+        <Route
+          path="*"
+          element={<ErrorPage setCreditsPage={setCreditsPage} />}
+        />
       </Routes>
+      {!creditsPage && <Footer />}
     </ThemeProvider>
   );
 }

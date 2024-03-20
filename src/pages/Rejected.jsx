@@ -27,7 +27,7 @@ import ThumbDownAltRoundedIcon from '@mui/icons-material/ThumbDownAltRounded';
 import Avatar from '@mui/material/Avatar';
 import Sort from '../components/Sort';
 
-const Rejected = () => {
+const Rejected = ({ setCreditsPage }) => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
   const { darkMode, width, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
@@ -51,6 +51,7 @@ const Rejected = () => {
   const [sortBy, setSortBy] = useState('');
 
   useEffect(() => {
+    setCreditsPage(false);
     fetchBoard(boardId);
     updateUser();
   }, [boardId]);

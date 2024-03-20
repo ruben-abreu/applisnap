@@ -11,7 +11,7 @@ import TimeChart from '../components/TimeChart';
 import InsightsRoundedIcon from '@mui/icons-material/InsightsRounded';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
-function Insights() {
+function Insights({ setCreditsPage }) {
   const { darkMode, width, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
   const { loggedIn, user } = useContext(AuthContext);
@@ -25,6 +25,7 @@ function Insights() {
   const [selectedBoardId, setSelectedBoardId] = useState(boardId);
 
   useEffect(() => {
+    setCreditsPage(false);
     if (boardId) {
       fetchBoard(boardId);
     } else if (user && user._id) {

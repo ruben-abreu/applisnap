@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import SignUpButton from '../components/SignUpButton';
 import { ThemeContext } from '../context/theme.context';
 import { AuthContext } from '../context/auth.context';
@@ -8,9 +8,13 @@ import boardPreviewMobile from '../assets/boardPreviewMobile.png';
 import boardPreviewDarkModeMobile from '../assets/boardPreviewDarkModeMobile.png';
 import LogInButton from '../components/LogInButton';
 
-function HomePage() {
+function HomePage({ setCreditsPage }) {
   const { darkMode, width } = useContext(ThemeContext);
   const { loggedIn } = useContext(AuthContext);
+
+  useEffect(() => {
+    setCreditsPage(false);
+  }, []);
 
   return (
     <div className="h-full min-h-[80vh] mx-[2%] flex flex-col justify-center items-center">

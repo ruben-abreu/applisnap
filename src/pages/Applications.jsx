@@ -27,7 +27,7 @@ import Avatar from '@mui/material/Avatar';
 import Sort from '../components/Sort';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 
-const Applications = () => {
+const Applications = ({ setCreditsPage }) => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
   const { darkMode, width, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
@@ -51,6 +51,7 @@ const Applications = () => {
   const { boardId } = useParams();
 
   useEffect(() => {
+    setCreditsPage(false);
     fetchBoard(boardId);
     updateUser();
   }, [boardId]);

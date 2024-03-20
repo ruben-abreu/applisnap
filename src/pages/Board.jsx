@@ -27,7 +27,7 @@ import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
 import InsightsRoundedIcon from '@mui/icons-material/InsightsRounded';
 import { list } from 'postcss';
 
-function Board() {
+function Board({ setCreditsPage }) {
   const { boardId } = useParams();
 
   const [applicationList, setApplicationList] = useState([]);
@@ -44,6 +44,7 @@ function Board() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setCreditsPage(false);
     fetchBoard(boardId);
     if (user) {
       setBoardName(

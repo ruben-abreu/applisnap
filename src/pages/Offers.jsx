@@ -27,7 +27,7 @@ import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import Avatar from '@mui/material/Avatar';
 import Sort from '../components/Sort';
 
-const Offers = () => {
+const Offers = ({ setCreditsPage }) => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
   const { darkMode, width, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
@@ -51,6 +51,7 @@ const Offers = () => {
   const [sortBy, setSortBy] = useState('');
 
   useEffect(() => {
+    setCreditsPage(false);
     fetchBoard(boardId);
     updateUser();
   }, [boardId]);

@@ -1,6 +1,11 @@
+import { useEffect } from 'react';
 import ErrorPageImage from '../assets/ErrorPageImage.png';
 
-function ErrorPage() {
+function ErrorPage({ setCreditsPage }) {
+  useEffect(() => {
+    setCreditsPage(false);
+  }, []);
+
   return (
     <div>
       <img

@@ -27,7 +27,7 @@ import ContentPasteSearchRoundedIcon from '@mui/icons-material/ContentPasteSearc
 import Avatar from '@mui/material/Avatar';
 import Sort from '../components/Sort';
 
-const Interviews = () => {
+const Interviews = ({ setCreditsPage }) => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
   const { darkMode, width, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
@@ -51,6 +51,7 @@ const Interviews = () => {
   const [sortBy, setSortBy] = useState('');
 
   useEffect(() => {
+    setCreditsPage(false);
     fetchBoard(boardId);
     updateUser();
   }, [boardId]);
