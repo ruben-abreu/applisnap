@@ -410,19 +410,6 @@ const Interviews = ({ setCreditsPage }) => {
                         <div className='flex flex-col justify-center gap-[10px] mx-[10px]'>
                           <p className='text-sm font-bold'>{job.companyName}</p>
                           <p className='text-xs'>{job.roleName}</p>
-                          <p>
-                            {job.starred && (
-                              <div>
-                                <StarRoundedIcon
-                                  sx={{
-                                    color: darkMode ? '#f9cc71' : '#e8a135',
-                                    width: '20px',
-                                    height: '20px',
-                                  }}
-                                />
-                              </div>
-                            )}
-                          </p>
                           {job.date.interviews.length > 0 && (
                             <p className='text-xs font-bold'>
                               Scheduled for:{' '}
@@ -437,6 +424,19 @@ const Interviews = ({ setCreditsPage }) => {
                               </span>
                             </p>
                           )}
+                          <p>
+                            {job.starred && (
+                              <div>
+                                <StarRoundedIcon
+                                  sx={{
+                                    color: darkMode ? '#f9cc71' : '#e8a135',
+                                    width: '20px',
+                                    height: '20px',
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </p>
                         </div>
                       </div>
                     </button>
