@@ -108,7 +108,6 @@ const Wishlist = ({ setCreditsPage }) => {
 
       setWishlistJobs(wishlistJobsFromBoard);
       setShowWishlistJobs(wishlistJobsFromBoard);
-      console.log('board', currentBoard);
     } catch (error) {
       console.error('Error fetching board:', error);
     }
@@ -176,7 +175,11 @@ const Wishlist = ({ setCreditsPage }) => {
     try {
       await deleteJob(deletingJob._id);
       await updateUser();
-      await fetchBoard(boardId);
+      if (boardId) {
+        await fetchBoard(boardId);
+      } else {
+        setBoardName('All Boards');
+      }
       setDeleteDialogOpen(false);
       setDeletingJob(null);
     } catch (error) {

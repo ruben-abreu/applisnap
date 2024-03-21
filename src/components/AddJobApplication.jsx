@@ -197,23 +197,11 @@ function AddJobApplication({
         board => board.boardName === boardName
       );
 
-      console.log('selectedBoard', selectedBoard);
-
-      console.log('selectedBoard[0]._id', selectedBoard[0]._id);
-
-      console.log('user.lists', user.lists);
-
       const boardLists = user.lists.filter(
         list => list.boardId === selectedBoard[0]._id
       );
 
-      console.log('boardLists', boardLists);
-
-      console.log('listName', listName);
-
       const list = boardLists.filter(list => list.listName === listName);
-
-      console.log('list', list);
 
       let formattedDate = dayjs().format('YYYY/MM/DD');
 
@@ -249,9 +237,7 @@ function AddJobApplication({
         userId: user._id,
       };
 
-      console.log('Data to be saved:', jobData);
       const addedJob = await addJob(jobData);
-      console.log('Added Job:', addedJob);
 
       if (fetchBoard) {
         await fetchBoard(board._id);

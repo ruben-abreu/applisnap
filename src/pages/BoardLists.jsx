@@ -42,10 +42,6 @@ function BoardLists({ setCreditsPage }) {
     }
   };
 
-  const handleBoardClick = boardId => {
-    console.log('Clicked board with ID:', boardId);
-  };
-
   const deleteBoardItem = async boardId => {
     try {
       await deleteBoard(boardId);

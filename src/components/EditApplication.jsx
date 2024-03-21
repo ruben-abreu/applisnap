@@ -211,19 +211,13 @@ function EditApplication({
       formattedDomain = formattedDomain.split('/')[0];
     }
 
-    console.log('listName', listName);
-
     const newBoard = boards.filter(board => board.boardName === boardName)[0];
-    console.log('newBoard:', newBoard);
 
     const newBoardDetails = await getBoard(newBoard._id);
-    console.log('newBoardDetails', newBoardDetails);
 
     const newList = newBoardDetails.lists.filter(
       list => list.listName === listName
     )[0];
-
-    console.log('newList:', newList);
 
     const jobData = {
       companyName,
@@ -241,7 +235,7 @@ function EditApplication({
       listId: newList._id,
       userId: user._id,
     };
-    console.log('Data to be saved:', jobData);
+
     try {
       await editJob(application._id, jobData);
       await fetchBoard(newBoard._id);
@@ -276,8 +270,6 @@ function EditApplication({
   const dateTypes = ['created', 'applied', 'interviews', 'offer', 'rejected'];
 
   const uniqueLists = [...new Set(lists.map(list => list.listName))];
-
-  console.log('uniqueLists', uniqueLists);
 
   return (
     <Dialog open={open} onClose={onClose}>

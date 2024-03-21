@@ -38,8 +38,6 @@ function Insights({ setCreditsPage }) {
       const currentBoard = await getBoard(boardId);
       setBoard(currentBoard);
       setBoardName(currentBoard.boardName);
-      console.log('board', currentBoard);
-      console.log('lists', currentBoard.lists);
     } catch (error) {
       console.error('Error fetching board:', error);
     }
@@ -60,17 +58,11 @@ function Insights({ setCreditsPage }) {
       jobs: [],
     };
 
-    console.log('userId', userId);
-
     try {
       const allJobs = await getAllJobs(userId);
       newBoard.jobs = allJobs.data;
 
-      console.log('allJobs', allJobs.data);
-
       const allLists = await getAllLists(userId);
-
-      console.log('allLists', allLists.data);
 
       allLists.data.map(list => {
         switch (list.listName) {
@@ -92,7 +84,6 @@ function Insights({ setCreditsPage }) {
         }
       });
 
-      console.log('newBoard', newBoard);
       setBoard(newBoard);
     } catch (error) {
       console.log('Error fetching all boards data', error);

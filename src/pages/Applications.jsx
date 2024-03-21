@@ -98,7 +98,6 @@ const Applications = ({ setCreditsPage }) => {
 
       setAppliedJobs(appliedJobsFromBoard);
       setShowAppliedJobs(appliedJobsFromBoard);
-      console.log('board', currentBoard);
     } catch (error) {
       console.error('Error fetching board:', error);
     }

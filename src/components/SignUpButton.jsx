@@ -206,8 +206,7 @@ function SignUpButton() {
 
         const addDemoJob = async () => {
           try {
-            const addedJob = await addJob(jobData);
-            console.log('Added Job:', addedJob);
+            await addJob(jobData);
           } catch (error) {
             console.error('Error adding job:', error);
           }

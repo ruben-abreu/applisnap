@@ -52,9 +52,6 @@ function AddBoardButton() {
     try {
       const boardResponse = await addBoard(newBoard);
 
-      console.log('New board:', boardResponse);
-      console.log('New boardId:', boardResponse.data._id);
-
       const firstWishlist = {
         listName: 'Wishlist',
         userId: user._id,

@@ -98,7 +98,6 @@ const Rejected = ({ setCreditsPage }) => {
 
       setRejectedJobs(rejectedJobsFromBoard);
       setShowRejectedJobs(rejectedJobsFromBoard);
-      console.log('board', currentBoard);
     } catch (error) {
       console.error('Error fetching board:', error);
     }
