@@ -75,7 +75,10 @@ function ResetPassword() {
       navigate('/');
     } catch (error) {
       setIsLoading(false);
-      alert(error.response.data.message);
+      console.log(
+        'Reset password link has expired, please try forgot password again.',
+        error
+      );
     }
   };
 
