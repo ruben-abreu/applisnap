@@ -104,7 +104,16 @@ function AddJobApplication({
       setCurrentBoardName('All Boards');
       updateUser(user._id);
     }
-  }, [list, currentBoardName]);
+    if (open) {
+      setJobBoardName(
+        currentBoardName && currentBoardName !== 'All Boards'
+          ? currentBoardName
+          : board.boardName
+          ? board.boardName
+          : user.boards[user.boards.length - 1].boardName
+      );
+    }
+  }, [list, currentBoardName, open]);
 
   const handleOpenDialog = () => {
     setOpen(true);
@@ -294,16 +303,16 @@ function AddJobApplication({
 
   return (
     <div>
-      <button onClick={handleOpenDialog} className="w-[20px] h-[20px] ml-[5px]">
+      <button onClick={handleOpenDialog} className='w-[20px] h-[20px] ml-[5px]'>
         <AddCircleIcon
           sx={{ ...greenIconButtonStyle, width: '20px', height: '20px' }}
         />
       </button>
       <Dialog open={open}>
-        <form action="submit" onSubmit={handleSave}>
-          <div className="flex justify-between items-center">
+        <form action='submit' onSubmit={handleSave}>
+          <div className='flex justify-between items-center'>
             <DialogTitle>Add Job Application</DialogTitle>
-            <button type="button" onClick={() => setStarred(!starred)}>
+            <button type='button' onClick={() => setStarred(!starred)}>
               {starred ? (
                 <StarRoundedIcon
                   sx={{
@@ -327,44 +336,44 @@ function AddJobApplication({
           </div>
           <DialogContent>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
-              <InputLabel htmlFor="companyName" label="Company Name">
+              <InputLabel htmlFor='companyName' label='Company Name'>
                 Company Name
               </InputLabel>
               <Input
-                id="companyName"
+                id='companyName'
                 value={companyName}
-                type="text"
-                label="Company Name"
+                type='text'
+                label='Company Name'
                 onChange={e => setCompanyName(e.target.value)}
               />
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
-              <InputLabel htmlFor="roleName" label="Role">
+              <InputLabel htmlFor='roleName' label='Role'>
                 Role
               </InputLabel>
               <Input
-                id="roleName"
+                id='roleName'
                 value={roleName}
-                type="text"
-                label="Role"
+                type='text'
+                label='Role'
                 onChange={e => setRoleName(e.target.value)}
               />
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="domain" label="Company Website">
+              <InputLabel htmlFor='domain' label='Company Website'>
                 Company Website
               </InputLabel>
               <Input
-                id="domain"
-                type="text"
-                label="Company Website"
+                id='domain'
+                type='text'
+                label='Company Website'
                 value={domain}
-                placeholder=""
+                placeholder=''
                 onChange={e => setDomain(e.target.value)}
                 endAdornment={
-                  <InputAdornment position="end">
+                  <InputAdornment position='end'>
                     <IconButton
-                      edge="end"
+                      edge='end'
                       sx={{
                         marginRight: 0,
                         marginLeft: '8px',
@@ -378,13 +387,13 @@ function AddJobApplication({
                               ? `http://${domain}`
                               : domain
                           }
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          target='_blank'
+                          rel='noopener noreferrer'
                         >
                           <img
                             src={`https://logo.clearbit.com/${domain}` || ''}
-                            alt=""
-                            className="max-h-[20px] rounded-[2px]"
+                            alt=''
+                            className='max-h-[20px] rounded-[2px]'
                           />
                         </a>
                       )}
@@ -394,19 +403,19 @@ function AddJobApplication({
               />
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="jobURL" label="Job URL">
+              <InputLabel htmlFor='jobURL' label='Job URL'>
                 Job URL
               </InputLabel>
               <Input
-                id="jobURL"
+                id='jobURL'
                 value={jobURL}
-                type="text"
-                label="Job URL"
+                type='text'
+                label='Job URL'
                 onChange={e => setJobURL(e.target.value)}
                 endAdornment={
-                  <InputAdornment position="end">
+                  <InputAdornment position='end'>
                     <IconButton
-                      edge="end"
+                      edge='end'
                       sx={{
                         marginRight: 0,
                         marginLeft: '8px',
@@ -416,8 +425,8 @@ function AddJobApplication({
                       {jobURL && (
                         <a
                           href={jobURL}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          target='_blank'
+                          rel='noopener noreferrer'
                         >
                           <LinkRoundedIcon
                             sx={{ width: '20px', height: '20px' }}
@@ -430,55 +439,55 @@ function AddJobApplication({
               />
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="jobDescription" label="Job Description">
+              <InputLabel htmlFor='jobDescription' label='Job Description'>
                 Job Description
               </InputLabel>
               <Input
-                id="jobDescription"
+                id='jobDescription'
                 value={jobDescription}
-                type="text"
-                label="Job Description"
+                type='text'
+                label='Job Description'
                 onChange={e => setJobDescription(e.target.value)}
                 multiline
                 rows={6}
               />
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="notes" label="Notes">
+              <InputLabel htmlFor='notes' label='Notes'>
                 Notes
               </InputLabel>
               <Input
-                id="notes"
+                id='notes'
                 value={notes}
-                type="text"
-                label="Notes"
+                type='text'
+                label='Notes'
                 onChange={e => setNotes(e.target.value)}
                 multiline
                 rows={2}
               />
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="workLocation" label="Work Location">
+              <InputLabel htmlFor='workLocation' label='Work Location'>
                 Work Location
               </InputLabel>
               <Input
-                id="workLocation"
+                id='workLocation'
                 value={workLocation}
-                type="text"
-                label="Work Location"
+                type='text'
+                label='Work Location'
                 onChange={e => setWorkLocation(e.target.value)}
               />
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="workModel" label="Work Model">
+              <InputLabel htmlFor='workModel' label='Work Model'>
                 Work Model
               </InputLabel>
               <Select
-                id="workModel"
-                label="Work Model"
-                type="text"
+                id='workModel'
+                label='Work Model'
+                type='text'
                 value={workModel}
-                defaultValue="On-Site"
+                defaultValue='On-Site'
                 onChange={e => setWorkModel(e.target.value)}
               >
                 <MenuItem value={'On-Site'}>On-Site</MenuItem>
@@ -488,13 +497,13 @@ function AddJobApplication({
             </FormControl>
 
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="list" label="List">
+              <InputLabel htmlFor='list' label='List'>
                 List
               </InputLabel>
               <Select
-                id="list"
-                label="List"
-                type="text"
+                id='list'
+                label='List'
+                type='text'
                 value={listName}
                 onChange={e => setListName(e.target.value)}
                 defaultValue={listName ? listName : 'Wishlist'}
@@ -508,13 +517,13 @@ function AddJobApplication({
               </Select>
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="board" label="Board">
+              <InputLabel htmlFor='board' label='Board'>
                 Board
               </InputLabel>
               <Select
-                id="board"
-                label="Board"
-                type="text"
+                id='board'
+                label='Board'
+                type='text'
                 value={jobBoardName}
                 onChange={e => setJobBoardName(e.target.value)}
                 defaultValue={jobBoardName}
@@ -531,16 +540,16 @@ function AddJobApplication({
                   ))}
               </Select>
             </FormControl>
-            <div className="flex gap-[10px]">
+            <div className='flex gap-[10px]'>
               <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    id="date"
-                    label="Date"
-                    type="date"
-                    openTo="day"
+                    id='date'
+                    label='Date'
+                    type='date'
+                    openTo='day'
                     views={['year', 'month', 'day']}
-                    inputFormat="YYYY-MM-DD"
+                    inputFormat='YYYY-MM-DD'
                     value={dateInput}
                     onChange={newDate => {
                       setDateInput(newDate);
@@ -550,13 +559,13 @@ function AddJobApplication({
                 </LocalizationProvider>
               </FormControl>
               <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-                <InputLabel htmlFor="dateLabel" label="Date Label">
+                <InputLabel htmlFor='dateLabel' label='Date Label'>
                   Date Label
                 </InputLabel>
                 <Select
-                  id="dateLabel"
-                  label="Date Label"
-                  type="text"
+                  id='dateLabel'
+                  label='Date Label'
+                  type='text'
                   value={dateLabel}
                   onChange={e => setDateLabel(e.target.value)}
                   defaultValue={
@@ -579,7 +588,7 @@ function AddJobApplication({
                         key={'AJ-User' + dateType + index}
                         value={dateType}
                       >
-                        <p className="capitalize">{dateType}</p>
+                        <p className='capitalize'>{dateType}</p>
                       </MenuItem>
                     ))}
                 </Select>
@@ -598,7 +607,7 @@ function AddJobApplication({
               <Timeline>
                 {date.created && (
                   <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
+                    <TimelineOppositeContent color='text.secondary'>
                       Created
                     </TimelineOppositeContent>
                     <TimelineSeparator>
@@ -613,7 +622,7 @@ function AddJobApplication({
 
                 {date.applied && (
                   <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
+                    <TimelineOppositeContent color='text.secondary'>
                       Applied
                     </TimelineOppositeContent>
                     <TimelineSeparator>
@@ -621,10 +630,10 @@ function AddJobApplication({
                       <TimelineConnector />
                     </TimelineSeparator>
                     <TimelineContent>
-                      <div className="flex items-center gap-[5px]">
-                        <p className="w-[100px]">{formatDate(date.applied)}</p>
+                      <div className='flex items-center gap-[5px]'>
+                        <p className='w-[100px]'>{formatDate(date.applied)}</p>
                         <button
-                          className="flex items-center"
+                          className='flex items-center'
                           onClick={() => handleRemoveDate('applied')}
                         >
                           <HighlightOffRoundedIcon
@@ -642,7 +651,7 @@ function AddJobApplication({
 
                 {date.interviews && date.interviews.length > 0 && (
                   <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
+                    <TimelineOppositeContent color='text.secondary'>
                       {date.interviews.length === 1
                         ? 'Interview'
                         : 'Interviews'}
@@ -656,13 +665,13 @@ function AddJobApplication({
                         {date.interviews.map((interview, index) => (
                           <div
                             key={'AJ-User' + interview + index}
-                            className="flex items-center gap-[5px]"
+                            className='flex items-center gap-[5px]'
                           >
-                            <li className="w-[100px]">
+                            <li className='w-[100px]'>
                               {formatDate(interview)}
                             </li>
                             <button
-                              className="flex items-center"
+                              className='flex items-center'
                               onClick={() =>
                                 handleRemoveDate('interviews', interview)
                               }
@@ -684,7 +693,7 @@ function AddJobApplication({
 
                 {date.offer && (
                   <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
+                    <TimelineOppositeContent color='text.secondary'>
                       Offer
                     </TimelineOppositeContent>
                     <TimelineSeparator>
@@ -692,10 +701,10 @@ function AddJobApplication({
                       <TimelineConnector />
                     </TimelineSeparator>
                     <TimelineContent>
-                      <div className="flex items-center gap-[5px]">
-                        <p className="w-[100px]">{formatDate(date.offer)}</p>
+                      <div className='flex items-center gap-[5px]'>
+                        <p className='w-[100px]'>{formatDate(date.offer)}</p>
                         <button
-                          className="flex items-center"
+                          className='flex items-center'
                           onClick={() => handleRemoveDate('offer')}
                         >
                           <HighlightOffRoundedIcon
@@ -713,17 +722,17 @@ function AddJobApplication({
 
                 {date.rejected && (
                   <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
+                    <TimelineOppositeContent color='text.secondary'>
                       Rejected
                     </TimelineOppositeContent>
                     <TimelineSeparator>
                       <TimelineDot />
                     </TimelineSeparator>
                     <TimelineContent>
-                      <div className="flex items-center gap-[5px]">
-                        <p className="w-[100px]">{formatDate(date.rejected)}</p>
+                      <div className='flex items-center gap-[5px]'>
+                        <p className='w-[100px]'>{formatDate(date.rejected)}</p>
                         <button
-                          className="flex items-center"
+                          className='flex items-center'
                           onClick={() => handleRemoveDate('rejected')}
                         >
                           <HighlightOffRoundedIcon
@@ -757,7 +766,7 @@ function AddJobApplication({
               listName={listName}
             />
             <Button
-              type="submit"
+              type='submit'
               onClick={handleSave}
               sx={{ ...buttonGreenStyle }}
             >
