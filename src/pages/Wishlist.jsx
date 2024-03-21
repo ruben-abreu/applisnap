@@ -3,8 +3,9 @@ import { AuthContext } from '../context/auth.context';
 import { ThemeContext } from '../context/theme.context';
 import { editJob, deleteJob } from '../api/jobs.api';
 import { getBoard } from '../api/boards.api';
+import { getList } from '../api/lists.api';
 import EditApplication from '../components/EditApplication';
-import AddJobButton from '../components/AddJobButton';
+import AddJobApplication from '../components/AddJobApplication';
 import SearchBarListPages from '../components/SearchBarListPages';
 import { getUserDetails } from '../api/auth.api';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -40,9 +41,9 @@ const Wishlist = ({ setCreditsPage }) => {
   const [wishlistJobs, setWishlistJobs] = useState([]);
   const [showWishlistJobs, setShowWishlistJobs] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
-  const [boards, setBoards] = useState([]);
-  const [board, setBoard] = useState('');
+  const [board, setBoard] = useState({});
   const [lists, setLists] = useState([]);
+  const [currentList, setCurrentList] = useState({});
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingJob, setDeletingJob] = useState(null);
   const [boardName, setBoardName] = useState('');
@@ -55,7 +56,7 @@ const Wishlist = ({ setCreditsPage }) => {
       fetchBoard(boardId);
     } else {
       setBoardName('All Boards');
-      updateUser();
+      updateUser(storedUserId);
     }
   }, [boardId]);
 
@@ -71,36 +72,45 @@ const Wishlist = ({ setCreditsPage }) => {
 
   const handleBoardSelection = async e => {
     const selectedBoardName = e.target.value;
+    setBoardName(e.target.value);
 
     if (selectedBoardName === 'All Boards') {
-      setBoardName('All Boards');
       return navigate(`/wishlist`);
     }
 
-    const selectedBoard = user.boards.find(
+    const selectedBoard = user.boards.filter(
       board => board.boardName === selectedBoardName
     );
-    if (selectedBoard) {
-      setBoardName(selectedBoard.boardName);
-      setSelectedBoardId(selectedBoard._id);
-      await fetchBoard(selectedBoard._id);
-      navigate(`/wishlist/${selectedBoard._id}`);
+
+    if (selectedBoard[0]._id) {
+      fetchBoard(selectedBoard[0]._id);
+      return navigate(`/wishlist/${selectedBoard[0]._id}`);
     }
   };
 
   const fetchBoard = async boardId => {
     try {
       const currentBoard = await getBoard(boardId);
+
+      console.log('currentBoard', currentBoard);
       setBoard(currentBoard);
       setBoardName(currentBoard.boardName);
+      setSelectedBoardId(currentBoard._id);
+
       const wishlistListId = currentBoard.lists.find(
         list => list.listName === 'Wishlist'
       )?._id;
+
+      console.log('wishlistListId', wishlistListId);
 
       if (!wishlistListId) {
         console.error('Wishlist list not found for this board.');
         return;
       }
+
+      const list = await getList(wishlistListId);
+
+      setCurrentList(list);
 
       const wishlistJobsFromBoard = currentBoard.jobs.filter(
         job => job.listId === wishlistListId
@@ -113,11 +123,10 @@ const Wishlist = ({ setCreditsPage }) => {
     }
   };
 
-  const updateUser = async () => {
+  const updateUser = async userId => {
     try {
-      const newDetails = await getUserDetails(storedUserId);
+      const newDetails = await getUserDetails(userId);
       setUser(newDetails.data);
-      setBoards(newDetails.data.boards);
       setLists(newDetails.data.lists);
 
       const filteredJobs = newDetails.data.jobs.filter(job =>
@@ -144,7 +153,7 @@ const Wishlist = ({ setCreditsPage }) => {
         setSelectedBoardId('');
       }
     } catch (error) {
-      console.error('Error fetching user:', error);
+      console.error('Error updating user:', error);
     }
   };
 
@@ -159,7 +168,12 @@ const Wishlist = ({ setCreditsPage }) => {
   const onEditApplication = async updatedJob => {
     try {
       await editJob(updatedJob._id, updatedJob);
-      updateUser();
+      await updateUser(storedUserId);
+      if (boardId) {
+        await fetchBoard(boardId);
+      } else {
+        setBoardName('All Boards');
+      }
       handleEditClose();
     } catch (error) {
       console.error('Error editing job:', error);
@@ -174,7 +188,7 @@ const Wishlist = ({ setCreditsPage }) => {
   const confirmDelete = async () => {
     try {
       await deleteJob(deletingJob._id);
-      await updateUser();
+      await updateUser(storedUserId);
       if (boardId) {
         await fetchBoard(boardId);
       } else {
@@ -239,7 +253,7 @@ const Wishlist = ({ setCreditsPage }) => {
                 Wishlist
               </h2>
             </div>
-            {user && (
+            {user && user.boards && (
               <div className="flex gap-[10px] items-center">
                 <form>
                   <FormControl sx={{ ...formGreenStyle, my: 1 }}>
@@ -285,7 +299,7 @@ const Wishlist = ({ setCreditsPage }) => {
               </div>
             )}
           </div>
-          {board && user.boards && boardName && (
+          {user.boards && boardName && (
             <div className="flex items-center my-[30px]">
               <h3
                 className={`text-[16px] ${
@@ -296,17 +310,25 @@ const Wishlist = ({ setCreditsPage }) => {
                   ? 'Add new job application'
                   : boardName === 'All Boards' && user.boards.length === 0
                   ? 'Add your first job application'
-                  : board.jobs.length === 0
+                  : board && board.jobs && board.jobs.length === 0
                   ? 'Add your first job application'
                   : 'Add new job application'}
               </h3>
-              <AddJobButton
+              <AddJobApplication
                 board={board}
-                list="Wishlist"
+                list={currentList}
                 defaultList="Wishlist"
                 role=""
                 fetchBoard={fetchBoard}
                 boardId={boardId}
+                currentBoardName={
+                  boardName
+                    ? boardName
+                    : board.boardName
+                    ? board.boardName
+                    : user.boards[user.boards.length - 1].boardName
+                }
+                setCurrentBoardName={setBoardName}
               />
             </div>
           )}
@@ -318,115 +340,131 @@ const Wishlist = ({ setCreditsPage }) => {
             </div>
           )}
           <div className="flex flex-wrap gap-[15px]">
-            {handleSort(showWishlistJobs, sortBy).map((job, index) => {
-              const jobBoard = boards.find(board => board._id === job.boardId);
-              return (
-                <div
-                  key={index}
-                  className={`w-[120px] rounded ${
-                    darkMode ? 'bg-[#6e6e6e]' : 'bg-[#ebebeb]'
-                  } shadow-md ${
-                    darkMode ? 'shadow-[#6f6f6f]' : 'shadow-[#cfcfcf]'
-                  } `}
-                >
-                  <button onClick={() => handleEdit(job)}>
-                    <div className="h-[120px] flex items-center">
-                      <div className="w-[100%] m-[10px] flex justify-center items-center">
-                        <Avatar
-                          sx={{
-                            fontSize: '20px',
-                            borderRadius: '2px',
-                            maxHeight: '90px',
-                            maxWidth: '90px',
-                            width: 'auto',
-                            height: 'auto',
-                            backgroundColor: 'transparent',
-                            color: darkMode ? 'white' : 'black',
-                          }}
-                          src={`https://logo.clearbit.com/${job.domain}` || ''}
-                        >
-                          <p className="uppercase">
-                            {job.companyName &&
-                            job.companyName.split(' ').length > 1
-                              ? job.companyName
-                                  .split(' ')
-                                  .map(word => word[0])
-                                  .slice(0, 2)
-                                  .join('')
-                              : job.companyName.split(' ').length === 1
-                              ? job.companyName[0]
-                              : ''}
+            {user.boards &&
+              showWishlistJobs &&
+              handleSort(showWishlistJobs, sortBy).map((job, index) => {
+                const jobBoard = user.boards.find(
+                  board => board._id === job.boardId
+                );
+                return (
+                  <div
+                    key={index}
+                    className={`w-[120px] rounded ${
+                      darkMode ? 'bg-[#6e6e6e]' : 'bg-[#ebebeb]'
+                    } shadow-md ${
+                      darkMode ? 'shadow-[#6f6f6f]' : 'shadow-[#cfcfcf]'
+                    } `}
+                  >
+                    <button onClick={() => handleEdit(job)}>
+                      <div className="h-[120px] flex items-center">
+                        <div className="w-[100%] m-[10px] flex justify-center items-center">
+                          <Avatar
+                            sx={{
+                              fontSize: '20px',
+                              borderRadius: '2px',
+                              maxHeight: '90px',
+                              maxWidth: '90px',
+                              width: 'auto',
+                              height: 'auto',
+                              backgroundColor: 'transparent',
+                              color: darkMode ? 'white' : 'black',
+                            }}
+                            src={
+                              `https://logo.clearbit.com/${job.domain}` || ''
+                            }
+                          >
+                            <p className="uppercase">
+                              {job.companyName &&
+                              job.companyName.split(' ').length > 1
+                                ? job.companyName
+                                    .split(' ')
+                                    .map(word => word[0])
+                                    .slice(0, 2)
+                                    .join('')
+                                : job.companyName.split(' ').length === 1
+                                ? job.companyName[0]
+                                : ''}
+                            </p>
+                          </Avatar>
+                        </div>
+                      </div>
+                      <div className="h-[130px] w-[120px]">
+                        <div className="flex flex-col justify-center gap-[10px] mx-[10px]">
+                          <p className="text-sm text-wrap font-bold max-w-[120px]">
+                            {job.companyName}
                           </p>
-                        </Avatar>
+                          <p className="text-xs">{job.roleName}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="h-[130px] w-[120px]">
-                      <div className="flex flex-col justify-center gap-[10px] mx-[10px]">
-                        <p className="text-sm font-bold">{job.companyName}</p>
-                        <p className="text-xs">{job.roleName}</p>
-                      </div>
-                    </div>
-                  </button>
+                    </button>
 
-                  <div className="mb-[10px] flex justify-center gap-[15px]">
-                    {job.jobURL && (
-                      <a
-                        href={job.jobURL}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <div className="mb-[10px] flex justify-center gap-[15px]">
+                      {job.jobURL && (
+                        <a
+                          href={job.jobURL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <LinkRoundedIcon
+                            sx={{
+                              ...greenIconButtonStyle,
+                              width: '20px',
+                              height: '20px',
+                            }}
+                          />
+                        </a>
+                      )}
+                      <button
+                        onClick={() => handleEdit(job)}
+                        className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
                       >
-                        <LinkRoundedIcon
+                        <EditRoundedIcon
                           sx={{
                             ...greenIconButtonStyle,
                             width: '20px',
                             height: '20px',
                           }}
                         />
-                      </a>
-                    )}
-                    <button
-                      onClick={() => handleEdit(job)}
-                      className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
-                    >
-                      <EditRoundedIcon
-                        sx={{
-                          ...greenIconButtonStyle,
-                          width: '20px',
-                          height: '20px',
-                        }}
-                      />
-                    </button>
-                    {user &&
-                      selectedApplication &&
-                      selectedApplication._id === job._id && (
-                        <EditApplication
-                          open={Boolean(selectedApplication)}
-                          onClose={handleEditClose}
-                          application={selectedApplication}
-                          board={jobBoard}
-                          fetchBoard={fetchBoard}
-                          boardId={jobBoard ? jobBoard._id : ''}
-                          onEdit={onEditApplication}
-                          updateUser={updateUser}
-                          lists={lists}
+                      </button>
+                      {user &&
+                        selectedApplication &&
+                        selectedApplication._id === job._id && (
+                          <EditApplication
+                            open={Boolean(selectedApplication)}
+                            onClose={handleEditClose}
+                            application={selectedApplication}
+                            board={jobBoard}
+                            currentBoardName={
+                              boardName
+                                ? boardName
+                                : board.boardName
+                                ? board.boardName
+                                : user.boards[user.boards.length - 1].boardName
+                            }
+                            setCurrentBoardName={setBoardName}
+                            fetchBoard={fetchBoard}
+                            boardId={jobBoard ? jobBoard._id : ''}
+                            onEdit={onEditApplication}
+                            updateUser={updateUser}
+                            lists={lists}
+                          />
+                        )}
+                      <button
+                        onClick={() => handleDelete(job)}
+                        className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
+                      >
+                        <DeleteRoundedIcon
+                          sx={{
+                            ...greenIconButtonStyle,
+                            width: '20px',
+                            height: '20px',
+                          }}
                         />
-                      )}
-                    <button
-                      onClick={() => handleDelete(job)}
-                      className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
-                    >
-                      <DeleteRoundedIcon
-                        sx={{
-                          ...greenIconButtonStyle,
-                          width: '20px',
-                          height: '20px',
-                        }}
-                      />
-                    </button>
+                      </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
             {wishlistJobs.length === 0 && (
               <div className="text-center col-span-full mt-4">
                 <p>You have no jobs in this list.</p>

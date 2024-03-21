@@ -3,7 +3,17 @@ import { ThemeContext } from '../context/theme.context';
 import AddJobApplication from './AddJobApplication';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-function AddJobButton({ board, fetchBoard, list, role, boardId, defaultList }) {
+function AddJobButton({
+  board,
+  fetchBoard,
+  list,
+  role,
+  boardId,
+  defaultList,
+  currentBoardName,
+  setCurrentBoardName,
+  updateUser,
+}) {
   const [open, setOpen] = useState(false);
 
   const { greenIconButtonStyle } = useContext(ThemeContext);
@@ -27,13 +37,15 @@ function AddJobButton({ board, fetchBoard, list, role, boardId, defaultList }) {
         open={open}
         setOpen={setOpen}
         handleClose={handleClose}
-        application={{}}
         list={list}
         role={role}
         board={board}
         fetchBoard={fetchBoard}
         boardId={boardId}
         defaultList={defaultList}
+        currentBoardName={currentBoardName}
+        setCurrentBoardName={setCurrentBoardName}
+        updateUser={updateUser}
       />
     </div>
   );

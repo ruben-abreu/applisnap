@@ -13,7 +13,7 @@ import {
   InputLabel,
 } from '@mui/material';
 import EditApplication from '../components/EditApplication';
-import AddJobButton from '../components/AddJobButton';
+import AddJobApplication from '../components/AddJobApplication';
 import AddBoardButton from '../components/AddBoardButton';
 import SearchBar from '../components/SearchBar';
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
@@ -53,7 +53,7 @@ function Board({ setCreditsPage }) {
         user.boards.filter(board => board._id === boardId).boardName
       );
     }
-  }, [boardId]);
+  }, [boardId, user]);
 
   const searchedCompany = query => {
     const filteredApplicationList = applicationList.filter(application => {
@@ -416,12 +416,14 @@ function Board({ setCreditsPage }) {
               }}
             />
           </button>
-          <AddJobButton
+          <AddJobApplication
             board={board}
             list={list}
             role={role}
             fetchBoard={fetchBoard}
             boardId={boardId}
+            currentBoardName={boardName}
+            defaultList={list.listName ? list.listName : 'Wishlist'}
           />
         </div>
         {renderApplications(role, list)}
@@ -502,13 +504,19 @@ function Board({ setCreditsPage }) {
                   ? 'Add your first job application'
                   : 'Add new job application'}
               </h3>
-              <AddJobButton
-                board={board}
-                list="Wishlist"
+              <AddJobApplication
+                board={
+                  board
+                    ? board
+                    : user
+                    ? user.boards.filter(board => board._id === boardId)
+                    : {}
+                }
+                list={list}
                 role=""
                 fetchBoard={fetchBoard}
                 boardId={boardId}
-                defaultList={list.listName ? list.listName : 'Wishlist'}
+                currentBoardName={boardName}
               />
             </div>
           )}

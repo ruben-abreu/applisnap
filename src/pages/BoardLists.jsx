@@ -104,7 +104,6 @@ function BoardLists({ setCreditsPage }) {
               boards.map(boardItem => (
                 <div
                   key={boardItem._id}
-                  onClick={() => handleBoardClick(boardItem._id)}
                   className="flex items-center gap-[10px]"
                 >
                   <div className="flex items-center gap-[20px] w-[250px]">

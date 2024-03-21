@@ -4,7 +4,7 @@ import { editJob, deleteJob } from '../api/jobs.api';
 import { getBoard } from '../api/boards.api';
 import { ThemeContext } from '../context/theme.context';
 import EditApplication from '../components/EditApplication';
-import AddJobButton from '../components/AddJobButton';
+import AddJobApplication from '../components/AddJobApplication';
 import SearchBarListPages from '../components/SearchBarListPages';
 import { getUserDetails } from '../api/auth.api';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -275,7 +275,7 @@ const Rejected = ({ setCreditsPage }) => {
                   ? 'Add your first job application'
                   : 'Add new job application'}
               </h3>
-              <AddJobButton
+              <AddJobApplication
                 board={board}
                 list="Rejected"
                 role=""

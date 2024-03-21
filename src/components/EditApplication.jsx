@@ -47,7 +47,11 @@ function EditApplication({
   lists,
   boardId,
   updateUser,
+  currentBoardName,
+  setCurrentBoardName,
 }) {
+  const storedUserId = localStorage.getItem('userId');
+
   const [companyName, setCompanyName] = useState(application.companyName);
   const [roleName, setRoleName] = useState(application.roleName);
   const [domain, setDomain] = useState(application.domain);
@@ -68,7 +72,7 @@ function EditApplication({
   const [listName, setListName] = useState(
     list.listName ? list.listName : 'Wishlist'
   );
-  const [boardName, setBoardName] = useState('');
+  const [selectedBoardName, setSelectedBoardName] = useState('');
   const [boards, setBoards] = useState([]);
   const [editDateLabel, setEditDateLabel] = useState(
     listName === 'Applied'
@@ -97,13 +101,16 @@ function EditApplication({
       getData(application);
     }
     if (board) {
-      setBoardName(board.boardName);
+      setSelectedBoardName(board.boardName);
     }
     if (user) {
       setBoards(user.boards);
     }
-    if (updateUser) {
-      updateUser();
+    if (currentBoardName === 'All Boards' && updateUser) {
+      setCurrentBoardName('All Boards');
+      updateUser(user._id);
+    } else if (fetchBoard) {
+      fetchBoard(boardId);
     }
   }, [application]);
 
@@ -213,13 +220,35 @@ function EditApplication({
       formattedDomain = formattedDomain.split('/')[0];
     }
 
-    const newBoard = boards.filter(board => board.boardName === boardName)[0];
+    const newBoard = boards.filter(
+      board => board.boardName === selectedBoardName
+    )[0];
 
     const newBoardDetails = await getBoard(newBoard._id);
 
     const newList = newBoardDetails.lists.filter(
       list => list.listName === listName
     )[0];
+
+    const updatedDate = { ...editDate };
+
+    if (application.listId !== newList._id) {
+      let formattedDate = dayjs().format('YYYY/MM/DD');
+
+      if (listName === 'Applied' && !updatedDate.applied) {
+        updatedDate.applied = formattedDate;
+      } else if (listName === 'Interviews') {
+        if (updatedDate.interviews) {
+          updatedDate.interviews = [...updatedDate.interviews, formattedDate];
+        } else {
+          updatedDate.interviews = [formattedDate];
+        }
+      } else if (listName === 'Offers' && !updatedDate.offer) {
+        updatedDate.offer = formattedDate;
+      } else if (listName === 'Rejected' && !updatedDate.rejected) {
+        updatedDate.rejected = formattedDate;
+      }
+    }
 
     const jobData = {
       companyName,
@@ -231,7 +260,7 @@ function EditApplication({
       workLocation,
       notes,
       customLabel,
-      date: editDate,
+      date: updatedDate,
       starred,
       boardId: newBoard._id,
       listId: newList._id,
@@ -240,10 +269,13 @@ function EditApplication({
 
     try {
       await editJob(application._id, jobData);
+
       await fetchBoard(newBoard._id);
+
       if (updateUser) {
         updateUser(user._id);
       }
+
       onClose();
     } catch (error) {
       console.log('Error saving changes', error);
@@ -258,7 +290,13 @@ function EditApplication({
     try {
       await deleteJob(application._id);
 
-      await fetchBoard(boardId);
+      if (currentBoardName === 'All Boards' && updateUser) {
+        setCurrentBoardName('All Boards');
+        updateUser(storedUserId);
+      } else if (fetchBoard) {
+        fetchBoard(boardId);
+      }
+
       onClose();
     } catch (error) {
       console.log('Error deleting job', error);
@@ -278,7 +316,7 @@ function EditApplication({
       <form action="submit" onSubmit={handleSave}>
         <div className="flex justify-between items-center">
           <DialogTitle>Edit Job</DialogTitle>
-          <button onClick={() => setStarred(!starred)}>
+          <button type="button" onClick={() => setStarred(!starred)}>
             {starred ? (
               <StarRoundedIcon
                 sx={{
@@ -471,11 +509,12 @@ function EditApplication({
               onChange={e => setListName(e.target.value)}
               defaultValue={list.listName ? list.listName : 'Wishlist'}
             >
-              {uniqueLists.map((list, index) => (
-                <MenuItem key={index} value={list}>
-                  {list}
-                </MenuItem>
-              ))}
+              {uniqueLists &&
+                uniqueLists.map((list, index) => (
+                  <MenuItem key={index} value={list}>
+                    {list}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
           <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
@@ -486,15 +525,16 @@ function EditApplication({
               id="board"
               label="Board"
               type="text"
-              value={boardName}
-              onChange={e => setBoardName(e.target.value)}
-              defaultValue={boardName}
+              value={selectedBoardName}
+              onChange={e => setSelectedBoardName(e.target.value)}
+              defaultValue={selectedBoardName}
             >
-              {boards.map(board => (
-                <MenuItem key={board._id} value={board.boardName}>
-                  {board.boardName}
-                </MenuItem>
-              ))}
+              {boards &&
+                boards.map(board => (
+                  <MenuItem key={board._id} value={board.boardName}>
+                    {board.boardName}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
           <div className="flex gap-[10px]">
@@ -537,11 +577,12 @@ function EditApplication({
                     : 'interviews'
                 }
               >
-                {dateTypes.map((dateType, index) => (
-                  <MenuItem key={index} value={dateType}>
-                    <p className="capitalize">{dateType}</p>
-                  </MenuItem>
-                ))}
+                {dateTypes &&
+                  dateTypes.map((dateType, index) => (
+                    <MenuItem key={index} value={dateType}>
+                      <p className="capitalize">{dateType}</p>
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
             <button onClick={handleAddDate}>
