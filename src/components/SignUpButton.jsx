@@ -93,7 +93,9 @@ function SignUpButton() {
     });
   }
 
-  const handleSignUp = async () => {
+  const handleSignUp = async e => {
+    e.preventDefault();
+
     if (firstName.trim() === '') {
       alert('First name cannot be empty');
       return;
@@ -101,6 +103,11 @@ function SignUpButton() {
 
     if (lastName.trim() === '') {
       alert('Last name cannot be empty');
+      return;
+    }
+
+    if (!email || email.trim() === '') {
+      alert('Email cannot be empty');
       return;
     }
 
@@ -245,120 +252,123 @@ function SignUpButton() {
         }}
       >
         <SignUpDialogTitle>Sign Up</SignUpDialogTitle>
-        <DialogContent>
-          <FormControl
-            variant="standard"
-            required
-            fullWidth
-            sx={{ ...formGreenStyle }}
-          >
-            <InputLabel htmlFor="standard-adornment-email">
-              First name
-            </InputLabel>
-            <Input
-              id="standard-adornment-firstName"
-              value={firstName}
-              onChange={handleFirstNameChange}
-              type="text"
-              label="First name"
-            />
-          </FormControl>
-
-          <FormControl
-            variant="standard"
-            required
-            fullWidth
-            sx={{ ...formGreenStyle }}
-          >
-            <InputLabel htmlFor="standard-adornment-email">
-              Last name
-            </InputLabel>
-            <Input
-              id="standard-adornment-lastName"
-              value={lastName}
-              onChange={handleLastNameChange}
-              type="text"
-              label="Last name"
-            />
-          </FormControl>
-
-          <FormControl
-            variant="standard"
-            required
-            fullWidth
-            sx={{ ...formGreenStyle }}
-          >
-            <InputLabel htmlFor="standard-adornment-email">
-              Email Address
-            </InputLabel>
-            <Input
-              id="standard-adornment-email"
-              value={email}
-              onChange={handleEmailChange}
-              onBlur={validateEmail}
-              error={!isValidEmail}
-              type="email"
-              label="Email Address"
-            />
-          </FormControl>
-
-          <FormControl
-            variant="standard"
-            required
-            fullWidth
-            sx={{ ...formGreenStyle }}
-          >
-            <InputLabel htmlFor="standard-adornment-password">
-              Password
-            </InputLabel>
-            <Input
-              id="standard-adornment-password"
-              value={password}
-              onChange={handlePasswordChange}
-              type={showPassword ? 'text' : 'password'}
-              autoComplete="on"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                    sx={{
-                      marginRight: 0,
-                      marginLeft: '8px',
-                    }}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <CancelButton
-            setOpen={setOpen}
-            setFirstName={setFirstName}
-            setLastName={setLastName}
-            setEmail={setEmail}
-            setPassword={setPassword}
-          />
-          <div className="mr-[16px]">
-            <Button
-              onClick={handleSignUp}
-              sx={{ ...buttonGreenStyle }}
-              startIcon={
-                isLoading && (
-                  <CircularProgress sx={{ color: 'white' }} size={16} />
-                )
-              }
+        <form action="submit" onSubmit={handleSignUp}>
+          <DialogContent>
+            <FormControl
+              variant="standard"
+              required
+              fullWidth
+              sx={{ ...formGreenStyle }}
             >
-              Sign Up
-            </Button>
-          </div>
-        </DialogActions>
+              <InputLabel htmlFor="standard-adornment-email">
+                First name
+              </InputLabel>
+              <Input
+                id="standard-adornment-firstName"
+                value={firstName}
+                onChange={handleFirstNameChange}
+                type="text"
+                label="First name"
+              />
+            </FormControl>
+
+            <FormControl
+              variant="standard"
+              required
+              fullWidth
+              sx={{ ...formGreenStyle }}
+            >
+              <InputLabel htmlFor="standard-adornment-email">
+                Last name
+              </InputLabel>
+              <Input
+                id="standard-adornment-lastName"
+                value={lastName}
+                onChange={handleLastNameChange}
+                type="text"
+                label="Last name"
+              />
+            </FormControl>
+
+            <FormControl
+              variant="standard"
+              required
+              fullWidth
+              sx={{ ...formGreenStyle }}
+            >
+              <InputLabel htmlFor="standard-adornment-email">
+                Email Address
+              </InputLabel>
+              <Input
+                id="standard-adornment-email"
+                value={email}
+                onChange={handleEmailChange}
+                onBlur={validateEmail}
+                error={!isValidEmail}
+                type="email"
+                label="Email Address"
+              />
+            </FormControl>
+
+            <FormControl
+              variant="standard"
+              required
+              fullWidth
+              sx={{ ...formGreenStyle }}
+            >
+              <InputLabel htmlFor="standard-adornment-password">
+                Password
+              </InputLabel>
+              <Input
+                id="standard-adornment-password"
+                value={password}
+                onChange={handlePasswordChange}
+                type={showPassword ? 'text' : 'password'}
+                autoComplete="on"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                      sx={{
+                        marginRight: 0,
+                        marginLeft: '8px',
+                      }}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <CancelButton
+              setOpen={setOpen}
+              setFirstName={setFirstName}
+              setLastName={setLastName}
+              setEmail={setEmail}
+              setPassword={setPassword}
+            />
+            <div className="mr-[16px]">
+              <Button
+                type="submit"
+                onClick={handleSignUp}
+                sx={{ ...buttonGreenStyle }}
+                startIcon={
+                  isLoading && (
+                    <CircularProgress sx={{ color: 'white' }} size={16} />
+                  )
+                }
+              >
+                Sign Up
+              </Button>
+            </div>
+          </DialogActions>
+        </form>
       </Dialog>
     </React.Fragment>
   );
