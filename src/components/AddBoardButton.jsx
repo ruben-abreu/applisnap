@@ -44,7 +44,9 @@ function AddBoardButton() {
     setBoardName(event.target.value);
   };
 
-  const handleAddBoard = async () => {
+  const handleAddBoard = async e => {
+    e.preventDefault();
+
     const newBoard = { boardName, userId: user._id };
 
     setIsLoading(true);
@@ -122,51 +124,53 @@ function AddBoardButton() {
         }}
       >
         <LogInDialogTitle>Create New Board</LogInDialogTitle>
-
-        <DialogContent>
-          <FormControl
-            variant="standard"
-            required
-            fullWidth
-            sx={{ ...formGreenStyle }}
-          >
-            <InputLabel htmlFor="boardName">Board Name</InputLabel>
-            <Input
-              id="boardName"
-              value={boardName}
-              onChange={handleBoardNameChange}
-              type="text"
-              label="Board Name"
-            />
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <div className="flex flex-col">
-            <div className="flex">
-              <div className="mr-[6px]">
-                <CancelButton setOpen={setOpen} setBoardName={setBoardName} />
+        <form action="submit" onSubmit={handleAddBoard}>
+          <DialogContent>
+            <FormControl
+              variant="standard"
+              required
+              fullWidth
+              sx={{ ...formGreenStyle }}
+            >
+              <InputLabel htmlFor="boardName">Board Name</InputLabel>
+              <Input
+                id="boardName"
+                value={boardName}
+                onChange={handleBoardNameChange}
+                type="text"
+                label="Board Name"
+              />
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <div className="flex flex-col">
+              <div className="flex">
+                <div className="mr-[6px]">
+                  <CancelButton setOpen={setOpen} setBoardName={setBoardName} />
+                </div>
+                <div className="mr-[16px]">
+                  <Button
+                    type="submit"
+                    onClick={handleAddBoard}
+                    sx={{ ...buttonGreenStyle }}
+                    startIcon={
+                      isLoading && (
+                        <CircularProgress sx={{ color: 'white' }} size={16} />
+                      )
+                    }
+                  >
+                    Create Board
+                  </Button>
+                </div>
               </div>
-              <div className="mr-[16px]">
-                <Button
-                  onClick={handleAddBoard}
-                  sx={{ ...buttonGreenStyle }}
-                  startIcon={
-                    isLoading && (
-                      <CircularProgress sx={{ color: 'white' }} size={16} />
-                    )
-                  }
-                >
-                  Create Board
-                </Button>
-              </div>
+              <div
+                className={`text-right text-[14px] ${
+                  darkMode ? 'text-white' : 'text-[#678B85]'
+                } mr-[16px] mt-[15px]`}
+              ></div>
             </div>
-            <div
-              className={`text-right text-[14px] ${
-                darkMode ? 'text-white' : 'text-[#678B85]'
-              } mr-[16px] mt-[15px]`}
-            ></div>
-          </div>
-        </DialogActions>
+          </DialogActions>
+        </form>
       </Dialog>
     </React.Fragment>
   );

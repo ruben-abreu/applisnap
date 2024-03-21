@@ -62,7 +62,9 @@ function ChangePasswordButton() {
     );
   };
 
-  const handleChangePassword = async () => {
+  const handleChangePassword = async e => {
+    e.preventDefault();
+
     if (password.trim() === '') {
       alert('Password cannot be empty');
       return;
@@ -116,60 +118,63 @@ function ChangePasswordButton() {
         }}
       >
         <ChangePasswordDialogTitle>Change Password</ChangePasswordDialogTitle>
-        <DialogContent>
-          <FormControl
-            variant="standard"
-            required
-            fullWidth
-            sx={{ ...formGreenStyle }}
-          >
-            <InputLabel htmlFor="standard-adornment-password">
-              Password
-            </InputLabel>
-            <Input
-              id="standard-adornment-password"
-              value={password}
-              onChange={handlePasswordChange}
-              type={showPassword ? 'text' : 'password'}
-              autoComplete="on"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                    sx={{
-                      marginRight: 0,
-                      marginLeft: '8px',
-                    }}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <CancelButton setOpen={setOpen} setPassword={setPassword} />
-          <div className="mr-[16px]">
-            <Button
-              onClick={handleChangePassword}
-              startIcon={
-                isLoading ? (
-                  <CircularProgress sx={{ color: '#ebb542' }} size={16} />
-                ) : (
-                  <ChangeCircleRoundedIcon />
-                )
-              }
-              sx={{ ...yellowButtonStyle }}
+        <form action="submit" onSubmit={handleChangePassword}>
+          <DialogContent>
+            <FormControl
+              variant="standard"
+              required
+              fullWidth
+              sx={{ ...formGreenStyle }}
             >
-              Change Password
-            </Button>
-          </div>
-        </DialogActions>
+              <InputLabel htmlFor="standard-adornment-password">
+                Password
+              </InputLabel>
+              <Input
+                id="standard-adornment-password"
+                value={password}
+                onChange={handlePasswordChange}
+                type={showPassword ? 'text' : 'password'}
+                autoComplete="on"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                      sx={{
+                        marginRight: 0,
+                        marginLeft: '8px',
+                      }}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <CancelButton setOpen={setOpen} setPassword={setPassword} />
+            <div className="mr-[16px]">
+              <Button
+                type="submit"
+                onClick={handleChangePassword}
+                startIcon={
+                  isLoading ? (
+                    <CircularProgress sx={{ color: '#ebb542' }} size={16} />
+                  ) : (
+                    <ChangeCircleRoundedIcon />
+                  )
+                }
+                sx={{ ...yellowButtonStyle }}
+              >
+                Change Password
+              </Button>
+            </div>
+          </DialogActions>
+        </form>
       </Dialog>
     </React.Fragment>
   ) : (

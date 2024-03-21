@@ -167,7 +167,9 @@ function AddJobApplication({
     }
   };
 
-  const handleSave = async () => {
+  const handleSave = async e => {
+    e.preventDefault();
+
     if (companyName.trim() === '') {
       alert('Company name cannot be empty');
       return;
@@ -237,7 +239,7 @@ function AddJobApplication({
         userId: user._id,
       };
 
-      const addedJob = await addJob(jobData);
+      await addJob(jobData);
 
       if (fetchBoard) {
         await fetchBoard(board._id);
@@ -263,439 +265,451 @@ function AddJobApplication({
 
   return (
     <Dialog open={open}>
-      <div className="flex justify-between items-center">
-        <DialogTitle>Add Job Application</DialogTitle>
-        <button onClick={() => setStarred(!starred)}>
-          {starred ? (
-            <StarRoundedIcon
-              sx={{
-                color: darkMode ? '#f9cc71' : '#e8a135',
-                width: '30px',
-                height: '30px',
-                margin: '24px',
-              }}
-            />
-          ) : (
-            <StarOutlineRoundedIcon
-              sx={{
-                color: darkMode ? '#f9cc71' : '#e8a135',
-                width: '30px',
-                height: '30px',
-                margin: '24px',
-              }}
-            />
-          )}
-        </button>
-      </div>
-      <DialogContent>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
-          <InputLabel htmlFor="companyName" label="Company Name">
-            Company Name
-          </InputLabel>
-          <Input
-            id="companyName"
-            value={companyName}
-            type="text"
-            label="Company Name"
-            onChange={e => setCompanyName(e.target.value)}
-          />
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
-          <InputLabel htmlFor="roleName" label="Role">
-            Role
-          </InputLabel>
-          <Input
-            id="roleName"
-            value={roleName}
-            type="text"
-            label="Role"
-            onChange={e => setRoleName(e.target.value)}
-          />
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="domain" label="Company Website">
-            Company Website
-          </InputLabel>
-          <Input
-            id="domain"
-            type="text"
-            label="Company Website"
-            value={domain}
-            placeholder=""
-            onChange={e => setDomain(e.target.value)}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  edge="end"
-                  sx={{
-                    marginRight: 0,
-                    marginLeft: '8px',
-                    borderRadius: '5px',
-                  }}
-                >
-                  {domain && (
-                    <a
-                      href={
-                        !domain.includes('://') ? `http://${domain}` : domain
-                      }
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <img
-                        src={`https://logo.clearbit.com/${domain}` || ''}
-                        alt=""
-                        className="max-h-[20px] rounded-[2px]"
-                      />
-                    </a>
-                  )}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="jobURL" label="Job URL">
-            Job URL
-          </InputLabel>
-          <Input
-            id="jobURL"
-            value={jobURL}
-            type="text"
-            label="Job URL"
-            onChange={e => setJobURL(e.target.value)}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  edge="end"
-                  sx={{
-                    marginRight: 0,
-                    marginLeft: '8px',
-                    borderRadius: '50%',
-                  }}
-                >
-                  {jobURL && (
-                    <a href={jobURL} target="_blank" rel="noopener noreferrer">
-                      <LinkRoundedIcon sx={{ width: '20px', height: '20px' }} />
-                    </a>
-                  )}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="jobDescription" label="Job Description">
-            Job Description
-          </InputLabel>
-          <Input
-            id="jobDescription"
-            value={jobDescription}
-            type="text"
-            label="Job Description"
-            onChange={e => setJobDescription(e.target.value)}
-            multiline
-            rows={6}
-          />
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="notes" label="Notes">
-            Notes
-          </InputLabel>
-          <Input
-            id="notes"
-            value={notes}
-            type="text"
-            label="Notes"
-            onChange={e => setNotes(e.target.value)}
-            multiline
-            rows={2}
-          />
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="workLocation" label="Work Location">
-            Work Location
-          </InputLabel>
-          <Input
-            id="workLocation"
-            value={workLocation}
-            type="text"
-            label="Work Location"
-            onChange={e => setWorkLocation(e.target.value)}
-          />
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="workModel" label="Work Model">
-            Work Model
-          </InputLabel>
-          <Select
-            id="workModel"
-            label="Work Model"
-            type="text"
-            value={workModel}
-            defaultValue="On-Site"
-            onChange={e => setWorkModel(e.target.value)}
-          >
-            <MenuItem value={'On-Site'}>On-Site</MenuItem>
-            <MenuItem value={'Remote'}>Remote</MenuItem>
-            <MenuItem value={'Hybrid'}>Hybrid</MenuItem>
-          </Select>
-        </FormControl>
-
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="list" label="List">
-            List
-          </InputLabel>
-          <Select
-            id="list"
-            label="List"
-            type="text"
-            value={listName}
-            onChange={e => setListName(e.target.value)}
-            defaultValue={listName ? listName : 'Wishlist'}
-          >
-            {board.lists.map(list => (
-              <MenuItem key={list._id} value={list.listName}>
-                {list.listName}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-          <InputLabel htmlFor="board" label="Board">
-            Board
-          </InputLabel>
-          <Select
-            id="board"
-            label="Board"
-            type="text"
-            value={boardName}
-            onChange={e => setBoardName(e.target.value)}
-            defaultValue={boardName}
-          >
-            {user &&
-              user.boards &&
-              user.boards.map(board => (
-                <MenuItem key={board._id} value={board.boardName}>
-                  {board.boardName}
-                </MenuItem>
-              ))}
-          </Select>
-        </FormControl>
-        <div className="flex gap-[10px]">
-          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                id="date"
-                label="Date"
-                type="date"
-                openTo="day"
-                views={['year', 'month', 'day']}
-                inputFormat="YYYY-MM-DD"
-                value={dateInput}
-                onChange={newDate => {
-                  setDateInput(newDate);
+      <form action="submit" onSubmit={handleSave}>
+        <div className="flex justify-between items-center">
+          <DialogTitle>Add Job Application</DialogTitle>
+          <button onClick={() => setStarred(!starred)}>
+            {starred ? (
+              <StarRoundedIcon
+                sx={{
+                  color: darkMode ? '#f9cc71' : '#e8a135',
+                  width: '30px',
+                  height: '30px',
+                  margin: '24px',
                 }}
-                defaultValue={dayjs().format('YYYY/MM/DD')}
               />
-            </LocalizationProvider>
+            ) : (
+              <StarOutlineRoundedIcon
+                sx={{
+                  color: darkMode ? '#f9cc71' : '#e8a135',
+                  width: '30px',
+                  height: '30px',
+                  margin: '24px',
+                }}
+              />
+            )}
+          </button>
+        </div>
+        <DialogContent>
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
+            <InputLabel htmlFor="companyName" label="Company Name">
+              Company Name
+            </InputLabel>
+            <Input
+              id="companyName"
+              value={companyName}
+              type="text"
+              label="Company Name"
+              onChange={e => setCompanyName(e.target.value)}
+            />
+          </FormControl>
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
+            <InputLabel htmlFor="roleName" label="Role">
+              Role
+            </InputLabel>
+            <Input
+              id="roleName"
+              value={roleName}
+              type="text"
+              label="Role"
+              onChange={e => setRoleName(e.target.value)}
+            />
           </FormControl>
           <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-            <InputLabel htmlFor="dateLabel" label="Date Label">
-              Date Label
+            <InputLabel htmlFor="domain" label="Company Website">
+              Company Website
+            </InputLabel>
+            <Input
+              id="domain"
+              type="text"
+              label="Company Website"
+              value={domain}
+              placeholder=""
+              onChange={e => setDomain(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    edge="end"
+                    sx={{
+                      marginRight: 0,
+                      marginLeft: '8px',
+                      borderRadius: '5px',
+                    }}
+                  >
+                    {domain && (
+                      <a
+                        href={
+                          !domain.includes('://') ? `http://${domain}` : domain
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <img
+                          src={`https://logo.clearbit.com/${domain}` || ''}
+                          alt=""
+                          className="max-h-[20px] rounded-[2px]"
+                        />
+                      </a>
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+            <InputLabel htmlFor="jobURL" label="Job URL">
+              Job URL
+            </InputLabel>
+            <Input
+              id="jobURL"
+              value={jobURL}
+              type="text"
+              label="Job URL"
+              onChange={e => setJobURL(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    edge="end"
+                    sx={{
+                      marginRight: 0,
+                      marginLeft: '8px',
+                      borderRadius: '50%',
+                    }}
+                  >
+                    {jobURL && (
+                      <a
+                        href={jobURL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <LinkRoundedIcon
+                          sx={{ width: '20px', height: '20px' }}
+                        />
+                      </a>
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+            <InputLabel htmlFor="jobDescription" label="Job Description">
+              Job Description
+            </InputLabel>
+            <Input
+              id="jobDescription"
+              value={jobDescription}
+              type="text"
+              label="Job Description"
+              onChange={e => setJobDescription(e.target.value)}
+              multiline
+              rows={6}
+            />
+          </FormControl>
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+            <InputLabel htmlFor="notes" label="Notes">
+              Notes
+            </InputLabel>
+            <Input
+              id="notes"
+              value={notes}
+              type="text"
+              label="Notes"
+              onChange={e => setNotes(e.target.value)}
+              multiline
+              rows={2}
+            />
+          </FormControl>
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+            <InputLabel htmlFor="workLocation" label="Work Location">
+              Work Location
+            </InputLabel>
+            <Input
+              id="workLocation"
+              value={workLocation}
+              type="text"
+              label="Work Location"
+              onChange={e => setWorkLocation(e.target.value)}
+            />
+          </FormControl>
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+            <InputLabel htmlFor="workModel" label="Work Model">
+              Work Model
             </InputLabel>
             <Select
-              id="dateLabel"
-              label="Date Label"
+              id="workModel"
+              label="Work Model"
               type="text"
-              value={dateLabel}
-              onChange={e => setDateLabel(e.target.value)}
-              defaultValue={
-                listName === 'Applied' || listName === 'Wishlist'
-                  ? 'applied'
-                  : listName === 'Interviews'
-                  ? 'interviews'
-                  : listName === 'Offers'
-                  ? 'offer'
-                  : listName === 'Rejected'
-                  ? 'rejected'
-                  : dateLabel
-                  ? dateLabel
-                  : 'applied'
-              }
+              value={workModel}
+              defaultValue="On-Site"
+              onChange={e => setWorkModel(e.target.value)}
             >
-              {dateTypes.map((dateType, index) => (
-                <MenuItem key={dateType + index} value={dateType}>
-                  <p className="capitalize">{dateType}</p>
+              <MenuItem value={'On-Site'}>On-Site</MenuItem>
+              <MenuItem value={'Remote'}>Remote</MenuItem>
+              <MenuItem value={'Hybrid'}>Hybrid</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+            <InputLabel htmlFor="list" label="List">
+              List
+            </InputLabel>
+            <Select
+              id="list"
+              label="List"
+              type="text"
+              value={listName}
+              onChange={e => setListName(e.target.value)}
+              defaultValue={listName ? listName : 'Wishlist'}
+            >
+              {board.lists.map(list => (
+                <MenuItem key={list._id} value={list.listName}>
+                  {list.listName}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
-          <button onClick={handleAddDate}>
-            <AddCircleOutlineRoundedIcon
-              sx={{ ...greenIconButtonStyle, width: '20px', height: '20px' }}
-            />
-          </button>
-        </div>
-        {date && (
-          <Timeline>
-            {date.created && (
-              <TimelineItem>
-                <TimelineOppositeContent color="text.secondary">
-                  Created
-                </TimelineOppositeContent>
-                <TimelineSeparator>
-                  <TimelineDot />
-                  <TimelineConnector />
-                </TimelineSeparator>
-                <TimelineContent>{formatDate(date.created)}</TimelineContent>
-              </TimelineItem>
-            )}
+          <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+            <InputLabel htmlFor="board" label="Board">
+              Board
+            </InputLabel>
+            <Select
+              id="board"
+              label="Board"
+              type="text"
+              value={boardName}
+              onChange={e => setBoardName(e.target.value)}
+              defaultValue={boardName}
+            >
+              {user &&
+                user.boards &&
+                user.boards.map(board => (
+                  <MenuItem key={board._id} value={board.boardName}>
+                    {board.boardName}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+          <div className="flex gap-[10px]">
+            <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  id="date"
+                  label="Date"
+                  type="date"
+                  openTo="day"
+                  views={['year', 'month', 'day']}
+                  inputFormat="YYYY-MM-DD"
+                  value={dateInput}
+                  onChange={newDate => {
+                    setDateInput(newDate);
+                  }}
+                  defaultValue={dayjs().format('YYYY/MM/DD')}
+                />
+              </LocalizationProvider>
+            </FormControl>
+            <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+              <InputLabel htmlFor="dateLabel" label="Date Label">
+                Date Label
+              </InputLabel>
+              <Select
+                id="dateLabel"
+                label="Date Label"
+                type="text"
+                value={dateLabel}
+                onChange={e => setDateLabel(e.target.value)}
+                defaultValue={
+                  listName === 'Applied' || listName === 'Wishlist'
+                    ? 'applied'
+                    : listName === 'Interviews'
+                    ? 'interviews'
+                    : listName === 'Offers'
+                    ? 'offer'
+                    : listName === 'Rejected'
+                    ? 'rejected'
+                    : dateLabel
+                    ? dateLabel
+                    : 'applied'
+                }
+              >
+                {dateTypes.map((dateType, index) => (
+                  <MenuItem key={dateType + index} value={dateType}>
+                    <p className="capitalize">{dateType}</p>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <button onClick={handleAddDate}>
+              <AddCircleOutlineRoundedIcon
+                sx={{ ...greenIconButtonStyle, width: '20px', height: '20px' }}
+              />
+            </button>
+          </div>
+          {date && (
+            <Timeline>
+              {date.created && (
+                <TimelineItem>
+                  <TimelineOppositeContent color="text.secondary">
+                    Created
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineDot />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent>{formatDate(date.created)}</TimelineContent>
+                </TimelineItem>
+              )}
 
-            {date.applied && (
-              <TimelineItem>
-                <TimelineOppositeContent color="text.secondary">
-                  Applied
-                </TimelineOppositeContent>
-                <TimelineSeparator>
-                  <TimelineDot />
-                  <TimelineConnector />
-                </TimelineSeparator>
-                <TimelineContent>
-                  <div className="flex items-center gap-[5px]">
-                    <p className="w-[100px]">{formatDate(date.applied)}</p>
-                    <button
-                      className="flex items-center"
-                      onClick={() => handleRemoveDate('applied')}
-                    >
-                      <HighlightOffRoundedIcon
-                        sx={{
-                          ...greyIconButtonStyle,
-                          width: '20px',
-                          height: '20px',
-                        }}
-                      />
-                    </button>
-                  </div>
-                </TimelineContent>
-              </TimelineItem>
-            )}
-
-            {date.interviews && date.interviews.length > 0 && (
-              <TimelineItem>
-                <TimelineOppositeContent color="text.secondary">
-                  {date.interviews.length === 1 ? 'Interview' : 'Interviews'}
-                </TimelineOppositeContent>
-                <TimelineSeparator>
-                  <TimelineDot />
-                  <TimelineConnector />
-                </TimelineSeparator>
-                <TimelineContent>
-                  <ul>
-                    {date.interviews.map((interview, index) => (
-                      <div
-                        key={interview + index}
-                        className="flex items-center gap-[5px]"
+              {date.applied && (
+                <TimelineItem>
+                  <TimelineOppositeContent color="text.secondary">
+                    Applied
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineDot />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <div className="flex items-center gap-[5px]">
+                      <p className="w-[100px]">{formatDate(date.applied)}</p>
+                      <button
+                        className="flex items-center"
+                        onClick={() => handleRemoveDate('applied')}
                       >
-                        <li className="w-[100px]">{formatDate(interview)}</li>
-                        <button
-                          className="flex items-center"
-                          onClick={() =>
-                            handleRemoveDate('interviews', interview)
-                          }
+                        <HighlightOffRoundedIcon
+                          sx={{
+                            ...greyIconButtonStyle,
+                            width: '20px',
+                            height: '20px',
+                          }}
+                        />
+                      </button>
+                    </div>
+                  </TimelineContent>
+                </TimelineItem>
+              )}
+
+              {date.interviews && date.interviews.length > 0 && (
+                <TimelineItem>
+                  <TimelineOppositeContent color="text.secondary">
+                    {date.interviews.length === 1 ? 'Interview' : 'Interviews'}
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineDot />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <ul>
+                      {date.interviews.map((interview, index) => (
+                        <div
+                          key={interview + index}
+                          className="flex items-center gap-[5px]"
                         >
-                          <HighlightOffRoundedIcon
-                            sx={{
-                              ...greyIconButtonStyle,
-                              width: '20px',
-                              height: '20px',
-                            }}
-                          />
-                        </button>
-                      </div>
-                    ))}
-                  </ul>
-                </TimelineContent>
-              </TimelineItem>
-            )}
+                          <li className="w-[100px]">{formatDate(interview)}</li>
+                          <button
+                            className="flex items-center"
+                            onClick={() =>
+                              handleRemoveDate('interviews', interview)
+                            }
+                          >
+                            <HighlightOffRoundedIcon
+                              sx={{
+                                ...greyIconButtonStyle,
+                                width: '20px',
+                                height: '20px',
+                              }}
+                            />
+                          </button>
+                        </div>
+                      ))}
+                    </ul>
+                  </TimelineContent>
+                </TimelineItem>
+              )}
 
-            {date.offer && (
-              <TimelineItem>
-                <TimelineOppositeContent color="text.secondary">
-                  Offer
-                </TimelineOppositeContent>
-                <TimelineSeparator>
-                  <TimelineDot />
-                  <TimelineConnector />
-                </TimelineSeparator>
-                <TimelineContent>
-                  <div className="flex items-center gap-[5px]">
-                    <p className="w-[100px]">{formatDate(date.offer)}</p>
-                    <button
-                      className="flex items-center"
-                      onClick={() => handleRemoveDate('offer')}
-                    >
-                      <HighlightOffRoundedIcon
-                        sx={{
-                          ...greyIconButtonStyle,
-                          width: '20px',
-                          height: '20px',
-                        }}
-                      />
-                    </button>
-                  </div>
-                </TimelineContent>
-              </TimelineItem>
-            )}
+              {date.offer && (
+                <TimelineItem>
+                  <TimelineOppositeContent color="text.secondary">
+                    Offer
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineDot />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <div className="flex items-center gap-[5px]">
+                      <p className="w-[100px]">{formatDate(date.offer)}</p>
+                      <button
+                        className="flex items-center"
+                        onClick={() => handleRemoveDate('offer')}
+                      >
+                        <HighlightOffRoundedIcon
+                          sx={{
+                            ...greyIconButtonStyle,
+                            width: '20px',
+                            height: '20px',
+                          }}
+                        />
+                      </button>
+                    </div>
+                  </TimelineContent>
+                </TimelineItem>
+              )}
 
-            {date.rejected && (
-              <TimelineItem>
-                <TimelineOppositeContent color="text.secondary">
-                  Rejected
-                </TimelineOppositeContent>
-                <TimelineSeparator>
-                  <TimelineDot />
-                </TimelineSeparator>
-                <TimelineContent>
-                  <div className="flex items-center gap-[5px]">
-                    <p className="w-[100px]">{formatDate(date.rejected)}</p>
-                    <button
-                      className="flex items-center"
-                      onClick={() => handleRemoveDate('rejected')}
-                    >
-                      <HighlightOffRoundedIcon
-                        sx={{
-                          ...greyIconButtonStyle,
-                          width: '20px',
-                          height: '20px',
-                        }}
-                      />
-                    </button>
-                  </div>
-                </TimelineContent>
-              </TimelineItem>
-            )}
-          </Timeline>
-        )}
-      </DialogContent>
-      <DialogActions>
-        <CancelButton
-          setOpen={setOpen}
-          setCompanyName={setCompanyName}
-          setDomain={setDomain}
-          setJobURL={setJobURL}
-          setJobDescription={setJobDescription}
-          setWorkModel={setWorkModel}
-          setWorkLocation={setWorkLocation}
-          setNotes={setNotes}
-          setDate={setDate}
-          setStarred={setStarred}
-          setDateLabel={setDateLabel}
-          listName={listName}
-        />
-        <Button onClick={handleSave} sx={{ ...buttonGreenStyle }}>
-          Save
-        </Button>
-      </DialogActions>
+              {date.rejected && (
+                <TimelineItem>
+                  <TimelineOppositeContent color="text.secondary">
+                    Rejected
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineDot />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <div className="flex items-center gap-[5px]">
+                      <p className="w-[100px]">{formatDate(date.rejected)}</p>
+                      <button
+                        className="flex items-center"
+                        onClick={() => handleRemoveDate('rejected')}
+                      >
+                        <HighlightOffRoundedIcon
+                          sx={{
+                            ...greyIconButtonStyle,
+                            width: '20px',
+                            height: '20px',
+                          }}
+                        />
+                      </button>
+                    </div>
+                  </TimelineContent>
+                </TimelineItem>
+              )}
+            </Timeline>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <CancelButton
+            setOpen={setOpen}
+            setCompanyName={setCompanyName}
+            setDomain={setDomain}
+            setJobURL={setJobURL}
+            setJobDescription={setJobDescription}
+            setWorkModel={setWorkModel}
+            setWorkLocation={setWorkLocation}
+            setNotes={setNotes}
+            setDate={setDate}
+            setStarred={setStarred}
+            setDateLabel={setDateLabel}
+            listName={listName}
+          />
+          <Button
+            type="submit"
+            onClick={handleSave}
+            sx={{ ...buttonGreenStyle }}
+          >
+            Save
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 }

@@ -25,7 +25,9 @@ function EditBoardButton({ onEdit }) {
     setOpen(false);
   };
 
-  const handleEdit = async () => {
+  const handleEdit = async e => {
+    e.preventDefault();
+
     try {
       await onEdit(newName);
       handleClose();
@@ -52,27 +54,33 @@ function EditBoardButton({ onEdit }) {
       </Button>
       <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
         <DialogTitle>Edit Board</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="newName"
-            label="New Board Name"
-            type="text"
-            fullWidth
-            value={newName}
-            onChange={handleInputChange}
-            sx={{ ...formGreenStyle }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} sx={{ ...lightButtonStyle }}>
-            Cancel
-          </Button>
-          <Button onClick={handleEdit} sx={{ ...buttonGreenStyle }}>
-            Save Changes
-          </Button>
-        </DialogActions>
+        <form action="submit" onSubmit={handleEdit}>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="newName"
+              label="New Board Name"
+              type="text"
+              fullWidth
+              value={newName}
+              onChange={handleInputChange}
+              sx={{ ...formGreenStyle }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} sx={{ ...lightButtonStyle }}>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              onClick={handleEdit}
+              sx={{ ...buttonGreenStyle }}
+            >
+              Save Changes
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </React.Fragment>
   );
