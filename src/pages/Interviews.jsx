@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
 import { editJob, deleteJob } from '../api/jobs.api';
 import { getBoard } from '../api/boards.api';
+import { getList } from '../api/lists.api';
 import { ThemeContext } from '../context/theme.context';
 import EditApplication from '../components/EditApplication';
 import AddJobApplication from '../components/AddJobApplication';
@@ -38,12 +39,11 @@ const Interviews = ({ setCreditsPage }) => {
 
   const storedUserId = localStorage.getItem('userId');
   const [interviewsJobs, setInterviewsJobs] = useState([]);
-
   const [showInterviewsJobs, setShowInterviewsJobs] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
-  const [boards, setBoards] = useState([]);
   const [board, setBoard] = useState('');
   const [lists, setLists] = useState([]);
+  const [currentList, setCurrentList] = useState({});
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingJob, setDeletingJob] = useState(null);
   const [boardName, setBoardName] = useState('');
@@ -52,8 +52,12 @@ const Interviews = ({ setCreditsPage }) => {
 
   useEffect(() => {
     setCreditsPage(false);
-    fetchBoard(boardId);
-    updateUser();
+    if (boardId) {
+      fetchBoard(boardId);
+    } else {
+      setBoardName('All Boards');
+      updateUser(storedUserId);
+    }
   }, [boardId]);
 
   const searchedJob = query => {
@@ -68,29 +72,45 @@ const Interviews = ({ setCreditsPage }) => {
 
   const handleBoardSelection = async e => {
     const selectedBoardName = e.target.value;
-    const selectedBoard = user.boards.find(
+    setBoardName(e.target.value);
+
+    if (selectedBoardName === 'All Boards') {
+      return navigate(`/interviews`);
+    }
+
+    const selectedBoard = user.boards.filter(
       board => board.boardName === selectedBoardName
     );
-    if (selectedBoard) {
-      setBoardName(selectedBoard.boardName);
-      setSelectedBoardId(selectedBoard._id);
-      await fetchBoard(selectedBoard._id);
-      navigate(`/interviews/${selectedBoard._id}`);
+
+    if (selectedBoard[0]._id) {
+      fetchBoard(selectedBoard[0]._id);
+      return navigate(`/interviews/${selectedBoard[0]._id}`);
     }
   };
 
   const fetchBoard = async boardId => {
     try {
       const currentBoard = await getBoard(boardId);
+
+      console.log('currentBoard', currentBoard);
       setBoard(currentBoard);
+      setBoardName(currentBoard.boardName);
+      setSelectedBoardId(currentBoard._id);
+
       const interviewsListId = currentBoard.lists.find(
         list => list.listName === 'Interviews'
       )?._id;
+
+      console.log('interviewsListId', interviewsListId);
 
       if (!interviewsListId) {
         console.error('Interviews list not found for this board.');
         return;
       }
+
+      const list = await getList(interviewsListId);
+
+      setCurrentList(list);
 
       const interviewsJobsFromBoard = currentBoard.jobs.filter(
         job => job.listId === interviewsListId
@@ -103,11 +123,10 @@ const Interviews = ({ setCreditsPage }) => {
     }
   };
 
-  const updateUser = async () => {
+  const updateUser = async userId => {
     try {
-      const newDetails = await getUserDetails(storedUserId);
+      const newDetails = await getUserDetails(userId);
       setUser(newDetails.data);
-      setBoards(newDetails.data.boards);
       setLists(newDetails.data.lists);
 
       const filteredJobs = newDetails.data.jobs.filter(job =>
@@ -129,6 +148,9 @@ const Interviews = ({ setCreditsPage }) => {
         );
         setBoardName(selectedBoard.boardName);
         setSelectedBoardId(selectedBoard._id);
+      } else {
+        setBoardName('All Boards');
+        setSelectedBoardId('');
       }
     } catch (error) {
       console.error('Error fetching user:', error);
@@ -146,7 +168,12 @@ const Interviews = ({ setCreditsPage }) => {
   const onEditApplication = async updatedJob => {
     try {
       await editJob(updatedJob._id, updatedJob);
-      updateUser();
+      await updateUser(storedUserId);
+      if (boardId) {
+        await fetchBoard(boardId);
+      } else {
+        setBoardName('All Boards');
+      }
       handleEditClose();
     } catch (error) {
       console.error('Error editing job:', error);
@@ -161,7 +188,12 @@ const Interviews = ({ setCreditsPage }) => {
   const confirmDelete = async () => {
     try {
       await deleteJob(deletingJob._id);
-      updateUser();
+      await updateUser(storedUserId);
+      if (boardId) {
+        await fetchBoard(boardId);
+      } else {
+        setBoardName('All Boards');
+      }
       setDeleteDialogOpen(false);
       setDeletingJob(null);
     } catch (error) {
@@ -221,7 +253,7 @@ const Interviews = ({ setCreditsPage }) => {
                 My Interviews
               </h2>
             </div>
-            {user && (
+            {user && user.boards && (
               <div className="flex gap-[10px] items-center">
                 <form>
                   <FormControl sx={{ ...formGreenStyle, my: 1 }}>
@@ -249,6 +281,9 @@ const Interviews = ({ setCreditsPage }) => {
                           {board.boardName}
                         </MenuItem>
                       ))}
+                      {user.boards && user.boards.length > 1 && (
+                        <MenuItem value="All Boards">All Boards</MenuItem>
+                      )}
                     </Select>
                   </FormControl>
                 </form>
@@ -264,24 +299,36 @@ const Interviews = ({ setCreditsPage }) => {
               </div>
             )}
           </div>
-          {board && (
+          {user.boards && boardName && (
             <div className="flex items-center my-[30px]">
               <h3
                 className={`text-[16px] ${
                   darkMode ? 'text-white' : 'text-[black]'
                 } font-bold`}
               >
-                {board.jobs.length === 0
+                {boardName === 'All Boards' && user.boards.length > 1
+                  ? 'Add new job application'
+                  : boardName === 'All Boards' && user.boards.length === 0
+                  ? 'Add your first job application'
+                  : board && board.jobs && board.jobs.length === 0
                   ? 'Add your first job application'
                   : 'Add new job application'}
               </h3>
               <AddJobApplication
                 board={board}
-                list="Interviews"
+                list={currentList}
+                defaultList="Interviews"
                 role=""
                 fetchBoard={fetchBoard}
                 boardId={boardId}
-                defaultList="Interviews"
+                currentBoardName={
+                  boardName
+                    ? boardName
+                    : board.boardName
+                    ? board.boardName
+                    : user.boards[user.boards.length - 1].boardName
+                }
+                setCurrentBoardName={setBoardName}
               />
             </div>
           )}
@@ -293,10 +340,10 @@ const Interviews = ({ setCreditsPage }) => {
             </div>
           )}
           <div className="flex flex-wrap gap-[15px]">
-            {handleSort(showInterviewsJobs, sortBy)
-              .filter(job => job.boardId === selectedBoardId)
-              .map((job, index) => {
-                const jobBoard = boards.find(
+            {user.boards &&
+              showInterviewsJobs &&
+              handleSort(showInterviewsJobs, sortBy).map((job, index) => {
+                const jobBoard = user.boards.find(
                   board => board._id === job.boardId
                 );
                 const scheduledDate = new Date(
@@ -401,15 +448,24 @@ const Interviews = ({ setCreditsPage }) => {
                           }}
                         />
                       </button>
-                      {selectedApplication &&
+                      {user &&
+                        selectedApplication &&
                         selectedApplication._id === job._id && (
                           <EditApplication
                             open={Boolean(selectedApplication)}
                             onClose={handleEditClose}
                             application={selectedApplication}
                             board={jobBoard}
+                            currentBoardName={
+                              boardName
+                                ? boardName
+                                : board.boardName
+                                ? board.boardName
+                                : user.boards[user.boards.length - 1].boardName
+                            }
+                            setCurrentBoardName={setBoardName}
                             fetchBoard={fetchBoard}
-                            boardId={jobBoard ? jobBoard._id : null}
+                            boardId={jobBoard ? jobBoard._id : ''}
                             onEdit={onEditApplication}
                             updateUser={updateUser}
                             lists={lists}
