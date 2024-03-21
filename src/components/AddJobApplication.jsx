@@ -104,16 +104,7 @@ function AddJobApplication({
       setCurrentBoardName('All Boards');
       updateUser(user._id);
     }
-    if (open) {
-      setJobBoardName(
-        currentBoardName && currentBoardName !== 'All Boards'
-          ? currentBoardName
-          : board.boardName
-          ? board.boardName
-          : user.boards[user.boards.length - 1].boardName
-      );
-    }
-  }, [list, currentBoardName, open]);
+  }, [list, currentBoardName]);
 
   const handleOpenDialog = () => {
     setOpen(true);
