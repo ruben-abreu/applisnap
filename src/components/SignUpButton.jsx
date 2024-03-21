@@ -339,13 +339,6 @@ function SignUpButton() {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <div className="mr-[6px]">
-            {isLoading && (
-              <CircularProgress
-                sx={{ color: darkMode ? 'white' : '#678B85' }}
-              />
-            )}
-          </div>
           <CancelButton
             setOpen={setOpen}
             setFirstName={setFirstName}
@@ -354,7 +347,15 @@ function SignUpButton() {
             setPassword={setPassword}
           />
           <div className="mr-[16px]">
-            <Button onClick={handleSignUp} sx={{ ...buttonGreenStyle }}>
+            <Button
+              onClick={handleSignUp}
+              sx={{ ...buttonGreenStyle }}
+              startIcon={
+                isLoading && (
+                  <CircularProgress sx={{ color: 'white' }} size={16} />
+                )
+              }
+            >
               Sign Up
             </Button>
           </div>

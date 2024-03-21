@@ -216,18 +216,17 @@ function UserImage() {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <div className="mr-[6px]">
-            {isLoading && (
-              <CircularProgress
-                sx={{ color: darkMode ? 'white' : '#678B85' }}
-              />
-            )}
-          </div>
           <CancelButton setOpen={setOpen} />
           <div className="mr-[16px]">
             <UploadImageButtonStyled
               onClick={handleUploadImage}
-              startIcon={<CloudUploadRoundedIcon />}
+              startIcon={
+                isLoading ? (
+                  <CircularProgress sx={{ color: 'white' }} size={16} />
+                ) : (
+                  <CloudUploadRoundedIcon />
+                )
+              }
             >
               Upload Image
             </UploadImageButtonStyled>

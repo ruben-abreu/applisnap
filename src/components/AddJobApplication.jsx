@@ -55,6 +55,7 @@ function AddJobApplication({
   const [notes, setNotes] = useState('');
   const [starred, setStarred] = useState(false);
   const [listName, setListName] = useState(defaultList);
+  const [boardName, setBoardName] = useState(board.boardName);
   const [dateInput, setDateInput] = useState(dayjs());
   const [dateLabel, setDateLabel] = useState(
     listName === 'Applied' || listName === 'Wishlist'
@@ -190,7 +191,16 @@ function AddJobApplication({
         formattedDomain = formattedDomain.split('/')[0];
       }
 
-      const list = board.lists.filter(list => list.listName === listName);
+      const selectedBoard = user.boards.filter(
+        board => board.boardName === boardName
+      );
+
+      const boardLists = user.lists.filter(
+        list => list.boardId === selectedBoard._id
+      );
+
+      const list = boardLists.filter(list => list.listName === listName);
+
       console.log('list', list);
 
       let formattedDate = dayjs().format('YYYY/MM/DD');
@@ -222,8 +232,8 @@ function AddJobApplication({
         notes,
         date: updatedDate,
         starred,
-        boardId: board._id,
-        listId: list[0]._id,
+        boardId: selectedBoard._id,
+        listId: list._id,
         userId: user._id,
       };
 
@@ -452,7 +462,27 @@ function AddJobApplication({
             ))}
           </Select>
         </FormControl>
-
+        <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
+          <InputLabel htmlFor="board" label="Board">
+            Board
+          </InputLabel>
+          <Select
+            id="board"
+            label="Board"
+            type="text"
+            value={boardName}
+            onChange={e => setBoardName(e.target.value)}
+            defaultValue={boardName}
+          >
+            {user &&
+              user.boards &&
+              user.boards.map(board => (
+                <MenuItem key={board._id} value={board.boardName}>
+                  {board.boardName}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
         <div className="flex gap-[10px]">
           <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>

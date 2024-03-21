@@ -17,6 +17,7 @@ import Board from './pages/Board';
 import ErrorPage from './pages/ErrorPage';
 import Credits from './pages/Credits';
 import Footer from './components/Footer';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   const { darkMode } = useContext(ThemeContext);
@@ -57,7 +58,15 @@ function App() {
             element={<Wishlist setCreditsPage={setCreditsPage} />}
           />
           <Route
+            path="/wishlist"
+            element={<Wishlist setCreditsPage={setCreditsPage} />}
+          />
+          <Route
             path="/applications/:boardId"
+            element={<Applications setCreditsPage={setCreditsPage} />}
+          />
+          <Route
+            path="/applications"
             element={<Applications setCreditsPage={setCreditsPage} />}
           />
           <Route
@@ -65,11 +74,23 @@ function App() {
             element={<Interviews setCreditsPage={setCreditsPage} />}
           />
           <Route
+            path="/interviews"
+            element={<Interviews setCreditsPage={setCreditsPage} />}
+          />
+          <Route
             path="/offers/:boardId"
             element={<Offers setCreditsPage={setCreditsPage} />}
           />
           <Route
+            path="/offers"
+            element={<Offers setCreditsPage={setCreditsPage} />}
+          />
+          <Route
             path="/rejected/:boardId"
+            element={<Rejected setCreditsPage={setCreditsPage} />}
+          />
+          <Route
+            path="/rejected"
             element={<Rejected setCreditsPage={setCreditsPage} />}
           />
           <Route
@@ -88,6 +109,7 @@ function App() {
             path="/credits"
             element={<Credits setCreditsPage={setCreditsPage} />}
           />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route
             path="*"
             element={<ErrorPage setCreditsPage={setCreditsPage} />}

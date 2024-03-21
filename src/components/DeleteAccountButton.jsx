@@ -91,20 +91,19 @@ function DeleteAccountButton() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <div className="mr-[6px]">
-            {isLoading && (
-              <CircularProgress
-                sx={{ color: darkMode ? 'white' : '#678B85' }}
-              />
-            )}
-          </div>
           <CancelButton setOpen={setOpen} />
           <Button
             onClick={handleAccountDelete}
             autoFocus
             variant="outlined"
             color="error"
-            startIcon={<DeleteIcon />}
+            startIcon={
+              isLoading ? (
+                <CircularProgress sx={{ color: '#f44336' }} size={16} />
+              ) : (
+                <DeleteIcon />
+              )
+            }
             sx={{ padding: '6px 12px' }}
           >
             Delete Account

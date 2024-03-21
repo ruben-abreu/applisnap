@@ -119,7 +119,13 @@ function ResetPassword() {
         <div className="mt-[20px]">
           <Button
             onClick={handleChangePassword}
-            startIcon={<ChangeCircleRoundedIcon />}
+            startIcon={
+              isLoading ? (
+                <CircularProgress sx={{ color: '#ebb542' }} size={16} />
+              ) : (
+                <ChangeCircleRoundedIcon />
+              )
+            }
             sx={{ ...yellowButtonStyle }}
           >
             Change Password

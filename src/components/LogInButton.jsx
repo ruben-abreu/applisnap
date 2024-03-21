@@ -66,7 +66,14 @@ function LogInButton() {
     setIsValidEmail(emailRegex.test(email));
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async e => {
+    e.preventDefault();
+
+    if (!email || email.trim() === '') {
+      alert('Email cannot be empty');
+      return;
+    }
+
     if (!isValidEmail) {
       alert('Invalid email format');
       return;
@@ -100,8 +107,21 @@ function LogInButton() {
     }
   };
 
-  const handleForgotPassword = async () => {
+  const handleForgotPassword = async e => {
+    e.preventDefault();
+
+    if (!email || email.trim() === '') {
+      alert('Email cannot be empty');
+      return;
+    }
+
+    if (!isValidEmail) {
+      alert('Invalid email format');
+      return;
+    }
+
     setIsLoading(true);
+
     try {
       await forgotPassword(email);
       setIsLoading(false);
@@ -137,106 +157,114 @@ function LogInButton() {
           {!forgotPasswordClicked ? 'Log In' : 'Reset Password'}
         </LogInDialogTitle>
 
-        <DialogContent>
-          <FormControl
-            variant="standard"
-            required
-            fullWidth
-            sx={{ ...formGreenStyle }}
-          >
-            <InputLabel htmlFor="standard-adornment-email">
-              Email Address
-            </InputLabel>
-            <Input
-              id="standard-adornment-email"
-              value={email}
-              onChange={handleEmailChange}
-              onBlur={validateEmail}
-              error={!isValidEmail}
-              type="email"
-              label="Email Address"
-            />
-          </FormControl>
-
-          {!forgotPasswordClicked && (
+        <form
+          action="submit"
+          onSubmit={!forgotPasswordClicked ? handleLogin : handleForgotPassword}
+        >
+          <DialogContent>
             <FormControl
               variant="standard"
               required
               fullWidth
               sx={{ ...formGreenStyle }}
             >
-              <InputLabel htmlFor="standard-adornment-password">
-                Password
+              <InputLabel htmlFor="standard-adornment-email">
+                Email Address
               </InputLabel>
               <Input
-                id="standard-adornment-password"
-                value={password}
-                onChange={handlePasswordChange}
-                type={showPassword ? 'text' : 'password'}
-                autoComplete="on"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                      sx={{
-                        marginRight: 0,
-                        marginLeft: '8px',
-                      }}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
+                id="standard-adornment-email"
+                value={email}
+                onChange={handleEmailChange}
+                onBlur={validateEmail}
+                error={!isValidEmail}
+                type="email"
+                label="Email Address"
               />
             </FormControl>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <div className="flex flex-col">
-            <div className="flex">
-              <div className="mr-[10px]">
-                {isLoading && (
-                  <CircularProgress
-                    sx={{ color: darkMode ? 'white' : '#678B85' }}
+
+            {!forgotPasswordClicked && (
+              <FormControl
+                variant="standard"
+                required
+                fullWidth
+                sx={{ ...formGreenStyle }}
+              >
+                <InputLabel htmlFor="standard-adornment-password">
+                  Password
+                </InputLabel>
+                <Input
+                  id="standard-adornment-password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="on"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                        sx={{
+                          marginRight: 0,
+                          marginLeft: '8px',
+                        }}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                />
+              </FormControl>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <div className="flex flex-col">
+              <div className="flex">
+                <div className="mr-[6px]">
+                  <CancelButton
+                    setOpen={setOpen}
+                    setEmail={setEmail}
+                    setPassword={setPassword}
+                    setForgotPasswordClicked={setForgotPasswordClicked}
                   />
+                </div>
+                <div className="mr-[16px]">
+                  <Button
+                    type="submit"
+                    onClick={
+                      !forgotPasswordClicked
+                        ? handleLogin
+                        : handleForgotPassword
+                    }
+                    startIcon={
+                      isLoading && (
+                        <CircularProgress sx={{ color: 'white' }} size={16} />
+                      )
+                    }
+                    sx={{
+                      ...buttonGreenStyle,
+                    }}
+                  >
+                    {!forgotPasswordClicked ? 'Log In' : 'Reset Password'}
+                  </Button>
+                </div>
+              </div>
+              <div
+                className={`text-right text-[14px] ${
+                  darkMode ? 'text-white' : 'text-[#678B85]'
+                } mr-[16px] mt-[15px]`}
+              >
+                {!forgotPasswordClicked && (
+                  <button onClick={() => setForgotPasswordClicked(true)}>
+                    Forgot password?
+                  </button>
                 )}
               </div>
-              <div className="mr-[6px]">
-                <CancelButton
-                  setOpen={setOpen}
-                  setEmail={setEmail}
-                  setPassword={setPassword}
-                  setForgotPasswordClicked={setForgotPasswordClicked}
-                />
-              </div>
-              <div className="mr-[16px]">
-                <Button
-                  onClick={
-                    !forgotPasswordClicked ? handleLogin : handleForgotPassword
-                  }
-                  sx={{ ...buttonGreenStyle }}
-                >
-                  {!forgotPasswordClicked ? 'Log In' : 'Reset Password'}
-                </Button>
-              </div>
             </div>
-            <div
-              className={`text-right text-[14px] ${
-                darkMode ? 'text-white' : 'text-[#678B85]'
-              } mr-[16px] mt-[15px]`}
-            >
-              {!forgotPasswordClicked && (
-                <button onClick={() => setForgotPasswordClicked(true)}>
-                  Forgot password?
-                </button>
-              )}
-            </div>
-          </div>
-        </DialogActions>
+          </DialogActions>
+        </form>
       </Dialog>
     </React.Fragment>
   );

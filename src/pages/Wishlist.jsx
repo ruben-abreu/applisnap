@@ -38,7 +38,6 @@ const Wishlist = ({ setCreditsPage }) => {
 
   const storedUserId = localStorage.getItem('userId');
   const [wishlistJobs, setWishlistJobs] = useState([]);
-
   const [showWishlistJobs, setShowWishlistJobs] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [boards, setBoards] = useState([]);
@@ -52,8 +51,12 @@ const Wishlist = ({ setCreditsPage }) => {
 
   useEffect(() => {
     setCreditsPage(false);
-    fetchBoard(boardId);
-    updateUser();
+    if (boardId) {
+      fetchBoard(boardId);
+    } else {
+      setBoardName('All Boards');
+      updateUser();
+    }
   }, [boardId]);
 
   const searchedJob = query => {
@@ -68,6 +71,12 @@ const Wishlist = ({ setCreditsPage }) => {
 
   const handleBoardSelection = async e => {
     const selectedBoardName = e.target.value;
+
+    if (selectedBoardName === 'All Boards') {
+      setBoardName('All Boards');
+      return navigate(`/wishlist`);
+    }
+
     const selectedBoard = user.boards.find(
       board => board.boardName === selectedBoardName
     );
@@ -83,6 +92,7 @@ const Wishlist = ({ setCreditsPage }) => {
     try {
       const currentBoard = await getBoard(boardId);
       setBoard(currentBoard);
+      setBoardName(currentBoard.boardName);
       const wishlistListId = currentBoard.lists.find(
         list => list.listName === 'Wishlist'
       )?._id;
@@ -130,6 +140,9 @@ const Wishlist = ({ setCreditsPage }) => {
         );
         setBoardName(selectedBoard.boardName);
         setSelectedBoardId(selectedBoard._id);
+      } else {
+        setBoardName('All Boards');
+        setSelectedBoardId('');
       }
     } catch (error) {
       console.error('Error fetching user:', error);
@@ -250,6 +263,9 @@ const Wishlist = ({ setCreditsPage }) => {
                           {board.boardName}
                         </MenuItem>
                       ))}
+                      {user.boards && user.boards.length > 1 && (
+                        <MenuItem value="All Boards">All Boards</MenuItem>
+                      )}
                     </Select>
                   </FormControl>
                 </form>
@@ -265,14 +281,18 @@ const Wishlist = ({ setCreditsPage }) => {
               </div>
             )}
           </div>
-          {board && (
+          {board && user.boards && boardName && (
             <div className="flex items-center my-[30px]">
               <h3
                 className={`text-[16px] ${
                   darkMode ? 'text-white' : 'text-[black]'
                 } font-bold`}
               >
-                {board.jobs.length === 0
+                {boardName === 'All Boards' && user.boards.length > 1
+                  ? 'Add new job application'
+                  : boardName === 'All Boards' && user.boards.length === 0
+                  ? 'Add your first job application'
+                  : board.jobs.length === 0
                   ? 'Add your first job application'
                   : 'Add new job application'}
               </h3>
@@ -293,120 +313,115 @@ const Wishlist = ({ setCreditsPage }) => {
             </div>
           )}
           <div className="flex flex-wrap gap-[15px]">
-            {handleSort(showWishlistJobs, sortBy)
-              .filter(job => job.boardId === selectedBoardId)
-              .map((job, index) => {
-                const jobBoard = boards.find(
-                  board => board._id === job.boardId
-                );
-                return (
-                  <div
-                    key={index}
-                    className={`w-[120px] rounded ${
-                      darkMode ? 'bg-[#6e6e6e]' : 'bg-[#ebebeb]'
-                    } shadow-md ${
-                      darkMode ? 'shadow-[#6f6f6f]' : 'shadow-[#cfcfcf]'
-                    } `}
-                  >
-                    <button onClick={() => handleEdit(job)}>
-                      <div className="h-[120px] flex items-center">
-                        <div className="w-[100%] m-[10px] flex justify-center items-center">
-                          <Avatar
-                            sx={{
-                              fontSize: '20px',
-                              borderRadius: '2px',
-                              maxHeight: '90px',
-                              maxWidth: '90px',
-                              width: 'auto',
-                              height: 'auto',
-                              backgroundColor: 'transparent',
-                              color: darkMode ? 'white' : 'black',
-                            }}
-                            src={
-                              `https://logo.clearbit.com/${job.domain}` || ''
-                            }
-                          >
-                            <p className="uppercase">
-                              {job.companyName &&
-                              job.companyName.split(' ').length > 1
-                                ? job.companyName
-                                    .split(' ')
-                                    .map(word => word[0])
-                                    .slice(0, 2)
-                                    .join('')
-                                : job.companyName.split(' ').length === 1
-                                ? job.companyName[0]
-                                : ''}
-                            </p>
-                          </Avatar>
-                        </div>
-                      </div>
-                      <div className="h-[130px] w-[120px]">
-                        <div className="flex flex-col justify-center gap-[10px] mx-[10px]">
-                          <p className="text-sm font-bold">{job.companyName}</p>
-                          <p className="text-xs">{job.roleName}</p>
-                        </div>
-                      </div>
-                    </button>
-
-                    <div className="mb-[10px] flex justify-center gap-[15px]">
-                      {job.jobURL && (
-                        <a
-                          href={job.jobURL}
-                          target="_blank"
-                          rel="noopener noreferrer"
+            {handleSort(showWishlistJobs, sortBy).map((job, index) => {
+              const jobBoard = boards.find(board => board._id === job.boardId);
+              return (
+                <div
+                  key={index}
+                  className={`w-[120px] rounded ${
+                    darkMode ? 'bg-[#6e6e6e]' : 'bg-[#ebebeb]'
+                  } shadow-md ${
+                    darkMode ? 'shadow-[#6f6f6f]' : 'shadow-[#cfcfcf]'
+                  } `}
+                >
+                  <button onClick={() => handleEdit(job)}>
+                    <div className="h-[120px] flex items-center">
+                      <div className="w-[100%] m-[10px] flex justify-center items-center">
+                        <Avatar
+                          sx={{
+                            fontSize: '20px',
+                            borderRadius: '2px',
+                            maxHeight: '90px',
+                            maxWidth: '90px',
+                            width: 'auto',
+                            height: 'auto',
+                            backgroundColor: 'transparent',
+                            color: darkMode ? 'white' : 'black',
+                          }}
+                          src={`https://logo.clearbit.com/${job.domain}` || ''}
                         >
-                          <LinkRoundedIcon
-                            sx={{
-                              ...greenIconButtonStyle,
-                              width: '20px',
-                              height: '20px',
-                            }}
-                          />
-                        </a>
-                      )}
-                      <button
-                        onClick={() => handleEdit(job)}
-                        className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
-                      >
-                        <EditRoundedIcon
-                          sx={{
-                            ...greenIconButtonStyle,
-                            width: '20px',
-                            height: '20px',
-                          }}
-                        />
-                      </button>
-                      {selectedApplication &&
-                        selectedApplication._id === job._id && (
-                          <EditApplication
-                            open={Boolean(selectedApplication)}
-                            onClose={handleEditClose}
-                            application={selectedApplication}
-                            board={jobBoard}
-                            fetchBoard={fetchBoard}
-                            boardId={jobBoard ? jobBoard._id : null}
-                            onEdit={onEditApplication}
-                            updateUser={updateUser}
-                            lists={lists}
-                          />
-                        )}
-                      <button
-                        onClick={() => handleDelete(job)}
-                        className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
-                      >
-                        <DeleteRoundedIcon
-                          sx={{
-                            ...greenIconButtonStyle,
-                            width: '20px',
-                            height: '20px',
-                          }}
-                        />
-                      </button>
+                          <p className="uppercase">
+                            {job.companyName &&
+                            job.companyName.split(' ').length > 1
+                              ? job.companyName
+                                  .split(' ')
+                                  .map(word => word[0])
+                                  .slice(0, 2)
+                                  .join('')
+                              : job.companyName.split(' ').length === 1
+                              ? job.companyName[0]
+                              : ''}
+                          </p>
+                        </Avatar>
+                      </div>
                     </div>
+                    <div className="h-[130px] w-[120px]">
+                      <div className="flex flex-col justify-center gap-[10px] mx-[10px]">
+                        <p className="text-sm font-bold">{job.companyName}</p>
+                        <p className="text-xs">{job.roleName}</p>
+                      </div>
+                    </div>
+                  </button>
+
+                  <div className="mb-[10px] flex justify-center gap-[15px]">
+                    {job.jobURL && (
+                      <a
+                        href={job.jobURL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <LinkRoundedIcon
+                          sx={{
+                            ...greenIconButtonStyle,
+                            width: '20px',
+                            height: '20px',
+                          }}
+                        />
+                      </a>
+                    )}
+                    <button
+                      onClick={() => handleEdit(job)}
+                      className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
+                    >
+                      <EditRoundedIcon
+                        sx={{
+                          ...greenIconButtonStyle,
+                          width: '20px',
+                          height: '20px',
+                        }}
+                      />
+                    </button>
+                    {user &&
+                      selectedApplication &&
+                      selectedApplication._id === job._id && (
+                        <EditApplication
+                          open={Boolean(selectedApplication)}
+                          onClose={handleEditClose}
+                          application={selectedApplication}
+                          board={jobBoard}
+                          fetchBoard={fetchBoard}
+                          boardId={jobBoard ? jobBoard._id : ''}
+                          onEdit={onEditApplication}
+                          updateUser={updateUser}
+                          lists={lists}
+                        />
+                      )}
+                    <button
+                      onClick={() => handleDelete(job)}
+                      className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
+                    >
+                      <DeleteRoundedIcon
+                        sx={{
+                          ...greenIconButtonStyle,
+                          width: '20px',
+                          height: '20px',
+                        }}
+                      />
+                    </button>
                   </div>
-                );
-              })}
+                </div>
+              );
+            })}
             {wishlistJobs.length === 0 && (
               <div className="text-center col-span-full mt-4">
                 <p>You have no jobs in this list.</p>

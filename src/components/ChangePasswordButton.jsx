@@ -153,18 +153,17 @@ function ChangePasswordButton() {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <div className="mr-[6px]">
-            {isLoading && (
-              <CircularProgress
-                sx={{ color: darkMode ? 'white' : '#678B85' }}
-              />
-            )}
-          </div>
           <CancelButton setOpen={setOpen} setPassword={setPassword} />
           <div className="mr-[16px]">
             <Button
               onClick={handleChangePassword}
-              startIcon={<ChangeCircleRoundedIcon />}
+              startIcon={
+                isLoading ? (
+                  <CircularProgress sx={{ color: '#ebb542' }} size={16} />
+                ) : (
+                  <ChangeCircleRoundedIcon />
+                )
+              }
               sx={{ ...yellowButtonStyle }}
             >
               Change Password

@@ -146,18 +146,19 @@ function AddBoardButton() {
         <DialogActions>
           <div className="flex flex-col">
             <div className="flex">
-              <div className="mr-[10px]">
-                {isLoading && (
-                  <CircularProgress
-                    sx={{ color: darkMode ? 'white' : '#678B85' }}
-                  />
-                )}
-              </div>
               <div className="mr-[6px]">
                 <CancelButton setOpen={setOpen} setBoardName={setBoardName} />
               </div>
               <div className="mr-[16px]">
-                <Button onClick={handleAddBoard} sx={{ ...buttonGreenStyle }}>
+                <Button
+                  onClick={handleAddBoard}
+                  sx={{ ...buttonGreenStyle }}
+                  startIcon={
+                    isLoading && (
+                      <CircularProgress sx={{ color: 'white' }} size={16} />
+                    )
+                  }
+                >
                   Create Board
                 </Button>
               </div>
