@@ -27,6 +27,7 @@ import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
 import Avatar from '@mui/material/Avatar';
 import Sort from '../components/Sort';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
 
 const Applications = ({ setCreditsPage }) => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
@@ -58,6 +59,7 @@ const Applications = ({ setCreditsPage }) => {
       setBoardName('All Boards');
       updateUser(storedUserId);
     }
+    setSortBy('starred');
   }, [boardId]);
 
   const searchedJob = query => {
@@ -227,17 +229,23 @@ const Applications = ({ setCreditsPage }) => {
       return [...jobs].sort(
         (a, b) => new Date(b.date.created) - new Date(a.date.created)
       );
+    } else if (sortBy === 'starred') {
+      return [...jobs].sort((a, b) => {
+        if (a.starred && !b.starred) return -1;
+        if (!a.starred && b.starred) return 1;
+        return 0;
+      });
     } else {
       return jobs;
     }
   };
 
   return (
-    <div className="m-[2%] mt-[30px]">
+    <div className='m-[2%] mt-[30px]'>
       {loggedIn ? (
         <div>
-          <div className="flex justify-between items-center mt-[30px] mb-[10px]">
-            <div className="flex items-center gap-[10px]">
+          <div className='flex justify-between items-center mt-[30px] mb-[10px]'>
+            <div className='flex items-center gap-[10px]'>
               <SendRoundedIcon
                 sx={{
                   color: darkMode ? 'white' : '#678B85',
@@ -254,16 +262,16 @@ const Applications = ({ setCreditsPage }) => {
               </h2>
             </div>
             {user && user.boards && (
-              <div className="flex gap-[10px] items-center">
+              <div className='flex gap-[10px] items-center'>
                 <form>
                   <FormControl sx={{ ...formGreenStyle, my: 1 }}>
-                    <InputLabel htmlFor="board" label="Board">
+                    <InputLabel htmlFor='board' label='Board'>
                       Board
                     </InputLabel>
                     <Select
-                      id="board"
-                      label="Board"
-                      type="text"
+                      id='board'
+                      label='Board'
+                      type='text'
                       value={boardName}
                       sx={{
                         fontSize: '14px',
@@ -282,7 +290,7 @@ const Applications = ({ setCreditsPage }) => {
                         </MenuItem>
                       ))}
                       {user.boards && user.boards.length > 1 && (
-                        <MenuItem value="All Boards">All Boards</MenuItem>
+                        <MenuItem value='All Boards'>All Boards</MenuItem>
                       )}
                     </Select>
                   </FormControl>
@@ -300,7 +308,7 @@ const Applications = ({ setCreditsPage }) => {
             )}
           </div>
           {user.boards && boardName && (
-            <div className="flex items-center my-[30px]">
+            <div className='flex items-center my-[30px]'>
               <h3
                 className={`text-[16px] ${
                   darkMode ? 'text-white' : 'text-[black]'
@@ -317,8 +325,8 @@ const Applications = ({ setCreditsPage }) => {
               <AddJobApplication
                 board={board}
                 list={currentList}
-                defaultList="Applied"
-                role=""
+                defaultList='Applied'
+                role=''
                 fetchBoard={fetchBoard}
                 boardId={boardId}
                 currentBoardName={
@@ -334,12 +342,12 @@ const Applications = ({ setCreditsPage }) => {
           )}
 
           {appliedJobs && appliedJobs.length > 0 && (
-            <div className="flex justify-start my-[20px] gap-2">
+            <div className='flex justify-start my-[20px] gap-2'>
               <SearchBarListPages searchedJob={searchedJob} />
               <Sort sortBy={sortBy} setSortBy={setSortBy} />
             </div>
           )}
-          <div className="flex flex-wrap gap-[15px]">
+          <div className='flex flex-wrap gap-[15px]'>
             {user.boards &&
               showAppliedJobs &&
               handleSort(showAppliedJobs, sortBy).map((job, index) => {
@@ -356,8 +364,8 @@ const Applications = ({ setCreditsPage }) => {
                     } `}
                   >
                     <button onClick={() => handleEdit(job)}>
-                      <div className="h-[120px] flex items-center">
-                        <div className="w-[100%] m-[10px] flex justify-center items-center">
+                      <div className='h-[120px] flex items-center'>
+                        <div className='w-[100%] m-[10px] flex justify-center items-center'>
                           <Avatar
                             sx={{
                               fontSize: '20px',
@@ -373,7 +381,7 @@ const Applications = ({ setCreditsPage }) => {
                               `https://logo.clearbit.com/${job.domain}` || ''
                             }
                           >
-                            <p className="uppercase">
+                            <p className='uppercase'>
                               {job.companyName &&
                               job.companyName.split(' ').length > 1
                                 ? job.companyName
@@ -388,20 +396,33 @@ const Applications = ({ setCreditsPage }) => {
                           </Avatar>
                         </div>
                       </div>
-                      <div className="h-[130px] w-[120px]">
-                        <div className="flex flex-col justify-center gap-[10px] mx-[10px]">
-                          <p className="text-sm font-bold">{job.companyName}</p>
-                          <p className="text-xs">{job.roleName}</p>
+                      <div className='h-[130px] w-[120px]'>
+                        <div className='flex flex-col justify-center gap-[10px] mx-[10px]'>
+                          <p className='text-sm font-bold'>{job.companyName}</p>
+                          <p className='text-xs'>{job.roleName}</p>
+                          <p>
+                            {job.starred && (
+                              <div>
+                                <StarRoundedIcon
+                                  sx={{
+                                    color: darkMode ? '#f9cc71' : '#e8a135',
+                                    width: '20px',
+                                    height: '20px',
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </p>
                         </div>
                       </div>
                     </button>
 
-                    <div className="mb-[10px] flex justify-center gap-[15px]">
+                    <div className='mb-[10px] flex justify-center gap-[15px]'>
                       {job.jobURL && (
                         <a
                           href={job.jobURL}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          target='_blank'
+                          rel='noopener noreferrer'
                         >
                           <LinkRoundedIcon
                             sx={{
@@ -414,7 +435,7 @@ const Applications = ({ setCreditsPage }) => {
                       )}
                       <button
                         onClick={() => handleEdit(job)}
-                        className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
+                        className='text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase'
                       >
                         <EditRoundedIcon
                           sx={{
@@ -449,7 +470,7 @@ const Applications = ({ setCreditsPage }) => {
                         )}
                       <button
                         onClick={() => handleDelete(job)}
-                        className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
+                        className='text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase'
                       >
                         <DeleteRoundedIcon
                           sx={{
@@ -464,7 +485,7 @@ const Applications = ({ setCreditsPage }) => {
                 );
               })}
             {appliedJobs.length === 0 && (
-              <div className="text-center col-span-full mt-4">
+              <div className='text-center col-span-full mt-4'>
                 <p>You have no jobs in this list.</p>
               </div>
             )}
@@ -485,7 +506,7 @@ const Applications = ({ setCreditsPage }) => {
           </Dialog>
         </div>
       ) : (
-        <p className="text-center mt-[50px] font-bold text-xl">
+        <p className='text-center mt-[50px] font-bold text-xl'>
           Please log in to view this page
         </p>
       )}
