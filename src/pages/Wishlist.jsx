@@ -175,7 +175,8 @@ const Wishlist = ({ setCreditsPage }) => {
   const confirmDelete = async () => {
     try {
       await deleteJob(deletingJob._id);
-      updateUser();
+      await updateUser();
+      await fetchBoard(boardId);
       setDeleteDialogOpen(false);
       setDeletingJob(null);
     } catch (error) {
@@ -299,6 +300,7 @@ const Wishlist = ({ setCreditsPage }) => {
               <AddJobButton
                 board={board}
                 list="Wishlist"
+                defaultList="Wishlist"
                 role=""
                 fetchBoard={fetchBoard}
                 boardId={boardId}

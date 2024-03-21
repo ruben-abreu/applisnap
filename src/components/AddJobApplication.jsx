@@ -54,7 +54,9 @@ function AddJobApplication({
   const [workLocation, setWorkLocation] = useState('');
   const [notes, setNotes] = useState('');
   const [starred, setStarred] = useState(false);
-  const [listName, setListName] = useState(defaultList);
+  const [listName, setListName] = useState(
+    defaultList ? defaultList : 'Wishlist'
+  );
   const [boardName, setBoardName] = useState(board.boardName);
   const [dateInput, setDateInput] = useState(dayjs());
   const [dateLabel, setDateLabel] = useState(
@@ -195,9 +197,19 @@ function AddJobApplication({
         board => board.boardName === boardName
       );
 
+      console.log('selectedBoard', selectedBoard);
+
+      console.log('selectedBoard[0]._id', selectedBoard[0]._id);
+
+      console.log('user.lists', user.lists);
+
       const boardLists = user.lists.filter(
-        list => list.boardId === selectedBoard._id
+        list => list.boardId === selectedBoard[0]._id
       );
+
+      console.log('boardLists', boardLists);
+
+      console.log('listName', listName);
 
       const list = boardLists.filter(list => list.listName === listName);
 
@@ -232,8 +244,8 @@ function AddJobApplication({
         notes,
         date: updatedDate,
         starred,
-        boardId: selectedBoard._id,
-        listId: list._id,
+        boardId: selectedBoard[0]._id,
+        listId: list[0]._id,
         userId: user._id,
       };
 
