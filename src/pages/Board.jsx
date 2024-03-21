@@ -53,7 +53,7 @@ function Board({ setCreditsPage }) {
         user.boards.filter(board => board._id === boardId).boardName
       );
     }
-  }, [boardId, user]);
+  }, [boardId]);
 
   const searchedCompany = query => {
     const filteredApplicationList = applicationList.filter(application => {
