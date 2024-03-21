@@ -14,21 +14,20 @@ const Sort = ({ sortBy, setSortBy }) => {
       <Select
         value={sortBy}
         onChange={handleSortChange}
-        labelId="sort-by-label"
-        id="sort-by"
         displayEmpty
+        inputProps={{ 'aria-label': 'Sort By' }}
         sx={{
           fontSize: width < 450 ? '10px' : width < 600 ? '12px' : '14px',
           maxWidth: width < 450 ? '100px' : width < 600 ? '150px' : '300px',
         }}
       >
-        <MenuItem value="" disabled>
+        <MenuItem value='starred' disabled>
           Sort by
         </MenuItem>
-        <MenuItem value="asc">A-Z</MenuItem>
-        <MenuItem value="desc">Z-A</MenuItem>
-        <MenuItem value="dateAsc">Oldest</MenuItem>
-        <MenuItem value="dateDesc">Newest</MenuItem>
+        <MenuItem value='asc'>A-Z</MenuItem>
+        <MenuItem value='desc'>Z-A</MenuItem>
+        <MenuItem value='dateAsc'>Oldest</MenuItem>
+        <MenuItem value='dateDesc'>Newest</MenuItem>
       </Select>
     </FormControl>
   );
