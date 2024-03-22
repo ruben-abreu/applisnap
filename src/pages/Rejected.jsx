@@ -178,10 +178,10 @@ const Rejected = ({ setCreditsPage }) => {
   const confirmDelete = async () => {
     try {
       await deleteJob(deletingJob._id);
-      await updateUser(storedUserId);
-      if (boardId) {
+      if (boardId && boardName !== 'All Boards') {
         await fetchBoard(boardId);
       } else {
+        await updateUser(storedUserId);
         setBoardName('All Boards');
       }
       setDeleteDialogOpen(false);
@@ -315,6 +315,7 @@ const Rejected = ({ setCreditsPage }) => {
                 defaultList="Rejected"
                 role=""
                 fetchBoard={fetchBoard}
+                updateUser={updateUser}
                 boardId={boardId}
                 currentBoardName={
                   boardName

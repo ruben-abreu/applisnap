@@ -269,9 +269,11 @@ function AddJobApplication({
     try {
       await addJob(jobData);
 
-      await fetchBoard(selectedBoard[0]._id);
+      if (currentBoardName !== 'All Boards') {
+        await fetchBoard(selectedBoard[0]._id);
+      }
 
-      if (updateUser && currentBoardName == 'All Boards') {
+      if (updateUser && currentBoardName === 'All Boards') {
         await updateUser(user._id);
         setCurrentBoardName('All Boards');
       }

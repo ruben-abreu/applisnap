@@ -109,7 +109,7 @@ function EditApplication({
     if (currentBoardName === 'All Boards' && updateUser) {
       setCurrentBoardName('All Boards');
       updateUser(user._id);
-    } else if (fetchBoard) {
+    } else if (currentBoardName !== 'All Boards') {
       fetchBoard(boardId);
     }
   }, [application]);
@@ -270,7 +270,9 @@ function EditApplication({
     try {
       await editJob(application._id, jobData);
 
-      await fetchBoard(newBoard._id);
+      if (currentBoardName !== 'All Boards') {
+        await fetchBoard(newBoard._id);
+      }
 
       if (updateUser && currentBoardName === 'All Boards') {
         await updateUser(user._id);
@@ -292,7 +294,7 @@ function EditApplication({
       if (updateUser && currentBoardName === 'All Boards') {
         setCurrentBoardName('All Boards');
         await updateUser(storedUserId);
-      } else {
+      } else if (currentBoardName !== 'All Boards') {
         await fetchBoard(boardId);
       }
 

@@ -178,7 +178,7 @@ const Wishlist = ({ setCreditsPage }) => {
   const confirmDelete = async () => {
     try {
       await deleteJob(deletingJob._id);
-      if (boardId) {
+      if (boardId && boardName !== 'All Boards') {
         await fetchBoard(boardId);
       } else {
         await updateUser(storedUserId);
@@ -316,6 +316,7 @@ const Wishlist = ({ setCreditsPage }) => {
                 defaultList="Wishlist"
                 role=""
                 fetchBoard={fetchBoard}
+                updateUser={updateUser}
                 boardId={boardId}
                 currentBoardName={
                   boardName
