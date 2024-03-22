@@ -272,10 +272,9 @@ function EditApplication({
 
       await fetchBoard(newBoard._id);
 
-      if (updateUser) {
-        updateUser(user._id);
+      if (updateUser && currentBoardName === 'All Boards') {
+        await updateUser(user._id);
       }
-
       onClose();
     } catch (error) {
       console.log('Error saving changes', error);
@@ -290,11 +289,11 @@ function EditApplication({
     try {
       await deleteJob(application._id);
 
-      if (currentBoardName === 'All Boards' && updateUser) {
+      if (updateUser && currentBoardName === 'All Boards') {
         setCurrentBoardName('All Boards');
-        updateUser(storedUserId);
-      } else if (fetchBoard) {
-        fetchBoard(boardId);
+        await updateUser(storedUserId);
+      } else {
+        await fetchBoard(boardId);
       }
 
       onClose();
