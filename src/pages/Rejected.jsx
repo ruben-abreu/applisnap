@@ -165,7 +165,7 @@ const Rejected = ({ setCreditsPage }) => {
 
   const handleEditClose = () => {
     if (boardName === 'All Boards') {
-      navigate('/wishlist');
+      navigate('/rejected');
     }
     setSelectedApplication(null);
   };

@@ -165,7 +165,7 @@ const Offers = ({ setCreditsPage }) => {
 
   const handleEditClose = () => {
     if (boardName === 'All Boards') {
-      navigate('/wishlist');
+      navigate('/offers');
     }
     setSelectedApplication(null);
   };

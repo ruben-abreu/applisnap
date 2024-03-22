@@ -165,7 +165,7 @@ const Interviews = ({ setCreditsPage }) => {
 
   const handleEditClose = () => {
     if (boardName === 'All Boards') {
-      navigate('/wishlist');
+      navigate('/interviews');
     }
     setSelectedApplication(null);
   };
