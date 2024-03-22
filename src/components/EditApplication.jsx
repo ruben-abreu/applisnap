@@ -72,7 +72,7 @@ function EditApplication({
   const [dateInput, setDateInput] = useState(dayjs());
   const [starred, setStarred] = useState(application.starred);
   const [list, setList] = useState(
-    user && application
+    user && user.lists && application
       ? user.lists.filter(list => list._id === application.listId)[0]
       : {}
   );
@@ -84,7 +84,7 @@ function EditApplication({
       : 'Wishlist'
   );
   const [selectedBoardName, setSelectedBoardName] = useState('');
-  const [boards, setBoards] = useState([]);
+  const [boards, setBoards] = useState(user && user.boards ? user.boards : []);
   const [editDateLabel, setEditDateLabel] = useState(
     listName === 'Applied'
       ? 'applied'
@@ -118,9 +118,6 @@ function EditApplication({
     }
     if (currentBoardName === 'All Boards' && updateUser) {
       setCurrentBoardName('All Boards');
-      updateUser(user._id);
-    } else if (currentBoardName !== 'All Boards') {
-      fetchBoard(boardId);
     }
   }, [application]);
 
