@@ -512,7 +512,8 @@ function Board({ setCreditsPage }) {
                     ? user.boards.filter(board => board._id === boardId)
                     : {}
                 }
-                list={list}
+                list={board.lists[0]}
+                defaultList={list.listName ? list.listName : 'Wishlist'}
                 role=""
                 fetchBoard={fetchBoard}
                 boardId={boardId}

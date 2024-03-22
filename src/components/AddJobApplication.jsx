@@ -33,7 +33,6 @@ import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import CancelButton from '../components/CancelButton';
 import { addJob } from '../api/jobs.api';
-import { getList } from '../api/lists.api';
 import dayjs from 'dayjs';
 
 function AddJobApplication({
@@ -41,7 +40,6 @@ function AddJobApplication({
   role,
   board,
   fetchBoard,
-  boardId,
   defaultList,
   currentBoardName,
   setCurrentBoardName,
@@ -117,10 +115,7 @@ function AddJobApplication({
     setOpen(true);
   };
 
-  const handleClose = () => {
-    if (currentBoardName === 'All Boards') {
-      setCurrentBoardName('All Boards');
-    }
+  const handleClose = async () => {
     setOpen(false);
   };
 
@@ -279,8 +274,6 @@ function AddJobApplication({
       if (updateUser && currentBoardName == 'All Boards') {
         await updateUser(user._id);
         setCurrentBoardName('All Boards');
-      } else if (fetchBoard && boardId) {
-        await fetchBoard(boardId);
       }
 
       setCompanyName('');

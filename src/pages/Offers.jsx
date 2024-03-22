@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
-import { editJob, deleteJob } from '../api/jobs.api';
+import { deleteJob } from '../api/jobs.api';
 import { getBoard } from '../api/boards.api';
 import { getList } from '../api/lists.api';
 import { ThemeContext } from '../context/theme.context';
@@ -49,7 +49,7 @@ const Offers = ({ setCreditsPage }) => {
   const [deletingJob, setDeletingJob] = useState(null);
   const [boardName, setBoardName] = useState('');
   const [selectedBoardId, setSelectedBoardId] = useState(boardId);
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState('starred');
 
   useEffect(() => {
     setCreditsPage(false);
@@ -59,7 +59,6 @@ const Offers = ({ setCreditsPage }) => {
       setBoardName('All Boards');
       updateUser(storedUserId);
     }
-    setSortBy('starred');
   }, [boardId]);
 
   const searchedJob = query => {
@@ -73,6 +72,7 @@ const Offers = ({ setCreditsPage }) => {
   };
 
   const handleBoardSelection = async e => {
+    setBoard({});
     const selectedBoardName = e.target.value;
     setBoardName(e.target.value);
 
@@ -164,22 +164,10 @@ const Offers = ({ setCreditsPage }) => {
   };
 
   const handleEditClose = () => {
-    setSelectedApplication(null);
-  };
-
-  const onEditApplication = async updatedJob => {
-    try {
-      await editJob(updatedJob._id, updatedJob);
-      await updateUser(storedUserId);
-      if (boardId) {
-        await fetchBoard(boardId);
-      } else {
-        setBoardName('All Boards');
-      }
-      handleEditClose();
-    } catch (error) {
-      console.error('Error editing job:', error);
+    if (boardName === 'All Boards') {
+      navigate('/wishlist');
     }
+    setSelectedApplication(null);
   };
 
   const handleDelete = job => {
@@ -241,11 +229,11 @@ const Offers = ({ setCreditsPage }) => {
   };
 
   return (
-    <div className='m-[2%] mt-[30px]'>
+    <div className="m-[2%] mt-[30px]">
       {loggedIn ? (
         <div>
-          <div className='flex justify-between items-center mt-[30px] mb-[10px]'>
-            <div className='flex items-center gap-[10px]'>
+          <div className="flex justify-between items-center mt-[30px] mb-[10px]">
+            <div className="flex items-center gap-[10px]">
               <EmojiEventsRoundedIcon
                 sx={{
                   color: darkMode ? 'white' : '#678B85',
@@ -262,16 +250,16 @@ const Offers = ({ setCreditsPage }) => {
               </h2>
             </div>
             {user && user.boards && (
-              <div className='flex gap-[10px] items-center'>
+              <div className="flex gap-[10px] items-center">
                 <form>
                   <FormControl sx={{ ...formGreenStyle, my: 1 }}>
-                    <InputLabel htmlFor='board' label='Board'>
+                    <InputLabel htmlFor="board" label="Board">
                       Board
                     </InputLabel>
                     <Select
-                      id='board'
-                      label='Board'
-                      type='text'
+                      id="board"
+                      label="Board"
+                      type="text"
                       value={boardName}
                       sx={{
                         fontSize: '14px',
@@ -290,7 +278,7 @@ const Offers = ({ setCreditsPage }) => {
                         </MenuItem>
                       ))}
                       {user.boards && user.boards.length > 1 && (
-                        <MenuItem value='All Boards'>All Boards</MenuItem>
+                        <MenuItem value="All Boards">All Boards</MenuItem>
                       )}
                     </Select>
                   </FormControl>
@@ -308,7 +296,7 @@ const Offers = ({ setCreditsPage }) => {
             )}
           </div>
           {user.boards && boardName && (
-            <div className='flex items-center my-[30px]'>
+            <div className="flex items-center my-[30px]">
               <h3
                 className={`text-[16px] ${
                   darkMode ? 'text-white' : 'text-[black]'
@@ -325,8 +313,8 @@ const Offers = ({ setCreditsPage }) => {
               <AddJobApplication
                 board={board}
                 list={currentList}
-                defaultList='Offers'
-                role=''
+                defaultList="Offers"
+                role=""
                 fetchBoard={fetchBoard}
                 boardId={boardId}
                 currentBoardName={
@@ -342,12 +330,12 @@ const Offers = ({ setCreditsPage }) => {
           )}
 
           {offersJobs && offersJobs.length > 0 && (
-            <div className='flex justify-start my-[20px] gap-2'>
+            <div className="flex justify-start my-[20px] gap-2">
               <SearchBarListPages searchedJob={searchedJob} />
               <Sort sortBy={sortBy} setSortBy={setSortBy} />
             </div>
           )}
-          <div className='flex flex-wrap gap-[15px]'>
+          <div className="flex flex-wrap gap-[15px]">
             {user.boards &&
               showOffersJobs &&
               handleSort(showOffersJobs, sortBy).map((job, index) => {
@@ -364,8 +352,8 @@ const Offers = ({ setCreditsPage }) => {
                     } `}
                   >
                     <button onClick={() => handleEdit(job)}>
-                      <div className='h-[120px] flex items-center'>
-                        <div className='w-[100%] m-[10px] flex justify-center items-center'>
+                      <div className="h-[120px] flex items-center">
+                        <div className="w-[100%] m-[10px] flex justify-center items-center">
                           <Avatar
                             sx={{
                               fontSize: '20px',
@@ -381,7 +369,7 @@ const Offers = ({ setCreditsPage }) => {
                               `https://logo.clearbit.com/${job.domain}` || ''
                             }
                           >
-                            <p className='uppercase'>
+                            <p className="uppercase">
                               {job.companyName &&
                               job.companyName.split(' ').length > 1
                                 ? job.companyName
@@ -396,33 +384,32 @@ const Offers = ({ setCreditsPage }) => {
                           </Avatar>
                         </div>
                       </div>
-                      <div className='h-[130px] w-[120px]'>
-                        <div className='flex flex-col justify-center gap-[10px] mx-[10px]'>
-                          <p className='text-sm font-bold'>{job.companyName}</p>
-                          <p className='text-xs'>{job.roleName}</p>
-                          <p>
-                            {job.starred && (
-                              <div>
-                                <StarRoundedIcon
-                                  sx={{
-                                    color: darkMode ? '#f9cc71' : '#e8a135',
-                                    width: '20px',
-                                    height: '20px',
-                                  }}
-                                />
-                              </div>
-                            )}
-                          </p>
+                      <div className="h-[130px] w-[120px]">
+                        <div className="flex flex-col justify-center gap-[10px] mx-[10px]">
+                          <p className="text-sm font-bold">{job.companyName}</p>
+                          <p className="text-xs">{job.roleName}</p>
+
+                          {job.starred && (
+                            <div>
+                              <StarRoundedIcon
+                                sx={{
+                                  color: darkMode ? '#f9cc71' : '#e8a135',
+                                  width: '20px',
+                                  height: '20px',
+                                }}
+                              />
+                            </div>
+                          )}
                         </div>
                       </div>
                     </button>
 
-                    <div className='mb-[10px] flex justify-center gap-[15px]'>
+                    <div className="mb-[10px] flex justify-center gap-[15px]">
                       {job.jobURL && (
                         <a
                           href={job.jobURL}
-                          target='_blank'
-                          rel='noopener noreferrer'
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
                           <LinkRoundedIcon
                             sx={{
@@ -435,7 +422,7 @@ const Offers = ({ setCreditsPage }) => {
                       )}
                       <button
                         onClick={() => handleEdit(job)}
-                        className='text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase'
+                        className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
                       >
                         <EditRoundedIcon
                           sx={{
@@ -463,14 +450,13 @@ const Offers = ({ setCreditsPage }) => {
                             setCurrentBoardName={setBoardName}
                             fetchBoard={fetchBoard}
                             boardId={jobBoard ? jobBoard._id : ''}
-                            onEdit={onEditApplication}
                             updateUser={updateUser}
                             lists={lists}
                           />
                         )}
                       <button
                         onClick={() => handleDelete(job)}
-                        className='text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase'
+                        className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
                       >
                         <DeleteRoundedIcon
                           sx={{
@@ -485,7 +471,7 @@ const Offers = ({ setCreditsPage }) => {
                 );
               })}
             {offersJobs.length === 0 && (
-              <div className='text-center col-span-full mt-4'>
+              <div className="text-center col-span-full mt-4">
                 <p>You have no jobs in this list.</p>
               </div>
             )}
@@ -506,7 +492,7 @@ const Offers = ({ setCreditsPage }) => {
           </Dialog>
         </div>
       ) : (
-        <p className='text-center mt-[50px] font-bold text-xl'>
+        <p className="text-center mt-[50px] font-bold text-xl">
           Please log in to view this page
         </p>
       )}

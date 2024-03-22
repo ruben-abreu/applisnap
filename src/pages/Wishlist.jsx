@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
 import { ThemeContext } from '../context/theme.context';
-import { editJob, deleteJob } from '../api/jobs.api';
+import { deleteJob } from '../api/jobs.api';
 import { getBoard } from '../api/boards.api';
 import { getList } from '../api/lists.api';
 import EditApplication from '../components/EditApplication';
@@ -49,7 +49,7 @@ const Wishlist = ({ setCreditsPage }) => {
   const [deletingJob, setDeletingJob] = useState(null);
   const [boardName, setBoardName] = useState('');
   const [selectedBoardId, setSelectedBoardId] = useState(boardId);
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState('starred');
 
   useEffect(() => {
     setCreditsPage(false);
@@ -59,7 +59,6 @@ const Wishlist = ({ setCreditsPage }) => {
       setBoardName('All Boards');
       updateUser(storedUserId);
     }
-    setSortBy('starred');
   }, [boardId]);
 
   const searchedJob = query => {
@@ -73,6 +72,7 @@ const Wishlist = ({ setCreditsPage }) => {
   };
 
   const handleBoardSelection = async e => {
+    setBoard({});
     const selectedBoardName = e.target.value;
     setBoardName(e.target.value);
 
@@ -163,23 +163,11 @@ const Wishlist = ({ setCreditsPage }) => {
     setSelectedApplication(job);
   };
 
-  const handleEditClose = () => {
-    setSelectedApplication(null);
-  };
-
-  const onEditApplication = async updatedJob => {
-    try {
-      await editJob(updatedJob._id, updatedJob);
-      if (boardId) {
-        await fetchBoard(boardId);
-      } else {
-        await updateUser(storedUserId);
-        setBoardName('All Boards');
-      }
-      handleEditClose();
-    } catch (error) {
-      console.error('Error editing job:', error);
+  const handleEditClose = async () => {
+    if (boardName === 'All Boards') {
+      navigate('/wishlist');
     }
+    setSelectedApplication(null);
   };
 
   const handleDelete = job => {
@@ -402,19 +390,18 @@ const Wishlist = ({ setCreditsPage }) => {
                             {job.companyName}
                           </p>
                           <p className="text-xs">{job.roleName}</p>
-                          <p>
-                            {job.starred && (
-                              <div>
-                                <StarRoundedIcon
-                                  sx={{
-                                    color: darkMode ? '#f9cc71' : '#e8a135',
-                                    width: '20px',
-                                    height: '20px',
-                                  }}
-                                />
-                              </div>
-                            )}
-                          </p>
+
+                          {job.starred && (
+                            <div>
+                              <StarRoundedIcon
+                                sx={{
+                                  color: darkMode ? '#f9cc71' : '#e8a135',
+                                  width: '20px',
+                                  height: '20px',
+                                }}
+                              />
+                            </div>
+                          )}
                         </div>
                       </div>
                     </button>
@@ -465,7 +452,6 @@ const Wishlist = ({ setCreditsPage }) => {
                             setCurrentBoardName={setBoardName}
                             fetchBoard={fetchBoard}
                             boardId={jobBoard ? jobBoard._id : ''}
-                            onEdit={onEditApplication}
                             updateUser={updateUser}
                             lists={lists}
                           />
