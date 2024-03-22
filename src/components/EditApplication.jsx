@@ -146,10 +146,14 @@ function EditApplication({
           break;
         case 'interviews':
           if (editDate.interviews) {
-            setEditDate({
-              ...editDate,
-              interviews: [...editDate.interviews, formattedDate],
-            });
+            if (!editDate.interviews.find(date => date === formattedDate)) {
+              setEditDate({
+                ...editDate,
+                interviews: [...editDate.interviews, formattedDate].sort(
+                  (a, b) => new Date(a) - new Date(b)
+                ),
+              });
+            }
           } else {
             setEditDate({ ...editDate, interviews: [formattedDate] });
           }

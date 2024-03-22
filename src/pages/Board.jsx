@@ -142,7 +142,11 @@ function Board({ setCreditsPage }) {
       date.applied = formattedDate;
     } else if (targetList.listName === 'Interviews') {
       if (date.interviews) {
-        date.interviews = [...date.interviews, formattedDate];
+        if (!date.interviews.find(date => date === formattedDate)) {
+          date.interviews = [...date.interviews, formattedDate].sort(
+            (a, b) => new Date(a) - new Date(b)
+          );
+        }
       } else {
         date.interviews = [formattedDate];
       }
