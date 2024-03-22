@@ -166,6 +166,7 @@ function Insights({ setCreditsPage }) {
                 </form>
                 {boardName ? (
                   <button
+                    type="button"
                     onClick={() => navigate(`/boards/${selectedBoardId}`)}
                   >
                     <LaunchRoundedIcon

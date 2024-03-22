@@ -397,6 +397,7 @@ function Board({ setCreditsPage }) {
           )}
           <p>{list.listName}</p>
           <button
+            type="button"
             className="ml-[10px]"
             onClick={() =>
               navigate(
@@ -480,7 +481,10 @@ function Board({ setCreditsPage }) {
                     </Select>
                   </FormControl>
                 </form>
-                <button onClick={() => navigate(`/insights/${boardId}`)}>
+                <button
+                  type="button"
+                  onClick={() => navigate(`/insights/${boardId}`)}
+                >
                   <InsightsRoundedIcon
                     sx={{
                       ...greenIconButtonStyle,

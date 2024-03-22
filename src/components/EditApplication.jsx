@@ -518,11 +518,11 @@ function EditApplication({
               type="text"
               value={listName}
               onChange={e => setListName(e.target.value)}
-              defaultValue={list.listName ? list.listName : 'Wishlist'}
+              defaultValue={listName ? listName : 'Wishlist'}
             >
               {uniqueLists &&
                 uniqueLists.map((list, index) => (
-                  <MenuItem key={index} value={list}>
+                  <MenuItem key={'EJ-Lists' + index} value={list}>
                     {list}
                   </MenuItem>
                 ))}
@@ -542,7 +542,10 @@ function EditApplication({
             >
               {boards &&
                 boards.map(board => (
-                  <MenuItem key={board._id} value={board.boardName}>
+                  <MenuItem
+                    key={'EJ-User' + board.boardName + board._id}
+                    value={board.boardName}
+                  >
                     {board.boardName}
                   </MenuItem>
                 ))}
@@ -596,7 +599,7 @@ function EditApplication({
                   ))}
               </Select>
             </FormControl>
-            <button onClick={handleAddDate}>
+            <button type="button" onClick={handleAddDate}>
               <AddCircleOutlineRoundedIcon
                 sx={{ ...greenIconButtonStyle, width: '20px', height: '20px' }}
               />
@@ -634,6 +637,7 @@ function EditApplication({
                         {formatDate(editDate.applied)}
                       </p>
                       <button
+                        type="button"
                         className="flex items-center"
                         onClick={() => handleRemoveDate('applied')}
                       >
@@ -670,6 +674,7 @@ function EditApplication({
                         >
                           <li className="w-[100px]">{formatDate(interview)}</li>
                           <button
+                            type="button"
                             className="flex items-center"
                             onClick={() =>
                               handleRemoveDate('interviews', interview)
@@ -703,6 +708,7 @@ function EditApplication({
                     <div className="flex items-center gap-[5px]">
                       <p className="w-[100px]">{formatDate(editDate.offer)}</p>
                       <button
+                        type="button"
                         className="flex items-center"
                         onClick={() => handleRemoveDate('offer')}
                       >
@@ -734,6 +740,7 @@ function EditApplication({
                         {formatDate(editDate.rejected)}
                       </p>
                       <button
+                        type="button"
                         className="flex items-center"
                         onClick={() => handleRemoveDate('rejected')}
                       >

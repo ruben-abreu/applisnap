@@ -589,7 +589,7 @@ function AddJobApplication({
                     ))}
                 </Select>
               </FormControl>
-              <button onClick={handleAddDate}>
+              <button type="button" onClick={handleAddDate}>
                 <AddCircleOutlineRoundedIcon
                   sx={{
                     ...greenIconButtonStyle,
@@ -629,6 +629,7 @@ function AddJobApplication({
                       <div className="flex items-center gap-[5px]">
                         <p className="w-[100px]">{formatDate(date.applied)}</p>
                         <button
+                          type="button"
                           className="flex items-center"
                           onClick={() => handleRemoveDate('applied')}
                         >
@@ -667,6 +668,7 @@ function AddJobApplication({
                               {formatDate(interview)}
                             </li>
                             <button
+                              type="button"
                               className="flex items-center"
                               onClick={() =>
                                 handleRemoveDate('interviews', interview)
@@ -700,6 +702,7 @@ function AddJobApplication({
                       <div className="flex items-center gap-[5px]">
                         <p className="w-[100px]">{formatDate(date.offer)}</p>
                         <button
+                          type="button"
                           className="flex items-center"
                           onClick={() => handleRemoveDate('offer')}
                         >
@@ -728,6 +731,7 @@ function AddJobApplication({
                       <div className="flex items-center gap-[5px]">
                         <p className="w-[100px]">{formatDate(date.rejected)}</p>
                         <button
+                          type="button"
                           className="flex items-center"
                           onClick={() => handleRemoveDate('rejected')}
                         >

@@ -283,7 +283,10 @@ const Interviews = ({ setCreditsPage }) => {
                     </Select>
                   </FormControl>
                 </form>
-                <button onClick={() => navigate(`/boards/${selectedBoardId}`)}>
+                <button
+                  type="button"
+                  onClick={() => navigate(`/boards/${selectedBoardId}`)}
+                >
                   <LaunchRoundedIcon
                     sx={{
                       ...greenIconButtonStyle,
@@ -362,7 +365,7 @@ const Interviews = ({ setCreditsPage }) => {
                       darkMode ? 'shadow-[#6f6f6f]' : 'shadow-[#cfcfcf]'
                     } `}
                   >
-                    <button onClick={() => handleEdit(job)}>
+                    <button type="button" onClick={() => handleEdit(job)}>
                       <div className="h-[120px] flex items-center">
                         <div className="w-[100%] m-[10px] flex justify-center items-center">
                           <Avatar
@@ -446,6 +449,7 @@ const Interviews = ({ setCreditsPage }) => {
                         </a>
                       )}
                       <button
+                        type="button"
                         onClick={() => handleEdit(job)}
                         className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
                       >
@@ -481,6 +485,7 @@ const Interviews = ({ setCreditsPage }) => {
                           />
                         )}
                       <button
+                        type="button"
                         onClick={() => handleDelete(job)}
                         className="text-[#678B85] hover:text-[#62a699] text-[13px] font-bold uppercase"
                       >
