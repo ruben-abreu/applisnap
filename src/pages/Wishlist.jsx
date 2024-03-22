@@ -170,10 +170,10 @@ const Wishlist = ({ setCreditsPage }) => {
   const onEditApplication = async updatedJob => {
     try {
       await editJob(updatedJob._id, updatedJob);
-      await updateUser(storedUserId);
       if (boardId) {
         await fetchBoard(boardId);
       } else {
+        await updateUser(storedUserId);
         setBoardName('All Boards');
       }
       handleEditClose();
