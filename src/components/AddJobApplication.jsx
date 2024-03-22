@@ -147,9 +147,13 @@ function AddJobApplication({
             if (!date.interviews.find(date => date === formattedDate)) {
               setDate({
                 ...date,
-                interviews: [...date.interviews, formattedDate].sort(
-                  (a, b) => new Date(a) - new Date(b)
-                ),
+                interviews: [
+                  ...new Set(
+                    [...date.interviews, formattedDate].sort(
+                      (a, b) => new Date(a) - new Date(b)
+                    )
+                  ),
+                ],
               });
             }
           } else {
@@ -246,9 +250,12 @@ function AddJobApplication({
       if (updatedDate.interviews) {
         if (!updatedDate.interviews.find(date => date === formattedDate)) {
           updatedDate.interviews = [
-            ...updatedDate.interviews,
-            formattedDate,
-          ].sort((a, b) => new Date(a) - new Date(b));
+            ...new Set(
+              [...updatedDate.interviews, formattedDate].sort(
+                (a, b) => new Date(a) - new Date(b)
+              )
+            ),
+          ];
         }
       } else {
         updatedDate.interviews = [formattedDate];

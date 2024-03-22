@@ -138,22 +138,28 @@ function Board({ setCreditsPage }) {
 
     let formattedDate = dayjs().format('YYYY/MM/DD');
 
-    if (targetList.listName === 'Applied' && !date.applied) {
-      date.applied = formattedDate;
+    const updatedDate = { ...date };
+
+    if (targetList.listName === 'Applied' && !updatedDate.applied) {
+      updatedDate.applied = formattedDate;
     } else if (targetList.listName === 'Interviews') {
-      if (date.interviews) {
-        if (!date.interviews.find(date => date === formattedDate)) {
-          date.interviews = [...date.interviews, formattedDate].sort(
-            (a, b) => new Date(a) - new Date(b)
-          );
+      if (updatedDate.interviews) {
+        if (!updatedDate.interviews.find(date => date === formattedDate)) {
+          updatedDate.interviews = [
+            ...new Set(
+              [...updatedDate.interviews, formattedDate].sort(
+                (a, b) => new Date(a) - new Date(b)
+              )
+            ),
+          ];
         }
       } else {
-        date.interviews = [formattedDate];
+        updatedDate.interviews = [formattedDate];
       }
-    } else if (targetList.listName === 'Offers' && !date.offer) {
-      date.offer = formattedDate;
-    } else if (targetList.listName === 'Rejected' && !date.rejected) {
-      date.rejected = formattedDate;
+    } else if (targetList.listName === 'Offers' && !updatedDate.offer) {
+      updatedDate.offer = formattedDate;
+    } else if (targetList.listName === 'Rejected' && !updatedDate.rejected) {
+      updatedDate.rejected = formattedDate;
     }
 
     const updatedJob = {
@@ -165,7 +171,7 @@ function Board({ setCreditsPage }) {
       workLocation,
       notes,
       customLabel,
-      date,
+      date: updatedDate,
       starred,
       userId,
       boardId,
@@ -186,8 +192,8 @@ function Board({ setCreditsPage }) {
       }
 
       await editJob(applicationId, updatedJob);
-      authenticateUser();
-      fetchBoard(boardId);
+      await authenticateUser();
+      await fetchBoard(boardId);
     } catch (error) {
       alert(error.response.data.message);
     }

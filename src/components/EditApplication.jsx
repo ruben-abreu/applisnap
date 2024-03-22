@@ -149,9 +149,13 @@ function EditApplication({
             if (!editDate.interviews.find(date => date === formattedDate)) {
               setEditDate({
                 ...editDate,
-                interviews: [...editDate.interviews, formattedDate].sort(
-                  (a, b) => new Date(a) - new Date(b)
-                ),
+                interviews: [
+                  ...new Set(
+                    [...editDate.interviews, formattedDate].sort(
+                      (a, b) => new Date(a) - new Date(b)
+                    )
+                  ),
+                ],
               });
             }
           } else {
@@ -250,7 +254,13 @@ function EditApplication({
         updatedDate.applied = formattedDate;
       } else if (listName === 'Interviews') {
         if (updatedDate.interviews) {
-          updatedDate.interviews = [...updatedDate.interviews, formattedDate];
+          updatedDate.interviews = [
+            ...new Set(
+              [...updatedDate.interviews, formattedDate].sort(
+                (a, b) => new Date(a) - new Date(b)
+              )
+            ),
+          ];
         } else {
           updatedDate.interviews = [formattedDate];
         }
