@@ -94,7 +94,7 @@ const Wishlist = ({ setCreditsPage }) => {
     try {
       const currentBoard = await getBoard(boardId);
 
-      console.log('currentBoard', currentBoard);
+      setLists(currentBoard.lists);
       setBoard(currentBoard);
       setBoardName(currentBoard.boardName);
       setSelectedBoardId(currentBoard._id);
@@ -441,8 +441,9 @@ const Wishlist = ({ setCreditsPage }) => {
                           <EditApplication
                             open={Boolean(selectedApplication)}
                             onClose={handleEditClose}
-                            application={selectedApplication}
+                            application={job}
                             board={jobBoard}
+                            currentListName="Wishlist"
                             currentBoardName={
                               boardName
                                 ? boardName

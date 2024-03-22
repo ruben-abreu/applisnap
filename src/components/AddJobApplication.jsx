@@ -133,65 +133,65 @@ function AddJobApplication({
     dayjs(unformattedDate).format('DD/MM/YYYY');
 
   const handleAddDate = () => {
-    if (!dateInput) {
-      return;
-    }
-    let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
-    switch (dateLabel) {
-      case 'created':
-        setDate({ ...date, created: formattedDate });
-        break;
-      case 'applied':
-        setDate({ ...date, applied: formattedDate });
-        break;
-      case 'interviews':
-        if (date.interviews) {
-          setDate({ ...date, interviews: [...date.interviews, formattedDate] });
-        } else {
-          setDate({ ...date, interviews: [formattedDate] });
-        }
-        break;
-      case 'offer':
-        setDate({ ...date, offer: formattedDate });
-        break;
-      case 'rejected':
-        setDate({ ...date, rejected: formattedDate });
-        break;
-      default:
-        setDate({ ...date, created: formattedDate });
+    if (dateInput) {
+      let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
+      switch (dateLabel) {
+        case 'created':
+          setDate({ ...date, created: formattedDate });
+          break;
+        case 'applied':
+          setDate({ ...date, applied: formattedDate });
+          break;
+        case 'interviews':
+          if (date.interviews) {
+            setDate({
+              ...date,
+              interviews: [...date.interviews, formattedDate],
+            });
+          } else {
+            setDate({ ...date, interviews: [formattedDate] });
+          }
+          break;
+        case 'offer':
+          setDate({ ...date, offer: formattedDate });
+          break;
+        case 'rejected':
+          setDate({ ...date, rejected: formattedDate });
+          break;
+        default:
+          setDate({ ...date, created: formattedDate });
+      }
     }
   };
 
   const handleRemoveDate = (dateType, dateValue) => {
-    if (!dateType) {
-      return;
-    }
-
-    switch (dateType) {
-      case 'created':
-        setDate({ ...date, created: null });
-        break;
-      case 'applied':
-        setDate({ ...date, applied: null });
-        break;
-      case 'interviews':
-        if (date.interviews.length > 1) {
-          const updatedInterviewDates = date.interviews.filter(
-            interview => interview !== dateValue
-          );
-          setDate({ ...date, interviews: [...updatedInterviewDates] });
-        } else {
-          setDate({ ...date, interviews: [] });
-        }
-        break;
-      case 'offer':
-        setDate({ ...date, offer: null });
-        break;
-      case 'rejected':
-        setDate({ ...date, rejected: null });
-        break;
-      default:
-        setDate({ ...date, created: null });
+    if (dateInput) {
+      switch (dateType) {
+        case 'created':
+          setDate({ ...date, created: null });
+          break;
+        case 'applied':
+          setDate({ ...date, applied: null });
+          break;
+        case 'interviews':
+          if (date.interviews.length > 1) {
+            const updatedInterviewDates = date.interviews.filter(
+              interview => interview !== dateValue
+            );
+            setDate({ ...date, interviews: [...updatedInterviewDates] });
+          } else {
+            setDate({ ...date, interviews: [] });
+          }
+          break;
+        case 'offer':
+          setDate({ ...date, offer: null });
+          break;
+        case 'rejected':
+          setDate({ ...date, rejected: null });
+          break;
+        default:
+          setDate({ ...date, created: null });
+      }
     }
   };
 

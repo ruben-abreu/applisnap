@@ -47,10 +47,13 @@ function EditApplication({
   lists,
   boardId,
   updateUser,
+  currentListName,
   currentBoardName,
   setCurrentBoardName,
 }) {
   const storedUserId = localStorage.getItem('userId');
+
+  const { user } = useContext(AuthContext);
 
   const [companyName, setCompanyName] = useState(application.companyName);
   const [roleName, setRoleName] = useState(application.roleName);
@@ -68,9 +71,17 @@ function EditApplication({
   );
   const [dateInput, setDateInput] = useState(dayjs());
   const [starred, setStarred] = useState(application.starred);
-  const [list, setList] = useState({});
+  const [list, setList] = useState(
+    user && application
+      ? user.lists.filter(list => list._id === application.listId)[0]
+      : {}
+  );
   const [listName, setListName] = useState(
-    list.listName ? list.listName : 'Wishlist'
+    currentListName
+      ? currentListName
+      : list.listName
+      ? list.listName
+      : 'Wishlist'
   );
   const [selectedBoardName, setSelectedBoardName] = useState('');
   const [boards, setBoards] = useState([]);
@@ -87,7 +98,6 @@ function EditApplication({
   );
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  const { user } = useContext(AuthContext);
   const {
     darkMode,
     formGreenStyle,
@@ -127,69 +137,69 @@ function EditApplication({
   const formatDate = unformattedDate =>
     dayjs(unformattedDate).format('DD/MM/YYYY');
 
-  const handleAddDate = async () => {
-    if (!dateInput) {
-      return;
-    }
-    let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
-    switch (editDateLabel) {
-      case 'created':
-        setEditDate({ ...editDate, created: formattedDate });
-        break;
-      case 'applied':
-        setEditDate({ ...editDate, applied: formattedDate });
-        break;
-      case 'interviews':
-        if (editDate.interviews) {
-          setEditDate({
-            ...editDate,
-            interviews: [...editDate.interviews, formattedDate],
-          });
-        } else {
-          setEditDate({ ...editDate, interviews: [formattedDate] });
-        }
-        break;
-      case 'offer':
-        setEditDate({ ...editDate, offer: formattedDate });
-        break;
-      case 'rejected':
-        setEditDate({ ...editDate, rejected: formattedDate });
-        break;
-      default:
-        setEditDate({ ...editDate, created: formattedDate });
+  const handleAddDate = () => {
+    if (dateInput) {
+      let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
+      switch (editDateLabel) {
+        case 'created':
+          setEditDate({ ...editDate, created: formattedDate });
+          break;
+        case 'applied':
+          setEditDate({ ...editDate, applied: formattedDate });
+          break;
+        case 'interviews':
+          if (editDate.interviews) {
+            setEditDate({
+              ...editDate,
+              interviews: [...editDate.interviews, formattedDate],
+            });
+          } else {
+            setEditDate({ ...editDate, interviews: [formattedDate] });
+          }
+          break;
+        case 'offer':
+          setEditDate({ ...editDate, offer: formattedDate });
+          break;
+        case 'rejected':
+          setEditDate({ ...editDate, rejected: formattedDate });
+          break;
+        default:
+          setEditDate({ ...editDate, created: formattedDate });
+      }
     }
   };
 
   const handleRemoveDate = (dateType, dateValue) => {
-    if (!dateType) {
-      return;
-    }
-
-    switch (dateType) {
-      case 'created':
-        setEditDate({ ...editDate, created: null });
-        break;
-      case 'applied':
-        setEditDate({ ...editDate, applied: null });
-        break;
-      case 'interviews':
-        if (editDate.interviews.length > 1) {
-          const updatedInterviewDates = editDate.interviews.filter(
-            interview => interview !== dateValue
-          );
-          setEditDate({ ...editDate, interviews: [...updatedInterviewDates] });
-        } else {
-          setEditDate({ ...editDate, interviews: [] });
-        }
-        break;
-      case 'offer':
-        setEditDate({ ...editDate, offer: null });
-        break;
-      case 'rejected':
-        setEditDate({ ...editDate, rejected: null });
-        break;
-      default:
-        setEditDate({ ...editDate, created: null });
+    if (dateInput) {
+      switch (dateType) {
+        case 'created':
+          setEditDate({ ...editDate, created: null });
+          break;
+        case 'applied':
+          setEditDate({ ...editDate, applied: null });
+          break;
+        case 'interviews':
+          if (editDate.interviews.length > 1) {
+            const updatedInterviewDates = editDate.interviews.filter(
+              interview => interview !== dateValue
+            );
+            setEditDate({
+              ...editDate,
+              interviews: [...updatedInterviewDates],
+            });
+          } else {
+            setEditDate({ ...editDate, interviews: [] });
+          }
+          break;
+        case 'offer':
+          setEditDate({ ...editDate, offer: null });
+          break;
+        case 'rejected':
+          setEditDate({ ...editDate, rejected: null });
+          break;
+        default:
+          setEditDate({ ...editDate, created: null });
+      }
     }
   };
 
