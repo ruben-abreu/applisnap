@@ -12,7 +12,13 @@ const Sort = ({ sortBy, setSortBy }) => {
 
   return (
     <FormControl sx={{ ...formGreenStyle, minWidth: '105px' }}>
-      <InputLabel htmlFor="sort" label="Sort by">
+      <InputLabel
+        htmlFor="sort"
+        label="Sort by"
+        sx={{
+          fontSize: width < 450 ? '12px' : width < 600 ? '14px' : '16px',
+        }}
+      >
         Sort by
       </InputLabel>
       <Select
@@ -31,8 +37,8 @@ const Sort = ({ sortBy, setSortBy }) => {
           <StarRoundedIcon
             sx={{
               color: darkMode ? '#f9cc71' : '#e8a135',
-              width: '20px',
-              height: '20px',
+              width: width < 450 ? '12px' : width < 600 ? '14px' : '16px',
+              height: width < 450 ? '12px' : width < 600 ? '14px' : '16px',
             }}
           />
         </MenuItem>
