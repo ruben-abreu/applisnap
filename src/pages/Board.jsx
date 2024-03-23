@@ -235,11 +235,7 @@ function Board({ setCreditsPage }) {
                   alignItems: 'center',
                 }}
               >
-                <Draggable
-                  onStart={e => onDragStart(e, application._id)}
-                  onStop={onDragEnd}
-                  onDrag={onDragEnter}
-                >
+                <Draggable>
                   <Paper
                     elevation={3}
                     draggable
