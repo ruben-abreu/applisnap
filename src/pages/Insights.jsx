@@ -28,8 +28,10 @@ function Insights({ setCreditsPage }) {
     setCreditsPage(false);
     if (boardId) {
       fetchBoard(boardId);
+      localStorage.setItem('boardId', boardId);
     } else if (user && user._id) {
       fetchAllBoardsData(user._id);
+      localStorage.removeItem('boardId');
     }
   }, [boardId, user]);
 
