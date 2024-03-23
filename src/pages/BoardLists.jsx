@@ -90,7 +90,7 @@ function BoardLists({ setCreditsPage }) {
                 }}
               />
               <h2
-                className={`mr-[10px] text-[1.4em] max-[450px]:text-[1em] font-bold  ${
+                className={`mr-[10px] text-[1.4em] max-[450px]:text-[1.2em] font-bold  ${
                   darkMode ? 'text-white' : 'text-[#678B85]'
                 }`}
               >
