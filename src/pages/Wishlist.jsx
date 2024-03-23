@@ -55,6 +55,7 @@ const Wishlist = ({ setCreditsPage }) => {
     setCreditsPage(false);
     if (boardId) {
       fetchBoard(boardId);
+      localStorage.setItem('boardId', boardId);
     } else {
       setBoardName('All Boards');
       updateUser(storedUserId);
