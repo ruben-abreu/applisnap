@@ -145,14 +145,11 @@ function Board({ setCreditsPage }) {
       updatedDate.applied = formattedDate;
     } else if (targetList.listName === 'Interviews') {
       if (updatedDate.interviews) {
-        if (!updatedDate.interviews.find(date => date === formattedDate)) {
+        if (!updatedDate.interviews.includes(formattedDate)) {
           updatedDate.interviews = [
-            ...new Set(
-              [...updatedDate.interviews, formattedDate].sort(
-                (a, b) => new Date(a) - new Date(b)
-              )
-            ),
-          ];
+            ...updatedDate.interviews,
+            formattedDate,
+          ].sort((a, b) => new Date(a) - new Date(b));
         }
       } else {
         updatedDate.interviews = [formattedDate];

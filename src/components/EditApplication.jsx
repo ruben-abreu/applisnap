@@ -146,16 +146,12 @@ function EditApplication({
           break;
         case 'interviews':
           if (editDate.interviews) {
-            if (!editDate.interviews.find(date => date === formattedDate)) {
+            if (!editDate.interviews.includes(formattedDate)) {
               setEditDate({
                 ...editDate,
-                interviews: [
-                  ...new Set(
-                    [...editDate.interviews, formattedDate].sort(
-                      (a, b) => new Date(a) - new Date(b)
-                    )
-                  ),
-                ],
+                interviews: [...editDate.interviews, formattedDate].sort(
+                  (a, b) => new Date(a) - new Date(b)
+                ),
               });
             }
           } else {
@@ -255,12 +251,9 @@ function EditApplication({
       } else if (listName === 'Interviews') {
         if (updatedDate.interviews) {
           updatedDate.interviews = [
-            ...new Set(
-              [...updatedDate.interviews, formattedDate].sort(
-                (a, b) => new Date(a) - new Date(b)
-              )
-            ),
-          ];
+            ...updatedDate.interviews,
+            formattedDate,
+          ].sort((a, b) => new Date(a) - new Date(b));
         } else {
           updatedDate.interviews = [formattedDate];
         }
