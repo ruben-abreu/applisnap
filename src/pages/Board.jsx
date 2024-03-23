@@ -4,7 +4,6 @@ import { AuthContext } from '../context/auth.context';
 import { getBoard } from '../api/boards.api';
 import { editJob } from '../api/jobs.api';
 import { ThemeContext } from '../context/theme.context';
-import Draggable from 'react-draggable';
 import {
   Grid,
   Paper,
@@ -13,6 +12,7 @@ import {
   FormControl,
   InputLabel,
 } from '@mui/material';
+import useLongPress from '@custom-react-hooks/use-long-press';
 import EditApplication from '../components/EditApplication';
 import AddJobApplication from '../components/AddJobApplication';
 import AddBoardButton from '../components/AddBoardButton';
@@ -197,6 +197,10 @@ function Board({ setCreditsPage }) {
     }
   };
 
+  const longPressEvents = useLongPress(onDragEnter, {
+    threshold: 100,
+  });
+
   const renderApplications = (role, list) => {
     return (
       <Grid
@@ -233,7 +237,7 @@ function Board({ setCreditsPage }) {
                 }}
               >
                 <Paper
-                  itemHoldTimeout={10}
+                  {...longPressEvents}
                   elevation={3}
                   draggable
                   onDragStart={e => onDragStart(e, application._id)}
