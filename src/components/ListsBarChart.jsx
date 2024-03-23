@@ -5,7 +5,7 @@ import { BarChart } from '@mui/x-charts/BarChart';
 function ListsBarChart({ board }) {
   const { width } = useContext(ThemeContext);
 
-  const chartWidth = width * 0.6;
+  const chartWidth = width * 0.9;
 
   return (
     <div>

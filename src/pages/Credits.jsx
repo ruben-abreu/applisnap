@@ -25,7 +25,7 @@ function Credits({ setCreditsPage }) {
           }}
         />
         <h2
-          className={`mr-[10px] text-[1.4em] max-[450px]:text-[1em] font-bold ${
+          className={`mr-[10px] text-[1.4em] max-[450px]:text-[1.2em] font-bold ${
             darkMode ? 'text-white' : 'text-[#678B85]'
           }`}
         >
@@ -37,7 +37,7 @@ function Credits({ setCreditsPage }) {
       >
         <div className="text-center w-[50%] max-[640px]:mr-0 max-[640px]:mb-[15px] max-[640px]:w-[95%]">
           <h2
-            className={`font-bold mb-[8px] text-xl ${
+            className={`font-bold mb-[8px] text-lg ${
               darkMode ? 'text-[#ff8956]' : 'text-[#f06c35]'
             }`}
           >
@@ -92,7 +92,7 @@ function Credits({ setCreditsPage }) {
 
         <div className="text-center w-[50%] max-[640px]:ml-0 max-[640px]:mt-[15px] max-[640px]:w-[95%]">
           <h2
-            className={`font-bold mb-[8px] text-xl ${
+            className={`font-bold mb-[8px] text-lg ${
               darkMode ? 'text-[#ff8956]' : 'text-[#f06c35]'
             }`}
           >
