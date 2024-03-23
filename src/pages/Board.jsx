@@ -4,7 +4,6 @@ import { AuthContext } from '../context/auth.context';
 import { getBoard } from '../api/boards.api';
 import { editJob } from '../api/jobs.api';
 import { ThemeContext } from '../context/theme.context';
-import Draggable from 'react-draggable';
 import {
   Grid,
   Paper,
