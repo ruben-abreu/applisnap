@@ -124,11 +124,7 @@ function AccountMenu() {
         </NavLink>
         {user.boards && user.boards.length > 0 && (
           <NavLink
-            to={`/wishlist/${
-              currentBoardId
-                ? currentBoardId
-                : user.boards[user.boards.length - 1]._id
-            }`}
+            to={`/wishlist/${currentBoardId ? currentBoardId : ''}`}
             className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
           >
             {({ isActive }) => (
@@ -152,11 +148,7 @@ function AccountMenu() {
         )}
         {user.boards && user.boards.length > 0 && (
           <NavLink
-            to={`/applications/${
-              currentBoardId
-                ? currentBoardId
-                : user.boards[user.boards.length - 1]._id
-            }`}
+            to={`/applications/${currentBoardId ? currentBoardId : ''}`}
             className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
           >
             {({ isActive }) => (
@@ -180,11 +172,7 @@ function AccountMenu() {
         )}
         {user.boards && user.boards.length > 0 && (
           <NavLink
-            to={`/interviews/${
-              currentBoardId
-                ? currentBoardId
-                : user.boards[user.boards.length - 1]._id
-            }`}
+            to={`/interviews/${currentBoardId ? currentBoardId : ''}`}
             className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
           >
             {({ isActive }) => (
@@ -208,11 +196,7 @@ function AccountMenu() {
         )}
         {user.boards && user.boards.length > 0 && (
           <NavLink
-            to={`/offers/${
-              currentBoardId
-                ? currentBoardId
-                : user.boards[user.boards.length - 1]._id
-            }`}
+            to={`/offers/${currentBoardId ? currentBoardId : ''}`}
             className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
           >
             {({ isActive }) => (
@@ -236,11 +220,7 @@ function AccountMenu() {
         )}
         {user.boards && user.boards.length > 0 && (
           <NavLink
-            to={`/rejected/${
-              currentBoardId
-                ? currentBoardId
-                : user.boards[user.boards.length - 1]._id
-            }`}
+            to={`/rejected/${currentBoardId ? currentBoardId : ''}`}
             className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
           >
             {({ isActive }) => (

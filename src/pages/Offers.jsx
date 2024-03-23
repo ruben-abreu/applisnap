@@ -59,6 +59,7 @@ const Offers = ({ setCreditsPage }) => {
     } else {
       setBoardName('All Boards');
       updateUser(storedUserId);
+      localStorage.removeItem('boardId');
     }
   }, [boardId]);
 
