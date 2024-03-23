@@ -232,105 +232,104 @@ function Board({ setCreditsPage }) {
                   alignItems: 'center',
                 }}
               >
-                <Draggable>
-                  <Paper
-                    elevation={3}
-                    draggable
-                    onDragStart={e => onDragStart(e, application._id)}
-                    onDragEnd={onDragEnd}
-                    onDragEnter={onDragEnter}
-                    onDragLeave={onDragLeave}
-                    onDrop={e => onDrop(e, role, list, index)}
-                    onClick={() => handleEdit(application)}
-                    sx={{
-                      backgroundColor: darkMode ? '#6e6e6e' : '#cfcfcf',
-                      padding: '5px',
-                      cursor: 'pointer',
-                      minWidth: 100,
-                      maxWidth: 340,
-                      width: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      boxShadow:
-                        '0px 3px 3px -2px rgba(55, 89, 84, 0.2),0px 3px 4px 0px rgba(55, 89, 84,0.14),0px 1px 8px 0px rgba(55, 89, 84,0.12)',
-                    }}
+                <Paper
+                  itemHoldTimeout={10}
+                  elevation={3}
+                  draggable
+                  onDragStart={e => onDragStart(e, application._id)}
+                  onDragEnd={onDragEnd}
+                  onDragEnter={onDragEnter}
+                  onDragLeave={onDragLeave}
+                  onDrop={e => onDrop(e, role, list, index)}
+                  onClick={() => handleEdit(application)}
+                  sx={{
+                    backgroundColor: darkMode ? '#6e6e6e' : '#cfcfcf',
+                    padding: '5px',
+                    cursor: 'pointer',
+                    minWidth: 100,
+                    maxWidth: 340,
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    boxShadow:
+                      '0px 3px 3px -2px rgba(55, 89, 84, 0.2),0px 3px 4px 0px rgba(55, 89, 84,0.14),0px 1px 8px 0px rgba(55, 89, 84,0.12)',
+                  }}
+                >
+                  <Grid
+                    container
+                    alignItems="center"
+                    spacing={1}
+                    width="145px"
+                    minHeight="56px"
                   >
-                    <Grid
-                      container
-                      alignItems="center"
-                      spacing={1}
-                      width="145px"
-                      minHeight="56px"
-                    >
-                      <Grid item>
-                        <Avatar
-                          sx={{
-                            fontSize: '14px',
-                            borderRadius: '2px',
-                            maxHeight: '20px',
-                            minWidth: '20px',
-                            maxWidth: '20px',
-                            width: 'auto',
-                            height: 'auto',
-                            backgroundColor: 'transparent',
-                            color: darkMode ? 'white' : 'black',
-                          }}
-                          src={
-                            `https://logo.clearbit.com/${application.domain}` ||
-                            ''
-                          }
-                        >
-                          <p className="uppercase">
-                            {application.companyName &&
-                            application.companyName.split(' ').length > 1
-                              ? application.companyName
-                                  .split(' ')
-                                  .map(word => word[0])
-                                  .slice(0, 2)
-                                  .join('')
-                              : application.companyName.split(' ').length === 1
-                              ? application.companyName[0]
-                              : ''}
-                          </p>
-                        </Avatar>
-                      </Grid>
-                      <Grid item xs style={{ flex: '1', textAlign: 'center' }}>
-                        <p className="text-xs text-left p-0">
-                          {application.companyName || ''}
+                    <Grid item>
+                      <Avatar
+                        sx={{
+                          fontSize: '14px',
+                          borderRadius: '2px',
+                          maxHeight: '20px',
+                          minWidth: '20px',
+                          maxWidth: '20px',
+                          width: 'auto',
+                          height: 'auto',
+                          backgroundColor: 'transparent',
+                          color: darkMode ? 'white' : 'black',
+                        }}
+                        src={
+                          `https://logo.clearbit.com/${application.domain}` ||
+                          ''
+                        }
+                      >
+                        <p className="uppercase">
+                          {application.companyName &&
+                          application.companyName.split(' ').length > 1
+                            ? application.companyName
+                                .split(' ')
+                                .map(word => word[0])
+                                .slice(0, 2)
+                                .join('')
+                            : application.companyName.split(' ').length === 1
+                            ? application.companyName[0]
+                            : ''}
                         </p>
-                      </Grid>
-                      <div className="flex flex-col items-center justify-center">
-                        {application.starred && (
-                          <div>
-                            <StarRoundedIcon
+                      </Avatar>
+                    </Grid>
+                    <Grid item xs style={{ flex: '1', textAlign: 'center' }}>
+                      <p className="text-xs text-left p-0">
+                        {application.companyName || ''}
+                      </p>
+                    </Grid>
+                    <div className="flex flex-col items-center justify-center">
+                      {application.starred && (
+                        <div>
+                          <StarRoundedIcon
+                            sx={{
+                              color: darkMode ? '#f9cc71' : '#e8a135',
+                              width: '20px',
+                              height: '20px',
+                            }}
+                          />
+                        </div>
+                      )}
+                      {application.jobURL && (
+                        <div>
+                          <a
+                            href={application.jobURL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <LinkRoundedIcon
                               sx={{
-                                color: darkMode ? '#f9cc71' : '#e8a135',
-                                width: '20px',
-                                height: '20px',
+                                width: '15px',
+                                height: '15px',
                               }}
                             />
-                          </div>
-                        )}
-                        {application.jobURL && (
-                          <div>
-                            <a
-                              href={application.jobURL}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <LinkRoundedIcon
-                                sx={{
-                                  width: '15px',
-                                  height: '15px',
-                                }}
-                              />
-                            </a>
-                          </div>
-                        )}
-                      </div>
-                    </Grid>
-                  </Paper>
-                </Draggable>
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </Grid>
+                </Paper>
               </Grid>
             ))}
       </Grid>
