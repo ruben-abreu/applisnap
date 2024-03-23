@@ -247,7 +247,7 @@ function AccountMenu() {
 
         {user.boards && user.boards.length > 0 && (
           <NavLink
-            to={`/insights/${user.boards[user.boards.length - 1]._id}`}
+            to={`/insights/${currentBoardId ? currentBoardId : ''}`}
             className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
           >
             {({ isActive }) => (
