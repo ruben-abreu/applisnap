@@ -136,7 +136,7 @@ function EditApplication({
 
   const handleAddDate = () => {
     if (dateInput) {
-      let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
+      let formattedDate = dayjs(dateInput).format('YYYY-MM-DD');
       switch (editDateLabel) {
         case 'created':
           setEditDate({ ...editDate, created: formattedDate });
@@ -149,9 +149,9 @@ function EditApplication({
             if (!editDate.interviews.includes(formattedDate)) {
               setEditDate({
                 ...editDate,
-                interviews: [...editDate.interviews, formattedDate].sort(
-                  (a, b) => new Date(a) - new Date(b)
-                ),
+                interviews: [
+                  ...new Set([...editDate.interviews, formattedDate]),
+                ].sort((a, b) => new Date(a) - new Date(b)),
               });
             }
           } else {
@@ -244,7 +244,7 @@ function EditApplication({
     const updatedDate = { ...editDate };
 
     if (application.listId !== newList._id) {
-      let formattedDate = dayjs().format('YYYY/MM/DD');
+      let formattedDate = dayjs().format('YYYY-MM-DD');
 
       if (listName === 'Applied' && !updatedDate.applied) {
         updatedDate.applied = formattedDate;
@@ -564,12 +564,12 @@ function EditApplication({
                   type="date"
                   openTo="day"
                   views={['year', 'month', 'day']}
-                  inputFormat="YYYY-MM-DD"
+                  inputFormat={dayjs().format('YYYY-MM-DD')}
                   value={dateInput}
                   onChange={newDate => {
-                    setDateInput(newDate);
+                    setDateInput(dayjs(newDate).format('YYYY-MM-DD'));
                   }}
-                  defaultValue={dayjs().format('YYYY/MM/DD')}
+                  defaultValue={dayjs().format('YYYY-MM-DD')}
                 />
               </LocalizationProvider>
             </FormControl>
@@ -661,7 +661,7 @@ function EditApplication({
               {editDate.interviews && editDate.interviews.length > 0 && (
                 <TimelineItem>
                   <TimelineOppositeContent color="text.secondary">
-                    {editDate.interviews.length === 1
+                    {[...new Set(editDate.interviews)].length === 1
                       ? 'Interview'
                       : 'Interviews'}
                   </TimelineOppositeContent>
@@ -671,29 +671,33 @@ function EditApplication({
                   </TimelineSeparator>
                   <TimelineContent>
                     <ul>
-                      {editDate.interviews.map((interview, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center gap-[5px]"
-                        >
-                          <li className="w-[100px]">{formatDate(interview)}</li>
-                          <button
-                            type="button"
-                            className="flex items-center"
-                            onClick={() =>
-                              handleRemoveDate('interviews', interview)
-                            }
+                      {[...new Set(editDate.interviews)].map(
+                        (interview, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center gap-[5px]"
                           >
-                            <HighlightOffRoundedIcon
-                              sx={{
-                                ...greyIconButtonStyle,
-                                width: '20px',
-                                height: '20px',
-                              }}
-                            />
-                          </button>
-                        </div>
-                      ))}
+                            <li className="w-[100px]">
+                              {formatDate(interview)}
+                            </li>
+                            <button
+                              type="button"
+                              className="flex items-center"
+                              onClick={() =>
+                                handleRemoveDate('interviews', interview)
+                              }
+                            >
+                              <HighlightOffRoundedIcon
+                                sx={{
+                                  ...greyIconButtonStyle,
+                                  width: '20px',
+                                  height: '20px',
+                                }}
+                              />
+                            </button>
+                          </div>
+                        )
+                      )}
                     </ul>
                   </TimelineContent>
                 </TimelineItem>

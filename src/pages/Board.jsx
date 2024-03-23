@@ -136,7 +136,7 @@ function Board({ setCreditsPage }) {
       boardId,
     } = draggedApplication;
 
-    let formattedDate = dayjs().format('YYYY/MM/DD');
+    let formattedDate = dayjs().format('YYYY-MM-DD');
 
     const updatedDate = { ...date };
 
@@ -146,9 +146,12 @@ function Board({ setCreditsPage }) {
       if (updatedDate.interviews) {
         if (!updatedDate.interviews.includes(formattedDate)) {
           updatedDate.interviews = [
-            ...updatedDate.interviews,
-            formattedDate,
-          ].sort((a, b) => new Date(a) - new Date(b));
+            ...new Set([...updatedDate.interviews, formattedDate]),
+          ].sort(
+            (a, b) =>
+              dayjs(new Date(a)).format('YYYY-MM-DD') -
+              dayjs(new Date(b)).format('YYYY-MM-DD')
+          );
         }
       } else {
         updatedDate.interviews = [formattedDate];

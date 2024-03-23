@@ -74,7 +74,7 @@ function AddJobApplication({
       ? board.boardName
       : user.boards[user.boards.length - 1].boardName
   );
-  const [dateInput, setDateInput] = useState(dayjs());
+  const [dateInput, setDateInput] = useState(dayjs().format('YYYY-MM-DD'));
   const [dateLabel, setDateLabel] = useState(
     listName === 'Applied' || listName === 'Wishlist'
       ? 'applied'
@@ -92,7 +92,7 @@ function AddJobApplication({
     if (list._id) {
       getData(list);
     }
-    let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
+    let formattedDate = dayjs(dateInput).format('YYYY-MM-DD');
 
     if (!date.created) {
       setDate({ ...date, created: formattedDate });
@@ -130,11 +130,11 @@ function AddJobApplication({
   const uniqueLists = [...new Set(user.lists.map(list => list.listName))];
 
   const formatDate = unformattedDate =>
-    dayjs(unformattedDate).format('DD/MM/YYYY');
+    dayjs(unformattedDate).format('YYYY-MM-DD');
 
   const handleAddDate = () => {
     if (dateInput) {
-      let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
+      let formattedDate = dayjs(dateInput).format('YYYY-MM-DD');
       switch (dateLabel) {
         case 'created':
           setDate({ ...date, created: formattedDate });
@@ -147,8 +147,12 @@ function AddJobApplication({
             if (!date.interviews.includes(formattedDate)) {
               setDate({
                 ...date,
-                interviews: [...date.interviews, formattedDate].sort(
-                  (a, b) => new Date(a) - new Date(b)
+                interviews: [
+                  ...new Set([...date.interviews, formattedDate]),
+                ].sort(
+                  (a, b) =>
+                    dayjs(new Date(a)).format('YYYY-MM-DD') -
+                    dayjs(new Date(b)).format('YYYY-MM-DD')
                 ),
               });
             }
@@ -236,7 +240,7 @@ function AddJobApplication({
 
     const list = boardLists.filter(list => list.listName === listName);
 
-    let formattedDate = dayjs().format('YYYY/MM/DD');
+    let formattedDate = dayjs().format('YYYY-MM-DD');
 
     const updatedDate = { ...date };
 
@@ -246,9 +250,12 @@ function AddJobApplication({
       if (updatedDate.interviews) {
         if (!updatedDate.interviews.includes(formattedDate)) {
           updatedDate.interviews = [
-            ...updatedDate.interviews,
-            formattedDate,
-          ].sort((a, b) => new Date(a) - new Date(b));
+            ...new Set([...updatedDate.interviews, formattedDate]),
+          ].sort(
+            (a, b) =>
+              dayjs(new Date(a)).format('YYYY-MM-DD') -
+              dayjs(new Date(b)).format('YYYY-MM-DD')
+          );
         }
       } else {
         updatedDate.interviews = [formattedDate];
@@ -554,12 +561,12 @@ function AddJobApplication({
                     type="date"
                     openTo="day"
                     views={['year', 'month', 'day']}
-                    inputFormat="YYYY-MM-DD"
+                    inputFormat={dayjs().format('YYYY-MM-DD')}
                     value={dateInput}
                     onChange={newDate => {
-                      setDateInput(newDate);
+                      setDateInput(dayjs(newDate).format('YYYY-MM-DD'));
                     }}
-                    defaultValue={dayjs().format('YYYY/MM/DD')}
+                    defaultValue={dayjs().format('YYYY-MM-DD')}
                   />
                 </LocalizationProvider>
               </FormControl>
@@ -658,7 +665,7 @@ function AddJobApplication({
                 {date.interviews && date.interviews.length > 0 && (
                   <TimelineItem>
                     <TimelineOppositeContent color="text.secondary">
-                      {date.interviews.length === 1
+                      {[...new Set(date.interviews)].length === 1
                         ? 'Interview'
                         : 'Interviews'}
                     </TimelineOppositeContent>
@@ -668,31 +675,33 @@ function AddJobApplication({
                     </TimelineSeparator>
                     <TimelineContent>
                       <ul>
-                        {date.interviews.map((interview, index) => (
-                          <div
-                            key={'AJ-User' + interview + index}
-                            className="flex items-center gap-[5px]"
-                          >
-                            <li className="w-[100px]">
-                              {formatDate(interview)}
-                            </li>
-                            <button
-                              type="button"
-                              className="flex items-center"
-                              onClick={() =>
-                                handleRemoveDate('interviews', interview)
-                              }
+                        {[...new Set(date.interviews)].map(
+                          (interview, index) => (
+                            <div
+                              key={'AJ-User' + interview + index}
+                              className="flex items-center gap-[5px]"
                             >
-                              <HighlightOffRoundedIcon
-                                sx={{
-                                  ...greyIconButtonStyle,
-                                  width: '20px',
-                                  height: '20px',
-                                }}
-                              />
-                            </button>
-                          </div>
-                        ))}
+                              <li className="w-[100px]">
+                                {formatDate(interview)}
+                              </li>
+                              <button
+                                type="button"
+                                className="flex items-center"
+                                onClick={() =>
+                                  handleRemoveDate('interviews', interview)
+                                }
+                              >
+                                <HighlightOffRoundedIcon
+                                  sx={{
+                                    ...greyIconButtonStyle,
+                                    width: '20px',
+                                    height: '20px',
+                                  }}
+                                />
+                              </button>
+                            </div>
+                          )
+                        )}
                       </ul>
                     </TimelineContent>
                   </TimelineItem>
