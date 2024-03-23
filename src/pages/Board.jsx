@@ -232,10 +232,7 @@ function Board({ setCreditsPage }) {
                   alignItems: 'center',
                 }}
               >
-                <div
-                  onTouchStart={onDragEnter}
-                  onTouchMove={e => onDragStart(e, application._id)}
-                  onTouchEnd={e => onDrop(e, role, list, index)}
+                <Paper
                   elevation={3}
                   draggable={true}
                   onDragStart={e => onDragStart(e, application._id)}
@@ -247,18 +244,18 @@ function Board({ setCreditsPage }) {
                   className={`rounded-md ${
                     darkMode ? 'bg-[#6e6e6e]' : 'bg-[#cfcfcf]'
                   } p-[5px] cursor-pointer min-w-[100px] max-w-[340px] w-[100%] flex flex-col shadow-md`}
-                  // style={{
-                  //   backgroundColor: darkMode ? '#6e6e6e' : '#cfcfcf',
-                  //   padding: '5px',
-                  //   cursor: 'pointer',
-                  //   minWidth: 100,
-                  //   maxWidth: 340,
-                  //   width: '100%',
-                  //   display: 'flex',
-                  //   flexDirection: 'column',
-                  //   boxShadow:
-                  //     '0px 3px 3px -2px rgba(55, 89, 84, 0.2),0px 3px 4px 0px rgba(55, 89, 84,0.14),0px 1px 8px 0px rgba(55, 89, 84,0.12)',
-                  // }}
+                  sx={{
+                    backgroundColor: darkMode ? '#6e6e6e' : '#cfcfcf',
+                    padding: '5px',
+                    cursor: 'pointer',
+                    minWidth: 100,
+                    maxWidth: 340,
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    boxShadow:
+                      '0px 3px 3px -2px rgba(55, 89, 84, 0.2),0px 3px 4px 0px rgba(55, 89, 84,0.14),0px 1px 8px 0px rgba(55, 89, 84,0.12)',
+                  }}
                 >
                   <Grid
                     container
@@ -334,7 +331,7 @@ function Board({ setCreditsPage }) {
                       )}
                     </div>
                   </Grid>
-                </div>
+                </Paper>
               </Grid>
             ))}
       </Grid>
