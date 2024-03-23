@@ -48,6 +48,7 @@ function Board({ setCreditsPage }) {
   useEffect(() => {
     setCreditsPage(false);
     fetchBoard(boardId);
+    localStorage.setItem('boardId', boardId);
     if (user) {
       setBoardName(
         user.boards.filter(board => board._id === boardId).boardName
