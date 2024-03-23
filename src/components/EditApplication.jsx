@@ -662,7 +662,7 @@ function EditApplication({
               {editDate.interviews && editDate.interviews.length > 0 && (
                 <TimelineItem>
                   <TimelineOppositeContent color="text.secondary">
-                    {editDate.interviews.length === 1
+                    {[...new Set(editDate.interviews)].length === 1
                       ? 'Interview'
                       : 'Interviews'}
                   </TimelineOppositeContent>

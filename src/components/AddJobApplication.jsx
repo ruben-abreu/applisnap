@@ -657,7 +657,7 @@ function AddJobApplication({
                 {date.interviews && date.interviews.length > 0 && (
                   <TimelineItem>
                     <TimelineOppositeContent color="text.secondary">
-                      {date.interviews.length === 1
+                      {[...new Set(date.interviews)].length === 1
                         ? 'Interview'
                         : 'Interviews'}
                     </TimelineOppositeContent>
