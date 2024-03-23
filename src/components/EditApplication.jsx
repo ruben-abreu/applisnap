@@ -109,6 +109,7 @@ function EditApplication({
   useEffect(() => {
     if (application) {
       getData(application);
+      setEditDate(application.date);
     }
     if (board) {
       setSelectedBoardName(board.boardName);
@@ -136,7 +137,7 @@ function EditApplication({
 
   const handleAddDate = () => {
     if (dateInput) {
-      let formattedDate = dayjs(dateInput).format('YYYY-MM-DD');
+      let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
       switch (editDateLabel) {
         case 'created':
           setEditDate({ ...editDate, created: formattedDate });
@@ -244,7 +245,7 @@ function EditApplication({
     const updatedDate = { ...editDate };
 
     if (application.listId !== newList._id) {
-      let formattedDate = dayjs().format('YYYY-MM-DD');
+      let formattedDate = dayjs().format('YYYY/MM/DD');
 
       if (listName === 'Applied' && !updatedDate.applied) {
         updatedDate.applied = formattedDate;
@@ -564,12 +565,12 @@ function EditApplication({
                   type="date"
                   openTo="day"
                   views={['year', 'month', 'day']}
-                  inputFormat={dayjs().format('YYYY-MM-DD')}
+                  inputFormat="YYYY-MM-DD"
                   value={dateInput}
                   onChange={newDate => {
-                    setDateInput(dayjs(newDate).format('YYYY-MM-DD'));
+                    setDateInput(newDate);
                   }}
-                  defaultValue={dayjs().format('YYYY-MM-DD')}
+                  defaultValue={dayjs().format('YYYY/MM/DD')}
                 />
               </LocalizationProvider>
             </FormControl>
@@ -661,7 +662,7 @@ function EditApplication({
               {editDate.interviews && editDate.interviews.length > 0 && (
                 <TimelineItem>
                   <TimelineOppositeContent color="text.secondary">
-                    {[...new Set(editDate.interviews)].length === 1
+                    {editDate.interviews.length === 1
                       ? 'Interview'
                       : 'Interviews'}
                   </TimelineOppositeContent>

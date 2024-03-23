@@ -74,7 +74,7 @@ function AddJobApplication({
       ? board.boardName
       : user.boards[user.boards.length - 1].boardName
   );
-  const [dateInput, setDateInput] = useState(dayjs().format('YYYY-MM-DD'));
+  const [dateInput, setDateInput] = useState(dayjs());
   const [dateLabel, setDateLabel] = useState(
     listName === 'Applied' || listName === 'Wishlist'
       ? 'applied'
@@ -92,7 +92,7 @@ function AddJobApplication({
     if (list._id) {
       getData(list);
     }
-    let formattedDate = dayjs(dateInput).format('YYYY-MM-DD');
+    let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
 
     if (!date.created) {
       setDate({ ...date, created: formattedDate });
@@ -130,11 +130,11 @@ function AddJobApplication({
   const uniqueLists = [...new Set(user.lists.map(list => list.listName))];
 
   const formatDate = unformattedDate =>
-    dayjs(unformattedDate).format('YYYY-MM-DD');
+    dayjs(unformattedDate).format('DD/MM/YYYY');
 
   const handleAddDate = () => {
     if (dateInput) {
-      let formattedDate = dayjs(dateInput).format('YYYY-MM-DD');
+      let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
       switch (dateLabel) {
         case 'created':
           setDate({ ...date, created: formattedDate });
@@ -149,11 +149,7 @@ function AddJobApplication({
                 ...date,
                 interviews: [
                   ...new Set([...date.interviews, formattedDate]),
-                ].sort(
-                  (a, b) =>
-                    dayjs(new Date(a)).format('YYYY-MM-DD') -
-                    dayjs(new Date(b)).format('YYYY-MM-DD')
-                ),
+                ].sort((a, b) => new Date(a) - new Date(b)),
               });
             }
           } else {
@@ -240,7 +236,7 @@ function AddJobApplication({
 
     const list = boardLists.filter(list => list.listName === listName);
 
-    let formattedDate = dayjs().format('YYYY-MM-DD');
+    let formattedDate = dayjs().format('YYYY/MM/DD');
 
     const updatedDate = { ...date };
 
@@ -251,11 +247,7 @@ function AddJobApplication({
         if (!updatedDate.interviews.includes(formattedDate)) {
           updatedDate.interviews = [
             ...new Set([...updatedDate.interviews, formattedDate]),
-          ].sort(
-            (a, b) =>
-              dayjs(new Date(a)).format('YYYY-MM-DD') -
-              dayjs(new Date(b)).format('YYYY-MM-DD')
-          );
+          ].sort((a, b) => new Date(a) - new Date(b));
         }
       } else {
         updatedDate.interviews = [formattedDate];
@@ -561,12 +553,12 @@ function AddJobApplication({
                     type="date"
                     openTo="day"
                     views={['year', 'month', 'day']}
-                    inputFormat={dayjs().format('YYYY-MM-DD')}
+                    inputFormat="YYYY-MM-DD"
                     value={dateInput}
                     onChange={newDate => {
-                      setDateInput(dayjs(newDate).format('YYYY-MM-DD'));
+                      setDateInput(newDate);
                     }}
-                    defaultValue={dayjs().format('YYYY-MM-DD')}
+                    defaultValue={dayjs().format('YYYY/MM/DD')}
                   />
                 </LocalizationProvider>
               </FormControl>
@@ -665,7 +657,7 @@ function AddJobApplication({
                 {date.interviews && date.interviews.length > 0 && (
                   <TimelineItem>
                     <TimelineOppositeContent color="text.secondary">
-                      {[...new Set(date.interviews)].length === 1
+                      {date.interviews.length === 1
                         ? 'Interview'
                         : 'Interviews'}
                     </TimelineOppositeContent>
