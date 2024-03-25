@@ -110,13 +110,7 @@ function ChangePasswordButton() {
       >
         Change Password
       </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          component: 'form',
-        }}
-      >
+      <Dialog open={open} onClose={handleClose}>
         <ChangePasswordDialogTitle>Change Password</ChangePasswordDialogTitle>
         <form action="submit" onSubmit={handleChangePassword}>
           <DialogContent>

@@ -115,14 +115,7 @@ function AddBoardButton() {
       >
         Create New Board
       </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        fullWidth
-        PaperProps={{
-          component: 'form',
-        }}
-      >
+      <Dialog open={open} onClose={handleClose} fullWidth>
         <LogInDialogTitle>Create New Board</LogInDialogTitle>
         <form action="submit" onSubmit={handleAddBoard}>
           <DialogContent>

@@ -161,13 +161,7 @@ function UserImage() {
         )}
       </IconButton>
 
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          component: 'form',
-        }}
-      >
+      <Dialog open={open} onClose={handleClose}>
         <UploadImageDialogTitle>Upload Image</UploadImageDialogTitle>
         <DialogContent>
           <FormControl

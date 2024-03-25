@@ -145,14 +145,7 @@ function LogInButton() {
       <Button onClick={handleClickOpen} sx={{ ...lightButtonNoBorder }}>
         Log In
       </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        fullWidth
-        PaperProps={{
-          component: 'form',
-        }}
-      >
+      <Dialog open={open} onClose={handleClose} fullWidth>
         <LogInDialogTitle>
           {!forgotPasswordClicked ? 'Log In' : 'Reset Password'}
         </LogInDialogTitle>

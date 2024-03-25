@@ -244,13 +244,7 @@ function SignUpButton() {
       <Button onClick={handleClickOpen} sx={{ ...buttonGreenStyle }}>
         Sign Up
       </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          component: 'form',
-        }}
-      >
+      <Dialog open={open} onClose={handleClose}>
         <SignUpDialogTitle>Sign Up</SignUpDialogTitle>
         <form action="submit" onSubmit={handleSignUp}>
           <DialogContent>
