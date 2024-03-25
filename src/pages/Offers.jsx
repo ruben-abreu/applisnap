@@ -108,8 +108,6 @@ const Offers = ({ setCreditsPage }) => {
         list => list.listName === 'Offers'
       )?._id;
 
-      console.log('offersListId', offersListId);
-
       if (!offersListId) {
         console.error('Offers list not found for this board.');
         return;

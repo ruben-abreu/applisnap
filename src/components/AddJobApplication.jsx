@@ -97,10 +97,6 @@ function AddJobApplication({
   const location = useLocation();
 
   useEffect(() => {
-    console.log(
-      'location.pathname.split(' / ')[1]',
-      location.pathname.split('/')[1]
-    );
     if (list._id) {
       getData(list);
     }

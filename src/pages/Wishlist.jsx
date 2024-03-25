@@ -59,7 +59,6 @@ const Wishlist = ({ setCreditsPage }) => {
     if (boardId) {
       fetchBoard(boardId);
       localStorage.setItem('boardId', boardId);
-      console.log('boardId', boardId);
     } else {
       setBoardName('All Boards');
       updateUser(storedUserId);
@@ -108,8 +107,6 @@ const Wishlist = ({ setCreditsPage }) => {
       const wishlistListId = currentBoard.lists.find(
         list => list.listName === 'Wishlist'
       )?._id;
-
-      console.log('wishlistListId', wishlistListId);
 
       if (!wishlistListId) {
         console.error('Wishlist list not found for this board.');

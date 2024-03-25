@@ -108,8 +108,6 @@ const Interviews = ({ setCreditsPage }) => {
         list => list.listName === 'Interviews'
       )?._id;
 
-      console.log('interviewsListId', interviewsListId);
-
       if (!interviewsListId) {
         console.error('Interviews list not found for this board.');
         return;

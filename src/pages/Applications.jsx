@@ -108,8 +108,6 @@ const Applications = ({ setCreditsPage }) => {
         list => list.listName === 'Applied'
       )?._id;
 
-      console.log('appliedListId', appliedListId);
-
       if (!appliedListId) {
         console.error('Applied list not found for this board.');
         return;

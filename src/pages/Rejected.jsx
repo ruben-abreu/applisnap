@@ -108,8 +108,6 @@ const Rejected = ({ setCreditsPage }) => {
         list => list.listName === 'Rejected'
       )?._id;
 
-      console.log('rejectedListId', rejectedListId);
-
       if (!rejectedListId) {
         console.error('Rejected list not found for this board.');
         return;
