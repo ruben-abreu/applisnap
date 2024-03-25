@@ -497,7 +497,7 @@ const Applications = ({ setCreditsPage }) => {
               user.boards &&
               user.boards.length === 0 && (
                 <div className="flex flex-col gap-[15px] text-left mt-4">
-                  <div>
+                  <div className="my-[30px]">
                     <AddBoardButton />
                   </div>
                   <p>Create a board to start adding jobs to this list.</p>
