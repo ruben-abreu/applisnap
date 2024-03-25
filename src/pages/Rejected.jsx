@@ -493,12 +493,15 @@ const Rejected = ({ setCreditsPage }) => {
                 <p>You have no jobs in this list.</p>
               </div>
             ) : (
-              <div className="flex flex-col gap-[15px] text-left mt-4">
-                <div>
-                  <AddBoardButton />
+              user.boards &&
+              user.boards.length === 0 && (
+                <div className="flex flex-col gap-[15px] text-left mt-4">
+                  <div>
+                    <AddBoardButton />
+                  </div>
+                  <p>Create a board to start adding jobs to this list.</p>
                 </div>
-                <p>Create a board to start adding jobs to this list.</p>
-              </div>
+              )
             )}
           </div>
           <Dialog open={deleteDialogOpen} onClose={cancelDelete}>
