@@ -60,9 +60,9 @@ function Navigation() {
           }}
         >
           {darkMode === true ? (
-            <DarkModeRoundedIcon />
-          ) : (
             <LightModeRoundedIcon />
+          ) : (
+            <DarkModeRoundedIcon />
           )}
         </button>
 
