@@ -74,7 +74,13 @@ function DeleteBoardButton({ boardId, onDelete }) {
             autoFocus
             variant="outlined"
             color="error"
-            startIcon={isLoading ? <CircularProgress /> : <DeleteIcon />}
+            startIcon={
+              isLoading ? (
+                <CircularProgress sx={{ color: '#f44336' }} size={16} />
+              ) : (
+                <DeleteIcon />
+              )
+            }
             sx={{ padding: '6px 12px' }}
           >
             Delete

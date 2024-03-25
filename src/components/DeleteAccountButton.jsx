@@ -20,7 +20,6 @@ function DeleteAccountButton() {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { darkMode } = useContext(ThemeContext);
   const { user, removeToken, authenticateUser } = useContext(AuthContext);
 
   const handleClickOpen = () => {
@@ -40,6 +39,8 @@ function DeleteAccountButton() {
   };
 
   const deleteUser = async () => {
+    setIsLoading(true);
+
     try {
       await deleteAccount(user._id);
       removeToken();
