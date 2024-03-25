@@ -286,13 +286,13 @@ function EditApplication({
       await editJob(application._id, jobData);
 
       if (currentBoardName !== 'All Boards') {
-        await fetchBoard(newBoard._id);
+        await fetchBoard(boardId);
       }
 
       if (updateUser && currentBoardName === 'All Boards') {
         await updateUser(user._id);
       }
-      onClose();
+      await onClose();
     } catch (error) {
       console.log('Error saving changes', error);
     }

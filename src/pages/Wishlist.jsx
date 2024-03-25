@@ -56,6 +56,7 @@ const Wishlist = ({ setCreditsPage }) => {
     if (boardId) {
       fetchBoard(boardId);
       localStorage.setItem('boardId', boardId);
+      console.log('boardId', boardId);
     } else {
       setBoardName('All Boards');
       updateUser(storedUserId);
@@ -165,11 +166,13 @@ const Wishlist = ({ setCreditsPage }) => {
     setSelectedApplication(job);
   };
 
-  const handleEditClose = async () => {
+  const handleEditClose = () => {
+    setSelectedApplication(null);
     if (boardName === 'All Boards') {
       navigate('/wishlist');
+    } else {
+      navigate(`/wishlist/${boardId}`);
     }
-    setSelectedApplication(null);
   };
 
   const handleDelete = job => {

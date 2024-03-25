@@ -168,6 +168,8 @@ const Applications = ({ setCreditsPage }) => {
   const handleEditClose = () => {
     if (boardName === 'All Boards') {
       navigate('/applications');
+    } else {
+      navigate(`/applications/${boardId}`);
     }
     setSelectedApplication(null);
   };

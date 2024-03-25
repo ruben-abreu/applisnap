@@ -168,6 +168,8 @@ const Interviews = ({ setCreditsPage }) => {
   const handleEditClose = () => {
     if (boardName === 'All Boards') {
       navigate('/interviews');
+    } else {
+      navigate(`/interviews/${boardId}`);
     }
     setSelectedApplication(null);
   };

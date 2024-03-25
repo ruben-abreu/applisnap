@@ -168,6 +168,8 @@ const Rejected = ({ setCreditsPage }) => {
   const handleEditClose = () => {
     if (boardName === 'All Boards') {
       navigate('/rejected');
+    } else {
+      navigate(`/rejected/${boardId}`);
     }
     setSelectedApplication(null);
   };
