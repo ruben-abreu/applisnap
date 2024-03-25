@@ -232,6 +232,7 @@ function Board({ setCreditsPage }) {
                 sx={{
                   display: 'flex',
                   flexWrap: 'wrap',
+                  justifyContent: 'center',
                   alignItems: 'center',
                 }}
               >
@@ -256,18 +257,15 @@ function Board({ setCreditsPage }) {
                     width: '100%',
                     display: 'flex',
                     flexDirection: 'column',
-                    boxShadow:
-                      '0px 3px 3px -2px rgba(55, 89, 84, 0.2),0px 3px 4px 0px rgba(55, 89, 84,0.14),0px 1px 8px 0px rgba(55, 89, 84,0.12)',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: darkMode
+                      ? '0px 3px 3px -2px rgba(138, 157, 154, 0.2),0px 3px 4px 0px rgba(138, 157, 154,0.14),0px 1px 8px 0px rgba(138, 157, 154,0.12)'
+                      : '0px 3px 3px -2px rgba(55, 89, 84, 0.2),0px 3px 4px 0px rgba(55, 89, 84,0.14),0px 1px 8px 0px rgba(55, 89, 84,0.12)',
                   }}
                 >
-                  <Grid
-                    container
-                    alignItems="center"
-                    spacing={1}
-                    width="145px"
-                    minHeight="56px"
-                  >
-                    <Grid item>
+                  <div className="flex justify-center items-center gap-1 w-[145px] min-h-[56px]">
+                    <div>
                       <Avatar
                         sx={{
                           fontSize: '14px',
@@ -298,12 +296,12 @@ function Board({ setCreditsPage }) {
                             : ''}
                         </p>
                       </Avatar>
-                    </Grid>
-                    <Grid item xs style={{ flex: '1', textAlign: 'center' }}>
+                    </div>
+                    <div className="flex flex-1 text-center">
                       <p className="text-xs text-left p-0">
                         {application.companyName || ''}
                       </p>
-                    </Grid>
+                    </div>
                     <div className="flex flex-col items-center justify-center">
                       {application.starred && (
                         <div>
@@ -333,7 +331,7 @@ function Board({ setCreditsPage }) {
                         </div>
                       )}
                     </div>
-                  </Grid>
+                  </div>
                 </Paper>
               </Grid>
             ))}
