@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/auth.context';
 import { ThemeContext } from '../context/theme.context';
 import {
@@ -88,7 +89,14 @@ function AddJobApplication({
   );
   const [date, setDate] = useState({});
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
+    console.log(
+      'location.pathname.split(' / ')[1]',
+      location.pathname.split('/')[1]
+    );
     if (list._id) {
       getData(list);
     }
@@ -279,6 +287,7 @@ function AddJobApplication({
 
       if (currentBoardName !== 'All Boards') {
         await fetchBoard(selectedBoard[0]._id);
+        navigate(`/${location.pathname.split('/')[1]}/${selectedBoard[0]._id}`);
       }
 
       if (updateUser && currentBoardName === 'All Boards') {
