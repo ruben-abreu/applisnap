@@ -28,6 +28,7 @@ import Avatar from '@mui/material/Avatar';
 import Sort from '../components/Sort';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Applications = ({ setCreditsPage }) => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
@@ -50,6 +51,7 @@ const Applications = ({ setCreditsPage }) => {
   const [boardName, setBoardName] = useState('');
   const [selectedBoardId, setSelectedBoardId] = useState('');
   const [sortBy, setSortBy] = useState('starred');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setCreditsPage(false);
@@ -180,6 +182,7 @@ const Applications = ({ setCreditsPage }) => {
   };
 
   const confirmDelete = async () => {
+    setIsLoading(true);
     try {
       await deleteJob(deletingJob._id);
       if (boardId && boardName !== 'All Boards') {
@@ -188,9 +191,11 @@ const Applications = ({ setCreditsPage }) => {
         await updateUser(storedUserId);
         setBoardName('All Boards');
       }
+      setIsLoading(false);
       setDeleteDialogOpen(false);
       setDeletingJob(null);
     } catch (error) {
+      setIsLoading(false);
       console.log('Error deleting job', error);
     }
   };
@@ -496,7 +501,15 @@ const Applications = ({ setCreditsPage }) => {
               <Button onClick={cancelDelete} sx={{ color: '#678B85' }}>
                 Cancel
               </Button>
-              <Button onClick={confirmDelete} sx={{ color: '#678B85' }}>
+              <Button
+                onClick={confirmDelete}
+                sx={{ color: '#678B85' }}
+                startIcon={
+                  isLoading && (
+                    <CircularProgress sx={{ color: '#678B85' }} size={16} />
+                  )
+                }
+              >
                 Confirm
               </Button>
             </DialogActions>

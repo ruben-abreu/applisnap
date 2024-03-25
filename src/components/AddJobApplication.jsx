@@ -33,6 +33,7 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import CancelButton from '../components/CancelButton';
+import CircularProgress from '@mui/material/CircularProgress';
 import { addJob } from '../api/jobs.api';
 import dayjs from 'dayjs';
 
@@ -88,6 +89,7 @@ function AddJobApplication({
       : 'applied'
   );
   const [date, setDate] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -210,6 +212,8 @@ function AddJobApplication({
   const handleSave = async e => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     if (companyName.trim() === '') {
       alert('Company name cannot be empty');
       return;
@@ -306,8 +310,10 @@ function AddJobApplication({
       setDate({});
       setStarred(false);
 
+      setIsLoading(false);
       handleClose();
     } catch (error) {
+      setIsLoading(false);
       console.error('Error adding job:', error);
     }
   };
@@ -788,6 +794,11 @@ function AddJobApplication({
               type="submit"
               onClick={handleSave}
               sx={{ ...buttonGreenStyle }}
+              startIcon={
+                isLoading && (
+                  <CircularProgress sx={{ color: 'white' }} size={16} />
+                )
+              }
             >
               Save
             </Button>

@@ -33,6 +33,7 @@ import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import CancelButton from '../components/CancelButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CircularProgress from '@mui/material/CircularProgress';
 import { editJob, deleteJob } from '../api/jobs.api';
 import { getList } from '../api/lists.api';
 import { getBoard } from '../api/boards.api';
@@ -97,6 +98,7 @@ function EditApplication({
       : 'interviews'
   );
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     darkMode,
@@ -208,6 +210,8 @@ function EditApplication({
   const handleSave = async e => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     if (companyName.trim() === '') {
       alert('Company name cannot be empty');
       return;
@@ -292,8 +296,10 @@ function EditApplication({
       if (updateUser && currentBoardName === 'All Boards') {
         await updateUser(user._id);
       }
-      await onClose();
+      setIsLoading(false);
+      onClose();
     } catch (error) {
+      setIsLoading(false);
       console.log('Error saving changes', error);
     }
   };
@@ -303,6 +309,7 @@ function EditApplication({
   };
 
   const confirmDelete = async () => {
+    setIsLoading(true);
     try {
       await deleteJob(application._id);
 
@@ -312,9 +319,10 @@ function EditApplication({
       } else if (currentBoardName !== 'All Boards') {
         await fetchBoard(boardId);
       }
-
+      setIsLoading(false);
       onClose();
     } catch (error) {
+      setIsLoading(false);
       console.log('Error deleting job', error);
     }
   };
@@ -788,6 +796,11 @@ function EditApplication({
             type="submit"
             onClick={handleSave}
             sx={{ ...buttonGreenStyle }}
+            startIcon={
+              isLoading && (
+                <CircularProgress sx={{ color: 'white' }} size={16} />
+              )
+            }
           >
             Save
           </Button>
@@ -805,7 +818,15 @@ function EditApplication({
           <Button onClick={cancelDelete} sx={{ color: '#678B85' }}>
             Cancel
           </Button>
-          <Button onClick={confirmDelete} sx={{ color: '#678B85' }}>
+          <Button
+            onClick={confirmDelete}
+            sx={{ color: '#678B85' }}
+            startIcon={
+              isLoading && (
+                <CircularProgress sx={{ color: '#678B85' }} size={16} />
+              )
+            }
+          >
             Confirm
           </Button>
         </DialogActions>
