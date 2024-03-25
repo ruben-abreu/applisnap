@@ -1,7 +1,6 @@
 import { useState, useContext } from 'react';
 import { deleteAccount, deleteImage } from '../api/auth.api';
 import { useNavigate } from 'react-router-dom';
-import { ThemeContext } from '../context/theme.context';
 import { AuthContext } from '../context/auth.context';
 import * as React from 'react';
 import Button from '@mui/material/Button';
