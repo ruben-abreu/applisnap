@@ -74,7 +74,9 @@ function AddJobApplication({
       ? currentBoardName
       : board.boardName
       ? board.boardName
-      : user.boards[user.boards.length - 1].boardName
+      : user.boards && user.boards.length > 0
+      ? user.boards[user.boards.length - 1].boardName
+      : ''
   );
   const [dateInput, setDateInput] = useState(dayjs());
   const [dateLabel, setDateLabel] = useState(
@@ -120,7 +122,9 @@ function AddJobApplication({
         ? currentBoardName
         : board.boardName
         ? board.boardName
-        : user.boards[user.boards.length - 1].boardName
+        : user.boards && user.boards.length > 0
+        ? user.boards[user.boards.length - 1].boardName
+        : ''
     );
     setOpen(true);
   };

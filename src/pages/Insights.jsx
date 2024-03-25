@@ -8,6 +8,7 @@ import { getAllJobs } from '../api/jobs.api';
 import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
 import ListsBarChart from '../components/ListsBarChart';
 import TimeChart from '../components/TimeChart';
+import AddBoardButton from '../components/AddBoardButton';
 import InsightsRoundedIcon from '@mui/icons-material/InsightsRounded';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
@@ -184,19 +185,25 @@ function Insights({ setCreditsPage }) {
                 )}
               </div>
             ) : (
-              <p className="text-center mt-[50px] font-bold text-xl">
-                Please create a new board in to view this page
-              </p>
+              ''
             )}
           </div>
+          {user && user.boards && user.boards.length === 0 && (
+            <div className="flex flex-col gap-[15px] text-left mt-4">
+              <div>
+                <AddBoardButton />
+              </div>
+              <p> Please create a new board in to view this page.</p>
+            </div>
+          )}
 
-          {board && (
+          {user && user.boards.length > 0 && board && (
             <div className="flex justify-center my-[40px]">
               <ListsBarChart board={board} />
             </div>
           )}
 
-          {board && (
+          {user && user.boards.length > 0 && board && (
             <div className="flex justify-center">
               <TimeChart board={board} />
             </div>

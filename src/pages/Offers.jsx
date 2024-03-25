@@ -7,6 +7,7 @@ import { ThemeContext } from '../context/theme.context';
 import EditApplication from '../components/EditApplication';
 import AddJobApplication from '../components/AddJobApplication';
 import SearchBarListPages from '../components/SearchBarListPages';
+import AddBoardButton from '../components/AddBoardButton';
 import { getUserDetails } from '../api/auth.api';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -258,7 +259,7 @@ const Offers = ({ setCreditsPage }) => {
                 My Offers
               </h2>
             </div>
-            {user && user.boards && (
+            {user && user.boards && user.boards.length > 0 && (
               <div className="flex gap-[10px] items-center">
                 <form>
                   <FormControl sx={{ ...formGreenStyle, my: 1 }}>
@@ -307,7 +308,7 @@ const Offers = ({ setCreditsPage }) => {
               </div>
             )}
           </div>
-          {user.boards && boardName && (
+          {user.boards && user.boards.length > 0 && boardName && (
             <div className="flex items-center my-[30px]">
               <h3
                 className={`text-[16px] ${
@@ -486,9 +487,18 @@ const Offers = ({ setCreditsPage }) => {
                   </div>
                 );
               })}
-            {offersJobs.length === 0 && (
+            {user.boards &&
+            user.boards.length > 0 &&
+            offersJobs.length === 0 ? (
               <div className="text-center col-span-full mt-4">
                 <p>You have no jobs in this list.</p>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-[15px] text-left mt-4">
+                <div>
+                  <AddBoardButton />
+                </div>
+                <p>Create a board to start adding jobs to this list.</p>
               </div>
             )}
           </div>

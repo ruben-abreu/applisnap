@@ -46,7 +46,11 @@ function BoardLists({ setCreditsPage }) {
     try {
       await deleteBoard(boardId);
       const updatedBoards = boards.filter(board => board._id !== boardId);
-      setBoards(updatedBoards);
+      if (updatedBoards) {
+        setBoards(updatedBoards);
+      } else {
+        setBoards([]);
+      }
     } catch (error) {
       console.error('Error deleting board:', error);
     }
@@ -101,6 +105,7 @@ function BoardLists({ setCreditsPage }) {
           </div>
           <div className="mt-[50px] flex flex-col gap-[30px]">
             {boards &&
+              boards.length > 0 &&
               boards.map(boardItem => (
                 <div
                   key={boardItem._id}

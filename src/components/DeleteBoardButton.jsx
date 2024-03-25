@@ -9,10 +9,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import CancelButton from './CancelButton'; // Updated import
+import CancelButton from './CancelButton';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function DeleteBoardButton({ boardId, onDelete }) {
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { authenticateUser } = useContext(AuthContext);
   const { width } = useContext(ThemeContext);
@@ -26,11 +28,14 @@ function DeleteBoardButton({ boardId, onDelete }) {
   };
 
   const handleDelete = async () => {
+    setIsLoading(true);
     try {
       await onDelete(boardId);
       await authenticateUser();
+      setIsLoading(false);
       handleClose();
     } catch (error) {
+      setIsLoading(false);
       console.error('Error deleting board:', error);
     }
   };
@@ -69,7 +74,7 @@ function DeleteBoardButton({ boardId, onDelete }) {
             autoFocus
             variant="outlined"
             color="error"
-            startIcon={<DeleteIcon />}
+            startIcon={isLoading ? <CircularProgress /> : <DeleteIcon />}
             sx={{ padding: '6px 12px' }}
           >
             Delete

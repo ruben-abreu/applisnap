@@ -16,7 +16,7 @@ function Navigation() {
   const [boardId, setBoardId] = useState('');
 
   useEffect(() => {
-    if (user) {
+    if (user && user.boards && user.boards.length > 0) {
       setBoardId(user.boards[user.boards.length - 1]._id);
     }
   }, [user]);
