@@ -42,7 +42,7 @@ function HomePage() {
           )}
         </div>
 
-        <ul className="my-[20px] p-[20px] flex flex-col gap-[20px] max-[685px]:gap-[10px] max-[620px]:max-w-[500px] text-white drop-shadow">
+        <ul className="p-[20px] flex flex-col gap-[20px] max-[685px]:gap-[10px] max-[620px]:max-w-[500px] text-white drop-shadow">
           <li>
             <b
               className={`${
@@ -82,7 +82,7 @@ function HomePage() {
           className="rounded max-w-[600px] max-[620px]:max-w-[500px] max-[500px]:max-w-[200px]"
         />
 
-        <ul className="my-[20px] p-[20px] flex flex-col gap-[20px] max-[685px]:gap-[10px] max-[620px]:max-w-[500px] text-white drop-shadow">
+        <ul className="px-[20px] pt-[20px] flex flex-col gap-[20px] max-[685px]:gap-[10px] max-[620px]:max-w-[500px] text-white drop-shadow">
           <li>
             <b
               className={`${
