@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AppliSnapIcon from '../assets/AppliSnapIcon.png';
 import { ThemeContext } from '../context/theme.context';
 import { AuthContext } from '../context/auth.context';
@@ -13,18 +13,37 @@ function Navigation() {
   const { darkMode, setDarkMode, width } = useContext(ThemeContext);
   const { loggedIn, user } = useContext(AuthContext);
 
-  const [boardId, setBoardId] = useState('');
+  const [boardId, setBoardId] = useState(
+    localStorage.getItem('boardId') ? localStorage.getItem('boardId') : ''
+  );
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (user && user.boards && user.boards.length > 0) {
+    if (
+      !localStorage.getItem('boardId') &&
+      user &&
+      user.boards &&
+      user.boards.length > 0
+    ) {
       setBoardId(user.boards[user.boards.length - 1]._id);
     }
   }, [user]);
 
   return (
     <div className="m-[2%] flex justify-between items-center max-[500px]:mb-[30px]">
-      <NavLink
-        to={loggedIn ? `/boards/${boardId}` : '/'}
+      <button
+        onClick={() =>
+          loggedIn
+            ? navigate(
+                `/boards/${
+                  localStorage.getItem('boardId')
+                    ? localStorage.getItem('boardId')
+                    : boardId
+                }`
+              )
+            : navigate('/')
+        }
         className="flex items-center"
       >
         <img
@@ -39,7 +58,7 @@ function Navigation() {
         >
           AppliSnap
         </h1>
-      </NavLink>
+      </button>
 
       <div className="flex items-center">
         {!loggedIn && width > 500 && (
