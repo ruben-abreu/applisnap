@@ -31,7 +31,7 @@ import Sort from '../components/Sort';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import CircularProgress from '@mui/material/CircularProgress';
 
-const Rejected = ({ setCreditsPage }) => {
+const Rejected = () => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
   const { darkMode, width, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
@@ -55,7 +55,6 @@ const Rejected = ({ setCreditsPage }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setCreditsPage(false);
     if (boardId) {
       fetchBoard(boardId);
       localStorage.setItem('boardId', boardId);

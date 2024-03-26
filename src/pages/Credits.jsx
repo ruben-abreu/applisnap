@@ -7,12 +7,8 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Patricia from '../assets/Patrícia.png';
 import Ruben from '../assets/Ruben.png';
 
-function Credits({ setCreditsPage }) {
+function Credits() {
   const { darkMode, greenIconButtonStyle } = useContext(ThemeContext);
-
-  useEffect(() => {
-    setCreditsPage(true);
-  }, []);
 
   return (
     <div className="m-[2%] mt-[30px]">

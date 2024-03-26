@@ -142,6 +142,32 @@ const ThemeProviderWrapper = props => {
     },
   };
 
+  const buttonOrangeStyle = {
+    boxShadow: 'none',
+    textTransform: 'none',
+    color: 'white',
+    fontSize: 16,
+    padding: '6px 12px',
+    border: '1px solid',
+    lineHeight: 1.5,
+    backgroundColor: '#f06c35',
+    borderColor: '#f06c35',
+
+    '&:hover': {
+      backgroundColor: '#ff8956',
+      borderColor: '#ff8956',
+      boxShadow: 'none',
+    },
+    '&:active': {
+      boxShadow: 'none',
+      backgroundColor: '#ff8956',
+      borderColor: '#ff8956',
+    },
+    '&:focus': {
+      boxShadow: '0 0 0 0.2rem rgba(240, 108, 53, 0.5)',
+    },
+  };
+
   const greenIconButtonStyle = {
     boxShadow: 'none',
     textTransform: 'none',
@@ -286,6 +312,7 @@ const ThemeProviderWrapper = props => {
         yellowButtonStyle,
         greenIconButtonStyle,
         greyIconButtonStyle,
+        buttonOrangeStyle,
       }}
     >
       {props.children}

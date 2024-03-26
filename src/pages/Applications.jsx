@@ -31,7 +31,7 @@ import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import CircularProgress from '@mui/material/CircularProgress';
 
-const Applications = ({ setCreditsPage }) => {
+const Applications = () => {
   const { loggedIn, user, setUser } = useContext(AuthContext);
   const { darkMode, width, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
@@ -55,7 +55,6 @@ const Applications = ({ setCreditsPage }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setCreditsPage(false);
     if (boardId) {
       fetchBoard(boardId);
       localStorage.setItem('boardId', boardId);

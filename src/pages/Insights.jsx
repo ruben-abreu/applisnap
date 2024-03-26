@@ -12,7 +12,7 @@ import AddBoardButton from '../components/AddBoardButton';
 import InsightsRoundedIcon from '@mui/icons-material/InsightsRounded';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
-function Insights({ setCreditsPage }) {
+function Insights() {
   const { darkMode, width, formGreenStyle, greenIconButtonStyle } =
     useContext(ThemeContext);
   const { loggedIn, user } = useContext(AuthContext);
@@ -26,7 +26,6 @@ function Insights({ setCreditsPage }) {
   const [selectedBoardId, setSelectedBoardId] = useState(boardId);
 
   useEffect(() => {
-    setCreditsPage(false);
     if (boardId) {
       fetchBoard(boardId);
       localStorage.setItem('boardId', boardId);

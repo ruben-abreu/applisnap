@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { ThemeContext } from '../context/theme.context';
 import { AuthContext } from '../context/auth.context';
 import UserImage from '../components/UserImage';
@@ -6,14 +6,11 @@ import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import DeleteAccountButton from '../components/DeleteAccountButton';
 import ChangePasswordButton from '../components/ChangePasswordButton';
 import CircularProgress from '@mui/material/CircularProgress';
+import Footer from '../components/Footer';
 
-function Settings({ setCreditsPage }) {
+function Settings() {
   const { darkMode } = useContext(ThemeContext);
   const { loggedIn, user } = useContext(AuthContext);
-
-  useEffect(() => {
-    setCreditsPage(false);
-  }, []);
 
   return (
     <div className="h-full min-h-[60vh] mx-[2%] mt-[10%] flex flex-col">
@@ -56,6 +53,9 @@ function Settings({ setCreditsPage }) {
           Please log in to view this page
         </p>
       )}
+      <div className="my-[30px]">
+        <Footer />
+      </div>
     </div>
   );
 }

@@ -29,7 +29,7 @@ import { list } from 'postcss';
 import dayjs from 'dayjs';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 
-function Board({ setCreditsPage }) {
+function Board() {
   const { boardId } = useParams();
 
   const [applicationList, setApplicationList] = useState([]);
@@ -46,7 +46,6 @@ function Board({ setCreditsPage }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setCreditsPage(false);
     fetchBoard(boardId);
     localStorage.setItem('boardId', boardId);
     if (user) {

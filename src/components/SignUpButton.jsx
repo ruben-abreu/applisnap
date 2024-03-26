@@ -32,7 +32,7 @@ function SignUpButton() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { darkMode, buttonGreenStyle, formGreenStyle } =
+  const { darkMode, buttonOrangeStyle, buttonGreenStyle, formGreenStyle } =
     useContext(ThemeContext);
 
   const handleClickOpen = () => {
@@ -241,7 +241,7 @@ function SignUpButton() {
 
   return (
     <React.Fragment>
-      <Button onClick={handleClickOpen} sx={{ ...buttonGreenStyle }}>
+      <Button onClick={handleClickOpen} sx={{ ...buttonOrangeStyle }}>
         Sign Up
       </Button>
       <Dialog open={open} onClose={handleClose}>
