@@ -7,9 +7,11 @@ import DeleteAccountButton from '../components/DeleteAccountButton';
 import ChangePasswordButton from '../components/ChangePasswordButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Footer from '../components/Footer';
+import LogInButton from '../components/LogInButton';
+import SignUpButton from '../components/SignUpButton';
 
 function Settings() {
-  const { darkMode } = useContext(ThemeContext);
+  const { darkMode, width } = useContext(ThemeContext);
   const { loggedIn, user } = useContext(AuthContext);
 
   return (
@@ -52,6 +54,12 @@ function Settings() {
         <p className="text-center mt-[50px] font-bold text-xl">
           Please log in to view this page
         </p>
+      )}
+      {!loggedIn && width < 500 && (
+        <div className="flex justify-center items-center gap-[15px] my-[30px]">
+          <LogInButton />
+          <SignUpButton />
+        </div>
       )}
       <div className="my-[30px]">
         <Footer />

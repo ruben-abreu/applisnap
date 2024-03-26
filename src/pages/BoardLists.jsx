@@ -6,6 +6,8 @@ import Avatar from '@mui/material/Avatar';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import DeleteBoardButton from '../components/DeleteBoardButton';
 import EditBoardButton from '../components/EditBoardButton';
+import LogInButton from '../components/LogInButton';
+import SignUpButton from '../components/SignUpButton';
 import { getAllBoards, deleteBoard, editBoard } from '../api/boards.api';
 import { AuthContext } from '../context/auth.context';
 
@@ -169,6 +171,12 @@ function BoardLists() {
         <p className="text-center mt-[50px] font-bold text-xl">
           Please log in to view this page
         </p>
+      )}
+      {!loggedIn && width < 500 && (
+        <div className="flex justify-center items-center gap-[15px] my-[30px]">
+          <LogInButton />
+          <SignUpButton />
+        </div>
       )}
     </div>
   );

@@ -9,6 +9,8 @@ import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
 import ListsBarChart from '../components/ListsBarChart';
 import TimeChart from '../components/TimeChart';
 import AddBoardButton from '../components/AddBoardButton';
+import LogInButton from '../components/LogInButton';
+import SignUpButton from '../components/SignUpButton';
 import InsightsRoundedIcon from '@mui/icons-material/InsightsRounded';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
@@ -212,6 +214,12 @@ function Insights() {
         <p className="text-center mt-[50px] font-bold text-xl">
           Please log in to view this page
         </p>
+      )}
+      {!loggedIn && width < 500 && (
+        <div className="flex justify-center items-center gap-[15px] my-[30px]">
+          <LogInButton />
+          <SignUpButton />
+        </div>
       )}
     </div>
   );

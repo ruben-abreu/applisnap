@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import LogInButton from '../components/LogInButton';
 import SignUpButton from '../components/SignUpButton';
 import Footer from '../components/Footer';
 import { ThemeContext } from '../context/theme.context';
@@ -11,7 +12,6 @@ import chart1 from '../assets/chart1.png';
 import chart1DarkMode from '../assets/chart1DarkMode.png';
 import chart2 from '../assets/chart2.png';
 import chart2DarkMode from '../assets/chart2DarkMode.png';
-import LogInButton from '../components/LogInButton';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 
 function HomePage() {

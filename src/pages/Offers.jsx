@@ -8,6 +8,8 @@ import EditApplication from '../components/EditApplication';
 import AddJobApplication from '../components/AddJobApplication';
 import SearchBarListPages from '../components/SearchBarListPages';
 import AddBoardButton from '../components/AddBoardButton';
+import LogInButton from '../components/LogInButton';
+import SignUpButton from '../components/SignUpButton';
 import { getUserDetails } from '../api/auth.api';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -529,6 +531,12 @@ const Offers = () => {
         <p className="text-center mt-[50px] font-bold text-xl">
           Please log in to view this page
         </p>
+      )}
+      {!loggedIn && width < 500 && (
+        <div className="flex justify-center items-center gap-[15px] my-[30px]">
+          <LogInButton />
+          <SignUpButton />
+        </div>
       )}
     </div>
   );
