@@ -30,17 +30,16 @@ function HomePage() {
         <h1 className="my-[30px] text-2xl text-[white] drop-shadow-lg text-wrap text-center leading-loose">
           Chart Your Course, Track Your Success!
           <br />
-          Effortlessly Navigate Your Job Search with Our{' '}
+          Effortlessly Navigate Your Job Search with Our
           <b>Application Tracker!</b>
         </h1>
-        <div className="mb-[30px]">
-          {!loggedIn && (
-            <div className="flex gap-[15px]">
-              {width > 500 ? '' : <LogInButton />}
-              <SignUpButton />
-            </div>
-          )}
-        </div>
+
+        {!loggedIn && (
+          <div className="flex gap-[15px] mb-[30px]">
+            {width > 500 ? '' : <LogInButton />}
+            <SignUpButton />
+          </div>
+        )}
 
         <ul className="p-[20px] flex flex-col gap-[20px] max-[685px]:gap-[10px] max-[620px]:max-w-[500px] text-white drop-shadow">
           <li>
