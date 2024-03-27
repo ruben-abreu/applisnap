@@ -47,7 +47,9 @@ insert image
 [Front-end](https://github.com/ruben-abreu/applisnap)
 
 [Back-end](https://github.com/ruben-abreu/applisnap-backend)
-​
+
+[Chrome Extension](https://github.com/ruben-abreu/applisnap-chrome-extension)
+
 
 [Deploy Link]()
 ​
