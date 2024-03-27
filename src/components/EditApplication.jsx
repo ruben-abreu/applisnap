@@ -87,9 +87,7 @@ function EditApplication({
   const [selectedBoardName, setSelectedBoardName] = useState('');
   const [boards, setBoards] = useState(user && user.boards ? user.boards : []);
   const [editDateLabel, setEditDateLabel] = useState(
-    listName === 'Applied'
-      ? 'applied'
-      : listName === 'Interviews'
+    listName === 'Applied' || listName === 'Interviews'
       ? 'interviews'
       : listName === 'Offers'
       ? 'offer'
