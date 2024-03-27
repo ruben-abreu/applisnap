@@ -205,13 +205,13 @@ function Board() {
     return (
       <Grid
         container
+        wrap="true"
         spacing={1}
         onDragOver={onDragOver}
         sx={{
           flexWrap: 'wrap',
           justifyContent: 'flex-start',
-          maxWidth: '340px',
-          marginRight: '8px',
+          width: '328px',
         }}
       >
         {showApplicationList &&
@@ -248,13 +248,13 @@ function Board() {
                   onClick={() => handleEdit(application)}
                   className={`rounded-md ${
                     darkMode ? 'bg-[#6e6e6e]' : 'bg-[#cfcfcf]'
-                  } p-[5px] cursor-pointer min-w-[100px] max-w-[340px] w-[100%] flex flex-col shadow-md`}
+                  } p-[5px] cursor-pointer w-[100%] flex flex-col shadow-md`}
                   sx={{
                     backgroundColor: darkMode ? '#6e6e6e' : '#cfcfcf',
                     padding: '5px',
                     cursor: 'pointer',
-                    minWidth: 100,
-                    maxWidth: 340,
+                    minWidth: '100px',
+                    maxWidth: '320px',
                     width: '100%',
                     display: 'flex',
                     flexDirection: 'column',
@@ -549,7 +549,7 @@ function Board() {
                 uniqueRoles.map((role, index) => (
                   <div
                     key={index}
-                    className={`min-w-[200px] max-w-[340px] ${
+                    className={`w-[360px] ${
                       darkMode ? 'bg-[#525252]' : 'bg-[#eaeaea]'
                     } ${
                       darkMode ? 'shadow-[#6f6f6f]' : 'shadow-[#cfcfcf]'
