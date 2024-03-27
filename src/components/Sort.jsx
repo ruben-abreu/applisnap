@@ -6,6 +6,7 @@ import StarRoundedIcon from '@mui/icons-material/StarRounded';
 const Sort = ({ sortBy, setSortBy }) => {
   const handleSortChange = event => {
     setSortBy(event.target.value);
+    localStorage.setItem('sortBy', event.target.value);
   };
 
   const { formGreenStyle, width, darkMode } = useContext(ThemeContext);

@@ -53,7 +53,9 @@ const Applications = () => {
   const [deletingJob, setDeletingJob] = useState(null);
   const [boardName, setBoardName] = useState('');
   const [selectedBoardId, setSelectedBoardId] = useState('');
-  const [sortBy, setSortBy] = useState('starred');
+  const [sortBy, setSortBy] = useState(
+    localStorage.getItem('sortBy') ? localStorage.getItem('sortBy') : 'starred'
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
