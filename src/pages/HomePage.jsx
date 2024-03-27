@@ -30,7 +30,7 @@ function HomePage() {
         <h1 className="my-[30px] text-2xl text-[white] drop-shadow-lg text-wrap text-center leading-loose">
           Chart Your Course, Track Your Success!
           <br />
-          Effortlessly Navigate Your Job Search with Our
+          Effortlessly Navigate Your Job Search with Our{' '}
           <b>Application Tracker!</b>
         </h1>
 
