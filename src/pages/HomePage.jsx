@@ -22,7 +22,7 @@ function HomePage() {
     <div
       className={`h-full min-h-[100vh] ${
         darkMode
-          ? 'bg-gradient-to-t from-[#003228] via-[#16836e] to-[#369f8b]'
+          ? 'bg-gradient-to-b from-[#003228] via-[#16836e] to-[#369f8b]'
           : 'bg-gradient-to-b from-[#369f8b] via-[#30b39a] to-[#09ecc1]'
       }`}
     >
@@ -179,7 +179,9 @@ function HomePage() {
           </div>
         </div>
 
-        <div className="text-[#369f8b] my-[30px]">
+        <div
+          className={`${darkMode ? 'text-white' : 'text-[#369f8b]'} my-[30px]`}
+        >
           <Footer />
         </div>
       </div>
