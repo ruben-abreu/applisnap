@@ -109,13 +109,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     listSelect.innerHTML = '';
 
-    const allLists = await fetchLists(userId);
-    if (!allLists || allLists.length === 0) {
+    const lists = await fetchLists(userId);
+    if (!lists || lists.length === 0) {
       console.log('No lists found for this user.');
       return;
     }
 
-    const filteredLists = allLists.filter(
+    const filteredLists = lists.filter(
       list => list.boardId.toString() === boardId
     );
 
@@ -165,6 +165,30 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   };
 
+  chrome.storage.local.get('jobFormData', function (data) {
+    const formData = data.jobFormData;
+    if (formData) {
+      document.getElementById('companyName').value = formData.companyName || '';
+      document.getElementById('roleName').value = formData.roleName || '';
+      document.getElementById('domain').value = formData.domain || '';
+      document.getElementById('jobURL').value = formData.jobURL || '';
+      document.getElementById('jobDescription').value =
+        formData.jobDescription || '';
+      document.getElementById('workLocation').value =
+        formData.workLocation || '';
+      document.getElementById('workModel').value = formData.workModel || '';
+      document.getElementById('notes').value = formData.notes || '';
+      document.getElementById('list').value = formData.listId || '';
+      document.getElementById('board').value = formData.boardId || '';
+      document.getElementById('starred').checked = formData.starred || false;
+
+      const userId = formData.userId;
+      if (userId) {
+        populateBoardsDropdown(userId);
+      }
+    }
+  });
+
   const inputFields = document.querySelectorAll('input, textarea, select');
   inputFields.forEach(input => {
     input.addEventListener('change', function () {
@@ -180,6 +204,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         listId: document.getElementById('list').value,
         boardId: document.getElementById('board').value,
         starred: document.getElementById('starred').checked,
+        userId: null,
       };
 
       chrome.storage.local.set({ jobFormData: formData }, function () {
@@ -200,7 +225,6 @@ document.addEventListener('DOMContentLoaded', async function () {
       loginContainer.style.display = 'none';
       welcomeContainer.style.display = 'block';
       loginMessage.style.display = 'none';
-
       const welcomeMessage = document.getElementById('welcome-message');
       welcomeMessage.textContent = ``;
     } else {
