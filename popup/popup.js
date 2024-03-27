@@ -173,6 +173,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   };
 
+  const displaySuccessMessage = message => {
+    const successDiv = document.getElementById('success-message');
+    if (successDiv) {
+      successDiv.textContent = message;
+      successDiv.style.display = 'block';
+    }
+  };
+
   chrome.storage.local.get('jobFormData', function (data) {
     const formData = data.jobFormData;
     if (formData) {
@@ -315,7 +323,16 @@ document.addEventListener('DOMContentLoaded', async function () {
 
           addJobForm.reset();
 
-          chrome.storage.local.remove('jobFormData', function () {});
+          chrome.storage.local.remove('jobFormData', function () {
+            displaySuccessMessage('Job application added successfully!');
+            setTimeout(() => {
+              const successDiv = document.getElementById('success-message');
+              if (successDiv) {
+                successDiv.textContent = '';
+                successDiv.style.display = 'none';
+              }
+            }, 3000);
+          });
         } catch (error) {
           console.error('Error adding job:', error);
           displayErrorMessage('Error adding job.');
