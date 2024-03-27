@@ -75,15 +75,20 @@ document.addEventListener('DOMContentLoaded', async function () {
       boardSelect.appendChild(option);
     });
 
+    boardSelect.addEventListener('change', async () => {
+      const selectedBoardId = boardSelect.value;
+      await populateListsDropdown(userId, selectedBoardId);
+    });
+
     const defaultBoardId = boards[0]._id;
     await populateListsDropdown(userId, defaultBoardId);
   };
 
-  const fetchLists = async (userId, boardId) => {
+  const fetchLists = async userId => {
     const authToken = await getAuthToken();
     try {
       const response = await axios.get(
-        `${baseURL}/api/lists?userId=${userId}&boardId=${boardId}`,
+        `${baseURL}/api/lists?userId=${userId}`,
         {
           headers: { Authorization: `Bearer ${authToken}` },
         }
@@ -104,15 +109,22 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     listSelect.innerHTML = '';
 
-    const lists = await fetchLists(userId, boardId);
-    console.log('Lists:', lists);
+    const allLists = await fetchLists(userId);
+    if (!allLists || allLists.length === 0) {
+      console.log('No lists found for this user.');
+      return;
+    }
 
-    if (!lists || lists.length === 0) {
+    const filteredLists = allLists.filter(
+      list => list.boardId.toString() === boardId
+    );
+
+    if (!filteredLists || filteredLists.length === 0) {
       console.log('No lists found for this board.');
       return;
     }
 
-    lists.forEach(list => {
+    filteredLists.forEach(list => {
       const option = document.createElement('option');
       option.value = list._id;
       option.text = list.listName;
@@ -153,25 +165,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   };
 
-  chrome.storage.local.get('jobFormData', function (data) {
-    const formData = data.jobFormData;
-    if (formData) {
-      document.getElementById('companyName').value = formData.companyName || '';
-      document.getElementById('roleName').value = formData.roleName || '';
-      document.getElementById('domain').value = formData.domain || '';
-      document.getElementById('jobURL').value = formData.jobURL || '';
-      document.getElementById('jobDescription').value =
-        formData.jobDescription || '';
-      document.getElementById('workLocation').value =
-        formData.workLocation || '';
-      document.getElementById('workModel').value = formData.workModel || '';
-      document.getElementById('notes').value = formData.notes || '';
-      document.getElementById('list').value = formData.listId || '';
-      document.getElementById('board').value = formData.boardId || '';
-      document.getElementById('starred').checked = formData.starred || false;
-    }
-  });
-
   const inputFields = document.querySelectorAll('input, textarea, select');
   inputFields.forEach(input => {
     input.addEventListener('change', function () {
@@ -209,7 +202,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       loginMessage.style.display = 'none';
 
       const welcomeMessage = document.getElementById('welcome-message');
-      welcomeMessage.textContent = ``; // You might want to update this with the actual user's name if available
+      welcomeMessage.textContent = ``;
     } else {
       console.log('User ID and Auth Token not found. User needs to log in.');
     }
