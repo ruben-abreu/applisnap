@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', async function () {
       const { userId, authToken } = response.data;
 
       chrome.storage.local.set({ userId: userId, authToken: authToken }, () => {
-        console.log('Login successful. User ID and Auth Token saved.');
         populateBoardsDropdown(userId);
 
         const loginContainer = document.getElementById('login-form');
@@ -32,11 +31,18 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   const handleLogout = () => {
     chrome.storage.local.remove(['userId', 'authToken'], () => {
-      console.log('Logged out. User ID and Auth Token removed.');
       const loginContainer = document.getElementById('login-form');
       const welcomeContainer = document.getElementById('welcome-container');
+      const addJobForm = document.getElementById('addJobForm');
+      const loginMessage = document.getElementById('loginMessage');
+
       loginContainer.style.display = 'block';
       welcomeContainer.style.display = 'none';
+
+      if (addJobForm) {
+        addJobForm.style.display = 'none';
+        loginMessage.style.display = 'block';
+      }
     });
   };
 
@@ -209,16 +215,20 @@ document.addEventListener('DOMContentLoaded', async function () {
         userId: null,
       };
 
-      chrome.storage.local.set({ jobFormData: formData }, function () {
-        console.log('Form data saved to storage:', formData);
-      });
+      chrome.storage.local.set({ jobFormData: formData }, function () {});
     });
   });
+
+  const showAddJobForm = () => {
+    const addJobForm = document.getElementById('addJobForm');
+    if (addJobForm) {
+      addJobForm.style.display = 'block';
+    }
+  };
 
   chrome.storage.local.get(['userId', 'authToken'], async function (data) {
     const { userId, authToken } = data;
     if (userId && authToken) {
-      console.log('User ID and Auth Token found:', userId, authToken);
       populateBoardsDropdown(userId);
 
       const loginContainer = document.getElementById('login-form');
@@ -229,8 +239,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       loginMessage.style.display = 'none';
       const welcomeMessage = document.getElementById('welcome-message');
       welcomeMessage.textContent = ``;
-    } else {
-      console.log('User ID and Auth Token not found. User needs to log in.');
+
+      showAddJobForm();
     }
   });
 
@@ -241,6 +251,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
       await handleLogin(email, password);
+
+      showAddJobForm();
     });
   }
 
@@ -303,9 +315,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
           addJobForm.reset();
 
-          chrome.storage.local.remove('jobFormData', function () {
-            console.log('Stored form data removed.');
-          });
+          chrome.storage.local.remove('jobFormData', function () {});
         } catch (error) {
           console.error('Error adding job:', error);
           displayErrorMessage('Error adding job.');
