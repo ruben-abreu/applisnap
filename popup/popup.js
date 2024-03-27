@@ -82,6 +82,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const defaultBoardId = boards[0]._id;
     await populateListsDropdown(userId, defaultBoardId);
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date').value = today;
   };
 
   const fetchLists = async userId => {
@@ -275,7 +277,13 @@ document.addEventListener('DOMContentLoaded', async function () {
         notes,
         listId,
         boardId,
-        date,
+        date: {
+          created: date,
+          applied: null,
+          interviews: [],
+          offer: null,
+          rejected: null,
+        },
         starred,
         userId: null,
       };
