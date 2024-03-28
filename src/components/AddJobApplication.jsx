@@ -54,6 +54,7 @@ function AddJobApplication({
     buttonGreenStyle,
     greenIconButtonStyle,
     greyIconButtonStyle,
+    width,
   } = useContext(ThemeContext);
 
   const [open, setOpen] = useState(false);
@@ -355,7 +356,14 @@ function AddJobApplication({
           </div>
           <DialogContent>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
-              <InputLabel htmlFor="companyName" label="Company Name">
+              <InputLabel
+                htmlFor="companyName"
+                label="Company Name"
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                }}
+              >
                 Company Name
               </InputLabel>
               <Input
@@ -364,10 +372,22 @@ function AddJobApplication({
                 type="text"
                 label="Company Name"
                 onChange={e => setCompanyName(e.target.value)}
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                  paddingX: '15px',
+                }}
               />
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }} required>
-              <InputLabel htmlFor="roleName" label="Role">
+              <InputLabel
+                htmlFor="roleName"
+                label="Role"
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                }}
+              >
                 Role
               </InputLabel>
               <Input
@@ -376,10 +396,22 @@ function AddJobApplication({
                 type="text"
                 label="Role"
                 onChange={e => setRoleName(e.target.value)}
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                  paddingX: '15px',
+                }}
               />
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="domain" label="Company Website">
+              <InputLabel
+                htmlFor="domain"
+                label="Company Website"
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                }}
+              >
                 Company Website
               </InputLabel>
               <Input
@@ -389,6 +421,12 @@ function AddJobApplication({
                 value={domain}
                 placeholder=""
                 onChange={e => setDomain(e.target.value)}
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                  paddingLeft: '15px',
+                  paddingRight: '8px',
+                }}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -422,7 +460,14 @@ function AddJobApplication({
               />
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="jobURL" label="Job URL">
+              <InputLabel
+                htmlFor="jobURL"
+                label="Job URL"
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                }}
+              >
                 Job URL
               </InputLabel>
               <Input
@@ -431,6 +476,11 @@ function AddJobApplication({
                 type="text"
                 label="Job URL"
                 onChange={e => setJobURL(e.target.value)}
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                  paddingLeft: '15px',
+                }}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -458,7 +508,14 @@ function AddJobApplication({
               />
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="jobDescription" label="Job Description">
+              <InputLabel
+                htmlFor="jobDescription"
+                label="Job Description"
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                }}
+              >
                 Job Description
               </InputLabel>
               <Input
@@ -467,12 +524,24 @@ function AddJobApplication({
                 type="text"
                 label="Job Description"
                 onChange={e => setJobDescription(e.target.value)}
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                  paddingX: '15px',
+                }}
                 multiline
                 rows={6}
               />
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="notes" label="Notes">
+              <InputLabel
+                htmlFor="notes"
+                label="Notes"
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                }}
+              >
                 Notes
               </InputLabel>
               <Input
@@ -481,12 +550,24 @@ function AddJobApplication({
                 type="text"
                 label="Notes"
                 onChange={e => setNotes(e.target.value)}
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                  paddingX: '15px',
+                }}
                 multiline
                 rows={2}
               />
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="workLocation" label="Work Location">
+              <InputLabel
+                htmlFor="workLocation"
+                label="Work Location"
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                }}
+              >
                 Work Location
               </InputLabel>
               <Input
@@ -495,10 +576,22 @@ function AddJobApplication({
                 type="text"
                 label="Work Location"
                 onChange={e => setWorkLocation(e.target.value)}
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                  paddingX: '15px',
+                }}
               />
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="workModel" label="Work Model">
+              <InputLabel
+                htmlFor="workModel"
+                label="Work Model"
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                }}
+              >
                 Work Model
               </InputLabel>
               <Select
@@ -508,15 +601,50 @@ function AddJobApplication({
                 value={workModel}
                 defaultValue="On-Site"
                 onChange={e => setWorkModel(e.target.value)}
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                }}
               >
-                <MenuItem value={'On-Site'}>On-Site</MenuItem>
-                <MenuItem value={'Remote'}>Remote</MenuItem>
-                <MenuItem value={'Hybrid'}>Hybrid</MenuItem>
+                <MenuItem
+                  value={'On-Site'}
+                  sx={{
+                    fontSize:
+                      width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                  }}
+                >
+                  On-Site
+                </MenuItem>
+                <MenuItem
+                  value={'Remote'}
+                  sx={{
+                    fontSize:
+                      width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                  }}
+                >
+                  Remote
+                </MenuItem>
+                <MenuItem
+                  value={'Hybrid'}
+                  sx={{
+                    fontSize:
+                      width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                  }}
+                >
+                  Hybrid
+                </MenuItem>
               </Select>
             </FormControl>
 
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="list" label="List">
+              <InputLabel
+                htmlFor="list"
+                label="List"
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                }}
+              >
                 List
               </InputLabel>
               <Select
@@ -526,17 +654,35 @@ function AddJobApplication({
                 value={listName}
                 onChange={e => setListName(e.target.value)}
                 defaultValue={listName ? listName : 'Wishlist'}
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                }}
               >
                 {uniqueLists &&
                   uniqueLists.map((list, index) => (
-                    <MenuItem key={'AJ-Lists' + index} value={list}>
+                    <MenuItem
+                      key={'AJ-Lists' + index}
+                      value={list}
+                      sx={{
+                        fontSize:
+                          width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                      }}
+                    >
                       {list}
                     </MenuItem>
                   ))}
               </Select>
             </FormControl>
             <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-              <InputLabel htmlFor="board" label="Board">
+              <InputLabel
+                htmlFor="board"
+                label="Board"
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                }}
+              >
                 Board
               </InputLabel>
               <Select
@@ -546,6 +692,10 @@ function AddJobApplication({
                 value={jobBoardName}
                 onChange={e => setJobBoardName(e.target.value)}
                 defaultValue={jobBoardName}
+                sx={{
+                  fontSize:
+                    width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                }}
               >
                 {user &&
                   user.boards &&
@@ -553,6 +703,10 @@ function AddJobApplication({
                     <MenuItem
                       key={'AJ-User' + board.boardName + board._id}
                       value={board.boardName}
+                      sx={{
+                        fontSize:
+                          width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                      }}
                     >
                       {board.boardName}
                     </MenuItem>
@@ -560,8 +714,24 @@ function AddJobApplication({
               </Select>
             </FormControl>
             <div className="flex gap-[10px]">
-              <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <FormControl
+                fullWidth
+                sx={{
+                  ...formGreenStyle,
+                  my: 1,
+                  label: {
+                    fontSize:
+                      width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                  },
+                }}
+              >
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  sx={{
+                    fontSize:
+                      width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                  }}
+                >
                   <DatePicker
                     id="date"
                     label="Date"
@@ -574,11 +744,26 @@ function AddJobApplication({
                       setDateInput(newDate);
                     }}
                     defaultValue={dayjs().format('YYYY/MM/DD')}
+                    sx={{
+                      Input: {
+                        fontSize:
+                          width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                      },
+                      fontSize:
+                        width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                    }}
                   />
                 </LocalizationProvider>
               </FormControl>
               <FormControl fullWidth sx={{ ...formGreenStyle, my: 1 }}>
-                <InputLabel htmlFor="dateLabel" label="Date Label">
+                <InputLabel
+                  htmlFor="dateLabel"
+                  label="Date Label"
+                  sx={{
+                    fontSize:
+                      width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                  }}
+                >
                   Date Label
                 </InputLabel>
                 <Select
@@ -587,6 +772,10 @@ function AddJobApplication({
                   type="text"
                   value={dateLabel}
                   onChange={e => setDateLabel(e.target.value)}
+                  sx={{
+                    fontSize:
+                      width < 400 ? '12px' : width < 500 ? '14px' : '16px',
+                  }}
                   defaultValue={
                     listName === 'Applied' || listName === 'Wishlist'
                       ? 'applied'
@@ -606,6 +795,14 @@ function AddJobApplication({
                       <MenuItem
                         key={'AJ-User' + dateType + index}
                         value={dateType}
+                        sx={{
+                          fontSize:
+                            width < 400
+                              ? '12px'
+                              : width < 500
+                              ? '14px'
+                              : '16px',
+                        }}
                       >
                         <p className="capitalize">{dateType}</p>
                       </MenuItem>
@@ -623,32 +820,65 @@ function AddJobApplication({
               </button>
             </div>
             {date && (
-              <Timeline>
+              <Timeline sx={{ paddingX: 0 }}>
                 {date.created && (
                   <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
+                    <TimelineOppositeContent
+                      color="text.secondary"
+                      sx={{
+                        fontSize:
+                          width < 410 ? '12px' : width < 500 ? '14px' : '16px',
+                        width: '43%',
+                        paddingLeft: 0,
+                      }}
+                    >
                       Created
                     </TimelineOppositeContent>
-                    <TimelineSeparator>
+                    <TimelineSeparator sx={{ width: '5%' }}>
                       <TimelineDot />
                       <TimelineConnector />
                     </TimelineSeparator>
-                    <TimelineContent>
-                      {formatDate(date.created)}
+                    <TimelineContent
+                      sx={{
+                        fontSize:
+                          width < 410 ? '12px' : width < 500 ? '14px' : '16px',
+                        width: '52%',
+                        paddingRight: 0,
+                      }}
+                    >
+                      <div className="flex items-center gap-[5px]">
+                        <p className="w-[100px]">{formatDate(date.created)}</p>
+                        <div className="w-[20px]"></div>
+                      </div>
                     </TimelineContent>
                   </TimelineItem>
                 )}
 
                 {date.applied && (
                   <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
+                    <TimelineOppositeContent
+                      color="text.secondary"
+                      sx={{
+                        fontSize:
+                          width < 410 ? '12px' : width < 500 ? '14px' : '16px',
+                        width: '43%',
+                        paddingLeft: 0,
+                      }}
+                    >
                       Applied
                     </TimelineOppositeContent>
-                    <TimelineSeparator>
+                    <TimelineSeparator sx={{ width: '5%' }}>
                       <TimelineDot />
                       <TimelineConnector />
                     </TimelineSeparator>
-                    <TimelineContent>
+                    <TimelineContent
+                      sx={{
+                        fontSize:
+                          width < 410 ? '12px' : width < 500 ? '14px' : '16px',
+                        width: '52%',
+                        paddingRight: 0,
+                      }}
+                    >
                       <div className="flex items-center gap-[5px]">
                         <p className="w-[100px]">{formatDate(date.applied)}</p>
                         <button
@@ -671,16 +901,31 @@ function AddJobApplication({
 
                 {date.interviews && date.interviews.length > 0 && (
                   <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
+                    <TimelineOppositeContent
+                      color="text.secondary"
+                      sx={{
+                        fontSize:
+                          width < 410 ? '12px' : width < 500 ? '14px' : '16px',
+                        width: '43%',
+                        paddingLeft: 0,
+                      }}
+                    >
                       {[...new Set(date.interviews)].length === 1
                         ? 'Interview'
                         : 'Interviews'}
                     </TimelineOppositeContent>
-                    <TimelineSeparator>
+                    <TimelineSeparator sx={{ width: '5%' }}>
                       <TimelineDot />
                       <TimelineConnector />
                     </TimelineSeparator>
-                    <TimelineContent>
+                    <TimelineContent
+                      sx={{
+                        fontSize:
+                          width < 410 ? '12px' : width < 500 ? '14px' : '16px',
+                        width: '52%',
+                        paddingRight: 0,
+                      }}
+                    >
                       <ul>
                         {[...new Set(date.interviews)].map(
                           (interview, index) => (
@@ -716,14 +961,33 @@ function AddJobApplication({
 
                 {date.offer && (
                   <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
+                    <TimelineOppositeContent
+                      color="text.secondary"
+                      sx={{
+                        fontSize:
+                          width < 410 ? '12px' : width < 500 ? '14px' : '16px',
+                        width: '43%',
+                        paddingLeft: 0,
+                      }}
+                    >
                       Offer
                     </TimelineOppositeContent>
-                    <TimelineSeparator>
+                    <TimelineSeparator
+                      sx={{
+                        width: '5%',
+                      }}
+                    >
                       <TimelineDot />
                       <TimelineConnector />
                     </TimelineSeparator>
-                    <TimelineContent>
+                    <TimelineContent
+                      sx={{
+                        fontSize:
+                          width < 410 ? '12px' : width < 500 ? '14px' : '16px',
+                        width: '52%',
+                        paddingRight: 0,
+                      }}
+                    >
                       <div className="flex items-center gap-[5px]">
                         <p className="w-[100px]">{formatDate(date.offer)}</p>
                         <button
@@ -746,13 +1010,28 @@ function AddJobApplication({
 
                 {date.rejected && (
                   <TimelineItem>
-                    <TimelineOppositeContent color="text.secondary">
+                    <TimelineOppositeContent
+                      color="text.secondary"
+                      sx={{
+                        fontSize:
+                          width < 410 ? '12px' : width < 500 ? '14px' : '16px',
+                        width: '43%',
+                        paddingLeft: 0,
+                      }}
+                    >
                       Rejected
                     </TimelineOppositeContent>
-                    <TimelineSeparator>
+                    <TimelineSeparator sx={{ width: '5%' }}>
                       <TimelineDot />
                     </TimelineSeparator>
-                    <TimelineContent>
+                    <TimelineContent
+                      sx={{
+                        fontSize:
+                          width < 410 ? '12px' : width < 500 ? '14px' : '16px',
+                        width: '52%',
+                        paddingRight: 0,
+                      }}
+                    >
                       <div className="flex items-center gap-[5px]">
                         <p className="w-[100px]">{formatDate(date.rejected)}</p>
                         <button
