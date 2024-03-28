@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useContext } from 'react';
 import { ThemeContext } from '../context/theme.context';
 import FingerprintRoundedIcon from '@mui/icons-material/FingerprintRounded';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -8,7 +8,7 @@ import Patricia from '../assets/Patrícia.png';
 import Ruben from '../assets/Ruben.png';
 
 function Credits() {
-  const { darkMode, greenIconButtonStyle } = useContext(ThemeContext);
+  const { darkMode } = useContext(ThemeContext);
 
   return (
     <div className="m-[2%] mt-[30px]">
