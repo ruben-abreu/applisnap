@@ -428,7 +428,6 @@ function EditApplication({
               sx={{
                 fontSize: width < 400 ? '12px' : width < 500 ? '14px' : '16px',
                 paddingLeft: '15px',
-                paddingRight: '8px',
               }}
               endAdornment={
                 <InputAdornment position="end">
@@ -451,7 +450,7 @@ function EditApplication({
                         <img
                           src={`https://logo.clearbit.com/${domain}` || ''}
                           alt=""
-                          className="max-h-[20px] rounded-[2px]"
+                          className="max-h-[20px] max-w-[36px] w-auto h-auto rounded-[2px]"
                         />
                       </a>
                     )}
