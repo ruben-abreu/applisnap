@@ -59,9 +59,9 @@ function CancelButton({
       : '';
     setEditDateLabel
       ? setEditDateLabel(
-          listName === 'Applied'
+          listName === 'Wishlist'
             ? 'applied'
-            : listName === 'Interviews'
+            : listName === 'Applied' || listName === 'Interviews'
             ? 'interviews'
             : listName === 'Offers'
             ? 'offer'
