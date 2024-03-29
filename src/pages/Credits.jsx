@@ -4,7 +4,7 @@ import FingerprintRoundedIcon from '@mui/icons-material/FingerprintRounded';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import Patricia from '../assets/Patrícia.png';
+import Patricia from '../assets/Patricia.png';
 import Ruben from '../assets/Ruben.png';
 
 function Credits() {
