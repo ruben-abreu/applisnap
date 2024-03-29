@@ -2,29 +2,23 @@
 
 ​
 <br>
-​
-insert image
+![alt text](./src/assets/AppliSnapHomepage.png)
 
 ## Description
 
-​
+Simplify your job hunt with our clutter-free app. Track, organize, and manage all your applications effortlessly.
 
-​
-<br>
-​
-
-## Data
-
-​
-
-<br>
-​
+- Clean interface
+- Centralized dashboard
+- Custom Boards
+  ​
+  <br>
+  ​
 
 ## API's
 
 ​
 [Clearbit](https://clearbit.com/logo)
-
 ​
 <br>
 
@@ -38,6 +32,9 @@ insert image
 
 [Tailwind CSS](https://tailwindcss.com/)
 
+[Vite Plugin PWA](https://github.com/vite-pwa/vite-plugin-pwa#readme)
+
+[Dayjs](https://day.js.org/)
 <br>​
 
 ## Links
@@ -49,7 +46,6 @@ insert image
 [Back-end](https://github.com/ruben-abreu/applisnap-backend)
 
 [Chrome Extension](https://github.com/ruben-abreu/applisnap-chrome-extension)
-
 
 [Deploy Link]()
 ​
