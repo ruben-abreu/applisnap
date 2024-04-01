@@ -101,17 +101,19 @@ function AddJobApplication({
     if (list._id) {
       getData(list);
     }
+    if (currentBoardName === 'All Boards' && updateUser) {
+      setCurrentBoardName('All Boards');
+      updateUser(user._id);
+    }
+  }, [list, currentBoardName]);
+
+  useEffect(() => {
     let formattedDate = dayjs(dateInput).format('YYYY/MM/DD');
 
     if (!date.created) {
       setDate({ ...date, created: formattedDate });
     }
-
-    if (currentBoardName === 'All Boards' && updateUser) {
-      setCurrentBoardName('All Boards');
-      updateUser(user._id);
-    }
-  }, [list, currentBoardName, date]);
+  }, [date]);
 
   const handleOpenDialog = () => {
     setJobBoardName(
