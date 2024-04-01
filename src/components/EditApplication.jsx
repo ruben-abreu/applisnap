@@ -1001,7 +1001,6 @@ function EditApplication({
                   </TimelineOppositeContent>
                   <TimelineSeparator sx={{ width: '5%' }}>
                     <TimelineDot />
-                    <TimelineConnector />
                   </TimelineSeparator>
                   <TimelineContent
                     sx={{
