@@ -409,7 +409,7 @@ const Interviews = () => {
                           </Avatar>
                         </div>
                       </div>
-                      <div className="h-[170px] w-[120px]">
+                      <div className="h-[200px] w-[120px]">
                         <div className="flex flex-col justify-center gap-[10px] mx-[10px]">
                           <p className="text-sm font-bold">{job.companyName}</p>
                           <p className="text-xs">{job.roleName}</p>
@@ -429,7 +429,7 @@ const Interviews = () => {
                           )}
 
                           {job.starred && (
-                            <div>
+                            <div className="my-[10px]">
                               <StarRoundedIcon
                                 sx={{
                                   color: darkMode ? '#f9cc71' : '#e8a135',
