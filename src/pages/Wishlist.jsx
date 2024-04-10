@@ -399,7 +399,7 @@ const Wishlist = () => {
                           </Avatar>
                         </div>
                       </div>
-                      <div className="h-[130px] w-[120px]">
+                      <div className="h-[160px] w-[120px]">
                         <div className="flex flex-col justify-center gap-[10px] mx-[10px]">
                           <p className="text-sm text-wrap font-bold max-w-[120px]">
                             {job.companyName}
