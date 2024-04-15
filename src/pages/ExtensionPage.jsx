@@ -51,11 +51,11 @@ function ExtensionPage() {
         Adding AppliSnap to your Chrome Toolbar
       </h2>
       <p className='mt-[20px]'>
-        When you install AppliSnap, you'll need to pin the save button so it'll
-        be accessible to the right of your address bar. Click the Extensions
-        button (it looks like a puzzle piece). Then, look for AppliSnap and
-        click the pin button. You'll now see the AppliSnap button to the right
-        of your address bar.
+        When you install AppliSnap, you'll need to pin the AppliSnap button so
+        it'll be accessible to the right of your address bar. Click the
+        Extensions button (it looks like a puzzle piece). Then, look for
+        AppliSnap and click the pin button. You'll now see the AppliSnap button
+        to the right of your address bar.
       </p>
       <h2
         className={`mt-[30px] font-bold mb-[5px] text-lg ${
