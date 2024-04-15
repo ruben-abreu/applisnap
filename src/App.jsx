@@ -18,6 +18,7 @@ import ErrorPage from './pages/ErrorPage';
 import Credits from './pages/Credits';
 import ResetPassword from './pages/ResetPassword';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import ExtensionPage from './pages/ExtensionPage';
 
 function App() {
   const { darkMode } = useContext(ThemeContext);
@@ -58,6 +59,7 @@ function App() {
           <Route path='/settings' element={<Settings />} />
           <Route path='/credits' element={<Credits />} />
           <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+          <Route path='/extension' element={<ExtensionPage />} />
           <Route path='/reset-password/:token' element={<ResetPassword />} />
           <Route path='*' element={<ErrorPage />} />
         </Routes>
