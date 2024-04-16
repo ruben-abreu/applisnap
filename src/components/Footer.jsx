@@ -53,7 +53,7 @@ function Footer() {
           darkMode ? 'bg-[#525252]' : 'bg-[#eaeaea]'
         } ${
           darkMode ? 'shadow-[#6f6f6f]' : 'shadow-[#cfcfcf]'
-        } max-[450px]:text-[0.8em]`}
+        } max-[450px]:text-[0.8em] max-[685px]:hidden`}
       >
         About Chrome Extension
       </button>

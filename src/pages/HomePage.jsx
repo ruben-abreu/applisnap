@@ -186,7 +186,7 @@ function HomePage() {
             darkMode
               ? 'drop-shadow-[0_1px_4px_rgba(0,0,0,0.85)]'
               : 'drop-shadow-[0_1px_4px_rgba(230,230,230,0.85)]'
-          } hover:text-white`}
+          } hover:text-white max-[685px]:hidden`}
         >
           <a
             href="https://chromewebstore.google.com/detail/applisnap/ncfnpjdjjopfnhjhfdeaggnmncppdgkh"
