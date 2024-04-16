@@ -13,6 +13,7 @@ import chart1DarkMode from '../assets/chart1DarkMode.png';
 import chart2 from '../assets/chart2.png';
 import chart2DarkMode from '../assets/chart2DarkMode.png';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import ExtensionIcon from '@mui/icons-material/Extension';
 
 function HomePage() {
   const { darkMode, width } = useContext(ThemeContext);
@@ -177,6 +178,30 @@ function HomePage() {
               className="rounded w-[50%]"
             />
           </div>
+        </div>
+        <div
+          className={`mt-[35px] ${
+            darkMode ? 'text-[#ff8956]' : 'text-[#ff5005]'
+          } text-[24px] font-bold ${
+            darkMode
+              ? 'drop-shadow-[0_1px_4px_rgba(0,0,0,0.85)]'
+              : 'drop-shadow-[0_1px_4px_rgba(230,230,230,0.85)]'
+          } hover:text-white`}
+        >
+          <a
+            href="https://chromewebstore.google.com/detail/applisnap/ncfnpjdjjopfnhjhfdeaggnmncppdgkh"
+            className="flex items-center"
+            target="_blank"
+          >
+            <ExtensionIcon
+              sx={{
+                width: '25px',
+                height: '25px',
+                marginRight: '10px',
+              }}
+            />
+            <p>Get AppliSnap Chrome Extension</p>
+          </a>
         </div>
 
         <div

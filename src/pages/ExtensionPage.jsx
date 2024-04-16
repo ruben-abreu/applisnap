@@ -21,7 +21,7 @@ function ExtensionPage() {
             darkMode ? 'text-white' : 'text-[#678B85]'
           }`}
         >
-          AppliSnap Extension
+          AppliSnap Chrome Extension
         </h2>
       </div>
       <div className="float-right ml-[15px] my-[15px]">
