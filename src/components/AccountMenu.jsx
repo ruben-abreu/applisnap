@@ -15,6 +15,7 @@ import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import ContentPasteSearchRoundedIcon from '@mui/icons-material/ContentPasteSearchRounded';
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import ThumbDownAltRoundedIcon from '@mui/icons-material/ThumbDownAltRounded';
+import ExtensionIcon from '@mui/icons-material/Extension';
 import Settings from '@mui/icons-material/Settings';
 import InsightsRoundedIcon from '@mui/icons-material/InsightsRounded';
 import Logout from '@mui/icons-material/Logout';
@@ -244,6 +245,29 @@ function AccountMenu() {
         )}
 
         <Divider />
+        <NavLink
+          to="/extension"
+          className={({ isActive }) => (isActive ? 'text-[#30b39a]' : '')}
+          style={{ display: window.innerWidth <= 685 ? 'none' : 'block' }}
+        >
+          {({ isActive }) => (
+            <MenuItem>
+              <ListItemIcon>
+                <ExtensionIcon
+                  fontSize="small"
+                  sx={{
+                    color: isActive
+                      ? '#30b39a'
+                      : darkMode
+                      ? 'white'
+                      : '#678B85',
+                  }}
+                />
+              </ListItemIcon>
+              Chrome Extension
+            </MenuItem>
+          )}
+        </NavLink>
 
         {user.boards && user.boards.length > 0 && (
           <NavLink
