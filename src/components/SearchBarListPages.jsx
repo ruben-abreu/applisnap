@@ -5,15 +5,21 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
 
 function SearchBar({ searchedJob }) {
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState('');
 
   const { formGreenStyle, width } = useContext(ThemeContext);
 
   const handleSearch = e => {
     setSearch(e.target.value);
     searchedJob(e.target.value);
+  };
+
+  const handleClear = () => {
+    setSearch('');
+    searchedJob('');
   };
 
   return (
@@ -42,6 +48,15 @@ function SearchBar({ searchedJob }) {
           startAdornment={
             <InputAdornment position="start">
               <SearchIcon />
+            </InputAdornment>
+          }
+          endAdornment={
+            <InputAdornment position="end">
+              {search && (
+                <button onClick={handleClear}>
+                  <ClearIcon />
+                </button>
+              )}
             </InputAdornment>
           }
           label="Search"
