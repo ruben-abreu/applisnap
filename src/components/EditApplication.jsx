@@ -71,6 +71,7 @@ function EditApplication({
     application.date ? application.date : {}
   );
   const [dateInput, setDateInput] = useState(dayjs());
+  const [dateHasBeenUpdated, setDateHasBeenUpdated] = useState(false);
   const [starred, setStarred] = useState(application.starred);
   const [list, setList] = useState(
     user && user.lists && application
@@ -256,10 +257,14 @@ function EditApplication({
         updatedDate.applied = formattedDate;
       } else if (listName === 'Interviews') {
         if (updatedDate.interviews) {
-          updatedDate.interviews = [
-            ...updatedDate.interviews,
-            formattedDate,
-          ].sort((a, b) => new Date(a) - new Date(b));
+          if (
+            !updatedDate.interviews.includes(formattedDate) &&
+            !dateHasBeenUpdated
+          ) {
+            updatedDate.interviews = [
+              ...new Set([...updatedDate.interviews, formattedDate]),
+            ].sort((a, b) => new Date(a) - new Date(b));
+          }
         } else {
           updatedDate.interviews = [formattedDate];
         }
@@ -297,6 +302,7 @@ function EditApplication({
       if (updateUser && currentBoardName === 'All Boards') {
         await updateUser(user._id);
       }
+      setDateHasBeenUpdated(false);
       setIsLoading(false);
       onClose();
     } catch (error) {
@@ -726,6 +732,7 @@ function EditApplication({
                   value={dateInput}
                   onChange={newDate => {
                     setDateInput(newDate);
+                    setDateHasBeenUpdated(true);
                   }}
                   defaultValue={dayjs().format('YYYY/MM/DD')}
                   sx={{

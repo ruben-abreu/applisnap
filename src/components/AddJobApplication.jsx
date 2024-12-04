@@ -80,6 +80,7 @@ function AddJobApplication({
       : ''
   );
   const [dateInput, setDateInput] = useState(dayjs());
+  const [dateHasBeenUpdated, setDateHasBeenUpdated] = useState(false);
   const [dateLabel, setDateLabel] = useState(
     listName === 'Applied' || listName === 'Wishlist'
       ? 'applied'
@@ -259,7 +260,10 @@ function AddJobApplication({
       updatedDate.applied = formattedDate;
     } else if (listName === 'Interviews') {
       if (updatedDate.interviews) {
-        if (!updatedDate.interviews.includes(formattedDate)) {
+        if (
+          !updatedDate.interviews.includes(formattedDate) &&
+          !dateHasBeenUpdated
+        ) {
           updatedDate.interviews = [
             ...new Set([...updatedDate.interviews, formattedDate]),
           ].sort((a, b) => new Date(a) - new Date(b));
@@ -312,7 +316,7 @@ function AddJobApplication({
       setNotes('');
       setDate({});
       setStarred(false);
-
+      setDateHasBeenUpdated(false);
       setIsLoading(false);
       handleClose();
     } catch (error) {
@@ -743,6 +747,7 @@ function AddJobApplication({
                     value={dateInput}
                     onChange={newDate => {
                       setDateInput(newDate);
+                      setDateHasBeenUpdated(true);
                     }}
                     defaultValue={dayjs().format('YYYY/MM/DD')}
                     sx={{
