@@ -145,16 +145,17 @@ function Board() {
     if (targetList.listName === 'Applied' && !updatedDate.applied) {
       updatedDate.applied = formattedDate;
     } else if (targetList.listName === 'Interviews') {
-      if (updatedDate.interviews) {
-        if (!updatedDate.interviews.includes(formattedDate)) {
-          updatedDate.interviews = [
-            ...new Set([...updatedDate.interviews, formattedDate]),
-          ].sort(
-            (a, b) =>
-              dayjs(new Date(a)).format('YYYY-MM-DD') -
-              dayjs(new Date(b)).format('YYYY-MM-DD')
-          );
-        }
+      if (
+        updatedDate.interviews &&
+        !updatedDate.interviews.includes(formattedDate)
+      ) {
+        updatedDate.interviews = [
+          ...new Set([...updatedDate.interviews, formattedDate]),
+        ].sort(
+          (a, b) =>
+            dayjs(new Date(a)).format('YYYY-MM-DD') -
+            dayjs(new Date(b)).format('YYYY-MM-DD')
+        );
       } else {
         updatedDate.interviews = [formattedDate];
       }

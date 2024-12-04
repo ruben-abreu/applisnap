@@ -114,6 +114,9 @@ function AddJobApplication({
     if (!date.created) {
       setDate({ ...date, created: formattedDate });
     }
+    if (!date.interviews) {
+      setDate({ ...date, interviews: [] });
+    }
   }, [date]);
 
   const handleOpenDialog = () => {
@@ -259,15 +262,14 @@ function AddJobApplication({
     if (listName === 'Applied' && !updatedDate.applied) {
       updatedDate.applied = formattedDate;
     } else if (listName === 'Interviews') {
-      if (updatedDate.interviews) {
-        if (
-          !updatedDate.interviews.includes(formattedDate) &&
-          !dateHasBeenUpdated
-        ) {
-          updatedDate.interviews = [
-            ...new Set([...updatedDate.interviews, formattedDate]),
-          ].sort((a, b) => new Date(a) - new Date(b));
-        }
+      if (
+        updatedDate.interviews &&
+        !updatedDate.interviews.includes(formattedDate) &&
+        !dateHasBeenUpdated
+      ) {
+        updatedDate.interviews = [
+          ...new Set([...updatedDate.interviews, formattedDate]),
+        ].sort((a, b) => new Date(a) - new Date(b));
       } else {
         updatedDate.interviews = [formattedDate];
       }
